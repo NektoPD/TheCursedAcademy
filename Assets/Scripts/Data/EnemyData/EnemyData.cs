@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "EnemyData", menuName = "Enemies/EnemyData", order = 1)]
-public class EnemyData : ScriptableObject
+public class EnemyData : ScriptableObject, IData<Enemy>
 {
     [SerializeField] private float _health;
     [SerializeField] private float _speed;

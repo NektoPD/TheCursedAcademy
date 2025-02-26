@@ -26,5 +26,5 @@ public class EnemyDamageTaker : MonoBehaviour, IDamageable
 
     public void TakeDamage(float damage) => _health.TakeDamage(damage);
 
-    private void Die() => _pool.ReturnEnemy(_enemy);
+    private void Die() => _pool.ReturnEntity(_enemy);
 }

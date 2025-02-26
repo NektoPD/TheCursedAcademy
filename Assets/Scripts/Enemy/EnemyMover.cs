@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using Zenject;
 
 public class EnemyMover : MonoBehaviour
 {
@@ -9,8 +10,13 @@ public class EnemyMover : MonoBehaviour
     private Transform _transform;
     private float _speed;
     private float _attackRange;
-
     public event Action<Transform> TargetInRange;
+
+    [Inject]
+    public void Construct(Transform target)
+    {
+        _target = target;
+    }
 
     private void Awake()
     {
@@ -27,11 +33,10 @@ public class EnemyMover : MonoBehaviour
             TargetInRange?.Invoke(_target);
     }
 
-    public void Initialize(float speed, float attackRange, Transform target)
+    public void Initialize(float speed, float attackRange)
     {
         _speed = speed;
         _attackRange = attackRange;
-        _target = target;
     }
 
     private void SetRotation(Transform target)

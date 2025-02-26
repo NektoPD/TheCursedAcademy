@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85165dc2513409147abf47532b84c84e, type: 3}
   m_Name: Test
   m_EditorClassIdentifier: 
-  _speed: 0
-  _sprite: {fileID: 0}
-  _prefab: {fileID: 0}
+  _speed: 1
+  _sprite: {fileID: 21300000, guid: cbaa261ffac46cc48807b17ca71b1ae9, type: 3}
+  _prefab: {fileID: 4589835787153175935, guid: bd130ac1d46b21c4db788345e43257bd, type: 3}
