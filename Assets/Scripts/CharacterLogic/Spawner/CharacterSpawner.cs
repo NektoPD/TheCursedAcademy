@@ -6,9 +6,9 @@ namespace CharacterLogic.Spawner
     {
         [SerializeField] private Transform _spawnPoint;
 
-        public void Spawn(CharacterController character)
+        public void Spawn(Character character)
         {
-            Instantiate(character, _spawnPoint);
+            character.transform.position = _spawnPoint.position;
         }
     
     }
