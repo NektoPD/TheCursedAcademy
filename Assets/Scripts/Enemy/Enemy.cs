@@ -1,45 +1,31 @@
 using UnityEngine;
 
-[RequireComponent (typeof(EnemyMover), typeof(EnemyAttacker))]
-[RequireComponent(typeof(EnemyDamageTaker), typeof(EnemyView))]
-public class Enemy : MonoBehaviour, IPoolEntity
+[RequireComponent (typeof(EnemyMover), typeof(EnemyView))]
+[RequireComponent(typeof(EnemyDamageTaker))]
+public abstract class Enemy : MonoBehaviour, IPoolEntity
 {
-    private EnemyMover _mover;
-    private EnemyAttacker _attacker;
-    private EnemyView _view;
-    private EnemyDamageTaker _damageTaker;
+    protected EnemyMover Mover;
+    protected EnemyView View;
+    protected EnemyDamageTaker DamageTaker;
 
-    private void Awake()
+    private EnemyPool _pool;
+
+    public virtual void Initialize(IData<Enemy> data, EnemyPool pool)
     {
-        _mover = GetComponent<EnemyMover>();
-        _attacker = GetComponent<EnemyAttacker>();
-        _view = GetComponent<EnemyView>();
-        _damageTaker = GetComponent<EnemyDamageTaker>();
+        MeleeEnemyData enemyData = data as MeleeEnemyData;
+
+        DamageTaker.Initialize(enemyData.Health, enemyData.ExpPointData);
+        Mover.Initialize(enemyData.Speed, enemyData.AttackRange);
+        View.Initialize(enemyData.Sprite, enemyData.AnimatorController);
+
+        _pool = pool;
     }
 
-    private void OnEnable()
+    public void Despawn()
     {
-        _mover.TargetInRange += Attack;
+        gameObject.SetActive(false);
+        _pool.ReturnEntity(this);
     }
-
-    private void OnDisable()
-    {
-        _mover.TargetInRange -= Attack;
-    }
-
-    public void Initialize(IData<Enemy> data, EnemyPool pool)
-    {
-        EnemyData enemyData = data as EnemyData;
-
-        _damageTaker.Initialize(enemyData.Health, pool, this);
-        _mover.Initialize(enemyData.Speed, enemyData.AttackRange);
-        _attacker.Initialize(enemyData.Cooldown, enemyData.Projectile);
-        _view.Initialize(enemyData.Sprite, enemyData.AnimatorController);
-    }
-
-    public void Despawn() => gameObject.SetActive(false);
 
     public void ResetEntity() => gameObject.SetActive(true);
-
-    private void Attack(Transform target) => _attacker.Attack(target);
 }

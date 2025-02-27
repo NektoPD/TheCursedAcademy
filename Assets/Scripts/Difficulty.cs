@@ -9,16 +9,16 @@ public class Difficulty : MonoBehaviour
     [SerializeField] private int _maxEnemy = 100;
     [SerializeField] private float _offset;
 
-    private EnemySpawner _enemySpawner;
-    private List<EnemyData> _enemyDataList;
+    private EnemyPool _enemyPool;
+    private List<MeleeEnemyData> _enemyDataList;
     private Coroutine _coroutine;
 
     private bool _canSpawn = true;
 
     [Inject]
-    public void Construct(EnemySpawner enemySpawner, List<EnemyData> enemyDataList)
+    public void Construct(EnemyPool enemyPool, List<MeleeEnemyData> enemyDataList)
     {
-        _enemySpawner = enemySpawner;
+        _enemyPool = enemyPool;
         _enemyDataList = enemyDataList;
     }
 
@@ -34,7 +34,7 @@ public class Difficulty : MonoBehaviour
 
     private void Update()
     {
-        if (_canSpawn && _enemySpawner.ActiveEnemy <= _maxEnemy)
+        if (_canSpawn && _enemyPool.Active < _maxEnemy)
         {
             _canSpawn = false;
             SpawnRandomEnemy();
@@ -48,7 +48,7 @@ public class Difficulty : MonoBehaviour
         if (_enemyDataList.Count > 0)
         {
             var randomData = _enemyDataList[Random.Range(0, _enemyDataList.Count)];
-            Enemy enemy = _enemySpawner.Spawn(randomData);
+            Enemy enemy = _enemyPool.Get(randomData);
             enemy.transform.position = GetRandomPositionOutsideCamera();
         }
     }

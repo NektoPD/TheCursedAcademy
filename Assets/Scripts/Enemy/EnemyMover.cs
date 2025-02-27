@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using Zenject;
 
+[RequireComponent(typeof(EnemyView))]
 public class EnemyMover : MonoBehaviour
 {
     private readonly int _rotationAngle = 180;
@@ -10,6 +11,10 @@ public class EnemyMover : MonoBehaviour
     private Transform _transform;
     private float _speed;
     private float _attackRange;
+    private EnemyView _enemyView;
+
+    private bool _canMove = true;
+
     public event Action<Transform> TargetInRange;
 
     [Inject]
@@ -21,23 +26,38 @@ public class EnemyMover : MonoBehaviour
     private void Awake()
     {
         _transform = transform;
+        _enemyView = GetComponent<EnemyView>();
     }
 
     private void FixedUpdate()
     {
+        if( _canMove == false)
+            return;
+
         SetRotation(_target);
 
         if (Vector2.Distance(transform.position, _target.transform.position) > _attackRange)
+        {
             _transform.position = Vector2.MoveTowards(_transform.position, _target.position, _speed * Time.fixedDeltaTime);
+            _enemyView.SetSpeed(_speed);
+        }
         else
+        {
             TargetInRange?.Invoke(_target);
+            _enemyView.SetSpeed(0);
+        }
     }
 
     public void Initialize(float speed, float attackRange)
     {
+        _canMove = true;
         _speed = speed;
         _attackRange = attackRange;
     }
+
+    public void Disable() => _canMove = false;
+
+    public void Enable() => _canMove = true;
 
     private void SetRotation(Transform target)
     {

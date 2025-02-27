@@ -1,64 +1,55 @@
 using System.Collections;
 using UnityEngine;
-using Zenject;
 
-public class EnemyAttacker : MonoBehaviour
+[RequireComponent(typeof(EnemyMover), typeof(EnemyView))]
+public abstract class EnemyAttacker : MonoBehaviour
 {
-    [SerializeField] private Transform _projectileSpawnPoint;
-
-    private ProjectileData _projectileData;
-    private Coroutine _coroutine;
-    private float _cooldown;
-    private ProjectileSpawner _projectileSpawner;
+    protected Coroutine Coroutine;
+    protected float Cooldown;
+    protected float Damage;
+    protected Transform Target;
 
     private bool _canAttack = true;
+    private EnemyMover _mover;
+    private EnemyView _view;
 
-    [Inject]
-    public void Construct(ProjectileSpawner projectileSpawner)
+    private void Awake()
     {
-        _projectileSpawner = projectileSpawner;
+        _mover = GetComponent<EnemyMover>();
+        _view = GetComponent<EnemyView>();
     }
 
     private void OnEnable()
     {
-        _coroutine = StartCoroutine(Reload());
+        Coroutine = StartCoroutine(Reload());
+        _mover.TargetInRange += Attack;
     }
 
     private void OnDisable()
     {
-        StopCoroutine(_coroutine);
+        StopCoroutine(Coroutine);
+        _mover.TargetInRange -= Attack;
     }
 
-    public void Initialize(float cooldowm, ProjectileData projectile)
+    private void Attack(Transform target)
     {
-        _cooldown = cooldowm;
-        _projectileData = projectile;
-    }
+        Target = target;
 
-    public void Attack(Transform target)
-    {
         if (_canAttack)
         {
             _canAttack = false;
 
-            SpawnProjectile(target);
+            _view.SetAttackTrigger();
 
-            _coroutine = StartCoroutine(Reload());
+            Coroutine = StartCoroutine(Reload());
         }
     }
 
-    private void SpawnProjectile(Transform target)
+    protected abstract void AttackToggle();
+
+    protected IEnumerator Reload()
     {
-        Projectile projectile = _projectileSpawner.Spawn(_projectileData);
-
-        projectile.transform.position = _projectileSpawnPoint.position;
-
-        projectile.SetDirection((target.position - projectile.transform.position).normalized);
-    }
-
-    private IEnumerator Reload()
-    {
-        yield return new WaitForSeconds(_cooldown);
+        yield return new WaitForSeconds(Cooldown);
 
         _canAttack = true;
     }

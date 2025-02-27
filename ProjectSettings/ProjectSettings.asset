@@ -814,8 +814,8 @@ PlayerSettings:
   apiCompatibilityLevelPerPlatform: {}
   m_RenderingPath: 1
   m_MobileRenderingPath: 1
-  metroPackageName: "The \u0421ursed Academy"
-  metroPackageVersion: 
+  metroPackageName: 
+  metroPackageVersion: 1.0.0.0
   metroCertificatePath: 
   metroCertificatePassword: 
   metroCertificateSubject: 
@@ -823,7 +823,7 @@ PlayerSettings:
   metroCertificateNotAfter: 0000000000000000
   metroApplicationDescription: "The \u0421ursed Academy"
   wsaImages: {}
-  metroTileShortName: 
+  metroTileShortName: "The \u0421ursed Academy"
   metroTileShowName: 0
   metroMediumTileShowName: 0
   metroLargeTileShowName: 0

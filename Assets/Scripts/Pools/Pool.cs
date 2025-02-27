@@ -14,19 +14,14 @@ public abstract class Pool<T> where T: IPoolEntity
 
     public int Active => _count - _pool.Count;
 
-    public void ReturnEntity(T entity)
-    {
-        entity.Despawn();
-        _pool.Enqueue(entity);
-    }
+    public void ReturnEntity(T entity) => _pool.Enqueue(entity);
 
     public T Get(IData<T> data)
     {
         if (_pool.Count > 0)
         {
             var entity = _pool.Dequeue();
-            entity.ResetEntity();
-            return entity;
+            return GetInitializedEntity(data, entity);
         }
 
         var newEntity = Create(data);
@@ -35,4 +30,6 @@ public abstract class Pool<T> where T: IPoolEntity
     }
 
     protected abstract T Create(IData<T> data);
+
+    protected abstract T GetInitializedEntity(IData<T> data, T entity);
 }

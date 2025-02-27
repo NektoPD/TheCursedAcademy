@@ -1,4 +1,3 @@
-using UnityEngine;
 using Zenject;
 
 public class ProjectilePool : Pool<Projectile>
@@ -10,5 +9,11 @@ public class ProjectilePool : Pool<Projectile>
         Projectile newProjectile = _container.InstantiatePrefabForComponent<Projectile>(data.Prefab);
         newProjectile.Initialize(data, this);
         return newProjectile;
+    }
+
+    protected override Projectile GetInitializedEntity(IData<Projectile> data, Projectile entity)
+    {
+        entity.Initialize(data, this);
+        return entity;
     }
 }

@@ -10,4 +10,10 @@ public class EnemyPool : Pool<Enemy>
         newEnemy.Initialize(data, this);
         return newEnemy;
     }
+
+    protected override Enemy GetInitializedEntity(IData<Enemy> data, Enemy entity)
+    {
+        entity.Initialize(data, this);
+        return entity;
+    }
 }
