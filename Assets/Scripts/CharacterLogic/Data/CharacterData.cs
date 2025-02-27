@@ -11,7 +11,7 @@ namespace CharacterLogic
             Girl2,
             Girl3
         }
-        
+
         [field: SerializeField] public float AttackPower { get; private set; }
         [field: SerializeField] public float Armor { get; private set; }
         [field: SerializeField] public float Hp { get; private set; }
@@ -19,5 +19,6 @@ namespace CharacterLogic
         [field: SerializeField] public float AttackRegenerationSpeed { get; private set; }
         [field: SerializeField] public float MoveSpeed { get; private set; }
         [field: SerializeField] public CharacterType Type { get; private set; }
+        [field: SerializeField] public AnimatorOverrideController AnimatorController { get; private set; }
     }
 }

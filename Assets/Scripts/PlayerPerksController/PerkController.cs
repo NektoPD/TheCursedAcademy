@@ -13,14 +13,7 @@ namespace PlayerPerksController
 
         public void Initialize()
         {
-            if (YandexGame.SDKEnabled)
-            {
-                PerkDataWrapper = YandexGame.savesData.PerkDataWrapper;
-            }
-            else
-            {
-                PerkDataWrapper = new PerkDataWrapper();
-            }
+            PerkDataWrapper = YandexGame.SDKEnabled ? YandexGame.savesData.PerkDataWrapper : new PerkDataWrapper();
         }
 
         public PerkDataWrapper PerkDataWrapper { get; private set; }

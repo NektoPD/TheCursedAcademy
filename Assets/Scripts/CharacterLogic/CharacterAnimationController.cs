@@ -26,5 +26,10 @@ namespace CharacterLogic
         {
             _animator.SetTrigger(_protecting);
         }
+        
+        public void SetAnimatorOverride(AnimatorOverrideController overrideController)
+        {
+            _animator.runtimeAnimatorController = overrideController;
+        }
     }
 }

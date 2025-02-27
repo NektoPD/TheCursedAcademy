@@ -24,7 +24,7 @@ namespace CharacterLogic.Initializer
 
         private void Start()
         {
-            CreateCharacter(CharacterData.CharacterType.Girl1);
+            CreateCharacter(CharacterData.CharacterType.Girl3);
         }
 
         public void CreateCharacter(CharacterData.CharacterType type)

@@ -9,6 +9,7 @@ namespace CharacterLogic
     [RequireComponent(typeof(CharacterMovementHandler))]
     [RequireComponent(typeof(CharacterCollisionHandler))]
     [RequireComponent(typeof(CharacterSpriteHolder))]
+    [RequireComponent(typeof(CharacterView))]
     public class Character : MonoBehaviour
     {
         private CharacterData _characterData;
@@ -17,6 +18,7 @@ namespace CharacterLogic
         private Health _health;
         private CharacterSpriteHolder _spriteHolder;
         private CharacterCollisionHandler _collisionHandler;
+        private CharacterView _view;
 
         private float _attackPower;
         private float _armor;
@@ -30,18 +32,14 @@ namespace CharacterLogic
             _animationController = GetComponent<CharacterAnimationController>();
             _movementHandler = GetComponent<CharacterMovementHandler>();
             _spriteHolder = GetComponent<CharacterSpriteHolder>();
-        }
-
-        private void OnEnable()
-        {
-            _movementHandler.MovingLeft += OnMovingLeft;
-            _movementHandler.MovingRight += OnMovingRight;
+            _view = GetComponent<CharacterView>();
         }
 
         private void OnDisable()
         {
             _movementHandler.MovingLeft -= OnMovingLeft;
             _movementHandler.MovingRight -= OnMovingRight;
+            _health.Changed -= UpdateHealthView;
         }
 
         private void Update()
@@ -61,7 +59,14 @@ namespace CharacterLogic
             _moveSpeed = characterData.MoveSpeed + GetPerkBonus(perkBonuses, PerkType.Speed);
 
             _health = new Health(_hp);
+            UpdateHealthView(_hp);
             ActivateCharacter();
+
+            _animationController.SetAnimatorOverride(characterData.AnimatorController);
+
+            _movementHandler.MovingLeft += OnMovingLeft;
+            _movementHandler.MovingRight += OnMovingRight;
+            _health.Changed += UpdateHealthView;
         }
 
         private void HandleMovementAnimations()
@@ -78,6 +83,11 @@ namespace CharacterLogic
         {
             _movementHandler.EnableMovement();
             _movementHandler.SetSpeed(_moveSpeed);
+        }
+
+        private void UpdateHealthView(float currentHealth)
+        {
+            _view.UpdateHpBar(currentHealth, _hp);
         }
 
         private float GetPerkBonus(Dictionary<PerkType, float> perks, PerkType type)

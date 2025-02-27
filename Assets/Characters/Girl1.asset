@@ -17,4 +17,6 @@ MonoBehaviour:
   <Hp>k__BackingField: 100
   <HpRegenerationSpeed>k__BackingField: 0.1
   <AttackRegenerationSpeed>k__BackingField: 0.5
-  <MoveSpeed>k__BackingField: 10
+  <MoveSpeed>k__BackingField: 3
+  <Type>k__BackingField: 0
+  <AnimatorController>k__BackingField: {fileID: 22100000, guid: 5a36799b7b9d8d3459b0192d12bd14d0, type: 2}
