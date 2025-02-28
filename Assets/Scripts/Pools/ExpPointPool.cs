@@ -1,3 +1,4 @@
+using System.Linq;
 using Zenject;
 
 public class ExpPointPool : Pool<ExpPoint>
@@ -6,14 +7,15 @@ public class ExpPointPool : Pool<ExpPoint>
 
     protected override ExpPoint Create(IData<ExpPoint> data)
     {
-        ExpPoint newExpPoint = _container.InstantiatePrefabForComponent<ExpPoint>(data.Prefab);
+        ExpPoint newExpPoint = Container.InstantiatePrefabForComponent<ExpPoint>(data.Prefab);
         newExpPoint.Initialize(data, this);
         return newExpPoint;
     }
 
-    protected override ExpPoint GetInitializedEntity(IData<ExpPoint> data, ExpPoint entity)
+    protected override bool TryGetEntityInPool(IData<ExpPoint> data, out ExpPoint entity)
     {
+        entity = EntityPool.First();
         entity.Initialize(data, this);
-        return entity;
+        return true;
     }
 }

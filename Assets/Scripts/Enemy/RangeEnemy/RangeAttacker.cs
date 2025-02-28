@@ -32,7 +32,9 @@ public class RangeAttacker : EnemyAttacker
 
         projectile.transform.position = _projectileSpawnPoint.position;
 
-        projectile.SetDirection((Target.position - projectile.transform.position).normalized);
+        projectile.SetDirection((Target.position - _projectileSpawnPoint.transform.position).normalized);
         projectile.SetDamage(Damage);
     }
+
+    private void SetProjectileSpawnPointOnTarget() => _projectileSpawnPoint = Target;
 }

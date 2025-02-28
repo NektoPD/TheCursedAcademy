@@ -8,10 +8,10 @@ public abstract class EnemyAttacker : MonoBehaviour
     protected float Cooldown;
     protected float Damage;
     protected Transform Target;
-
-    private bool _canAttack = true;
     private EnemyMover _mover;
     private EnemyView _view;
+
+    private bool _canAttack = true;
 
     private void Awake()
     {

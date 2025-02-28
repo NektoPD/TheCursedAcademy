@@ -17,7 +17,7 @@ public class MeleeEnemy : Enemy
     {
         MeleeEnemyData enemyData = data as MeleeEnemyData;
 
-        base.Initialize(enemyData, pool);
+        base.Initialize(data, pool);
         _attacker.Initialize(enemyData.Cooldown, enemyData.AttackRange, enemyData.Damage);
     }
 }

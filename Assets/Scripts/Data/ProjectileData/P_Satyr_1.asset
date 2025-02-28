@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 2
   _sprite: {fileID: -1752967545, guid: 9982674c18875484ca5c1eabdc57e542, type: 3}
-  _animatorController: {fileID: 9100000, guid: b154eed239afda6499f494fb1d82dfce, type: 2}
+  _animatorController: {fileID: 9100000, guid: a894f804a8c0bbe49b40f33bd3332570, type: 2}
   _prefab: {fileID: 4589835787153175935, guid: bd130ac1d46b21c4db788345e43257bd, type: 3}

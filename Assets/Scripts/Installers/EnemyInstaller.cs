@@ -4,7 +4,7 @@ using Zenject;
 
 public class EnemyInstaller : MonoInstaller
 {
-    [SerializeField] private List<MeleeEnemyData> _enemyDataList;
+    [SerializeField] private List<EnemyData> _enemyDataList;
     [SerializeField] private Transform _target;
 
     public override void InstallBindings()

@@ -55,9 +55,9 @@ public class EnemyMover : MonoBehaviour
         _attackRange = attackRange;
     }
 
-    public void Disable() => _canMove = false;
+    private void Disable() => _canMove = false;
 
-    public void Enable() => _canMove = true;
+    private void Enable() => _canMove = true;
 
     private void SetRotation(Transform target)
     {

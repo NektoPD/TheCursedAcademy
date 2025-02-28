@@ -12,7 +12,7 @@ public class ResizeCollider : MonoBehaviour
         _renderer = GetComponent<SpriteRenderer>();
     }
 
-    private void Start()
+    public void Resize()
     {
         _collider.size = _renderer.bounds.size;
     }

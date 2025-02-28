@@ -1,6 +1,6 @@
 public interface IPoolEntity
 {
-    void Despawn();
+    public void Despawn();
 
-    void ResetEntity();
+    public void ResetEntity();
 }

@@ -10,13 +10,14 @@ public class Difficulty : MonoBehaviour
     [SerializeField] private float _offset;
 
     private EnemyPool _enemyPool;
-    private List<MeleeEnemyData> _enemyDataList;
+    private List<EnemyData> _enemyDataList;
     private Coroutine _coroutine;
 
     private bool _canSpawn = true;
+    private int _id = 1;
 
     [Inject]
-    public void Construct(EnemyPool enemyPool, List<MeleeEnemyData> enemyDataList)
+    public void Construct(EnemyPool enemyPool, List<EnemyData> enemyDataList)
     {
         _enemyPool = enemyPool;
         _enemyDataList = enemyDataList;
@@ -37,20 +38,34 @@ public class Difficulty : MonoBehaviour
         if (_canSpawn && _enemyPool.Active < _maxEnemy)
         {
             _canSpawn = false;
-            SpawnRandomEnemy();
+            Enemy enemy = GetNextIdEnemy();
+            enemy.transform.position = GetRandomPositionOutsideCamera();
 
             _coroutine = StartCoroutine(Cooldown());
         }
     }
 
-    private void SpawnRandomEnemy()
+    private Enemy GetRandomEnemy()
     {
-        if (_enemyDataList.Count > 0)
+        var randomData = _enemyDataList[Random.Range(0, _enemyDataList.Count)];
+        return _enemyPool.Get(randomData);
+    }
+
+    private Enemy GetNextIdEnemy()
+    {
+        if (_id > _enemyDataList.Count)
+            _id = 1;
+
+        foreach (var data in _enemyDataList)
         {
-            var randomData = _enemyDataList[Random.Range(0, _enemyDataList.Count)];
-            Enemy enemy = _enemyPool.Get(randomData);
-            enemy.transform.position = GetRandomPositionOutsideCamera();
+            if (data.Id == _id)
+            {
+                _id++;
+                return _enemyPool.Get(data);
+            }
         }
+
+        return GetRandomEnemy();
     }
 
     private Vector3 GetRandomPositionOutsideCamera()
