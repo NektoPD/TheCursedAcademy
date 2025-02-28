@@ -31,8 +31,11 @@ public class EnemyMover : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if( _canMove == false)
+        if (_canMove == false)
+        {
+            _enemyView.SetSpeed(0);
             return;
+        }
 
         SetRotation(_target);
 

@@ -15,16 +15,9 @@ public class EnemyDamageTaker : MonoBehaviour, IDamageable
         _expPointPool = expPointPool;
     }
 
-
     private void Awake()
     {
         _enemyView = GetComponent<EnemyView>();
-    }
-
-    private void OnEnable()
-    {
-        if ( _health != null )
-            _health.Died += Die;
     }
 
     private void OnDisable()
@@ -36,6 +29,8 @@ public class EnemyDamageTaker : MonoBehaviour, IDamageable
     {
         _health = new Health(maxHealth);
         _expPointData = expPointData;
+
+        _health.Died += Die;
     }
 
     public void TakeDamage(float damage)

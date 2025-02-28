@@ -16,14 +16,14 @@ public class EnemyPool : Pool<Enemy>
         entity = null;
 
         if(data.Prefab is MeleeEnemy)
-            entity = EntityPool.Where(entity => entity is MeleeEnemy).First();
+            entity = EntityPool.FirstOrDefault(entity => entity is MeleeEnemy);
 
         if (data.Prefab is RangeEnemy)
-            entity = EntityPool.Where(entity => entity is RangeEnemy).First();
+            entity = EntityPool.FirstOrDefault(entity => entity is RangeEnemy);
 
         if (entity != null)
             entity.Initialize(data, this);
 
-        return entity == null;
+        return entity != null;
     }
 }

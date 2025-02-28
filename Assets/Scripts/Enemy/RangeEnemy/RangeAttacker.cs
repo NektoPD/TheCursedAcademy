@@ -7,6 +7,7 @@ public class RangeAttacker : EnemyAttacker
 
     private ProjectileData _projectileData;
     private ProjectilePool _projectilePool;
+    private Transform _currentSpawnPoint;
 
     [Inject]
     public void Construct(ProjectilePool projectilePool)
@@ -19,6 +20,7 @@ public class RangeAttacker : EnemyAttacker
         Cooldown = cooldowm;
         Damage = damage;
         _projectileData = projectile;
+        _currentSpawnPoint = _projectileSpawnPoint;
     }
 
     protected override void AttackToggle()
@@ -30,11 +32,11 @@ public class RangeAttacker : EnemyAttacker
     {
         Projectile projectile = _projectilePool.Get(_projectileData);
 
-        projectile.transform.position = _projectileSpawnPoint.position;
+        projectile.transform.position = _currentSpawnPoint.position;
 
-        projectile.SetDirection((Target.position - _projectileSpawnPoint.transform.position).normalized);
+        projectile.SetDirection((Target.position - _currentSpawnPoint.transform.position).normalized);
         projectile.SetDamage(Damage);
     }
 
-    private void SetProjectileSpawnPointOnTarget() => _projectileSpawnPoint = Target;
+    private void SetProjectileSpawnPointOnTarget() => _currentSpawnPoint = Target;
 }

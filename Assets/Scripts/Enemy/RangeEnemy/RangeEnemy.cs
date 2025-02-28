@@ -17,7 +17,7 @@ public class RangeEnemy : Enemy
     {
         RangeEnemyData enemyData = data as RangeEnemyData;
 
-        base.Initialize(enemyData, pool);
+        base.Initialize(data, pool);
         _attacker.Initialize(enemyData.Cooldown, enemyData.Damage, enemyData.ProjectileData);
     }
 }

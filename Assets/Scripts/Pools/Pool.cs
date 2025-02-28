@@ -5,28 +5,31 @@ public abstract class Pool<T> where T: IPoolEntity
 {
     protected readonly DiContainer Container;
     protected readonly List<T> EntityPool = new();
-    protected int Count;
+
+    private int _count;
 
     public Pool(DiContainer container)
     {
         Container = container;
     }
 
-    public int Active => Count - EntityPool.Count;
+    public int Active => _count - EntityPool.Count;
 
     public void ReturnEntity(T entity) => EntityPool.Add(entity);
 
     public T Get(IData<T> data)
     {
-        if (EntityPool.Count != 0 && TryGetEntityInPool(data, out T entity))
+        if (EntityPool.Count > 0 && TryGetEntityInPool(data, out T entity))
         {
             entity.ResetEntity();
+            EntityPool.Remove(entity);
             return entity;
         }
 
         var newEntity = Create(data);
+        _count++;
+
         newEntity.ResetEntity();
-        Count++;
         return newEntity;
     }
 

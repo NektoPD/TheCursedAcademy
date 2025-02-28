@@ -12,7 +12,7 @@ public abstract class Enemy : MonoBehaviour, IPoolEntity
 
     public virtual void Initialize(IData<Enemy> data, EnemyPool pool)
     {
-        MeleeEnemyData enemyData = data as MeleeEnemyData;
+        EnemyData enemyData = data as EnemyData;
 
         DamageTaker.Initialize(enemyData.Health, enemyData.ExpPointData);
         Mover.Initialize(enemyData.Speed, enemyData.AttackRange);

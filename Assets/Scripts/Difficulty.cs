@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using TMPro;
 using UnityEngine;
 using Zenject;
 
@@ -56,16 +58,10 @@ public class Difficulty : MonoBehaviour
         if (_id > _enemyDataList.Count)
             _id = 1;
 
-        foreach (var data in _enemyDataList)
-        {
-            if (data.Id == _id)
-            {
-                _id++;
-                return _enemyPool.Get(data);
-            }
-        }
+        var data = _enemyDataList.First(enemy => enemy.Id == _id);
+        _id++;
 
-        return GetRandomEnemy();
+        return _enemyPool.Get(data);
     }
 
     private Vector3 GetRandomPositionOutsideCamera()

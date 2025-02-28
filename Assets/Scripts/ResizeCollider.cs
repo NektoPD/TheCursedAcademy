@@ -14,6 +14,6 @@ public class ResizeCollider : MonoBehaviour
 
     public void Resize()
     {
-        _collider.size = _renderer.bounds.size;
+        _collider.size = _renderer.sprite.bounds.size;
     }
 }
