@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf74f00c5420ce24a9e1b773c976fb5d, type: 3}
+  m_Name: R_Satyr_2
+  m_EditorClassIdentifier: 
+  _id: 2
+  _health: 10
+  _speed: 0.6
+  _damage: 2
+  _attackRange: 2
+  _cooldown: 5
+  _sprite: {fileID: -1555660742, guid: 580e1b63eba084947be6cd8170d14977, type: 3}
+  _animatorController: {fileID: 9100000, guid: 7dced094b45c0e84d9eaeae5dffd0fda, type: 2}
+  _expPointData: {fileID: 11400000, guid: a9f9b65962bcfac42bc433586f9b7025, type: 2}
+  _projectileData: {fileID: 11400000, guid: 3db51c95f96d5024680840f4e32d8656, type: 2}
+  _prefab: {fileID: 152982310101135449, guid: 23d311473c7249046a4d7b3461a8382b, type: 3}

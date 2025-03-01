@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf74f00c5420ce24a9e1b773c976fb5d, type: 3}
+  m_Name: R_Ninja_Monk
+  m_EditorClassIdentifier: 
+  _id: 7
+  _health: 7
+  _speed: 0.7
+  _damage: 1
+  _attackRange: 2
+  _cooldown: 2
+  _sprite: {fileID: -511043546, guid: ccba119377c38ff46aada36e95af571a, type: 3}
+  _animatorController: {fileID: 9100000, guid: 992126c1fc9f43846a9b8eccd0e041de, type: 2}
+  _expPointData: {fileID: 11400000, guid: aa3f29e862eddee4d8381968e8f8f8a3, type: 2}
+  _projectileData: {fileID: 11400000, guid: e3c293dcd58fd344f8560ec84fdf2c20, type: 2}
+  _prefab: {fileID: 152982310101135449, guid: 23d311473c7249046a4d7b3461a8382b, type: 3}
