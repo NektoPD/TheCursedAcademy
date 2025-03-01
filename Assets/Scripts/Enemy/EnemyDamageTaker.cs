@@ -28,6 +28,7 @@ public class EnemyDamageTaker : MonoBehaviour, IDamageable
     public void Initialize(float maxHealth, ExpPointData expPointData)
     {
         _health = new Health(maxHealth);
+        _enemyView.SetHealth(_health);
         _expPointData = expPointData;
 
         _health.Died += Die;
