@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85165dc2513409147abf47532b84c84e, type: 3}
+  m_Name: P_R_Kunoichi
+  m_EditorClassIdentifier: 
+  _speed: 3
+  _sprite: {fileID: 741711442, guid: ce167c23fcb603e47ac9d165ba41f819, type: 3}
+  _animatorController: {fileID: 9100000, guid: 5c5b1169256410842bd4b205ae7d0aea, type: 2}
+  _prefab: {fileID: 4589835787153175935, guid: bd130ac1d46b21c4db788345e43257bd, type: 3}
