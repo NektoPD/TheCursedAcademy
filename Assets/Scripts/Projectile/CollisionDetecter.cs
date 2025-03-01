@@ -3,6 +3,8 @@ using UnityEngine;
 [RequireComponent(typeof(ProjectileView))]
 public class CollisionDetecter : MonoBehaviour
 {
+    [SerializeField] private LayerMask _enemyLayer;
+
     private ProjectileView _view;
     private float _damage;
 
@@ -13,7 +15,13 @@ public class CollisionDetecter : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.TryGetComponent(out IDamageable damageable) && collision.TryGetComponent(out Enemy _) == false)
+        if ((_enemyLayer.value & (1 << collision.gameObject.layer)) != 0)
+            return;
+
+        if (collision.TryGetComponent(out Projectile _))
+            return;
+
+        if (collision.TryGetComponent(out IDamageable damageable))
             damageable.TakeDamage(_damage);
 
         _view.SetHitTrigger();

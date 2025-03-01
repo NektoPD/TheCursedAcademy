@@ -16,7 +16,7 @@ MonoBehaviour:
   _health: 20
   _speed: 1
   _damage: 12
-  _attackRange: 0.5
+  _attackRange: 0.55
   _cooldown: 2
   _sprite: {fileID: 568241328, guid: 4a84c2624d0477a43922c3f4f256b9f1, type: 3}
   _animatorController: {fileID: 9100000, guid: 81ff223ba441b0544a8ad3c1352aa103, type: 2}

@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf23abafff72d4b44b2304781bec45b8, type: 3}
   m_Name: M_Samurai_Archer
   m_EditorClassIdentifier: 
-  _id: 12
+  _id: 11
   _health: 15
   _speed: 1.1
   _damage: 14
-  _attackRange: 0.4
+  _attackRange: 0.6
   _cooldown: 1.5
   _sprite: {fileID: -877233800, guid: 5a1ce6f798b7db24580d27ff1d53bde3, type: 3}
   _animatorController: {fileID: 9100000, guid: 088a0908b38ff9e469aa15a2ad4f093d, type: 2}

@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _id: 12
   _health: 10
-  _speed: 0.5
+  _speed: 0.6
   _damage: 11
-  _attackRange: 2
-  _cooldown: 1
+  _attackRange: 4
+  _cooldown: 3
   _sprite: {fileID: 1915846266, guid: 2bdbe92a7c4b8534b847b6c461c67648, type: 3}
   _animatorController: {fileID: 9100000, guid: daaa008e5cd09ea4590928d6390f9b6c, type: 2}
   _expPointData: {fileID: 11400000, guid: a79a5afe89ea1794e9a5e2f7d0b6e0dc, type: 2}

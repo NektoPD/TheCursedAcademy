@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using TMPro;
 using UnityEngine;
 using Zenject;
 
@@ -10,13 +9,14 @@ public class Difficulty : MonoBehaviour
     [SerializeField] private float _cooldown = 1;
     [SerializeField] private int _maxEnemy = 100;
     [SerializeField] private float _offset;
+    [SerializeField] private int _idEnemy = -1;
 
     private EnemyPool _enemyPool;
     private List<EnemyData> _enemyDataList;
     private Coroutine _coroutine;
 
     private bool _canSpawn = true;
-    private int _id = 1;
+    private int _id = 0;
 
     [Inject]
     public void Construct(EnemyPool enemyPool, List<EnemyData> enemyDataList)
@@ -40,11 +40,25 @@ public class Difficulty : MonoBehaviour
         if (_canSpawn && _enemyPool.Active < _maxEnemy)
         {
             _canSpawn = false;
-            Enemy enemy = GetNextIdEnemy();
+
+            Enemy enemy = GetEnemy();
+
             enemy.transform.position = GetRandomPositionOutsideCamera();
 
             _coroutine = StartCoroutine(Cooldown());
         }
+    }
+
+    private Enemy GetEnemy()
+    {
+        Enemy enemy = null;
+
+        if (_idEnemy == -1)
+            enemy = GetNextIdEnemy();
+        else
+            enemy = GetEnemyById(_idEnemy);
+
+        return enemy;
     }
 
     private Enemy GetRandomEnemy()
@@ -56,10 +70,15 @@ public class Difficulty : MonoBehaviour
     private Enemy GetNextIdEnemy()
     {
         if (_id > _enemyDataList.Count)
-            _id = 1;
+            _id = 0;
 
-        var data = _enemyDataList.First(enemy => enemy.Id == _id);
         _id++;
+        return GetEnemyById(_id);
+    }
+
+    private Enemy GetEnemyById(int id)
+    {
+        var data = _enemyDataList.First(enemy => enemy.Id == id);
 
         return _enemyPool.Get(data);
     }

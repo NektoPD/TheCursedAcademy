@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _id: 9
   _health: 9
-  _speed: 0.5
+  _speed: 0.6
   _damage: 12
   _attackRange: 2.3
   _cooldown: 2

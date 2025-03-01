@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85165dc2513409147abf47532b84c84e, type: 3}
   m_Name: P_R_Samurai_Archer
   m_EditorClassIdentifier: 
-  _speed: 2
+  _speed: 4
   _sprite: {fileID: -475910695, guid: 5eccfe36a48fe1d4f92f5714e450ff26, type: 3}
   _animatorController: {fileID: 9100000, guid: b3d602fcaad5de14e9ff4df66ffa82ea, type: 2}
   _prefab: {fileID: 4589835787153175935, guid: bd130ac1d46b21c4db788345e43257bd, type: 3}

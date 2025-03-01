@@ -12,6 +12,7 @@ public class EnemyInstaller : MonoInstaller
         Container.Bind<EnemyPool>().AsSingle();
 
         Container.BindInstance(_target).WhenInjectedInto<EnemyMover>();
+        Container.BindInstance(_target).WhenInjectedInto<LayerOrderController>();
         Container.BindInstance(_enemyDataList).WhenInjectedInto<Difficulty>();
     }
 }
