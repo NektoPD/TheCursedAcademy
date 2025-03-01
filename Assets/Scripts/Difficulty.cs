@@ -41,7 +41,7 @@ public class Difficulty : MonoBehaviour
         {
             _canSpawn = false;
 
-            Enemy enemy = GetEnemy();
+            Enemy enemy = GetRandomEnemy();
 
             enemy.transform.position = GetRandomPositionOutsideCamera();
 
