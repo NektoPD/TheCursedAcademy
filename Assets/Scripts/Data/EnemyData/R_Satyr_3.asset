@@ -9,17 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf74f00c5420ce24a9e1b773c976fb5d, type: 3}
+  m_Script: {fileID: 11500000, guid: d6bf8074def3e6845af1d1a5ebf94b04, type: 3}
   m_Name: R_Satyr_3
   m_EditorClassIdentifier: 
   _id: 3
-  _health: 20
+  _health: 15
   _speed: 1
-  _damage: 3
-  _attackRange: 0.4
-  _cooldown: 3
-  _sprite: {fileID: -505362169, guid: 7b91f0bac7d82c141adf411d45cb2762, type: 3}
+  _attacks:
+  - {fileID: 11400000, guid: 3360232b491049944bc270c5ed40d843, type: 2}
   _animatorController: {fileID: 9100000, guid: a5247ae2469dfbd4ea92977aaecbcfef, type: 2}
   _expPointData: {fileID: 11400000, guid: a9f9b65962bcfac42bc433586f9b7025, type: 2}
-  _projectileData: {fileID: 11400000, guid: 5df02395c8193d6479204b8ff4e09390, type: 2}
-  _prefab: {fileID: 152982310101135449, guid: 23d311473c7249046a4d7b3461a8382b, type: 3}
+  _prefab: {fileID: 5431957914877251030, guid: 707d13c71f5787d41a66c1a2f5337672, type: 3}

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Zenject;
 
 public abstract class Pool<T> where T: IPoolEntity
@@ -19,21 +20,23 @@ public abstract class Pool<T> where T: IPoolEntity
 
     public T Get(IData<T> data)
     {
-        if (EntityPool.Count > 0 && TryGetEntityInPool(data, out T entity))
+        if (EntityPool.Count > 0)
         {
-            entity.ResetEntity();
+            T entity = EntityPool.First();
+            entity = Initialize(data, entity);
             EntityPool.Remove(entity);
+
             return entity;
         }
 
-        var newEntity = Create(data);
         _count++;
 
-        newEntity.ResetEntity();
+        var newEntity = Create(data);
+        newEntity = Initialize(data, newEntity);
         return newEntity;
     }
 
-    protected abstract T Create(IData<T> data);
+    protected abstract T Initialize(IData<T> data, T entity);
 
-    protected abstract bool TryGetEntityInPool(IData<T> data, out T entity);
+    protected abstract T Create(IData<T> data);
 }

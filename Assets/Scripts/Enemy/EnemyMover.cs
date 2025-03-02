@@ -51,12 +51,13 @@ public class EnemyMover : MonoBehaviour
         }
     }
 
-    public void Initialize(float speed, float attackRange)
+    public void Initialize(float speed)
     {
         _canMove = true;
         _speed = speed;
-        _attackRange = attackRange;
     }
+
+    public void SetAttackRange(float range) => _attackRange = range;
 
     private void Disable() => _canMove = false;
 

@@ -69,7 +69,7 @@ public class Difficulty : MonoBehaviour
 
     private Enemy GetNextIdEnemy()
     {
-        if (_id > _enemyDataList.Count)
+        if (_id == _enemyDataList.Count)
             _id = 0;
 
         _id++;

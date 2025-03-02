@@ -1,17 +1,36 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 [RequireComponent(typeof(EnemyMover), typeof(EnemyView))]
-public abstract class EnemyAttacker : MonoBehaviour
+public class EnemyAttacker : MonoBehaviour
 {
-    protected Coroutine Coroutine;
-    protected float Cooldown;
-    protected float Damage;
-    protected Transform Target;
+    [SerializeField] private Transform _projectileSpawnPoint;
+    [SerializeField] private List<Transform> _enemySpawnPoints;
+
     private EnemyMover _mover;
     private EnemyView _view;
+    private AttackerManager _attackerManager;
+
+    private Coroutine _coroutine;
+    private Transform _target;
+    private Transform _currentProjectileSpawnPoint;
+
+    private IReadOnlyList<AttackData> _attacksData;
+    private AttackData _currentAttack;
 
     private bool _canAttack = true;
+
+    public Vector3 CurrentProjectileSpawnPosition => _currentProjectileSpawnPoint.position;
+
+    public IReadOnlyList<Transform> EnemySpawnPoints => _enemySpawnPoints;
+
+    [Inject]
+    private void Construct(AttackerManager attackerManager)
+    {
+        _attackerManager = attackerManager;
+    }
 
     private void Awake()
     {
@@ -21,36 +40,48 @@ public abstract class EnemyAttacker : MonoBehaviour
 
     private void OnEnable()
     {
-        Coroutine = StartCoroutine(Reload());
-        _mover.TargetInRange += Attack;
+        _mover.TargetInRange += TryAttack;
     }
 
     private void OnDisable()
     {
-        StopCoroutine(Coroutine);
-        _mover.TargetInRange -= Attack;
+        StopCoroutine(_coroutine);
+        _mover.TargetInRange -= TryAttack;
     }
 
-    private void Attack(Transform target)
+    public void Initialize(IReadOnlyList<AttackData> attacksData)
     {
-        Target = target;
+        _canAttack = true;
+        _attacksData = attacksData;
+        _currentAttack = _attacksData[Random.Range(0, _attacksData.Count)];
+        _mover.SetAttackRange(_currentAttack.AttackRange);
+        _currentProjectileSpawnPoint = _projectileSpawnPoint;
+    }
+
+    private void TryAttack(Transform target)
+    {
+        _target = target;
 
         if (_canAttack)
         {
             _canAttack = false;
 
-            _view.SetAttackTrigger();
+            _view.SetTriggerByName(_currentAttack.NameInAnimator);
+            _mover.SetAttackRange(_currentAttack.AttackRange);
 
-            Coroutine = StartCoroutine(Reload());
+            _coroutine = StartCoroutine(Reload(_currentAttack.Cooldown));
         }
     }
 
-    protected abstract void AttackToggle();
+    private void AttackToggle() => _attackerManager.ExecuteAttack(_currentAttack, this);
 
-    protected IEnumerator Reload()
+    private void SetProjectileSpawnPointOnTarget() => _currentProjectileSpawnPoint = _target;
+
+    private IEnumerator Reload(float cooldown)
     {
-        yield return new WaitForSeconds(Cooldown);
+        yield return new WaitForSeconds(cooldown);
 
+        _currentAttack = _attacksData[Random.Range(0, _attacksData.Count)];
         _canAttack = true;
     }
 }

@@ -1,21 +1,15 @@
-using System.Linq;
 using Zenject;
 
 public class ProjectilePool : Pool<Projectile>
 {
     public ProjectilePool(DiContainer container) : base(container) { }
 
-    protected override Projectile Create(IData<Projectile> data)
-    {
-        Projectile newProjectile = Container.InstantiatePrefabForComponent<Projectile>(data.Prefab);
-        newProjectile.Initialize(data, this);
-        return newProjectile;
-    }
+    protected override Projectile Create(IData<Projectile> data) => Container.InstantiatePrefabForComponent<Projectile>(data.Prefab);
 
-    protected override bool TryGetEntityInPool(IData<Projectile> data, out Projectile entity)
+    protected override Projectile Initialize(IData<Projectile> data, Projectile entity)
     {
-        entity = EntityPool.First();
         entity.Initialize(data, this);
-        return true;
+        entity.ResetEntity();
+        return entity;
     }
 }

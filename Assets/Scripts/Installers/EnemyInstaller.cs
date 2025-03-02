@@ -10,10 +10,14 @@ public class EnemyInstaller : MonoInstaller
     public override void InstallBindings()
     {
         Container.Bind<EnemyPool>().AsSingle();
+        Container.Bind<MeleeAttacker>().AsSingle();
+        Container.Bind<RangeAttacker>().AsSingle();
+        Container.Bind<SpawnAttacker>().AsSingle();
+        Container.Bind<AttackerManager>().AsSingle();
 
+        Container.BindInstance(_target).WhenInjectedInto<RangeAttacker>();
         Container.BindInstance(_target).WhenInjectedInto<EnemyMover>();
         Container.BindInstance(_target).WhenInjectedInto<LayerOrderController>();
-
         Container.BindInstance(_enemyDataList).WhenInjectedInto<Difficulty>();
     }
 }

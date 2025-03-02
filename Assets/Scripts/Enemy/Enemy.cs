@@ -1,22 +1,32 @@
 using UnityEngine;
 
 [RequireComponent (typeof(EnemyMover), typeof(EnemyView))]
-[RequireComponent(typeof(EnemyDamageTaker))]
-public abstract class Enemy : MonoBehaviour, IPoolEntity
+[RequireComponent(typeof(EnemyDamageTaker), typeof(EnemyAttacker))]
+public class Enemy : MonoBehaviour, IPoolEntity
 {
-    protected EnemyMover Mover;
-    protected EnemyView View;
-    protected EnemyDamageTaker DamageTaker;
+    private EnemyMover _mover;
+    private EnemyView _view;
+    private EnemyDamageTaker _damageTaker;
+    private EnemyAttacker _attacker;
 
     private EnemyPool _pool;
 
-    public virtual void Initialize(IData<Enemy> data, EnemyPool pool)
+    private void Awake()
+    {
+        _mover = GetComponent<EnemyMover>();
+        _view = GetComponent<EnemyView>();
+        _damageTaker = GetComponent<EnemyDamageTaker>();
+        _attacker = GetComponent<EnemyAttacker>();
+    }
+
+    public void Initialize(IData<Enemy> data, EnemyPool pool)
     {
         EnemyData enemyData = data as EnemyData;
 
-        DamageTaker.Initialize(enemyData.Health, enemyData.ExpPointData);
-        Mover.Initialize(enemyData.Speed, enemyData.AttackRange);
-        View.Initialize(enemyData.Sprite, enemyData.AnimatorController);
+        _damageTaker.Initialize(enemyData.Health, enemyData.ExpPointData);
+        _mover.Initialize(enemyData.Speed);
+        _view.Initialize(enemyData.AnimatorController);
+        _attacker.Initialize(enemyData.Attacks);
 
         _pool = pool;
     }

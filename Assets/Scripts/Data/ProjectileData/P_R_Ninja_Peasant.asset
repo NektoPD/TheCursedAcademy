@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85165dc2513409147abf47532b84c84e, type: 3}
   m_Name: P_R_Ninja_Peasant
   m_EditorClassIdentifier: 
-  _speed: 2
+  _speed: 3
   _sprite: {fileID: 1631075963, guid: 149dd9c5d9b7e8a45af6a4deb72b866a, type: 3}
   _animatorController: {fileID: 9100000, guid: 82d6edfd5ea63394e95a335a0f478a58, type: 2}
   _prefab: {fileID: 4589835787153175935, guid: bd130ac1d46b21c4db788345e43257bd, type: 3}

@@ -9,16 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf23abafff72d4b44b2304781bec45b8, type: 3}
+  m_Script: {fileID: 11500000, guid: d6bf8074def3e6845af1d1a5ebf94b04, type: 3}
   m_Name: M_Ninja_Monk
   m_EditorClassIdentifier: 
   _id: 6
-  _health: 10
+  _health: 21
   _speed: 1.2
-  _damage: 7
-  _attackRange: 0.35
-  _cooldown: 1.5
-  _sprite: {fileID: -125692720, guid: 666a7658634f1bd4f913543931507262, type: 3}
+  _attacks:
+  - {fileID: 11400000, guid: 3d485275c39c156429baf3fee5d32cc1, type: 2}
   _animatorController: {fileID: 9100000, guid: a0873fb72d96a6946a7c5bdee7c00bb8, type: 2}
   _expPointData: {fileID: 11400000, guid: aa3f29e862eddee4d8381968e8f8f8a3, type: 2}
-  _prefab: {fileID: 3418932205831232159, guid: 707d13c71f5787d41a66c1a2f5337672, type: 3}
+  _prefab: {fileID: 5431957914877251030, guid: 707d13c71f5787d41a66c1a2f5337672, type: 3}
