@@ -1,20 +1,22 @@
 using UnityEngine;
 
-[RequireComponent (typeof(EnemyMover), typeof(EnemyView))]
+[RequireComponent (typeof(EnemyMover), typeof(EnemyAnimator))]
 [RequireComponent(typeof(EnemyDamageTaker), typeof(EnemyAttacker))]
 public class Enemy : MonoBehaviour, IPoolEntity
 {
     private EnemyMover _mover;
-    private EnemyView _view;
+    private EnemyAnimator _view;
     private EnemyDamageTaker _damageTaker;
     private EnemyAttacker _attacker;
-
     private EnemyPool _pool;
+    private string _name;
+
+    public string Name => _name;
 
     private void Awake()
     {
         _mover = GetComponent<EnemyMover>();
-        _view = GetComponent<EnemyView>();
+        _view = GetComponent<EnemyAnimator>();
         _damageTaker = GetComponent<EnemyDamageTaker>();
         _attacker = GetComponent<EnemyAttacker>();
     }
@@ -28,6 +30,7 @@ public class Enemy : MonoBehaviour, IPoolEntity
         _view.Initialize(enemyData.AnimatorController);
         _attacker.Initialize(enemyData.Attacks);
 
+        _name = enemyData.Name;
         _pool = pool;
     }
 

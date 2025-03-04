@@ -10,13 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d6bf8074def3e6845af1d1a5ebf94b04, type: 3}
-  m_Name: M_Ninja_Peasant
+  m_Name: R_Satyr_3
   m_EditorClassIdentifier: 
-  _id: 8
-  _health: 23
-  _speed: 1.3
+  _id: 3
+  _name: Satyr 3
+  _health: 15
+  _speed: 1
   _attacks:
-  - {fileID: 11400000, guid: 4221613e34397cd489ffb2ef19f94adb, type: 2}
-  _animatorController: {fileID: 9100000, guid: c738f9516fafc6c41bcb86e0110143e3, type: 2}
-  _expPointData: {fileID: 11400000, guid: aa3f29e862eddee4d8381968e8f8f8a3, type: 2}
+  - {fileID: 11400000, guid: 3360232b491049944bc270c5ed40d843, type: 2}
+  _animatorController: {fileID: 9100000, guid: a5247ae2469dfbd4ea92977aaecbcfef, type: 2}
+  _expPointData: {fileID: 11400000, guid: a9f9b65962bcfac42bc433586f9b7025, type: 2}
   _prefab: {fileID: 5431957914877251030, guid: 707d13c71f5787d41a66c1a2f5337672, type: 3}

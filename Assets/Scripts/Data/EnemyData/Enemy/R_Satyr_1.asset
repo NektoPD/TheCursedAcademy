@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: R_Satyr_1
   m_EditorClassIdentifier: 
   _id: 1
+  _name: Satyr 1
   _health: 10
   _speed: 0.8
   _attacks:

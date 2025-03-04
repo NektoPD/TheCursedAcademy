@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
-[RequireComponent(typeof(EnemyMover), typeof(EnemyView))]
+[RequireComponent(typeof(EnemyMover), typeof(EnemyAnimator))]
 public class EnemyAttacker : MonoBehaviour
 {
     [SerializeField] private Transform _projectileSpawnPoint;
     [SerializeField] private List<Transform> _enemySpawnPoints;
 
     private EnemyMover _mover;
-    private EnemyView _view;
+    private EnemyAnimator _view;
     private AttackerManager _attackerManager;
 
     private Coroutine _coroutine;
@@ -35,7 +35,7 @@ public class EnemyAttacker : MonoBehaviour
     private void Awake()
     {
         _mover = GetComponent<EnemyMover>();
-        _view = GetComponent<EnemyView>();
+        _view = GetComponent<EnemyAnimator>();
     }
 
     private void OnEnable()
@@ -45,7 +45,9 @@ public class EnemyAttacker : MonoBehaviour
 
     private void OnDisable()
     {
-        StopCoroutine(_coroutine);
+        if(_coroutine != null)
+            StopCoroutine(_coroutine);
+
         _mover.TargetInRange -= TryAttack;
     }
 
@@ -67,7 +69,6 @@ public class EnemyAttacker : MonoBehaviour
             _canAttack = false;
 
             _view.SetTriggerByName(_currentAttack.NameInAnimator);
-            _mover.SetAttackRange(_currentAttack.AttackRange);
 
             _coroutine = StartCoroutine(Reload(_currentAttack.Cooldown));
         }
@@ -82,6 +83,7 @@ public class EnemyAttacker : MonoBehaviour
         yield return new WaitForSeconds(cooldown);
 
         _currentAttack = _attacksData[Random.Range(0, _attacksData.Count)];
+        _mover.SetAttackRange(_currentAttack.AttackRange);
         _canAttack = true;
     }
 }

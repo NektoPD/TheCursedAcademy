@@ -10,13 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d6bf8074def3e6845af1d1a5ebf94b04, type: 3}
-  m_Name: R_Satyr_2
+  m_Name: R_Samurai_Archer
   m_EditorClassIdentifier: 
-  _id: 2
-  _health: 10
-  _speed: 0.6
+  _id: 12
+  _name: Samurai Archer Ranger
+  _health: 20
+  _speed: 0.8
   _attacks:
-  - {fileID: 11400000, guid: 6369433cdab47334c938200c004d5988, type: 2}
-  _animatorController: {fileID: 9100000, guid: 7dced094b45c0e84d9eaeae5dffd0fda, type: 2}
-  _expPointData: {fileID: 11400000, guid: a9f9b65962bcfac42bc433586f9b7025, type: 2}
+  - {fileID: 11400000, guid: 2ef402173606d7b4ab1480d1d623aec8, type: 2}
+  _animatorController: {fileID: 9100000, guid: daaa008e5cd09ea4590928d6390f9b6c, type: 2}
+  _expPointData: {fileID: 11400000, guid: a79a5afe89ea1794e9a5e2f7d0b6e0dc, type: 2}
   _prefab: {fileID: 5431957914877251030, guid: 707d13c71f5787d41a66c1a2f5337672, type: 3}

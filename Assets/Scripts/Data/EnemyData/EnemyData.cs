@@ -5,6 +5,7 @@ using UnityEngine;
 public class EnemyData : ScriptableObject, IData<Enemy>
 {
     [SerializeField] private int _id;
+    [SerializeField] private string _name;
     [SerializeField] private float _health;
     [SerializeField] private float _speed;
     [SerializeField] private List<AttackData> _attacks;
@@ -13,6 +14,8 @@ public class EnemyData : ScriptableObject, IData<Enemy>
     [SerializeField] private Enemy _prefab;
 
     public int Id => _id;
+
+    public string Name => _name;
 
     public float Health => _health;
 

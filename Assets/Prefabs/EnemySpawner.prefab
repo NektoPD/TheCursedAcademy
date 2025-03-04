@@ -47,7 +47,7 @@ MonoBehaviour:
   _cooldown: 1
   _maxEnemy: 1
   _offset: 0.1
-  _idEnemy: -1
+  _idEnemy: 9
 --- !u!1 &1925417105194118459
 GameObject:
   m_ObjectHideFlags: 0
@@ -221,7 +221,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: fc988b99148f3614e9e351734b96f12b, type: 2}
   - {fileID: 11400000, guid: 34d857137a0094e48b63e373915dbc5a, type: 2}
   - {fileID: 11400000, guid: d28ba7ba5a950dd4b86e39d07066ca3d, type: 2}
-  - {fileID: 11400000, guid: 80b71347b3b69b2478c3acebcf6e2519, type: 2}
+  - {fileID: 11400000, guid: 3c3e37f5c46270b45bd3be2bc01cd3d6, type: 2}
   - {fileID: 11400000, guid: 80910cd2f02950d429333a65ff4932ab, type: 2}
   - {fileID: 11400000, guid: 0ee0ab28a15b1684baf4377f211736db, type: 2}
   - {fileID: 11400000, guid: b88f366cda7274b49b47ef7f158122f6, type: 2}

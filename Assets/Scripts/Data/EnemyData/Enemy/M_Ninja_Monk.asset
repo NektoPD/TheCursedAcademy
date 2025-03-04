@@ -10,13 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d6bf8074def3e6845af1d1a5ebf94b04, type: 3}
-  m_Name: M_Samurai_Commander
+  m_Name: M_Ninja_Monk
   m_EditorClassIdentifier: 
-  _id: 13
-  _health: 40
+  _id: 6
+  _name: Ninja Monk
+  _health: 21
   _speed: 1.2
   _attacks:
-  - {fileID: 11400000, guid: f6e2fc15b39fe87428bf47efde96574a, type: 2}
-  _animatorController: {fileID: 9100000, guid: 3621deb6e084c3a4780f2ce3ca156055, type: 2}
-  _expPointData: {fileID: 11400000, guid: a79a5afe89ea1794e9a5e2f7d0b6e0dc, type: 2}
+  - {fileID: 11400000, guid: 3d485275c39c156429baf3fee5d32cc1, type: 2}
+  _animatorController: {fileID: 9100000, guid: a0873fb72d96a6946a7c5bdee7c00bb8, type: 2}
+  _expPointData: {fileID: 11400000, guid: aa3f29e862eddee4d8381968e8f8f8a3, type: 2}
   _prefab: {fileID: 5431957914877251030, guid: 707d13c71f5787d41a66c1a2f5337672, type: 3}

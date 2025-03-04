@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using Zenject;
 
-[RequireComponent(typeof(EnemyView))]
+[RequireComponent(typeof(EnemyAnimator))]
 public class EnemyMover : MonoBehaviour
 {
     private readonly int _rotationAngle = 180;
@@ -11,7 +11,7 @@ public class EnemyMover : MonoBehaviour
     private Transform _transform;
     private float _speed;
     private float _attackRange;
-    private EnemyView _enemyView;
+    private EnemyAnimator _enemyView;
 
     private bool _canMove = true;
 
@@ -26,7 +26,7 @@ public class EnemyMover : MonoBehaviour
     private void Awake()
     {
         _transform = transform;
-        _enemyView = GetComponent<EnemyView>();
+        _enemyView = GetComponent<EnemyAnimator>();
     }
 
     private void FixedUpdate()
