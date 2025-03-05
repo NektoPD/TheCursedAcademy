@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6bf8074def3e6845af1d1a5ebf94b04, type: 3}
+  m_Name: B_Yamabush_Tengu 1
+  m_EditorClassIdentifier: 
+  _id: 1002
+  _name: Yamabush Tengu
+  _health: 100
+  _speed: 1
+  _attacks:
+  - {fileID: 11400000, guid: a0832ea7e24b6a64da48fb04f27c2d81, type: 2}
+  - {fileID: 11400000, guid: 41f57ba5591f16748927dd4e276732c8, type: 2}
+  - {fileID: 11400000, guid: 8ca9c0da05a19f542bf35d51c02fb33f, type: 2}
+  _animatorController: {fileID: 9100000, guid: 313e3f198331f2f479a7003b352ad033, type: 2}
+  _expPointData: {fileID: 11400000, guid: bd772568c16a5e648bdd53e366521aa4, type: 2}
+  _prefab: {fileID: 5431957914877251030, guid: a9d364221c8075647a7c74c6d6da1779, type: 3}

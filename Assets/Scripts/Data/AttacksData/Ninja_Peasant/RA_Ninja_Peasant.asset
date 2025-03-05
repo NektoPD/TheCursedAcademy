@@ -16,4 +16,5 @@ MonoBehaviour:
   _cooldown: 2
   _attackRange: 2.4
   _damage: 5
+  _countProjectiles: 1
   _projectile: {fileID: 11400000, guid: 6e667b0e79d8c3545a77b37593d57deb, type: 2}

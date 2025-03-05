@@ -25,12 +25,13 @@ public class Enemy : MonoBehaviour, IPoolEntity
     {
         EnemyData enemyData = data as EnemyData;
 
+        _name = enemyData.Name;
+
         _damageTaker.Initialize(enemyData.Health, enemyData.ExpPointData);
         _mover.Initialize(enemyData.Speed);
         _view.Initialize(enemyData.AnimatorController);
         _attacker.Initialize(enemyData.Attacks);
 
-        _name = enemyData.Name;
         _pool = pool;
     }
 

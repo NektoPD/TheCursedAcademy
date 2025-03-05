@@ -17,12 +17,15 @@ public class RangeAttacker : Attacker
     {
         if (data is RangeAttackData rangeData)
         {
-            Projectile projectile = _pool.Get(rangeData.ProjectileData);
+            for (int i = 0; i < rangeData.CountProjectiles; i++)
+            {
+                Projectile projectile = _pool.Get(rangeData.ProjectileData);
 
-            projectile.transform.position = EnemyAttacker.CurrentProjectileSpawnPosition;
+                projectile.transform.position = EnemyAttacker.ProjectileSpawnPoints[i].position;
 
-            projectile.SetDirection((_target.position - EnemyAttacker.CurrentProjectileSpawnPosition).normalized);
-            projectile.SetDamage(rangeData.Damage);
+                projectile.SetDirection((_target.position - EnemyAttacker.ProjectileSpawnPoints[i].position).normalized);
+                projectile.SetDamage(rangeData.Damage);
+            }
         }
     }
 }

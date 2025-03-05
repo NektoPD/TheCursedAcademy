@@ -19,7 +19,7 @@ public class AttackerManager
     {
         if (_attackers.TryGetValue(data.GetType(), out var attacker))
         {
-            attacker.SetAttacker(enemyAttacker);
+            attacker.SetBaseAttacker(enemyAttacker);
             attacker.Attack(data);
         }
     }

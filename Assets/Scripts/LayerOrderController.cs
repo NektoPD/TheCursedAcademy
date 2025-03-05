@@ -9,6 +9,7 @@ public class LayerOrderController : MonoBehaviour
 
     private SpriteRenderer _spriteRenderer;
     private Transform _target;
+    private float _offset = 0.3f;
 
     [Inject]
     public void Construct(Transform target)
@@ -23,7 +24,7 @@ public class LayerOrderController : MonoBehaviour
 
     private void Update()
     {
-        if (transform.position.y < _target.position.y)
+        if (transform.position.y < _target.position.y + _offset)
             _spriteRenderer.sortingOrder = _downOrder;
         else
             _spriteRenderer.sortingOrder = _upOrder;

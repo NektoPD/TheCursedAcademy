@@ -14,6 +14,7 @@ public class EnemyMover : MonoBehaviour
     private EnemyAnimator _enemyView;
 
     private bool _canMove = true;
+    private float _offsetY = 0.7f;
 
     public event Action<Transform> TargetInRange;
 
@@ -39,7 +40,9 @@ public class EnemyMover : MonoBehaviour
 
         SetRotation(_target);
 
-        if (Vector2.Distance(transform.position, _target.transform.position) > _attackRange)
+        Vector3 position = GetCurrentPosition();
+
+        if (Vector2.Distance(position, _target.transform.position) > _attackRange)
         {
             _transform.position = Vector2.MoveTowards(_transform.position, _target.position, _speed * Time.fixedDeltaTime);
             _enemyView.SetSpeed(_speed);
@@ -71,8 +74,15 @@ public class EnemyMover : MonoBehaviour
             transform.localRotation = Quaternion.Euler(0, 0, 0);
     }
 
-    private void OnDrawGizmosSelected()
+    private Vector3 GetCurrentPosition()
     {
-        Gizmos.DrawWireSphere(transform.position, _attackRange);
+        Vector3 position = Vector3.zero;
+
+        if (_target.position.y > _transform.position.y) 
+            position = new Vector3(_transform.position.x, _transform.position.y - _offsetY, _transform.position.z);
+        else
+            position = new Vector3(_transform.position.x, _transform.position.y + _offsetY, _transform.position.z);
+
+        return position;
     }
 }

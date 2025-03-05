@@ -16,7 +16,10 @@ MonoBehaviour:
   _name: Karasu Tengu
   _health: 100
   _speed: 1
-  _attacks: []
-  _animatorController: {fileID: 9100000, guid: 2cd6b4d4ba2c5aa4e9c10c2f9eb780f2, type: 2}
-  _expPointData: {fileID: 11400000, guid: 4a4c29a431849594f8bfdd3847ab8601, type: 2}
+  _attacks:
+  - {fileID: 11400000, guid: a42d83a7a23780046bcee70aed9bfba7, type: 2}
+  - {fileID: 11400000, guid: 6435c194ae5d8bb4e8595ba3b7b869a3, type: 2}
+  - {fileID: 11400000, guid: 51c202eeb5c92c844b8f328a06bd2c2a, type: 2}
+  _animatorController: {fileID: 9100000, guid: 15dffc420f1d84d4f9b33bc1f036f04d, type: 2}
+  _expPointData: {fileID: 11400000, guid: bd772568c16a5e648bdd53e366521aa4, type: 2}
   _prefab: {fileID: 5431957914877251030, guid: a9d364221c8075647a7c74c6d6da1779, type: 3}

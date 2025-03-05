@@ -510,7 +510,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4055c2e5adbd45948979a324af7b4e86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _projectileSpawnPoint: {fileID: 4590930372785403652}
+  _projectileSpawnPoints:
+  - {fileID: 4590930372785403652}
   _enemySpawnPoints: []
 --- !u!114 &5431957914877251030
 MonoBehaviour:

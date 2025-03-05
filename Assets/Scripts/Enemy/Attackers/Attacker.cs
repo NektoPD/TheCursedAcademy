@@ -4,5 +4,5 @@ public abstract class Attacker
 
     public abstract void Attack(AttackData data);
 
-    public void SetAttacker(EnemyAttacker attacker) => EnemyAttacker = attacker;
+    public void SetBaseAttacker(EnemyAttacker attacker) => EnemyAttacker = attacker;
 }

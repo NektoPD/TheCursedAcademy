@@ -24,7 +24,8 @@ public class EnemyDamageTaker : MonoBehaviour, IDamageable
 
     private void OnDisable()
     {
-        _health.Died -= Die;
+        if (_health != null)
+            _health.Died -= Die;
     }
 
     public void Initialize(float maxHealth, ExpPointData expPointData)

@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f59118a007856c14ab9b7ba08f5898ac, type: 3}
+  m_Name: SA_Samurai_Archer
+  m_EditorClassIdentifier: 
+  _nameInAnimator: Spawn
+  _cooldown: 30
+  _attackRange: 10
+  _countEnemy: 2
+  _enemysData:
+  - {fileID: 11400000, guid: d28ba7ba5a950dd4b86e39d07066ca3d, type: 2}
+  - {fileID: 11400000, guid: e1817029300513849be9dfb5d9b59f22, type: 2}

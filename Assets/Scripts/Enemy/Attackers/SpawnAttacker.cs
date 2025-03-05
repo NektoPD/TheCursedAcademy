@@ -1,3 +1,4 @@
+using UnityEngine;
 using Zenject;
 
 public class SpawnAttacker : Attacker
@@ -14,10 +15,10 @@ public class SpawnAttacker : Attacker
     {
         if (data is SpawnAttackData spawnData)
         {
-            for (int i = 0; i < EnemyAttacker.EnemySpawnPoints.Count; i++)
+            for (int i = 0; i < spawnData.EnemyCount; i++)
             {
-                Enemy enemy = _pool.Get(spawnData.EnemysData[i % spawnData.EnemyCount]);
-                enemy.transform.position = EnemyAttacker.EnemySpawnPoints[i].position;
+                Enemy enemy = _pool.Get(spawnData.EnemysData[Random.Range(0, spawnData.EnemysData.Count)]);
+                enemy.transform.position = EnemyAttacker.EnemySpawnPoints[i % EnemyAttacker.EnemySpawnPoints.Count].position;
             }
         }
     }
