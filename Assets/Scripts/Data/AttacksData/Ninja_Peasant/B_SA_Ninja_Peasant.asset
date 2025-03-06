@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f59118a007856c14ab9b7ba08f5898ac, type: 3}
+  m_Name: B_SA_Ninja_Peasant
+  m_EditorClassIdentifier: 
+  _nameInAnimator: Spawn
+  _cooldown: 120
+  _attackRange: 10
+  _countEnemy: 2
+  _enemysData:
+  - {fileID: 11400000, guid: fc988b99148f3614e9e351734b96f12b, type: 2}
+  - {fileID: 11400000, guid: b88f366cda7274b49b47ef7f158122f6, type: 2}

@@ -1,56 +1,113 @@
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using Zenject;
 
-[RequireComponent(typeof(EnemyMover), typeof(EnemyView))]
-public abstract class EnemyAttacker : MonoBehaviour
+[RequireComponent(typeof(EnemyMover), typeof(EnemyAnimator))]
+public class EnemyAttacker : MonoBehaviour
 {
-    protected Coroutine Coroutine;
-    protected float Cooldown;
-    protected float Damage;
-    protected Transform Target;
-    private EnemyMover _mover;
-    private EnemyView _view;
+    [SerializeField] private List<Transform> _projectileSpawnPoints;
+    [SerializeField] private List<Transform> _enemySpawnPoints;
 
-    private bool _canAttack = true;
+    private EnemyMover _mover;
+    private EnemyAnimator _view;
+    private AttackerManager _attackerManager;
+    private Transform _target;
+    private List<AttackData> _attacksData;
+    private AttackData _currentAttack;
+    private AttackData _lastAttack;
+
+    public IReadOnlyList<Transform> ProjectileSpawnPoints => _projectileSpawnPoints;
+
+    public IReadOnlyList<Transform> EnemySpawnPoints => _enemySpawnPoints;
+
+    [Inject]
+    private void Construct(AttackerManager attackerManager)
+    {
+        _attackerManager = attackerManager;
+    }
 
     private void Awake()
     {
         _mover = GetComponent<EnemyMover>();
-        _view = GetComponent<EnemyView>();
+        _view = GetComponent<EnemyAnimator>();
     }
 
     private void OnEnable()
     {
-        Coroutine = StartCoroutine(Reload());
-        _mover.TargetInRange += Attack;
+        _mover.TargetInRange += TryAttack;
     }
 
     private void OnDisable()
     {
-        StopCoroutine(Coroutine);
-        _mover.TargetInRange -= Attack;
+        _mover.TargetInRange -= TryAttack;
     }
 
-    private void Attack(Transform target)
+    public void Initialize(IReadOnlyList<AttackData> attacksData)
     {
-        Target = target;
+        _attacksData = attacksData.ToList();
 
-        if (_canAttack)
+        AttackData firstAttack = _attacksData[Random.Range(0, _attacksData.Count)];
+        _attacksData.Remove(firstAttack);
+
+        ReloadAllAttack();
+
+        _currentAttack = firstAttack;
+        _mover.SetAttackRange(firstAttack.AttackRange);
+    }
+
+    private void TryAttack(Transform target)
+    {
+        _target = target;
+
+        if (_currentAttack != null)
         {
-            _canAttack = false;
-
-            _view.SetAttackTrigger();
-
-            Coroutine = StartCoroutine(Reload());
+            _lastAttack = _currentAttack;
+            _view.SetTriggerByName(_currentAttack.NameInAnimator);
+            StartCoroutine(Reload(_currentAttack.Cooldown, _currentAttack));
+        }
+        else if(TryGetNewAttack(out AttackData newAttack))
+        {
+            _currentAttack = newAttack;
+            _mover.SetAttackRange(_currentAttack.AttackRange);
         }
     }
 
-    protected abstract void AttackToggle();
-
-    protected IEnumerator Reload()
+    private void AttackToggle()
     {
-        yield return new WaitForSeconds(Cooldown);
+        _attackerManager.ExecuteAttack(_lastAttack, this);
+    }
+     
+    private void SetProjectileSpawnPointOnTarget() => _projectileSpawnPoints[0] = _target;
 
-        _canAttack = true;
+    private bool TryGetNewAttack(out AttackData attack)
+    {
+        attack = null;
+
+        if (_attacksData.Count != 0)
+        {
+            attack = _attacksData[Random.Range(0, _attacksData.Count)];
+            _attacksData.Remove(attack);
+        }
+
+        return attack != null;
+    }
+
+    private void ReloadAllAttack()
+    {
+        foreach (var attack in _attacksData)
+            StartCoroutine(Reload(attack.Cooldown, attack));
+
+        _attacksData.Clear();
+    }
+
+    private IEnumerator Reload(float cooldown, AttackData attack)
+    {
+        _currentAttack = null;
+
+        yield return new WaitForSeconds(cooldown);
+
+        _attacksData.Add(attack);
     }
 }

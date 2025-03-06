@@ -2,16 +2,19 @@ using System;
 using UnityEngine;
 using Zenject;
 
-[RequireComponent(typeof(EnemyView))]
+[RequireComponent(typeof(EnemyAnimator))]
 public class EnemyMover : MonoBehaviour
 {
+    [SerializeField] private float _offsetDownY = 0.2f;
+    [SerializeField] private float _offsetUpY = 0.2f;
+
     private readonly int _rotationAngle = 180;
 
     private Transform _target;
     private Transform _transform;
     private float _speed;
     private float _attackRange;
-    private EnemyView _enemyView;
+    private EnemyAnimator _enemyView;
 
     private bool _canMove = true;
 
@@ -26,7 +29,7 @@ public class EnemyMover : MonoBehaviour
     private void Awake()
     {
         _transform = transform;
-        _enemyView = GetComponent<EnemyView>();
+        _enemyView = GetComponent<EnemyAnimator>();
     }
 
     private void FixedUpdate()
@@ -39,7 +42,7 @@ public class EnemyMover : MonoBehaviour
 
         SetRotation(_target);
 
-        if (Vector2.Distance(transform.position, _target.transform.position) > _attackRange)
+        if (Vector2.Distance(GetCurrentPosition(), _target.transform.position) > _attackRange)
         {
             _transform.position = Vector2.MoveTowards(_transform.position, _target.position, _speed * Time.fixedDeltaTime);
             _enemyView.SetSpeed(_speed);
@@ -51,12 +54,13 @@ public class EnemyMover : MonoBehaviour
         }
     }
 
-    public void Initialize(float speed, float attackRange)
+    public void Initialize(float speed)
     {
         _canMove = true;
         _speed = speed;
-        _attackRange = attackRange;
     }
+
+    public void SetAttackRange(float range) => _attackRange = range;
 
     private void Disable() => _canMove = false;
 
@@ -70,8 +74,16 @@ public class EnemyMover : MonoBehaviour
             transform.localRotation = Quaternion.Euler(0, 0, 0);
     }
 
-    private void OnDrawGizmosSelected()
+    private Vector3 GetCurrentPosition()
     {
-        Gizmos.DrawWireSphere(transform.position, _attackRange);
+        Vector3 position = Vector3.zero;
+
+        if (_target.position.y > _transform.position.y)
+            position = new Vector3(_transform.position.x, _transform.position.y - _offsetDownY, _transform.position.z);
+        else
+            position = new Vector3(_transform.position.x, _transform.position.y - _offsetUpY, _transform.position.z);
+
+
+        return position;
     }
 }

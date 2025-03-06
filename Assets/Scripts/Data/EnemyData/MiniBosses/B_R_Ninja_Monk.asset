@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6bf8074def3e6845af1d1a5ebf94b04, type: 3}
+  m_Name: B_R_Ninja_Monk
+  m_EditorClassIdentifier: 
+  _id: 107
+  _name: Ninja Monk Ranger
+  _health: 18
+  _speed: 0.7
+  _attacks:
+  - {fileID: 11400000, guid: c7fd9bb03fea3aa4b8a7586a181788fc, type: 2}
+  - {fileID: 11400000, guid: 32ccc4d02c74be142b7e91b1259262e7, type: 2}
+  _animatorController: {fileID: 9100000, guid: 992126c1fc9f43846a9b8eccd0e041de, type: 2}
+  _expPointData: {fileID: 11400000, guid: a79a5afe89ea1794e9a5e2f7d0b6e0dc, type: 2}
+  _prefab: {fileID: 5431957914877251030, guid: b6a685fd219968a4480130cba3a09846, type: 3}

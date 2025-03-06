@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79e0d6057c68f96459f2c36d9e637040, type: 3}
+  m_Name: RA_1_Kitsune
+  m_EditorClassIdentifier: 
+  _nameInAnimator: Attack_2
+  _cooldown: 8
+  _attackRange: 4
+  _damage: 3
+  _countProjectiles: 8
+  _projectile: {fileID: 11400000, guid: 10c009afba0caa44584417e07d30d5ac, type: 2}
