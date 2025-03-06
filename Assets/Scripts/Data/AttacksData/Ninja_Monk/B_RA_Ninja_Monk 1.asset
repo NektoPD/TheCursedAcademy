@@ -9,12 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f59118a007856c14ab9b7ba08f5898ac, type: 3}
-  m_Name: SA_Satyr_1
+  m_Script: {fileID: 11500000, guid: 79e0d6057c68f96459f2c36d9e637040, type: 3}
+  m_Name: B_RA_Ninja_Monk 1
   m_EditorClassIdentifier: 
-  _nameInAnimator: Spawn
-  _cooldown: 10
-  _attackRange: 30
-  _countEnemy: 2
-  _enemysData:
-  - {fileID: 11400000, guid: f864aa8314da8d244875157f67121cae, type: 2}
+  _nameInAnimator: Attack
+  _cooldown: 3
+  _attackRange: 3
+  _damage: 15
+  _countProjectiles: 1
+  _projectile: {fileID: 11400000, guid: e3c293dcd58fd344f8560ec84fdf2c20, type: 2}

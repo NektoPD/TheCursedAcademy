@@ -10,12 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f59118a007856c14ab9b7ba08f5898ac, type: 3}
-  m_Name: SA_Samurai_Archer
+  m_Name: B_SA_Satyr_1
   m_EditorClassIdentifier: 
   _nameInAnimator: Spawn
-  _cooldown: 30
-  _attackRange: 10
+  _cooldown: 120
+  _attackRange: 30
   _countEnemy: 2
   _enemysData:
-  - {fileID: 11400000, guid: d28ba7ba5a950dd4b86e39d07066ca3d, type: 2}
-  - {fileID: 11400000, guid: e1817029300513849be9dfb5d9b59f22, type: 2}
+  - {fileID: 11400000, guid: f864aa8314da8d244875157f67121cae, type: 2}

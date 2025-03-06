@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SA_Karasu_Tengu
   m_EditorClassIdentifier: 
   _nameInAnimator: Spawn
-  _cooldown: 30
+  _cooldown: 120
   _attackRange: 10
   _countEnemy: 4
   _enemysData:

@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _nameInAnimator: Attack
   _cooldown: 1.5
-  _attackRange: 0.35
+  _attackRange: 0.45
   _damage: 6

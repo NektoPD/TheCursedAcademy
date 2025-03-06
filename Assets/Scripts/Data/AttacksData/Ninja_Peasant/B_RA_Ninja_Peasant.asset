@@ -9,12 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f59118a007856c14ab9b7ba08f5898ac, type: 3}
-  m_Name: SA_Samurai_Commander
+  m_Script: {fileID: 11500000, guid: 79e0d6057c68f96459f2c36d9e637040, type: 3}
+  m_Name: B_RA_Ninja_Peasant
   m_EditorClassIdentifier: 
-  _nameInAnimator: Spawn
-  _cooldown: 30
-  _attackRange: 10
-  _countEnemy: 2
-  _enemysData:
-  - {fileID: 11400000, guid: 3c3e37f5c46270b45bd3be2bc01cd3d6, type: 2}
+  _nameInAnimator: Attack
+  _cooldown: 2
+  _attackRange: 3.4
+  _damage: 5
+  _countProjectiles: 1
+  _projectile: {fileID: 11400000, guid: 6e667b0e79d8c3545a77b37593d57deb, type: 2}

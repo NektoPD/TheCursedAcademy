@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f59118a007856c14ab9b7ba08f5898ac, type: 3}
-  m_Name: SA_Ninja_Peasant
+  m_Name: B_SA_Ninja_Peasant
   m_EditorClassIdentifier: 
   _nameInAnimator: Spawn
-  _cooldown: 30
+  _cooldown: 120
   _attackRange: 10
   _countEnemy: 2
   _enemysData:

@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: SA_Kitsune
   m_EditorClassIdentifier: 
   _nameInAnimator: Spawn
-  _cooldown: 30
-  _attackRange: 10
+  _cooldown: 300
+  _attackRange: 8
   _countEnemy: 2
   _enemysData:
   - {fileID: 11400000, guid: b58938efee29b2c42810aa4d2405bd3f, type: 2}

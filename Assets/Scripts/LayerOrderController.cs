@@ -9,7 +9,7 @@ public class LayerOrderController : MonoBehaviour
 
     private SpriteRenderer _spriteRenderer;
     private Transform _target;
-    private float _offset = 0.3f;
+    private float _offset = 0.2f;
 
     [Inject]
     public void Construct(Transform target)

@@ -13,7 +13,8 @@ public abstract class HealthBar : MonoBehaviour
 
     private void OnDisable()
     {
-        Health.Changed -= OnHealthChanged;
+        if(Health != null)
+            Health.Changed -= OnHealthChanged;
     }
 
     public virtual void SetHealth(Health health)

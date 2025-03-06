@@ -17,7 +17,7 @@ MonoBehaviour:
   _health: 15
   _speed: 0.6
   _attacks:
-  - {fileID: 11400000, guid: 2f3e56ed462f3594a9213e333a4c1450, type: 2}
+  - {fileID: 11400000, guid: bcd9c20b49627f347b22c020ee3d8d1f, type: 2}
   - {fileID: 11400000, guid: cc73c28abb9dba8489d00d64fdabc2fc, type: 2}
   _animatorController: {fileID: 9100000, guid: ce5bbe4754a722d4c99c9372660e10e4, type: 2}
   _expPointData: {fileID: 11400000, guid: a79a5afe89ea1794e9a5e2f7d0b6e0dc, type: 2}

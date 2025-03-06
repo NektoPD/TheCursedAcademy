@@ -13,12 +13,10 @@ public class EnemyAttacker : MonoBehaviour
     private EnemyMover _mover;
     private EnemyAnimator _view;
     private AttackerManager _attackerManager;
-
     private Transform _target;
-    private Transform _currentProjectileSpawnPoint;
-
     private List<AttackData> _attacksData;
     private AttackData _currentAttack;
+    private AttackData _lastAttack;
 
     public IReadOnlyList<Transform> ProjectileSpawnPoints => _projectileSpawnPoints;
 
@@ -50,9 +48,13 @@ public class EnemyAttacker : MonoBehaviour
     {
         _attacksData = attacksData.ToList();
 
-        SetAttack();
+        AttackData firstAttack = _attacksData[Random.Range(0, _attacksData.Count)];
+        _attacksData.Remove(firstAttack);
 
-        _currentProjectileSpawnPoint = _projectileSpawnPoints.First();
+        ReloadAllAttack();
+
+        _currentAttack = firstAttack;
+        _mover.SetAttackRange(firstAttack.AttackRange);
     }
 
     private void TryAttack(Transform target)
@@ -61,29 +63,23 @@ public class EnemyAttacker : MonoBehaviour
 
         if (_currentAttack != null)
         {
+            _lastAttack = _currentAttack;
             _view.SetTriggerByName(_currentAttack.NameInAnimator);
             StartCoroutine(Reload(_currentAttack.Cooldown, _currentAttack));
         }
-        else
+        else if(TryGetNewAttack(out AttackData newAttack))
         {
-            SetAttack();
+            _currentAttack = newAttack;
+            _mover.SetAttackRange(_currentAttack.AttackRange);
         }
     }
 
     private void AttackToggle()
     {
-        _attackerManager.ExecuteAttack(_currentAttack, this);
-        _currentAttack = null;
+        _attackerManager.ExecuteAttack(_lastAttack, this);
     }
      
-    private void SetProjectileSpawnPointOnTarget() => _currentProjectileSpawnPoint = _target;
-
-    private IEnumerator Reload(float cooldown, AttackData attack)
-    {
-        yield return new WaitForSeconds(cooldown);
-
-        _attacksData.Add(attack);
-    }
+    private void SetProjectileSpawnPointOnTarget() => _projectileSpawnPoints[0] = _target;
 
     private bool TryGetNewAttack(out AttackData attack)
     {
@@ -98,12 +94,20 @@ public class EnemyAttacker : MonoBehaviour
         return attack != null;
     }
 
-    private void SetAttack()
+    private void ReloadAllAttack()
     {
-        if (TryGetNewAttack(out AttackData newAttack))
-        {
-            _currentAttack = newAttack;
-            _mover.SetAttackRange(_currentAttack.AttackRange);
-        }
+        foreach (var attack in _attacksData)
+            StartCoroutine(Reload(attack.Cooldown, attack));
+
+        _attacksData.Clear();
+    }
+
+    private IEnumerator Reload(float cooldown, AttackData attack)
+    {
+        _currentAttack = null;
+
+        yield return new WaitForSeconds(cooldown);
+
+        _attacksData.Add(attack);
     }
 }

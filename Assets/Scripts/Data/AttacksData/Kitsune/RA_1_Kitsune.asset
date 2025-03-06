@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _nameInAnimator: Attack_2
   _cooldown: 8
-  _attackRange: 8
+  _attackRange: 4
   _damage: 3
   _countProjectiles: 8
   _projectile: {fileID: 11400000, guid: 10c009afba0caa44584417e07d30d5ac, type: 2}

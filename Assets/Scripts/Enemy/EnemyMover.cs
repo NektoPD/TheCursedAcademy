@@ -5,6 +5,9 @@ using Zenject;
 [RequireComponent(typeof(EnemyAnimator))]
 public class EnemyMover : MonoBehaviour
 {
+    [SerializeField] private float _offsetDownY = 0.2f;
+    [SerializeField] private float _offsetUpY = 0.2f;
+
     private readonly int _rotationAngle = 180;
 
     private Transform _target;
@@ -14,7 +17,6 @@ public class EnemyMover : MonoBehaviour
     private EnemyAnimator _enemyView;
 
     private bool _canMove = true;
-    private float _offsetY = 0.7f;
 
     public event Action<Transform> TargetInRange;
 
@@ -40,9 +42,7 @@ public class EnemyMover : MonoBehaviour
 
         SetRotation(_target);
 
-        Vector3 position = GetCurrentPosition();
-
-        if (Vector2.Distance(position, _target.transform.position) > _attackRange)
+        if (Vector2.Distance(GetCurrentPosition(), _target.transform.position) > _attackRange)
         {
             _transform.position = Vector2.MoveTowards(_transform.position, _target.position, _speed * Time.fixedDeltaTime);
             _enemyView.SetSpeed(_speed);
@@ -78,10 +78,11 @@ public class EnemyMover : MonoBehaviour
     {
         Vector3 position = Vector3.zero;
 
-        if (_target.position.y > _transform.position.y) 
-            position = new Vector3(_transform.position.x, _transform.position.y - _offsetY, _transform.position.z);
+        if (_target.position.y > _transform.position.y)
+            position = new Vector3(_transform.position.x, _transform.position.y - _offsetDownY, _transform.position.z);
         else
-            position = new Vector3(_transform.position.x, _transform.position.y + _offsetY, _transform.position.z);
+            position = new Vector3(_transform.position.x, _transform.position.y - _offsetUpY, _transform.position.z);
+
 
         return position;
     }
