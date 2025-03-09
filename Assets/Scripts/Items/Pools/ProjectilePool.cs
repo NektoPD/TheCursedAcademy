@@ -1,14 +1,15 @@
 using System.Collections.Generic;
+using Items.ItemVariations;
 using UnityEngine;
 
 namespace Items.Pools
 {
     public class ProjectilePool : MonoBehaviour
     {
-        private Queue<GameObject> _objectPool = new Queue<GameObject>();
-        private GameObject _prefab;
+        private Queue<Projectile> _objectPool = new();
+        private Projectile _prefab;
 
-        public void Initialize(GameObject prefab, int initialSize)
+        public void Initialize(Projectile prefab, int initialSize)
         {
             _prefab = prefab;
 
@@ -18,18 +19,18 @@ namespace Items.Pools
             }
         }
 
-        private GameObject CreateNewPoolObject()
+        private Projectile CreateNewPoolObject()
         {
-            GameObject newObject = Instantiate(_prefab);
+            Projectile newObject = Instantiate(_prefab);
             newObject.transform.SetParent(transform);
-            newObject.SetActive(false);
+            newObject.gameObject.SetActive(false);
             _objectPool.Enqueue(newObject);
             return newObject;
         }
 
-        public GameObject GetFromPool(Vector3 position, Quaternion rotation)
+        public Projectile GetFromPool(Vector3 position, Quaternion rotation)
         {
-            GameObject objectToUse;
+            Projectile objectToUse;
 
             if (_objectPool.Count == 0)
             {
@@ -42,20 +43,20 @@ namespace Items.Pools
 
             objectToUse.transform.position = position;
             objectToUse.transform.rotation = rotation;
-            objectToUse.SetActive(true);
+            objectToUse.gameObject.SetActive(true);
 
             return objectToUse;
         }
 
-        public void ReturnToPool(GameObject objectToReturn)
+        public void ReturnToPool(Projectile objectToReturn)
         {
-            objectToReturn.SetActive(false);
+            objectToReturn.gameObject.SetActive(false);
             _objectPool.Enqueue(objectToReturn);
         }
 
         private void OnDestroy()
         {
-            foreach (GameObject obj in _objectPool)
+            foreach (Projectile obj in _objectPool)
             {
                 if (obj != null)
                 {
