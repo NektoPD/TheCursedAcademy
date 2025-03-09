@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using CharacterLogic.Data;
 using CharacterLogic.InputHandler;
 using InventorySystem;
 using Items;
@@ -93,7 +94,7 @@ namespace CharacterLogic
             _attackCooldown = characterData.AttackRegenerationSpeed -
                               GetPerkBonus(perkBonuses, PerkType.AttackCooldown);
             _moveSpeed = characterData.MoveSpeed + GetPerkBonus(perkBonuses, PerkType.Speed);
-            _startItem = characterData.StartItem;
+            _startItem = Instantiate(characterData.StartItem, transform);
         }
 
         private void HandleMovementAnimations()
@@ -110,6 +111,7 @@ namespace CharacterLogic
         {
             _movementHandler.EnableMovement();
             _movementHandler.SetSpeed(_moveSpeed);
+           // _attacker.EnableAttack();
         }
 
         private void UpdateHealthView(float currentHealth)

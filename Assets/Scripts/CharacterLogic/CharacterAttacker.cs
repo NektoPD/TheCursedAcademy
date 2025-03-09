@@ -55,11 +55,13 @@ namespace CharacterLogic
         {
             _isAttacking = true;
 
+            WaitForSeconds interval = new WaitForSeconds(_attackRegenerationSpeed);
+
             while (enabled && _inventory != null)
             {
                 AttackWithAllItems();
 
-                yield return new WaitForSeconds(_attackRegenerationSpeed);
+                yield return interval;
             }
 
             _isAttacking = false;

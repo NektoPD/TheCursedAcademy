@@ -32,12 +32,11 @@ namespace InventorySystem
 
         private void EnableItemSlot(Item item)
         {
-            InventoryUISlot slotToEnable = _uiSlots.FirstOrDefault(slot => !slot.isActiveAndEnabled);
 
-            if (slotToEnable == null)
-                return;
+            InventoryUISlot slotToEnable = _uiSlots.FirstOrDefault(slot => !slot.IsActive);
 
-            slotToEnable.gameObject.SetActive(true);
+            //if (slotToEnable == null) return;
+            slotToEnable.Enable();
             slotToEnable.SetItemSprite(item.Data.ItemIcon);
         }
 
@@ -45,7 +44,7 @@ namespace InventorySystem
         {
             foreach (InventoryUISlot inventoryUISlot in _uiSlots)
             {
-                inventoryUISlot.gameObject.SetActive(false);
+                inventoryUISlot.Disable();
             }
         }
     }

@@ -7,6 +7,20 @@ namespace InventorySystem
     {
         [SerializeField] private Image _slotImageHolder;
 
+        public bool IsActive { get; private set; }
+
+        public void Enable()
+        {
+            IsActive = true;
+            gameObject.SetActive(IsActive);
+        }
+
+        public void Disable()
+        {
+            IsActive = false;
+            gameObject.SetActive(IsActive);
+        }
+
         public void SetItemSprite(Sprite sprite)
         {
             _slotImageHolder.enabled = true;

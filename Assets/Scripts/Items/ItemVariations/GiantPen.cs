@@ -20,11 +20,7 @@ namespace Items.ItemVariations
 
         private void Awake()
         {
-            _projectilePool = gameObject.AddComponent<ProjectilePool>();
-        }
-
-        private void Start()
-        {
+            _projectilePool = GetComponent<ProjectilePool>();
             _projectilePool.Initialize(_projectilePrefab, _initialPoolSize);
         }
 

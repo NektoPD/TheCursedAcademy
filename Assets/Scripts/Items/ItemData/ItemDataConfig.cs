@@ -2,6 +2,7 @@ using UnityEngine;
 
 namespace Items.ItemData
 {
+    [CreateAssetMenu(fileName = "New Item Config", menuName = "Items/Create new item")]
     public class ItemDataConfig : ScriptableObject
     {
         public string ItemName;

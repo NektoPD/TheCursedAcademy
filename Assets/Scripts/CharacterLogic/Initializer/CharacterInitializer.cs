@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using CharacterLogic.Data;
 using CharacterLogic.Spawner;
 using PlayerPerksController;
 using UnityEngine;
@@ -24,7 +25,7 @@ namespace CharacterLogic.Initializer
 
         private void Start()
         {
-            CreateCharacter(CharacterData.CharacterType.Girl3);
+            CreateCharacter(CharacterData.CharacterType.Girl1);
         }
 
         public void CreateCharacter(CharacterData.CharacterType type)

@@ -1,8 +1,7 @@
-using Items;
 using Items.BaseClass;
 using UnityEngine;
 
-namespace CharacterLogic
+namespace CharacterLogic.Data
 {
     [CreateAssetMenu(fileName = "New Character", menuName = "Character/Create new character")]
     public class CharacterData : ScriptableObject
