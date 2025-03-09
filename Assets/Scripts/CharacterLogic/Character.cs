@@ -1,6 +1,9 @@
 using System;
 using System.Collections.Generic;
 using CharacterLogic.InputHandler;
+using InventorySystem;
+using Items;
+using Items.BaseClass;
 using UnityEngine;
 
 namespace CharacterLogic
@@ -10,8 +13,11 @@ namespace CharacterLogic
     [RequireComponent(typeof(CharacterCollisionHandler))]
     [RequireComponent(typeof(CharacterSpriteHolder))]
     [RequireComponent(typeof(CharacterView))]
+    [RequireComponent(typeof(CharacterAttacker))]
     public class Character : MonoBehaviour
     {
+        [SerializeField] private CharacterInventoryUI _inventoryUI;
+
         private CharacterData _characterData;
         private CharacterAnimationController _animationController;
         private CharacterMovementHandler _movementHandler;
@@ -19,6 +25,8 @@ namespace CharacterLogic
         private CharacterSpriteHolder _spriteHolder;
         private CharacterCollisionHandler _collisionHandler;
         private CharacterView _view;
+        private CharacterAttacker _attacker;
+        private CharacterInventory _inventory;
 
         private float _attackPower;
         private float _armor;
@@ -26,6 +34,20 @@ namespace CharacterLogic
         private float _hpRegenerationSpeed;
         private float _attackCooldown;
         private float _moveSpeed;
+        private Item _startItem;
+
+        public void Construct(CharacterData characterData, Dictionary<PerkType, float> perkBonuses)
+        {
+            InitializeCharacterData(characterData, perkBonuses);
+            InitializeCharacterComponents();
+            ActivateCharacter();
+
+            _animationController.SetAnimatorOverride(characterData.AnimatorController);
+
+            _movementHandler.MovingLeft += OnMovingLeft;
+            _movementHandler.MovingRight += OnMovingRight;
+            _health.Changed += UpdateHealthView;
+        }
 
         private void Awake()
         {
@@ -33,6 +55,7 @@ namespace CharacterLogic
             _movementHandler = GetComponent<CharacterMovementHandler>();
             _spriteHolder = GetComponent<CharacterSpriteHolder>();
             _view = GetComponent<CharacterView>();
+            _attacker = GetComponent<CharacterAttacker>();
         }
 
         private void OnDisable()
@@ -47,7 +70,20 @@ namespace CharacterLogic
             HandleMovementAnimations();
         }
 
-        public void Construct(CharacterData characterData, Dictionary<PerkType, float> perkBonuses)
+        private void InitializeCharacterComponents()
+        {
+            _health = new Health(_hp);
+            UpdateHealthView(_hp);
+
+            _inventory = new CharacterInventory();
+
+            _attacker.Initialize(_inventory, _attackCooldown);
+            _inventoryUI.Initialize(_inventory);
+
+            _inventory.AddItem(_startItem);
+        }
+
+        private void InitializeCharacterData(CharacterData characterData, Dictionary<PerkType, float> perkBonuses)
         {
             _attackPower = characterData.AttackPower + GetPerkBonus(perkBonuses, PerkType.Power);
             _armor = characterData.Armor + GetPerkBonus(perkBonuses, PerkType.Armor);
@@ -57,16 +93,7 @@ namespace CharacterLogic
             _attackCooldown = characterData.AttackRegenerationSpeed -
                               GetPerkBonus(perkBonuses, PerkType.AttackCooldown);
             _moveSpeed = characterData.MoveSpeed + GetPerkBonus(perkBonuses, PerkType.Speed);
-
-            _health = new Health(_hp);
-            UpdateHealthView(_hp);
-            ActivateCharacter();
-
-            _animationController.SetAnimatorOverride(characterData.AnimatorController);
-
-            _movementHandler.MovingLeft += OnMovingLeft;
-            _movementHandler.MovingRight += OnMovingRight;
-            _health.Changed += UpdateHealthView;
+            _startItem = characterData.StartItem;
         }
 
         private void HandleMovementAnimations()

@@ -1,3 +1,5 @@
+using Items;
+using Items.BaseClass;
 using UnityEngine;
 
 namespace CharacterLogic
@@ -20,5 +22,6 @@ namespace CharacterLogic
         [field: SerializeField] public float MoveSpeed { get; private set; }
         [field: SerializeField] public CharacterType Type { get; private set; }
         [field: SerializeField] public AnimatorOverrideController AnimatorController { get; private set; }
+        [field: SerializeField] public Item StartItem { get; private set; }
     }
 }

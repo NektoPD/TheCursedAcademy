@@ -1,15 +1,16 @@
 using System.Collections;
 using Items.Interfaces;
-using UnityEngine;
 using Items.ItemData;
+using UnityEngine;
 
-namespace Items
+namespace Items.BaseClass
 {
     public abstract class Item : MonoBehaviour, IAttackable
     {
-        [SerializeField] private ItemDataConfig _data;
+        [field: SerializeField] public ItemDataConfig Data { get; private set; }
 
         private bool _canAttack = true;
+        private IEnumerator _attackCoroutine;
 
         public void Attack()
         {
@@ -17,13 +18,15 @@ namespace Items
             PerformAttack();
             StartCoroutine(AttackCooldown());
         }
-
+        
         protected abstract void PerformAttack();
+
+        protected abstract void LevelUp();
 
         private IEnumerator AttackCooldown()
         {
             _canAttack = false;
-            yield return new WaitForSeconds(_data.Cooldown);
+            yield return new WaitForSeconds(Data.Cooldown);
             _canAttack = true;
         }
     }
