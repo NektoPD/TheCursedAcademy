@@ -6,16 +6,12 @@
   <component name="ChangeListManager">
     <list default="true" id="2352e6f7-7a00-4256-b434-98f90d0b0896" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.TheCursedAcademy/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TheCursedAcademy/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/PlayableCharacters/CharacterConfigs/Girl1.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/PlayableCharacters/CharacterConfigs/Girl1.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/PlayableCharacters/Prefabs/CharacterPrefab.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/PlayableCharacters/Prefabs/CharacterPrefab.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Items/Prefabs/PenItem.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Items/Prefabs/PenItem.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Projectiles/Items/Prefabs/PenProjectile.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Projectiles/Items/Prefabs/PenProjectile.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/BootScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/BootScene.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/CharacterLogic/Character.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CharacterLogic/Character.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CharacterLogic/CharacterAttacker.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CharacterLogic/CharacterAttacker.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CharacterLogic/Data/CharacterData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CharacterLogic/Data/CharacterData.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CharacterLogic/Initializer/CharacterInitializer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CharacterLogic/Initializer/CharacterInitializer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CharacterLogic/CharacterCollisionHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CharacterLogic/CharacterCollisionHandler.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/InventorySystem/CharacterInventoryUI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/InventorySystem/CharacterInventoryUI.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/InventorySystem/InventoryUISlot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/InventorySystem/InventoryUISlot.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/ItemData/ItemDataConfig.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Items/ItemData/ItemDataConfig.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/GiantPen.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/GiantPen.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -121,7 +117,8 @@
       <workItem from="1740983763840" duration="4235000" />
       <workItem from="1741016884450" duration="2555000" />
       <workItem from="1741067786255" duration="5256000" />
-      <workItem from="1741512325985" duration="15654000" />
+      <workItem from="1741512325985" duration="16820000" />
+      <workItem from="1741583384884" duration="7703000" />
     </task>
     <servers />
   </component>

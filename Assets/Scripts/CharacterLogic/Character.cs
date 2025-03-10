@@ -79,6 +79,7 @@ namespace CharacterLogic
             _inventory = new CharacterInventory();
 
             _attacker.Initialize(_inventory, _attackCooldown);
+            _inventoryUI.DisableAllSlots();
             _inventoryUI.Initialize(_inventory);
 
             _inventory.AddItem(_startItem);
@@ -95,6 +96,7 @@ namespace CharacterLogic
                               GetPerkBonus(perkBonuses, PerkType.AttackCooldown);
             _moveSpeed = characterData.MoveSpeed + GetPerkBonus(perkBonuses, PerkType.Speed);
             _startItem = Instantiate(characterData.StartItem, transform);
+            _startItem.transform.position = transform.position;
         }
 
         private void HandleMovementAnimations()
@@ -111,7 +113,7 @@ namespace CharacterLogic
         {
             _movementHandler.EnableMovement();
             _movementHandler.SetSpeed(_moveSpeed);
-           // _attacker.EnableAttack();
+            _attacker.EnableAttack();
         }
 
         private void UpdateHealthView(float currentHealth)

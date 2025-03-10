@@ -19,10 +19,6 @@ namespace InventorySystem
             _inventory.ItemAdded += EnableItemSlot;
         }
 
-        private void Start()
-        {
-            DisableAllSlots();
-        }
 
         private void OnDisable()
         {
@@ -30,22 +26,20 @@ namespace InventorySystem
                 _inventory.ItemAdded -= EnableItemSlot;
         }
 
-        private void EnableItemSlot(Item item)
-        {
-
-            InventoryUISlot slotToEnable = _uiSlots.FirstOrDefault(slot => !slot.IsActive);
-
-            //if (slotToEnable == null) return;
-            slotToEnable.Enable();
-            slotToEnable.SetItemSprite(item.Data.ItemIcon);
-        }
-
-        private void DisableAllSlots()
+        public void DisableAllSlots()
         {
             foreach (InventoryUISlot inventoryUISlot in _uiSlots)
             {
                 inventoryUISlot.Disable();
             }
+        }
+
+        private void EnableItemSlot(Item item)
+        {
+            InventoryUISlot slotToEnable = _uiSlots.FirstOrDefault(slot => !slot.IsActive);
+
+            slotToEnable.Enable();
+            slotToEnable.SetItemSprite(item.Data.ItemIcon);
         }
     }
 }

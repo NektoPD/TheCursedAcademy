@@ -5,12 +5,13 @@ using UnityEngine;
 
 namespace Items.ItemVariations
 {
+    [RequireComponent(typeof(ProjectilePool))]
     public class GiantPen : Item
     {
         [SerializeField] private Projectile _projectilePrefab;
         [SerializeField] private float _projectileSpeed = 10f;
         [SerializeField] private float _projectileLifetime = 2f;
-        [SerializeField] private float _attackWidth = 3f;
+        [SerializeField] private float _attackWidth = 1.5f;
         [SerializeField] private int _initialPoolSize = 3;
 
         private int _level = 1;
@@ -28,13 +29,14 @@ namespace Items.ItemVariations
         {
             Projectile projectile = _projectilePool.GetFromPool(transform.position, Quaternion.identity);
 
-            projectile.transform.localScale = new Vector3(_attackWidth * _widthMultiplier, 1f, 1f);
+            projectile.transform.position = new Vector2(transform.position.x + _attackWidth, transform.position.y);
+            projectile.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
 
             projectile.Initialize(Data.Damage * _damageMultiplier, this);
 
             projectile.ClearHitEnemies();
 
-            StartCoroutine(MoveProjectile(projectile, transform.right, _projectileSpeed, _projectileLifetime));
+            StartCoroutine(EnableProjectile(projectile, _projectileLifetime));
         }
 
         protected override void LevelUp()
@@ -54,14 +56,16 @@ namespace Items.ItemVariations
             }
         }
 
-        private IEnumerator MoveProjectile(Projectile projectile, Vector3 direction, float speed, float lifetime)
+        private IEnumerator EnableProjectile(Projectile projectile, float lifetime)
         {
             float timer = 0f;
 
+            projectile.gameObject.SetActive(true);
+
             while (timer < lifetime && projectile && projectile.gameObject.activeSelf)
             {
-                projectile.transform.position += direction * (speed * Time.deltaTime);
                 timer += Time.deltaTime;
+
                 yield return null;
             }
 
