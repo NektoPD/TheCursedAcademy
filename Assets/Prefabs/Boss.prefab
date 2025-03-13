@@ -560,6 +560,7 @@ GameObject:
   - component: {fileID: 7126353105559091639}
   - component: {fileID: 5431957914877251030}
   - component: {fileID: 6732354330445382349}
+  - component: {fileID: 4351808916286898813}
   m_Layer: 8
   m_Name: Boss
   m_TagString: Untagged
@@ -623,9 +624,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: 416681535
+  m_SortingLayer: -1
+  m_SortingOrder: 2
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -636,7 +637,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
-  m_SpriteSortPoint: 1
+  m_SpriteSortPoint: 0
 --- !u!95 &3819176153829004169
 Animator:
   serializedVersion: 5
@@ -833,6 +834,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _healthPanelPrefab: {fileID: -8729268207297169632, guid: 4395bdf0b9fd199448852d1ddfa8afbe, type: 3}
+--- !u!114 &4351808916286898813
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8312350747381259285}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5516867c91f3be40a9afbd526862f82, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &9098398211362268403
 GameObject:
   m_ObjectHideFlags: 0
