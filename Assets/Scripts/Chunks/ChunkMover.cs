@@ -7,6 +7,7 @@ public class ChunkMover : MonoBehaviour
     [SerializeField] private CameraTracker _tracker;
 
     private int _countChunkInRow = 3;
+    private float _sizeModificator = 2f;
 
     private void OnEnable()
     {
@@ -25,11 +26,11 @@ public class ChunkMover : MonoBehaviour
         Vector3 chunkPosition = transform.position;
         Vector3 delta = cameraPosition - chunkPosition;
 
-        float cameraHeight = 2f * mainCamera.orthographicSize;
+        float cameraHeight = _sizeModificator * mainCamera.orthographicSize;
         float cameraWidth = cameraHeight * mainCamera.aspect;
 
-        UpdateAxis(ref chunkPosition.x, delta.x, cameraWidth / 2);
-        UpdateAxis(ref chunkPosition.y, delta.y, cameraHeight / 2);
+        UpdateAxis(ref chunkPosition.x, delta.x, cameraWidth / _sizeModificator);
+        UpdateAxis(ref chunkPosition.y, delta.y, cameraHeight / _sizeModificator);
 
         transform.position = chunkPosition;
     }

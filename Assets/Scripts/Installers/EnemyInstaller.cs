@@ -13,7 +13,7 @@ public class EnemyInstaller : MonoInstaller
 
         Container.BindInstance(_target).WhenInjectedInto<RangeAttacker>();
         Container.BindInstance(_target).WhenInjectedInto<EnemyMover>();
-        Container.BindInstance(_target).WhenInjectedInto<LayerOrderController>();
+        Container.BindInstance(_target).WhenInjectedInto<EnemyLayerOrder>();
         Container.BindInstance(_healthBarsContainer).WhenInjectedInto<BossHealthBar>();
     }
 }

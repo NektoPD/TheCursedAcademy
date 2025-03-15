@@ -373,7 +373,7 @@ GameObject:
   - component: {fileID: 7126353105559091639}
   - component: {fileID: 5431957914877251030}
   - component: {fileID: 867872654025293215}
-  - component: {fileID: -1220433535122181540}
+  - component: {fileID: 7938635333148335125}
   m_Layer: 8
   m_Name: MiniBoss
   m_TagString: Untagged
@@ -438,8 +438,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 416681535
-  m_SortingLayer: -1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
   m_SortingOrder: 2
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -639,7 +639,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _hpBar: {fileID: 6168018297189079011}
---- !u!114 &-1220433535122181540
+--- !u!114 &7938635333148335125
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -648,7 +648,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8312350747381259285}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e5516867c91f3be40a9afbd526862f82, type: 3}
+  m_Script: {fileID: 11500000, guid: d036355cbfdf7a9419f6ffb3ea6bd9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &190447938358998158
