@@ -1,4 +1,5 @@
 using System.Collections;
+using CharacterLogic.InputHandler;
 using Items.BaseClass;
 using Items.Pools;
 using UnityEngine;
@@ -9,7 +10,6 @@ namespace Items.ItemVariations
     public class GiantPen : Item
     {
         [SerializeField] private Projectile _projectilePrefab;
-        [SerializeField] private float _projectileSpeed = 10f;
         [SerializeField] private float _projectileLifetime = 2f;
         [SerializeField] private float _attackWidth = 1.5f;
         [SerializeField] private int _initialPoolSize = 3;
@@ -29,8 +29,13 @@ namespace Items.ItemVariations
         {
             Projectile projectile = _projectilePool.GetFromPool(transform.position, Quaternion.identity);
 
-            projectile.transform.position = new Vector2(transform.position.x + _attackWidth, transform.position.y);
-            projectile.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
+            float facingDirection = MovementHandler && MovementHandler.IsMovingLeft() ? -1f : 1f;
+            
+            projectile.transform.position = new Vector2(
+                transform.position.x + (_attackWidth * _widthMultiplier * facingDirection), 
+                transform.position.y);
+                
+            projectile.transform.localScale = new Vector3(1.5f * facingDirection, 1.5f, 1.5f);
 
             projectile.Initialize(Data.Damage * _damageMultiplier, this);
 

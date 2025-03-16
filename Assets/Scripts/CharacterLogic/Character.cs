@@ -96,6 +96,7 @@ namespace CharacterLogic
                               GetPerkBonus(perkBonuses, PerkType.AttackCooldown);
             _moveSpeed = characterData.MoveSpeed + GetPerkBonus(perkBonuses, PerkType.Speed);
             _startItem = Instantiate(characterData.StartItem, transform);
+            _startItem.Initialize(_movementHandler);
             _startItem.transform.position = transform.position;
         }
 
