@@ -3,11 +3,7 @@ guid: e46cac61e2e0ffd4eacf4576c5d901ff
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
-<<<<<<< HEAD
   serializedVersion: 12
-=======
-  serializedVersion: 10
->>>>>>> Item/Inventory
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -24,18 +20,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
-<<<<<<< HEAD
     flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
   ignoreMipmapLimit: 0
-=======
-  isReadable: 0
-  streamingMipmaps: 0
-  streamingMipmapsPriority: 0
->>>>>>> Item/Inventory
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -45,19 +35,11 @@ TextureImporter:
   textureSettings:
     serializedVersion: 2
     filterMode: 0
-<<<<<<< HEAD
     aniso: 1
     mipBias: 0
     wrapU: 0
     wrapV: 0
     wrapW: 0
-=======
-    aniso: -1
-    mipBias: -100
-    wrapU: 1
-    wrapV: 1
-    wrapW: 1
->>>>>>> Item/Inventory
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
@@ -67,11 +49,7 @@ TextureImporter:
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 50
-<<<<<<< HEAD
   spriteBorder: {x: 3, y: 3, z: 3, w: 2}
-=======
-  spriteBorder: {x: 26, y: 3, z: 26, w: 3}
->>>>>>> Item/Inventory
   spriteGenerateFallbackPhysicsShape: 0
   alphaUsage: 1
   alphaIsTransparency: 1
@@ -79,7 +57,6 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
-<<<<<<< HEAD
   flipbookRows: 1
   flipbookColumns: 1
   maxTextureSizeSet: 0
@@ -89,11 +66,6 @@ TextureImporter:
   applyGammaDecoding: 1
   swizzle: 50462976
   cookieLightType: 1
-=======
-  maxTextureSizeSet: 0
-  compressionQualitySet: 0
-  textureFormatSet: 0
->>>>>>> Item/Inventory
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -105,10 +77,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
-<<<<<<< HEAD
     ignorePlatformSupport: 0
-=======
->>>>>>> Item/Inventory
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -121,10 +90,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
-<<<<<<< HEAD
     ignorePlatformSupport: 0
-=======
->>>>>>> Item/Inventory
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -137,10 +103,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
-<<<<<<< HEAD
     ignorePlatformSupport: 0
-=======
->>>>>>> Item/Inventory
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -153,7 +116,6 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
-<<<<<<< HEAD
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
@@ -194,8 +156,6 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     ignorePlatformSupport: 0
-=======
->>>>>>> Item/Inventory
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
@@ -205,25 +165,15 @@ TextureImporter:
     physicsShape: []
     bones: []
     spriteID: 5e97eb03825dee720800000000000000
-<<<<<<< HEAD
     internalID: 1537655665
-=======
-    internalID: 0
->>>>>>> Item/Inventory
     vertices: []
     indices: 
     edges: []
     weights: []
     secondaryTextures: []
-<<<<<<< HEAD
     nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-=======
-  spritePackingTag: 
-  pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
->>>>>>> Item/Inventory
   userData: 
   assetBundleName: 
   assetBundleVariant: 
