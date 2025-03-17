@@ -17,6 +17,8 @@ namespace CharacterLogic.Initializer
 
         private PerkController _perkController;
 
+        public Transform PlayerTransform { get; private set; }
+
         [Inject]
         private void Construct(PerkController perkController)
         {
@@ -34,13 +36,13 @@ namespace CharacterLogic.Initializer
 
             if (chosenData == null)
                 throw new NullReferenceException(nameof(chosenData));
-            
+
             Dictionary<PerkType, float> finalPerkBonuses = _perkController.GetFinalPerkValues();
-            
+
             Character characterToSpawn = Instantiate(_characterPrefab);
             characterToSpawn.Construct(chosenData, finalPerkBonuses);
             _characterSpawner.Spawn(characterToSpawn);
+            PlayerTransform = characterToSpawn.transform;
         }
-        
     }
 }

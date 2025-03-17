@@ -53,12 +53,7 @@ namespace CharacterLogic.InputHandler
         private void Move()
         {
             if (_moveDirection.sqrMagnitude < 0.1f)
-            {
-                Debug.Log("not moving");
                 return;
-            }
-
-            Debug.Log("moving");
 
             float scaledSpeed = _moveSpeed * Time.deltaTime;
             Vector2 offset = new Vector2(_moveDirection.x, _moveDirection.y) * scaledSpeed;
