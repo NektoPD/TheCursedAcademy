@@ -299,8 +299,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _characterPrefab: {fileID: 3662220516798141517, guid: dc973cd3dde651e4185fb290446a0993, type: 3}
   _characterDatas:
-  - {fileID: 11400000, guid: d674986b73a8b4246b92422e9b8d0ea1, type: 2}
-  - {fileID: 11400000, guid: 5ae325e69db2ec545b30e649e1866553, type: 2}
+  - {fileID: 11400000, guid: 523d941acc4762c47ba15b5b18cb3c62, type: 2}
+  - {fileID: 11400000, guid: 8c348f29f66bb8b459a0672ac0b895cd, type: 2}
   - {fileID: 11400000, guid: 2ad6b65242e84e54b9a9f6e5aa246fd9, type: 2}
   _characterSpawner: {fileID: 50242817}
 --- !u!4 &475003802
