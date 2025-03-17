@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Items.ItemVariations
 {
-    public class Projectile : MonoBehaviour
+    public class ItemProjectile : MonoBehaviour
     {
         private float _damage;
         private Item _owner;

@@ -4,12 +4,12 @@ using UnityEngine;
 
 namespace Items.Pools
 {
-    public class ProjectilePool : MonoBehaviour
+    public class ItemProjectilePool : MonoBehaviour
     {
-        private Queue<Projectile> _objectPool = new();
-        private Projectile _prefab;
+        private Queue<ItemProjectile> _objectPool = new();
+        private ItemProjectile _prefab;
 
-        public void Initialize(Projectile prefab, int initialSize)
+        public void Initialize(ItemProjectile prefab, int initialSize)
         {
             _prefab = prefab;
 
@@ -19,18 +19,18 @@ namespace Items.Pools
             }
         }
 
-        private Projectile CreateNewPoolObject()
+        private ItemProjectile CreateNewPoolObject()
         {
-            Projectile newObject = Instantiate(_prefab);
+            ItemProjectile newObject = Instantiate(_prefab);
             newObject.transform.SetParent(transform);
             newObject.gameObject.SetActive(false);
             _objectPool.Enqueue(newObject);
             return newObject;
         }
 
-        public Projectile GetFromPool(Vector3 position, Quaternion rotation)
+        public ItemProjectile GetFromPool(Vector3 position, Quaternion rotation)
         {
-            Projectile objectToUse;
+            ItemProjectile objectToUse;
 
             if (_objectPool.Count == 0)
             {
@@ -48,7 +48,7 @@ namespace Items.Pools
             return objectToUse;
         }
 
-        public void ReturnToPool(Projectile objectToReturn)
+        public void ReturnToPool(ItemProjectile objectToReturn)
         {
             objectToReturn.gameObject.SetActive(false);
             _objectPool.Enqueue(objectToReturn);
@@ -56,7 +56,7 @@ namespace Items.Pools
 
         private void OnDestroy()
         {
-            foreach (Projectile obj in _objectPool)
+            foreach (ItemProjectile obj in _objectPool)
             {
                 if (obj != null)
                 {

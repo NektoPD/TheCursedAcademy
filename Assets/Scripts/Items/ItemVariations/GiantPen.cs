@@ -6,10 +6,10 @@ using UnityEngine;
 
 namespace Items.ItemVariations
 {
-    [RequireComponent(typeof(ProjectilePool))]
+    [RequireComponent(typeof(ItemProjectilePool))]
     public class GiantPen : Item
     {
-        [SerializeField] private Projectile _projectilePrefab;
+        [SerializeField] private ItemProjectile _itemProjectilePrefab;
         [SerializeField] private float _projectileLifetime = 2f;
         [SerializeField] private float _attackWidth = 1.5f;
         [SerializeField] private int _initialPoolSize = 3;
@@ -17,31 +17,31 @@ namespace Items.ItemVariations
         private int _level = 1;
         private float _damageMultiplier = 1f;
         private float _widthMultiplier = 1f;
-        private ProjectilePool _projectilePool;
+        private ItemProjectilePool _projectilePool;
 
         private void Awake()
         {
-            _projectilePool = GetComponent<ProjectilePool>();
-            _projectilePool.Initialize(_projectilePrefab, _initialPoolSize);
+            _projectilePool = GetComponent<ItemProjectilePool>();
+            _projectilePool.Initialize(_itemProjectilePrefab, _initialPoolSize);
         }
 
         protected override void PerformAttack()
         {
-            Projectile projectile = _projectilePool.GetFromPool(transform.position, Quaternion.identity);
+            ItemProjectile itemProjectile = _projectilePool.GetFromPool(transform.position, Quaternion.identity);
 
             float facingDirection = MovementHandler && MovementHandler.IsMovingLeft() ? -1f : 1f;
-            
-            projectile.transform.position = new Vector2(
-                transform.position.x + (_attackWidth * _widthMultiplier * facingDirection), 
+
+            itemProjectile.transform.position = new Vector2(
+                transform.position.x + (_attackWidth * _widthMultiplier * facingDirection),
                 transform.position.y);
-                
-            projectile.transform.localScale = new Vector3(1.5f * facingDirection, 1.5f, 1.5f);
 
-            projectile.Initialize(Data.Damage * _damageMultiplier, this);
+            itemProjectile.transform.localScale = new Vector3(1.5f * facingDirection, 1.5f, 1.5f);
 
-            projectile.ClearHitEnemies();
+            itemProjectile.Initialize(Data.Damage * _damageMultiplier, this);
 
-            StartCoroutine(EnableProjectile(projectile, _projectileLifetime));
+            itemProjectile.ClearHitEnemies();
+
+            StartCoroutine(EnableProjectile(itemProjectile, _projectileLifetime));
         }
 
         protected override void LevelUp()
@@ -61,22 +61,22 @@ namespace Items.ItemVariations
             }
         }
 
-        private IEnumerator EnableProjectile(Projectile projectile, float lifetime)
+        private IEnumerator EnableProjectile(ItemProjectile itemProjectile, float lifetime)
         {
             float timer = 0f;
 
-            projectile.gameObject.SetActive(true);
+            itemProjectile.gameObject.SetActive(true);
 
-            while (timer < lifetime && projectile && projectile.gameObject.activeSelf)
+            while (timer < lifetime && itemProjectile && itemProjectile.gameObject.activeSelf)
             {
                 timer += Time.deltaTime;
 
                 yield return null;
             }
 
-            if (projectile && projectile.gameObject.activeSelf)
+            if (itemProjectile && itemProjectile.gameObject.activeSelf)
             {
-                _projectilePool.ReturnToPool(projectile);
+                _projectilePool.ReturnToPool(itemProjectile);
             }
         }
     }
