@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.UI;
 
 [RequireComponent(typeof(Animator))]
 public class EnemyAnimator : MonoBehaviour
@@ -24,7 +23,11 @@ public class EnemyAnimator : MonoBehaviour
 
     public void SetTriggerByName(string name) => _animator.SetTrigger(name);
 
-    public void SetDeadTrigger() => SetTriggerByName(Dead);
-
     public void SetHurtTigger() => SetTriggerByName(Hurt);
+
+    public void SetDeadTrigger()
+    {
+        _animator.Rebind();
+        SetTriggerByName(Dead);
+    }
 }

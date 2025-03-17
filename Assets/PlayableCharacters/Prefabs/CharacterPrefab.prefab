@@ -96,6 +96,7 @@ GameObject:
   - component: {fileID: 3751574626371838270}
   - component: {fileID: 538164127324890906}
   - component: {fileID: -5726939030169367250}
+  - component: {fileID: -2948181425400868781}
   m_Layer: 0
   m_Name: CharacterPrefab
   m_TagString: Untagged
@@ -366,6 +367,20 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &-2948181425400868781
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2266297205189598214}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1467a4e7800050c4eae6e77f67f5311b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _upOrder: -1
+  _downOrder: 2
 --- !u!1 &3136008456714312601
 GameObject:
   m_ObjectHideFlags: 0
@@ -671,7 +686,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 0
 --- !u!61 &6950611944523444780
 BoxCollider2D:
@@ -799,7 +814,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 0
-  m_Spacing: 11.25
+  m_Spacing: 5.9270835
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
@@ -1041,7 +1056,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 0
-  m_Spacing: 11.25
+  m_Spacing: 5.9270835
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0

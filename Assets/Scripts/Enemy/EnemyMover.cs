@@ -1,3 +1,4 @@
+using CharacterLogic.Initializer;
 using System;
 using UnityEngine;
 using Zenject;
@@ -10,7 +11,7 @@ public class EnemyMover : MonoBehaviour
 
     private readonly int _rotationAngle = 180;
 
-    private Transform _target;
+    private CharacterInitializer _initializer;
     private Transform _transform;
     private float _speed;
     private float _attackRange;
@@ -21,9 +22,9 @@ public class EnemyMover : MonoBehaviour
     public event Action<Transform> TargetInRange;
 
     [Inject]
-    public void Construct(Transform target)
+    public void Construct(CharacterInitializer initializer)
     {
-        _target = target;
+        _initializer = initializer;
     }
 
     private void Awake()
@@ -40,16 +41,16 @@ public class EnemyMover : MonoBehaviour
             return;
         }
 
-        SetRotation(_target);
+        SetRotation(_initializer.PlayerTransform);
 
-        if (Vector2.Distance(GetCurrentPosition(), _target.transform.position) > _attackRange)
+        if (Vector2.Distance(GetCurrentPosition(), _initializer.PlayerTransform.position) > _attackRange)
         {
-            _transform.position = Vector2.MoveTowards(_transform.position, _target.position, _speed * Time.fixedDeltaTime);
+            _transform.position = Vector2.MoveTowards(_transform.position, _initializer.PlayerTransform.position, _speed * Time.fixedDeltaTime);
             _enemyView.SetSpeed(_speed);
         }
         else
         {
-            TargetInRange?.Invoke(_target);
+            TargetInRange?.Invoke(_initializer.PlayerTransform);
             _enemyView.SetSpeed(0);
         }
     }
@@ -78,7 +79,7 @@ public class EnemyMover : MonoBehaviour
     {
         Vector3 position = Vector3.zero;
 
-        if (_target.position.y > _transform.position.y)
+        if (_initializer.PlayerTransform.position.y > _transform.position.y)
             position = new Vector3(_transform.position.x, _transform.position.y - _offsetDownY, _transform.position.z);
         else
             position = new Vector3(_transform.position.x, _transform.position.y - _offsetUpY, _transform.position.z);

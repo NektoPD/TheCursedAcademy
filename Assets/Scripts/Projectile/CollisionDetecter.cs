@@ -22,9 +22,10 @@ public class CollisionDetecter : MonoBehaviour
             return;
 
         if (collision.TryGetComponent(out IDamageable damageable))
+        {
             damageable.TakeDamage(_damage);
-
-        _view.SetHitTrigger();
+            _view.SetHitTrigger();
+        }
     }
 
     public void Initialize(float damage) => _damage = damage;

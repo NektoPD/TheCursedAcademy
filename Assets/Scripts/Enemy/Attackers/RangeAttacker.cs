@@ -1,16 +1,17 @@
+using CharacterLogic.Initializer;
 using UnityEngine;
 using Zenject;
 
 public class RangeAttacker : Attacker
 {
     private ProjectilePool _pool;
-    private Transform _target;
+    private CharacterInitializer _initializer;
 
     [Inject]
-    public void Construct(ProjectilePool pool, Transform target)
+    public void Construct(ProjectilePool pool, CharacterInitializer initializer)
     {
         _pool = pool;
-        _target = target;
+        _initializer = initializer;
     }
 
     public override void Attack(AttackData data)
@@ -23,7 +24,7 @@ public class RangeAttacker : Attacker
 
                 projectile.transform.position = EnemyAttacker.ProjectileSpawnPoints[i].position;
 
-                projectile.SetDirection((_target.position - EnemyAttacker.ProjectileSpawnPoints[i].position).normalized);
+                projectile.SetDirection((_initializer.PlayerTransform.position - EnemyAttacker.ProjectileSpawnPoints[i].position).normalized);
                 projectile.SetDamage(rangeData.Damage);
             }
         }

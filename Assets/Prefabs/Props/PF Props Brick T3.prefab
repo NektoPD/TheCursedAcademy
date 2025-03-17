@@ -10,8 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7947911505737750448}
   - component: {fileID: 7947911505737750450}
-  - component: {fileID: 4462788945058626820}
-  - component: {fileID: 3705069000301506858}
+  - component: {fileID: 3256410254722140388}
   m_Layer: 0
   m_Name: PF Props Brick T3
   m_TagString: Untagged
@@ -87,7 +86,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 1
---- !u!61 &4462788945058626820
+--- !u!61 &3256410254722140388
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -116,10 +115,10 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.20348626}
+  m_Offset: {x: 0, y: 0.122047484}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0}
@@ -130,22 +129,8 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.484375, y: 0.18677747}
+  m_Size: {x: 0.484375, y: 0.13853514}
   m_EdgeRadius: 0
---- !u!114 &3705069000301506858
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7947911505737750455}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1467a4e7800050c4eae6e77f67f5311b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _upOrder: -1
-  _downOrder: 2
 --- !u!1 &7947911505844789836
 GameObject:
   m_ObjectHideFlags: 0
@@ -156,6 +141,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7947911505844789837}
   - component: {fileID: 7947911505844789838}
+  - component: {fileID: 3238590684907256489}
+  - component: {fileID: 8770348592573133461}
   m_Layer: 0
   m_Name: Shadow
   m_TagString: Untagged
@@ -230,3 +217,62 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 1
+--- !u!61 &3238590684907256489
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7947911505844789836}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0.20348626}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0}
+    oldSize: {x: 0.375, y: 0.1875}
+    newSize: {x: 0.15625, y: 0.8125}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.484375, y: 0.18677747}
+  m_EdgeRadius: 0
+--- !u!114 &8770348592573133461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7947911505844789836}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1467a4e7800050c4eae6e77f67f5311b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _upOrder: -1
+  _downOrder: 2

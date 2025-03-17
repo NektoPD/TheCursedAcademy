@@ -10,6 +10,8 @@ public class EnemyDamageTaker : MonoBehaviour, IDamageable
     private ExpPointPool _expPointPool;
     private ExpPointData _expPointData;
 
+    private bool _isDied = false;
+
     [Inject]
     public void Construct(ExpPointPool expPointPool)
     {
@@ -30,6 +32,7 @@ public class EnemyDamageTaker : MonoBehaviour, IDamageable
 
     public void Initialize(float maxHealth, ExpPointData expPointData)
     {
+        _isDied = false;
         _health = new Health(maxHealth);
         _healthBar.SetHealth(_health);
         _expPointData = expPointData;
@@ -39,14 +42,18 @@ public class EnemyDamageTaker : MonoBehaviour, IDamageable
 
     public void TakeDamage(float damage)
     {
+        if (_isDied)
+            return;
+
         _enemyAnimator.SetHurtTigger();
         _health.TakeDamage(damage);
     }
 
     private void Die()
     {
-        _enemyAnimator.SetDeadTrigger();
+        _isDied = true;
         ExpPoint point = _expPointPool.Get(_expPointData);
         point.transform.position = transform.position;
+        _enemyAnimator.SetDeadTrigger();
     }
 }

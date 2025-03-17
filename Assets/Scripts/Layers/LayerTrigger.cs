@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [RequireComponent (typeof(Collider2D))]
-public class EnvironmentLayerTrigger : MonoBehaviour
+public class LayerTrigger : MonoBehaviour
 {
     [SerializeField] private int _upOrder = -1;
     [SerializeField] private int _downOrder = 2;

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2055102311959635375}
   - component: {fileID: 2055102311959635368}
   - component: {fileID: 5025835278348822445}
-  - component: {fileID: 7537616208400468161}
+  - component: {fileID: 8148378598739533321}
   m_Layer: 0
   m_Name: PF Plant - Bush 01
   m_TagString: Untagged
@@ -132,7 +132,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.34375, y: 0.18850327}
   m_EdgeRadius: 0
---- !u!114 &7537616208400468161
+--- !u!114 &8148378598739533321
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
