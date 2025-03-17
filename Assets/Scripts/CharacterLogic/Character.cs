@@ -57,6 +57,8 @@ namespace CharacterLogic
             _spriteHolder = GetComponent<CharacterSpriteHolder>();
             _view = GetComponent<CharacterView>();
             _attacker = GetComponent<CharacterAttacker>();
+
+            Camera.main.transform.SetParent(transform);
         }
 
         private void OnDisable()
