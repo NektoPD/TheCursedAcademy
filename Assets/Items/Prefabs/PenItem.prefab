@@ -46,8 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <Data>k__BackingField: {fileID: 11400000, guid: 6878c1fd492223e429ff4a7656b2936e, type: 2}
-  _projectilePrefab: {fileID: 7063058375854650556, guid: 6c9b3009a705f7a4999777cf88c476ed, type: 3}
-  _projectileSpeed: 1
+  _itemProjectilePrefab: {fileID: 7063058375854650556, guid: 6c9b3009a705f7a4999777cf88c476ed, type: 3}
   _projectileLifetime: 1.5
   _attackWidth: 3
   _initialPoolSize: 3
