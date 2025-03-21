@@ -1,15 +1,20 @@
+using Data;
 using Zenject;
+using EnemyLogic.ProjectileLogic;
 
-public class ProjectilePool : Pool<Projectile>
+namespace Pools
 {
-    public ProjectilePool(DiContainer container) : base(container) { }
-
-    protected override Projectile Create(IData<Projectile> data) => Container.InstantiatePrefabForComponent<Projectile>(data.Prefab);
-
-    protected override Projectile Initialize(IData<Projectile> data, Projectile entity)
+    public class ProjectilePool : Pool<Projectile>
     {
-        entity.Initialize(data, this);
-        entity.ResetEntity();
-        return entity;
+        public ProjectilePool(DiContainer container) : base(container) { }
+
+        protected override Projectile Create(IData<Projectile> data) => Container.InstantiatePrefabForComponent<Projectile>(data.Prefab);
+
+        protected override Projectile Initialize(IData<Projectile> data, Projectile entity)
+        {
+            entity.Initialize(data, this);
+            entity.ResetEntity();
+            return entity;
+        }
     }
 }

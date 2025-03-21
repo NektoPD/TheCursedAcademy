@@ -1,42 +1,47 @@
-using System.Collections.Generic;
-using System.Linq;
+using Data;
+using Utils;
 using Zenject;
+using System.Linq;
+using System.Collections.Generic;
 
-public abstract class Pool<T> where T: IPoolEntity
+namespace Pools
 {
-    protected readonly DiContainer Container;
-    protected readonly List<T> EntityPool = new();
-
-    private int _count;
-
-    public Pool(DiContainer container)
+    public abstract class Pool<T> where T : IPoolEntity
     {
-        Container = container;
-    }
+        protected readonly DiContainer Container;
+        protected readonly List<T> EntityPool = new();
 
-    public int Active => _count - EntityPool.Count;
+        private int _count;
 
-    public void ReturnEntity(T entity) => EntityPool.Add(entity);
-
-    public T Get(IData<T> data)
-    {
-        if (EntityPool.Count > 0)
+        public Pool(DiContainer container)
         {
-            T entity = EntityPool.First();
-            entity = Initialize(data, entity);
-            EntityPool.Remove(entity);
-
-            return entity;
+            Container = container;
         }
 
-        _count++;
+        public int Active => _count - EntityPool.Count;
 
-        var newEntity = Create(data);
-        newEntity = Initialize(data, newEntity);
-        return newEntity;
+        public void ReturnEntity(T entity) => EntityPool.Add(entity);
+
+        public T Get(IData<T> data)
+        {
+            if (EntityPool.Count > 0)
+            {
+                T entity = EntityPool.First();
+                entity = Initialize(data, entity);
+                EntityPool.Remove(entity);
+
+                return entity;
+            }
+
+            _count++;
+
+            var newEntity = Create(data);
+            newEntity = Initialize(data, newEntity);
+            return newEntity;
+        }
+
+        protected abstract T Initialize(IData<T> data, T entity);
+
+        protected abstract T Create(IData<T> data);
     }
-
-    protected abstract T Initialize(IData<T> data, T entity);
-
-    protected abstract T Create(IData<T> data);
 }

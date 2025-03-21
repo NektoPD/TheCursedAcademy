@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7519235030053805968}
   - component: {fileID: 7389025480835164877}
   - component: {fileID: 613138129709365310}
-  - component: {fileID: 6745236573944989329}
+  - component: {fileID: 4293328498428172299}
   m_Layer: 0
   m_Name: ExpPoint
   m_TagString: Untagged
@@ -172,7 +172,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6736c9723416ea24285d8222fee782ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &6745236573944989329
+--- !u!114 &4293328498428172299
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -181,6 +181,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 6932422284679455317}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e6c43035a4371904db6f8d3278fc6385, type: 3}
+  m_Script: {fileID: 11500000, guid: d74689c757443544ea9d4c18b9708ae6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

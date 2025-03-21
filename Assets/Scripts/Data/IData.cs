@@ -1,4 +1,9 @@
-public interface IData<T> where T: IPoolEntity 
+using Utils;
+
+namespace Data
 {
-    public T Prefab { get; }
+    public interface IData<T> where T : IPoolEntity
+    {
+        public T Prefab { get; }
+    }
 }

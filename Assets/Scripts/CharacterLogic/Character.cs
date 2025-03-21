@@ -1,9 +1,8 @@
-using System;
 using System.Collections.Generic;
 using CharacterLogic.Data;
 using CharacterLogic.InputHandler;
+using HealthSystem;
 using InventorySystem;
-using Items;
 using Items.BaseClass;
 using UnityEngine;
 

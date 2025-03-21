@@ -1,9 +1,12 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "AttackData", menuName = "Attacks/MeleeAttackData ", order = 1)]
-public class MeleeAttackData : AttackData
+namespace Data
 {
-    [SerializeField] private float _damage;
+    [CreateAssetMenu(fileName = "AttackData", menuName = "Attacks/MeleeAttackData ", order = 1)]
+    public class MeleeAttackData : AttackData
+    {
+        [SerializeField] private float _damage;
 
-    public float Damage => _damage;
+        public float Damage => _damage;
+    }
 }

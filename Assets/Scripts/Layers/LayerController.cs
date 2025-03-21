@@ -1,14 +1,17 @@
 using UnityEngine;
 
-[RequireComponent(typeof(SpriteRenderer))]
-public class LayerController : MonoBehaviour
+namespace Layers
 {
-    private SpriteRenderer _spriteRenderer;
-
-    private void Awake()
+    [RequireComponent(typeof(SpriteRenderer))]
+    public class LayerController : MonoBehaviour
     {
-        _spriteRenderer = GetComponent<SpriteRenderer>();
-    }
+        private SpriteRenderer _spriteRenderer;
 
-    public void SetSortingOrder(int order) => _spriteRenderer.sortingOrder = order;
+        private void Awake()
+        {
+            _spriteRenderer = GetComponent<SpriteRenderer>();
+        }
+
+        public void SetSortingOrder(int order) => _spriteRenderer.sortingOrder = order;
+    }
 }

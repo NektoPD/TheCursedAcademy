@@ -1,12 +1,16 @@
 using Zenject;
+using EnemyLogic.Attackers;
 
-public class AttackInstaller : MonoInstaller
+namespace Installers
 {
-    public override void InstallBindings()
+    public class AttackInstaller : MonoInstaller
     {
-        Container.Bind<MeleeAttacker>().AsSingle();
-        Container.Bind<RangeAttacker>().AsSingle();
-        Container.Bind<SpawnAttacker>().AsSingle();
-        Container.Bind<AttackerManager>().AsSingle();
+        public override void InstallBindings()
+        {
+            Container.Bind<MeleeAttacker>().AsSingle();
+            Container.Bind<RangeAttacker>().AsSingle();
+            Container.Bind<SpawnAttacker>().AsSingle();
+            Container.Bind<AttackerManager>().AsSingle();
+        }
     }
 }

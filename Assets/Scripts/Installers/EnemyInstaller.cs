@@ -1,18 +1,25 @@
-using CharacterLogic.Initializer;
-using UnityEngine;
+using Pools;
 using Zenject;
+using EnemyLogic;
+using UnityEngine;
+using EnemyLogic.Attackers;
+using EnemyLogic.HealthBars;
+using CharacterLogic.Initializer;
 
-public class EnemyInstaller : MonoInstaller
+namespace Installers
 {
-    [SerializeField] private CharacterInitializer _initializer;
-    [SerializeField] private Transform _healthBarsContainer;
-
-    public override void InstallBindings()
+    public class EnemyInstaller : MonoInstaller
     {
-        Container.Bind<EnemyPool>().AsSingle();
+        [SerializeField] private CharacterInitializer _initializer;
+        [SerializeField] private Transform _healthBarsContainer;
 
-        Container.BindInstance(_initializer).WhenInjectedInto<RangeAttacker>();
-        Container.BindInstance(_initializer).WhenInjectedInto<EnemyMover>();
-        Container.BindInstance(_healthBarsContainer).WhenInjectedInto<BossHealthBar>();
+        public override void InstallBindings()
+        {
+            Container.Bind<EnemyPool>().AsSingle();
+
+            Container.BindInstance(_initializer).WhenInjectedInto<RangeAttacker>();
+            Container.BindInstance(_initializer).WhenInjectedInto<EnemyMover>();
+            Container.BindInstance(_healthBarsContainer).WhenInjectedInto<BossHealthBar>();
+        }
     }
 }
