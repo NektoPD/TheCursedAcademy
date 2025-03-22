@@ -1,6 +1,9 @@
-public interface IExpPoint 
+namespace ExpPoints
 {
-    public int Point { get; }
+    public interface IExpPoint
+    {
+        public int Point { get; }
 
-    public void Despawn();
+        public void Despawn();
+    }
 }

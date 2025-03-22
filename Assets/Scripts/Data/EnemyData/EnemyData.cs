@@ -1,31 +1,35 @@
-using System.Collections.Generic;
+using EnemyLogic;
 using UnityEngine;
+using System.Collections.Generic;
 
-[CreateAssetMenu(fileName = "EnemyData", menuName = "Enemys/EnemyData ", order = 1)]
-public class EnemyData : ScriptableObject, IData<Enemy>
+namespace Data
 {
-    [SerializeField] private int _id;
-    [SerializeField] private string _name;
-    [SerializeField] private float _health;
-    [SerializeField] private float _speed;
-    [SerializeField] private List<AttackData> _attacks;
-    [SerializeField] private RuntimeAnimatorController _animatorController;
-    [SerializeField] private ExpPointData _expPointData;
-    [SerializeField] private Enemy _prefab;
+    [CreateAssetMenu(fileName = "EnemyData", menuName = "Enemys/EnemyData ", order = 1)]
+    public class EnemyData : ScriptableObject, IData<Enemy>
+    {
+        [SerializeField] private int _id;
+        [SerializeField] private string _name;
+        [SerializeField] private float _health;
+        [SerializeField] private float _speed;
+        [SerializeField] private List<AttackData> _attacks;
+        [SerializeField] private RuntimeAnimatorController _animatorController;
+        [SerializeField] private ExpPointData _expPointData;
+        [SerializeField] private Enemy _prefab;
 
-    public int Id => _id;
+        public int Id => _id;
 
-    public string Name => _name;
+        public string Name => _name;
 
-    public float Health => _health;
+        public float Health => _health;
 
-    public float Speed => _speed;
+        public float Speed => _speed;
 
-    public IReadOnlyList<AttackData> Attacks => _attacks;
+        public IReadOnlyList<AttackData> Attacks => _attacks;
 
-    public RuntimeAnimatorController AnimatorController => _animatorController;
+        public RuntimeAnimatorController AnimatorController => _animatorController;
 
-    public ExpPointData ExpPointData => _expPointData;
+        public ExpPointData ExpPointData => _expPointData;
 
-    public Enemy Prefab => _prefab;
+        public Enemy Prefab => _prefab;
+    }
 }

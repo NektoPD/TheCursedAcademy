@@ -1,13 +1,18 @@
-using System.Collections.Generic;
-using UnityEngine;
+using Data;
 using Zenject;
+using Difficulties;
+using UnityEngine;
+using System.Collections.Generic;
 
-public class DifficultyInstaller : MonoInstaller
+namespace Installers
 {
-    [SerializeField] private List<EnemyData> _enemyDataList;
-
-    public override void InstallBindings()
+    public class DifficultyInstaller : MonoInstaller
     {
-        Container.BindInstance(_enemyDataList).WhenInjectedInto<Difficulty>();
+        [SerializeField] private List<EnemyData> _enemyDataList;
+
+        public override void InstallBindings()
+        {
+            Container.BindInstance(_enemyDataList).WhenInjectedInto<Difficulty>();
+        }
     }
 }

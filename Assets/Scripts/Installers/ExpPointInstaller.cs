@@ -1,9 +1,13 @@
+using Pools;
 using Zenject;
 
-public class ExpPointInstaller : MonoInstaller
+namespace Installers
 {
-    public override void InstallBindings()
+    public class ExpPointInstaller : MonoInstaller
     {
-        Container.Bind<ExpPointPool>().AsSingle();
+        public override void InstallBindings()
+        {
+            Container.Bind<ExpPointPool>().AsSingle();
+        }
     }
 }

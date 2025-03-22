@@ -15,9 +15,9 @@ GameObject:
   - component: {fileID: 1337785055022216668}
   - component: {fileID: 1648583986132679129}
   - component: {fileID: 4589835787153175935}
-  - component: {fileID: -2182151922724857692}
   - component: {fileID: 3002249298366501071}
   - component: {fileID: 8532298120478552871}
+  - component: {fileID: 5856066234088807123}
   m_Layer: 9
   m_Name: Projectile
   m_TagString: Untagged
@@ -209,18 +209,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43d3488adfc55ff48a5dd4b2c8d8e546, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &-2182151922724857692
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4301784539829116322}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e6c43035a4371904db6f8d3278fc6385, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &3002249298366501071
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -246,5 +234,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7c45d8223ec827e4dbdd41a66a0bdf89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5856066234088807123
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4301784539829116322}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d74689c757443544ea9d4c18b9708ae6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

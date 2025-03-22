@@ -202,8 +202,8 @@ GameObject:
   - component: {fileID: 355308657}
   - component: {fileID: 355308656}
   - component: {fileID: 355308655}
-  - component: {fileID: 355308658}
   - component: {fileID: 355308659}
+  - component: {fileID: 355308660}
   m_Layer: 0
   m_Name: Difficulty
   m_TagString: Untagged
@@ -252,19 +252,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &355308658
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 355308654}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1557619688505914b850efd1f74703f8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _offset: 0.1
 --- !u!114 &355308659
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -277,6 +264,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf5317f8b7828e74fb873d1d8983ef77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &355308660
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 355308654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 453e930adec2fff4fb272b7b63481579, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _offset: 0.1
 --- !u!1001 &647305419
 PrefabInstance:
   m_ObjectHideFlags: 0

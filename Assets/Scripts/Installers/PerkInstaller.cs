@@ -1,6 +1,5 @@
-using PlayerPerksController;
-using UnityEngine;
 using Zenject;
+using PlayerPerksController;
 
 namespace Installers
 {

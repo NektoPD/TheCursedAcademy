@@ -1,10 +1,13 @@
-using UnityEngine;
+using Pools;
 using Zenject;
 
-public class ProjectileInstaller : MonoInstaller
+namespace Installers
 {
-    public override void InstallBindings()
+    public class ProjectileInstaller : MonoInstaller
     {
-        Container.Bind<ProjectilePool>().AsSingle();
+        public override void InstallBindings()
+        {
+            Container.Bind<ProjectilePool>().AsSingle();
+        }
     }
 }
