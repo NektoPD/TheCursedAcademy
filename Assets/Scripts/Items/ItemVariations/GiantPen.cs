@@ -13,6 +13,7 @@ namespace Items.ItemVariations
         [SerializeField] private float _projectileLifetime = 2f;
         [SerializeField] private float _attackWidth = 1.5f;
         [SerializeField] private int _initialPoolSize = 3;
+        [SerializeField] private float _spawnOffset = 0.5f;
 
         private int _level = 1;
         private float _damageMultiplier = 1f;
@@ -29,13 +30,22 @@ namespace Items.ItemVariations
         {
             ItemProjectile itemProjectile = _projectilePool.GetFromPool(transform.position, Quaternion.identity);
 
-            float facingDirection = MovementHandler && MovementHandler.IsMovingLeft() ? -1f : 1f;
+            float facingDirection = MovementHandler.IsMovingLeft() ? -1f : 1f;
 
             itemProjectile.transform.position = new Vector2(
-                transform.position.x + (_attackWidth * _widthMultiplier * facingDirection),
+                transform.position.x + (_spawnOffset * facingDirection),
                 transform.position.y);
 
-            itemProjectile.transform.localScale = new Vector3(1.5f * facingDirection, 1.5f, 1.5f);
+            itemProjectile.transform.localScale = new Vector3(
+                _attackWidth * _widthMultiplier * Mathf.Abs(facingDirection),
+                1.5f,
+                1.5f);
+
+            SpriteRenderer spriteRenderer = itemProjectile.SpriteRenderer;
+            if (spriteRenderer != null)
+            {
+                spriteRenderer.flipX = facingDirection < 0;
+            }
 
             itemProjectile.Initialize(Data.Damage * _damageMultiplier, this);
 
@@ -47,18 +57,7 @@ namespace Items.ItemVariations
         protected override void LevelUp()
         {
             _level++;
-
-            _damageMultiplier = 1f + (_level - 1) * 0.25f;
-
-            if (_level % 3 == 0)
-            {
-                _widthMultiplier += 0.2f;
-            }
-
-            if (_level % 5 == 0 && _level <= 25)
-            {
-                Data.Cooldown *= 0.9f;
-            }
+            
         }
 
         private IEnumerator EnableProjectile(ItemProjectile itemProjectile, float lifetime)

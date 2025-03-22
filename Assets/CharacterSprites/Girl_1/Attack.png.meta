@@ -167,7 +167,7 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 110
+        width: 128
         height: 128
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -186,9 +186,9 @@ TextureImporter:
       name: Attack_1
       rect:
         serializedVersion: 2
-        x: 128
+        x: 129
         y: 0
-        width: 110
+        width: 128
         height: 128
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -228,7 +228,7 @@ TextureImporter:
       name: Attack_3
       rect:
         serializedVersion: 2
-        x: 384
+        x: 385
         y: 0
         width: 110
         height: 128
