@@ -21,6 +21,11 @@ namespace Items.ItemVariations
             _hitEnemies.Clear();
         }
 
+        public void UpdatePosition(Vector2 position)
+        {
+            transform.position = position;
+        }
+
         private void OnTriggerEnter2D(Collider2D collision)
         {
             if (collision.TryGetComponent(out IDamageable damageable) && _hitEnemies.Add(damageable))

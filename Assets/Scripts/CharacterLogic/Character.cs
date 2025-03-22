@@ -15,7 +15,7 @@ namespace CharacterLogic
     [RequireComponent(typeof(CharacterSpriteHolder))]
     [RequireComponent(typeof(CharacterView))]
     [RequireComponent(typeof(CharacterAttacker))]
-    public class Character : MonoBehaviour
+    public class Character : MonoBehaviour, IDamageable
     {
         [SerializeField] private CharacterInventoryUI _inventoryUI;
 
@@ -137,6 +137,11 @@ namespace CharacterLogic
         private void OnMovingRight()
         {
             _spriteHolder.FlipSprite(false);
+        }
+
+        public void TakeDamage(float damage)
+        {
+            _health.TakeDamage(damage);
         }
     }
 }
