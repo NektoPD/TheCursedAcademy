@@ -6,8 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="2352e6f7-7a00-4256-b434-98f90d0b0896" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.TheCursedAcademy/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TheCursedAcademy/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Projectiles/Items/Prefabs/PenProjectile.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Projectiles/Items/Prefabs/PenProjectile.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CharacterLogic/Character.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CharacterLogic/Character.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/GiantPen.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/GiantPen.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/ItemProjectile.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/ItemProjectile.cs" afterDir="false" />
     </list>
@@ -119,7 +117,8 @@
       <workItem from="1741623129234" duration="4283000" />
       <workItem from="1741881380616" duration="3700000" />
       <workItem from="1742533627097" duration="1330000" />
-      <workItem from="1742632922670" duration="3108000" />
+      <workItem from="1742632922670" duration="3444000" />
+      <workItem from="1742639616157" duration="143000" />
     </task>
     <servers />
   </component>

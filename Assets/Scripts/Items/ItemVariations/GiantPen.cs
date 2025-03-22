@@ -38,10 +38,10 @@ namespace Items.ItemVariations
 
             itemProjectile.transform.localScale = new Vector3(
                 _attackWidth * _widthMultiplier * Mathf.Abs(facingDirection),
-                1.5f, 
+                1.5f,
                 1.5f);
 
-            SpriteRenderer spriteRenderer = itemProjectile.GetComponent<SpriteRenderer>();
+            SpriteRenderer spriteRenderer = itemProjectile.SpriteRenderer;
             if (spriteRenderer != null)
             {
                 spriteRenderer.flipX = facingDirection < 0;
@@ -57,18 +57,7 @@ namespace Items.ItemVariations
         protected override void LevelUp()
         {
             _level++;
-
-            _damageMultiplier = 1f + (_level - 1) * 0.25f;
-
-            if (_level % 3 == 0)
-            {
-                _widthMultiplier += 0.2f;
-            }
-
-            if (_level % 5 == 0 && _level <= 25)
-            {
-                Data.Cooldown *= 0.9f;
-            }
+            
         }
 
         private IEnumerator EnableProjectile(ItemProjectile itemProjectile, float lifetime)
