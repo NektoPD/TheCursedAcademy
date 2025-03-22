@@ -1,4 +1,4 @@
-using Data;
+using Data.AttacksData;
 
 namespace EnemyLogic.Attackers
 {

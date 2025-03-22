@@ -1,5 +1,5 @@
-using Utils;
 using UnityEngine;
+using Utils;
 
 namespace EnemyLogic.ProjectileLogic
 {

@@ -1,7 +1,7 @@
-using System;
-using Zenject;
-using UnityEngine;
 using CharacterLogic.Initializer;
+using System;
+using UnityEngine;
+using Zenject;
 
 namespace EnemyLogic
 {

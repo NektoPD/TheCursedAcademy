@@ -1,7 +1,7 @@
 using ExpPoints;
 using UnityEngine;
 
-namespace Data
+namespace Data.ExpPointsData
 {
     [CreateAssetMenu(fileName = "ExpPointData", menuName = "ExpPoint/ExpPointData", order = 1)]
     public class ExpPointData : ScriptableObject, IData<ExpPoint>

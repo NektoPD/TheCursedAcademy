@@ -1,4 +1,4 @@
-using Data;
+using Data.AttacksData;
 using HealthSystem;
 using UnityEngine;
 

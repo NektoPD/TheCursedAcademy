@@ -1,7 +1,7 @@
-using Data;
+using Data.AttacksData;
 using Pools;
-using Zenject;
 using UnityEngine;
+using Zenject;
 
 namespace EnemyLogic.Attackers
 {

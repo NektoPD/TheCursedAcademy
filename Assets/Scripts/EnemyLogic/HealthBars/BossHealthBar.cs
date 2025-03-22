@@ -1,6 +1,6 @@
-using Zenject;
-using UnityEngine;
 using HealthSystem;
+using UnityEngine;
+using Zenject;
 
 namespace EnemyLogic.HealthBars
 {

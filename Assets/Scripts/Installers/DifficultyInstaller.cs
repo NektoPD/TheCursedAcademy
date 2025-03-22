@@ -1,8 +1,8 @@
-using Data;
-using Zenject;
+using Data.EnemesData;
 using Difficulties;
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
+using Zenject;
 
 namespace Installers
 {

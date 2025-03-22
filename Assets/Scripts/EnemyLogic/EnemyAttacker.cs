@@ -1,10 +1,10 @@
-using Data;
-using Zenject;
-using System.Linq;
-using UnityEngine;
+using Data.AttacksData;
 using EnemyLogic.Attackers;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+using Zenject;
 
 namespace EnemyLogic
 {

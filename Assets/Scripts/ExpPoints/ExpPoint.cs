@@ -1,7 +1,8 @@
 using Data;
-using Utils;
+using Data.ExpPointsData;
 using Pools;
 using UnityEngine;
+using Utils;
 
 namespace ExpPoints
 {

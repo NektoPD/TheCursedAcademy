@@ -1,7 +1,7 @@
-using UnityEngine;
 using EnemyLogic.ProjectileLogic;
+using UnityEngine;
 
-namespace Data
+namespace Data.ProjectilesData
 {
     [CreateAssetMenu(fileName = "ProjectileData", menuName = "Projectiles/ProjectileData", order = 1)]
     public class ProjectileData : ScriptableObject, IData<Projectile>

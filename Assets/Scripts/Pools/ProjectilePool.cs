@@ -1,6 +1,6 @@
 using Data;
-using Zenject;
 using EnemyLogic.ProjectileLogic;
+using Zenject;
 
 namespace Pools
 {

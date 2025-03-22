@@ -1,4 +1,4 @@
-namespace Utils
+namespace Pools
 {
     public interface IPoolEntity
     {

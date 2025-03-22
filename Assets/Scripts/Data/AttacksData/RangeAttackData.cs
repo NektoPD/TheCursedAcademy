@@ -1,6 +1,7 @@
+using Data.ProjectilesData;
 using UnityEngine;
 
-namespace Data
+namespace Data.AttacksData
 {
     [CreateAssetMenu(fileName = "RangeAttackData", menuName = "Attacks/RangeAttackData ", order = 2)]
     public class RangeAttackData : AttackData

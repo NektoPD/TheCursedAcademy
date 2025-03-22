@@ -5,6 +5,6 @@ namespace Enums
         Top,
         Bottom,
         Left,
-        Right
+        Right,
     }
 }

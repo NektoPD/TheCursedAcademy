@@ -1,10 +1,10 @@
-using Pools;
-using Zenject;
+using CharacterLogic.Initializer;
 using EnemyLogic;
-using UnityEngine;
 using EnemyLogic.Attackers;
 using EnemyLogic.HealthBars;
-using CharacterLogic.Initializer;
+using Pools;
+using UnityEngine;
+using Zenject;
 
 namespace Installers
 {

@@ -1,7 +1,8 @@
+using Data.EnemesData;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Data
+namespace Data.AttacksData
 {
     [CreateAssetMenu(fileName = "SpawnAttackData", menuName = "Attacks/SpawnAttackData ", order = 3)]
     public class SpawnAttackData : AttackData

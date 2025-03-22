@@ -1,5 +1,5 @@
-using UnityEngine;
 using HealthSystem;
+using UnityEngine;
 
 namespace EnemyLogic.ProjectileLogic
 {

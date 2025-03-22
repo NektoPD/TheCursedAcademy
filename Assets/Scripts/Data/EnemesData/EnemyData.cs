@@ -1,8 +1,10 @@
+using Data.AttacksData;
+using Data.ExpPointsData;
 using EnemyLogic;
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
 
-namespace Data
+namespace Data.EnemesData
 {
     [CreateAssetMenu(fileName = "EnemyData", menuName = "Enemys/EnemyData ", order = 1)]
     public class EnemyData : ScriptableObject, IData<Enemy>

@@ -1,7 +1,7 @@
-using UnityEngine;
 using HealthSystem;
-using UnityEngine.UI;
 using System.Collections;
+using UnityEngine;
+using UnityEngine.UI;
 
 namespace EnemyLogic.HealthBars
 {

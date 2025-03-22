@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Data
+namespace Data.AttacksData
 {
     [CreateAssetMenu(fileName = "AttackData", menuName = "Attacks/MeleeAttackData ", order = 1)]
     public class MeleeAttackData : AttackData

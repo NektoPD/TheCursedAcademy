@@ -1,6 +1,6 @@
 using Data;
-using Zenject;
 using ExpPoints;
+using Zenject;
 
 namespace Pools
 {

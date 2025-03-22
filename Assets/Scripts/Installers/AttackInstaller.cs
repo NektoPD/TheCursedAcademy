@@ -1,5 +1,5 @@
-using Zenject;
 using EnemyLogic.Attackers;
+using Zenject;
 
 namespace Installers
 {

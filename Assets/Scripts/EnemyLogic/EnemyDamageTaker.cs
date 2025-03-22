@@ -1,10 +1,10 @@
-using Data;
-using Pools;
-using Zenject;
-using ExpPoints;
-using UnityEngine;
-using HealthSystem;
+using Data.ExpPointsData;
 using EnemyLogic.HealthBars;
+using ExpPoints;
+using HealthSystem;
+using Pools;
+using UnityEngine;
+using Zenject;
 
 namespace EnemyLogic
 {

@@ -1,8 +1,8 @@
-using Data;
+using CharacterLogic.Initializer;
+using Data.AttacksData;
+using EnemyLogic.ProjectileLogic;
 using Pools;
 using Zenject;
-using CharacterLogic.Initializer;
-using EnemyLogic.ProjectileLogic;
 
 namespace EnemyLogic.Attackers
 {

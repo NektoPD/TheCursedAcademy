@@ -1,7 +1,8 @@
 using Data;
+using Data.ProjectilesData;
 using Pools;
-using Utils;
 using UnityEngine;
+using Utils;
 
 namespace EnemyLogic.ProjectileLogic
 {
