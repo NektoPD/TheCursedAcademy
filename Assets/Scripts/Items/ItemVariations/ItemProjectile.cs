@@ -7,40 +7,35 @@ using UnityEngine;
 namespace Items.ItemVariations
 {
     [RequireComponent(typeof(SpriteRenderer))]
-    public class ItemProjectile : MonoBehaviour
+    public abstract class ItemProjectile : MonoBehaviour
     {
-        private float _damage;
-        private Item _owner;
-        private HashSet<IDamageable> _hitEnemies = new();
+        protected float Damage;
+        protected Item Owner;
+        protected readonly HashSet<IDamageable> HitEnemies = new HashSet<IDamageable>();
 
         public SpriteRenderer SpriteRenderer { get; private set; }
 
-        private void Awake()
+        protected virtual void Awake()
         {
             SpriteRenderer = GetComponent<SpriteRenderer>();
         }
 
-        public void Initialize(float damage, Item owner)
+        public virtual void Initialize(float damage, Item owner)
         {
-            _damage = damage;
-            _owner = owner;
+            Damage = damage;
+            Owner = owner;
         }
 
-        public void ClearHitEnemies()
+        public virtual void ClearHitEnemies()
         {
-            _hitEnemies.Clear();
+            HitEnemies.Clear();
         }
 
-        public void UpdatePosition(Vector2 position)
+        protected virtual void OnTriggerEnter2D(Collider2D collision)
         {
-            transform.position = position;
-        }
-
-        private void OnTriggerEnter2D(Collider2D collision)
-        {
-            if (collision.TryGetComponent(out IDamageable damageable) && _hitEnemies.Add(damageable))
+            if (collision.TryGetComponent(out IDamageable damageable) && HitEnemies.Add(damageable))
             {
-                damageable?.TakeDamage(_damage);
+                damageable?.TakeDamage(Damage);
             }
         }
     }

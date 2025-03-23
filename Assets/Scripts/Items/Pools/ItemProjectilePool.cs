@@ -6,10 +6,10 @@ namespace Items.Pools
 {
     public class ItemProjectilePool : MonoBehaviour
     {
-        private Queue<ItemProjectile> _objectPool = new();
+        private Queue<ItemProjectile> _objectPool = new Queue<ItemProjectile>();
         private ItemProjectile _prefab;
 
-        public void Initialize(ItemProjectile prefab, int initialSize)
+        public void Initialize<T>(T prefab, int initialSize) where T : ItemProjectile
         {
             _prefab = prefab;
 
@@ -28,7 +28,7 @@ namespace Items.Pools
             return newObject;
         }
 
-        public ItemProjectile GetFromPool(Vector3 position, Quaternion rotation)
+        public T GetFromPool<T>(Vector3 position, Quaternion rotation) where T : ItemProjectile
         {
             ItemProjectile objectToUse;
 
@@ -45,7 +45,7 @@ namespace Items.Pools
             objectToUse.transform.rotation = rotation;
             objectToUse.gameObject.SetActive(true);
 
-            return objectToUse;
+            return objectToUse as T;
         }
 
         public void ReturnToPool(ItemProjectile objectToReturn)
