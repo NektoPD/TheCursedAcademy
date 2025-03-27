@@ -5,15 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2352e6f7-7a00-4256-b434-98f90d0b0896" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/PenProjectile.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/PenProjectile.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/MagicRuller/Ruler.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/MagicRuller/Ruler.cs.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.TheCursedAcademy/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TheCursedAcademy/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Items/Prefabs/PenItem.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Items/Prefabs/PenItem.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/PlayableCharacters/CharacterConfigs/Girl1.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/PlayableCharacters/CharacterConfigs/Girl1.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Projectiles/Items/Prefabs/PenProjectile.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Projectiles/Items/Prefabs/PenProjectile.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/GiantPen.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/GiantPen.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/ItemProjectile.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/ItemProjectile.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/Pools/ItemProjectilePool.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Items/Pools/ItemProjectilePool.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/InventorySystem/CharacterInventory.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/InventorySystem/CharacterInventory.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/GiantPen.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/GiantPen.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/Mirror.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/Mirror.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/MirrorProjectile.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/MirrorProjectile.cs.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/PenProjectile.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/PenProjectile.cs.meta" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,6 +29,8 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/e97d84204f8d4aef92b538c5bab948f1172800/51/b49df779/ObjectPool`1.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/e97d84204f8d4aef92b538c5bab948f1172800/62/3391ae41/MonoBehaviour.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/CharacterLogic/CharacterAttacker.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Infrastructure/BootLoader.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Installers/PerkInstaller.cs" root0="FORCE_HIGHLIGHTING" />
@@ -31,8 +38,6 @@
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/InventorySystem/InventoryUISlot.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Items/Interfaces/IAttackable.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Items/ItemData/ItemDataConfig.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/GiantPen.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/MirrorProjectile.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/PlayerPerksController/PerkController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/PlayerPerksController/PerkModifiers.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/PlayerPerksController/PerkType.cs" root0="FORCE_HIGHLIGHTING" />
@@ -126,7 +131,11 @@
       <workItem from="1742632922670" duration="3444000" />
       <workItem from="1742639616157" duration="9291000" />
       <workItem from="1742716525541" duration="3297000" />
-      <workItem from="1742723835129" duration="1086000" />
+      <workItem from="1742723835129" duration="3270000" />
+      <workItem from="1742830287921" duration="280000" />
+      <workItem from="1742830592443" duration="1903000" />
+      <workItem from="1742833915326" duration="3541000" />
+      <workItem from="1743051401821" duration="2402000" />
     </task>
     <servers />
   </component>

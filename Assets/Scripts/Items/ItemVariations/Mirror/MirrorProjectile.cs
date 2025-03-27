@@ -8,7 +8,6 @@ namespace Items.ItemVariations
 {
     public class MirrorProjectile : ItemProjectile
     {
-        [SerializeField] private float _reflectionDamageMultiplier = 1.5f;
         [SerializeField] private LayerMask _reflectableLayers;
         [SerializeField] private bool _followTarget = true;
 
