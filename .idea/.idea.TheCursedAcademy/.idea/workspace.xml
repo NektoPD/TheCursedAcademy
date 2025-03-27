@@ -4,22 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2352e6f7-7a00-4256-b434-98f90d0b0896" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/MagicRuller/Ruler.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/MagicRuller/Ruler.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.TheCursedAcademy/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TheCursedAcademy/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/PlayableCharacters/CharacterConfigs/Girl1.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/PlayableCharacters/CharacterConfigs/Girl1.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Projectiles/Items/Prefabs/PenProjectile.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Projectiles/Items/Prefabs/PenProjectile.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/InventorySystem/CharacterInventory.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/InventorySystem/CharacterInventory.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/GiantPen.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/GiantPen.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/Mirror.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/Mirror.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/MirrorProjectile.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/MirrorProjectile.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/PenProjectile.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/PenProjectile.cs.meta" beforeDir="false" />
-    </list>
+    <list default="true" id="2352e6f7-7a00-4256-b434-98f90d0b0896" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -135,7 +120,7 @@
       <workItem from="1742830287921" duration="280000" />
       <workItem from="1742830592443" duration="1903000" />
       <workItem from="1742833915326" duration="3541000" />
-      <workItem from="1743051401821" duration="2402000" />
+      <workItem from="1743051401821" duration="2708000" />
     </task>
     <servers />
   </component>

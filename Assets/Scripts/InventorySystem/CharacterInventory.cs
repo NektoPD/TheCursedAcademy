@@ -24,7 +24,6 @@ namespace InventorySystem
             if (_collectedItems.Contains(item))
                 return;
 
-            Debug.Log(item);
             _collectedItems.Add(item);
             ItemAdded?.Invoke(item);
         }
