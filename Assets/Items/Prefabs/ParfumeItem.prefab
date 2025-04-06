@@ -1,0 +1,73 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &418651602239110723
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 923929331627283373}
+  - component: {fileID: 454373078764722500}
+  - component: {fileID: 8948147973529119039}
+  m_Layer: 0
+  m_Name: ParfumeItem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &923929331627283373
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 418651602239110723}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.11162582, y: 1.4856699, z: -0.030059129}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &454373078764722500
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 418651602239110723}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8cb2c5c4d0d0bf54a87269a6c481b980, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8948147973529119039
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 418651602239110723}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbee130d3e938e54c88e978dd8ce1ab2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <Data>k__BackingField: {fileID: 11400000, guid: e9534379c358bd141b90b6ea43c8a93c, type: 2}
+  _parfumeProjectilePrefab: {fileID: 4132972598041474757, guid: 9d7fe9b725aeec741bf37368311bbba9, type: 3}
+  _projectileLifetime: 6
+  _damageZoneDuration: 5
+  _initialPoolSize: 3
+  _minSpawnDistance: 8
+  _maxSpawnDistance: 12
+  _minScreenOffset: 0.1
+  _maxScreenOffset: 0.3
+  _projectileSpeed: 6
+  _minScreenInsetX: 0.2
+  _maxScreenInsetX: 0.8
+  _minScreenInsetY: 0.2
+  _maxScreenInsetY: 0.8
