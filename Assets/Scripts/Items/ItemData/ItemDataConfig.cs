@@ -12,5 +12,6 @@ namespace Items.ItemData
         public float Rarity;
         public Sprite ItemIcon;
         public string Description;
+        public Enums.ItemVariations ItemVariation;
     }
 }

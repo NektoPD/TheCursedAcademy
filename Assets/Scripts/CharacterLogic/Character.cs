@@ -4,6 +4,7 @@ using CharacterLogic.InputHandler;
 using HealthSystem;
 using InventorySystem;
 using Items.BaseClass;
+using Items.Enums;
 using UnityEngine;
 
 namespace CharacterLogic
@@ -99,6 +100,9 @@ namespace CharacterLogic
             _startItem = Instantiate(characterData.StartItem);
             _startItem.Initialize(_movementHandler);
             _startItem.transform.position = transform.position;
+
+            if (_startItem.Data.ItemVariation == ItemVariations.Chalk)
+                _startItem.transform.SetParent(transform);
         }
 
         private void HandleMovementAnimations()
