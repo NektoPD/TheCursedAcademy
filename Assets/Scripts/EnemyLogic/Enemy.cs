@@ -2,7 +2,6 @@ using Data;
 using Data.EnemesData;
 using Pools;
 using UnityEngine;
-using Utils;
 
 namespace EnemyLogic
 {
