@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "com.agava.webutility": {
+      "version": "https://github.com/forcepusher/com.agava.webutility.git#3.3.0",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "e9594e6cc8562a68b0b5a5e8f39396a437c38b73"
+    },
     "com.unity.2d.animation": {
       "version": "9.0.3",
       "depth": 1,
