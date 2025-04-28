@@ -18,7 +18,7 @@ namespace Items.ItemVariations.Book
 
         [SerializeField] private int _level = 1;
         [SerializeField] private float _damageMultiplierPerLevel = 0.2f;
-        [SerializeField] private float _cooldownReductionPerLevel = 0.1f;
+        //[SerializeField] private float _cooldownReductionPerLevel = 0.1f;
         [SerializeField] private float _projectileSpawnInterval = 0.1f;
 
         private ItemProjectilePool _projectilePool;

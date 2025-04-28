@@ -18,7 +18,7 @@ namespace Infrastructure
 
         private void Start()
         {
-            SceneManager.LoadScene("TestGameScene");
+            SceneManager.LoadScene("Menu");
         }
     }
 }

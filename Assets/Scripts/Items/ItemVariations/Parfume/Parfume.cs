@@ -13,8 +13,8 @@ namespace Items.ItemVariations
         [SerializeField] private float _projectileLifetime = 10f;
         [SerializeField] private float _damageZoneDuration = 10f;
         [SerializeField] private int _initialPoolSize = 3;
-        [SerializeField] private float _minSpawnDistance = 8f;
-        [SerializeField] private float _maxSpawnDistance = 12f;
+       // [SerializeField] private float _minSpawnDistance = 8f;
+        //[SerializeField] private float _maxSpawnDistance = 12f;
         [SerializeField] private float _minScreenOffset = 0.1f;
         [SerializeField] private float _maxScreenOffset = 0.3f;
         [SerializeField] private float _projectileSpeed = 5f;

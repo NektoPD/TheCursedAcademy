@@ -13,20 +13,20 @@ namespace Items.ItemVariations
         private float _speed;
         private IObjectPool<ChalkProjectile> _pool;
         private Coroutine _lifetimeCoroutine;
-        private HashSet<IDamageable> HitEnemies = new HashSet<IDamageable>();
+        private new HashSet<IDamageable> HitEnemies = new HashSet<IDamageable>();
         
         public void SetPool(IObjectPool<ChalkProjectile> pool)
         {
             _pool = pool;
         }
         
-        public void Initialize(float damage, Item owner)
+        public override void Initialize(float damage, Item owner)
         {
             Damage = damage;
             Owner = owner;
         }
         
-        public void ClearHitEnemies()
+        public override void ClearHitEnemies()
         {
             HitEnemies.Clear();
         }

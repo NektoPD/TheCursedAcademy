@@ -9,12 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 58739408a1573df4597e58453821f229, type: 3}
+  m_Script: {fileID: 11500000, guid: ae1ec3b5aa46cdf49bcc55dca2b49a90, type: 3}
   m_Name: PerkModifier
   m_EditorClassIdentifier: 
-  _powerModifier: 5
-  _armorModifier: 5
-  _maxHpModifier: 10
-  _hpRegenerationModifier: 0.2
-  _attackCooldownModifier: 0.3
-  _speedModifier: 3
+  _powerModifier: 0
+  _armorModifier: 0
+  _maxHpModifier: 0
+  _hpRegenerationModifier: 0
+  _attackCooldownModifier: 0
+  _speedModifier: 0

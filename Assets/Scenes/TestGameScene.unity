@@ -990,7 +990,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 970782710457982917, guid: fb0854b004ac87049897046a62edd5fa, type: 3}
       propertyPath: _maxEnemy
-      value: 100
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1722418168373373105, guid: fb0854b004ac87049897046a62edd5fa, type: 3}
       propertyPath: m_Name

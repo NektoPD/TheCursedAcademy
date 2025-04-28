@@ -28,7 +28,7 @@ namespace Items.ItemVariations.Toys
 
         protected override void OnTriggerEnter2D(Collider2D collision)
         {
-            if (collision.TryGetComponent(out IDamageable damageable) && HitEnemies.Add(damageable))
+            if (collision.TryGetComponent(out IDamageable damageable))
             {
                 damageable?.TakeDamage(Damage);
             }
