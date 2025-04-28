@@ -6,15 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="2352e6f7-7a00-4256-b434-98f90d0b0896" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.TheCursedAcademy/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TheCursedAcademy/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/PlayableCharacters/CharacterConfigs/Girl1.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/PlayableCharacters/CharacterConfigs/Girl1.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Projectiles/Items/Book/book-removebg-preview.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Projectiles/Items/Book/book-removebg-preview.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Projectiles/Items/MagicRuler/pixel-art-illustration-ruler-pixelated-260nw-2395992273-removebg-preview.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Projectiles/Items/MagicRuler/pixel-art-illustration-ruler-pixelated-260nw-2395992273-removebg-preview.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Projectiles/Items/Toys/Pixel-Art-Bear-removebg-preview.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Projectiles/Items/Toys/Pixel-Art-Bear-removebg-preview.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CharacterLogic/Character.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CharacterLogic/Character.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/ItemData/ItemDataConfig.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Items/ItemData/ItemDataConfig.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Items/ItemConfigs/Book.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Items/ItemConfigs/Book.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Items/ItemConfigs/Chalk.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Items/ItemConfigs/Chalk.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Items/ItemConfigs/MagicRuler.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Items/ItemConfigs/MagicRuler.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Items/ItemConfigs/Mirror.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Items/ItemConfigs/Mirror.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Items/ItemConfigs/Parfume.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Items/ItemConfigs/Parfume.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,6 +36,8 @@
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/Book/BookProjectile.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/Chalk/Chalk.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/Chalk/ChalkProjectile.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/GreatIdea/GreatIdea.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/GreatIdea/GreatIdeaProjectile.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/Parfume/Parfume.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/Parfume/ParfumeProjectile.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/Toys/Toys.cs" root0="FORCE_HIGHLIGHTING" />
@@ -146,7 +144,7 @@
       <workItem from="1743842487514" duration="4626000" />
       <workItem from="1743923700280" duration="8979000" />
       <workItem from="1744561507697" duration="2401000" />
-      <workItem from="1745161099951" duration="2856000" />
+      <workItem from="1745161099951" duration="4350000" />
     </task>
     <servers />
   </component>
