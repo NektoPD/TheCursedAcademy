@@ -18,15 +18,24 @@ namespace PlayerPerksController
 
         public PerkDataWrapper PerkDataWrapper { get; private set; }
 
-        public void UpgradePerk(PerkType perkType)
+        public int GetPerkLevel(PerkType type)
         {
-            if (PerkDataWrapper.PerkLevels.ContainsKey(perkType) &&
-                PerkDataWrapper.PerkLevels[perkType] < MaxUpgradeCount)
+            if (PerkDataWrapper.PerkLevels.ContainsKey(type) == false)
+                throw new NullReferenceException();
+
+            return PerkDataWrapper.PerkLevels[type];
+        }
+
+        public bool TryUpgradePerk(PerkType perkType)
+        {
+            if (PerkDataWrapper.PerkLevels.ContainsKey(perkType) && PerkDataWrapper.PerkLevels[perkType] < MaxUpgradeCount)
             {
                 PerkDataWrapper.PerkLevels[perkType]++;
+                YandexGame.SaveProgress();
+                return true;
             }
 
-            YandexGame.SaveProgress();
+            return false;
         }
 
         public Dictionary<PerkType, float> GetFinalPerkValues()

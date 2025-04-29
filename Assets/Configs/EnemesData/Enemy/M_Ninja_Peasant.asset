@@ -16,6 +16,8 @@ MonoBehaviour:
   _name: Ninja Peasant
   _health: 23
   _speed: 1.3
+  _immuneTime: 5
+  _money: 10
   _attacks:
   - {fileID: 11400000, guid: 4221613e34397cd489ffb2ef19f94adb, type: 2}
   _animatorController: {fileID: 9100000, guid: c738f9516fafc6c41bcb86e0110143e3, type: 2}

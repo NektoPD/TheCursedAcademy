@@ -16,6 +16,8 @@ MonoBehaviour:
   _name: Karasu Tengu
   _health: 100
   _speed: 1
+  _immuneTime: 15
+  _money: 100
   _attacks:
   - {fileID: 11400000, guid: a42d83a7a23780046bcee70aed9bfba7, type: 2}
   - {fileID: 11400000, guid: 6435c194ae5d8bb4e8595ba3b7b869a3, type: 2}

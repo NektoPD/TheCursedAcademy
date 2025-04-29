@@ -16,6 +16,8 @@ MonoBehaviour:
   _name: Kunoichi Ranger
   _health: 20
   _speed: 0.8
+  _immuneTime: 10
+  _money: 30
   _attacks:
   - {fileID: 11400000, guid: 5c073ef0b6f62d34cb86e936c4113563, type: 2}
   - {fileID: 11400000, guid: b42090a6a720eb249a6cb8a112456967, type: 2}

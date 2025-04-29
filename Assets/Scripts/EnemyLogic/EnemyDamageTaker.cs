@@ -1,48 +1,50 @@
-using Data.ExpPointsData;
 using EnemyLogic.HealthBars;
-using ExpPoints;
 using HealthSystem;
-using Pools;
+using System.Collections;
 using UnityEngine;
-using Zenject;
 
 namespace EnemyLogic
 {
     [RequireComponent(typeof(HealthBar), typeof(EnemyAnimator))]
+    [RequireComponent (typeof(EnemyDamageView), typeof(EnemyEjector))]
     public class EnemyDamageTaker : MonoBehaviour, IDamageable
     {
+        private readonly int _duration = 1;
+
         private Health _health;
         private HealthBar _healthBar;
         private EnemyAnimator _enemyAnimator;
-        private ExpPointPool _expPointPool;
-        private ExpPointData _expPointData;
+        private EnemyEjector _ejector;
+        private EnemyDamageView _damageView;
+        private Coroutine _coroutine;
+        private float _immuneTime;
 
         private bool _isDied = false;
-
-        [Inject]
-        public void Construct(ExpPointPool expPointPool)
-        {
-            _expPointPool = expPointPool;
-        }
+        private bool _inImmune = false;
 
         private void Awake()
         {
             _healthBar = GetComponent<HealthBar>();
             _enemyAnimator = GetComponent<EnemyAnimator>();
+            _ejector = GetComponent<EnemyEjector>();
+            _damageView = GetComponent<EnemyDamageView>();
         }
 
         private void OnDisable()
         {
             if (_health != null)
                 _health.Died -= Die;
+
+            if(_coroutine != null)
+                StopCoroutine(_coroutine);
         }
 
-        public void Initialize(float maxHealth, ExpPointData expPointData)
+        public void Initialize(float maxHealth, float immuneTime)
         {
             _isDied = false;
             _health = new Health(maxHealth);
             _healthBar.SetHealth(_health);
-            _expPointData = expPointData;
+            _immuneTime = immuneTime;
 
             _health.Died += Die;
         }
@@ -52,16 +54,29 @@ namespace EnemyLogic
             if (_isDied)
                 return;
 
-            _enemyAnimator.SetHurtTigger();
             _health.TakeDamage(damage);
+
+            if (_inImmune == false)
+            {
+                _coroutine = StartCoroutine(Countdown());
+                _enemyAnimator.SetHurtTigger();
+            }
+
+            _damageView.StartFlash(_duration);
         }
 
         private void Die()
         {
             _isDied = true;
-            ExpPoint point = _expPointPool.Get(_expPointData);
-            point.transform.position = transform.position;
+            _ejector.Eject();
             _enemyAnimator.SetDeadTrigger();
+        }
+
+        private IEnumerator Countdown()
+        {
+            _inImmune = true;
+            yield return new WaitForSeconds(_immuneTime);
+            _inImmune = false;
         }
     }
 }

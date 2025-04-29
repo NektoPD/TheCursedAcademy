@@ -16,6 +16,8 @@ MonoBehaviour:
   _name: Satyr 1
   _health: 20
   _speed: 0.8
+  _immuneTime: 10
+  _money: 30
   _attacks:
   - {fileID: 11400000, guid: f6ad7feb38a1ec642b69aa8bec015651, type: 2}
   - {fileID: 11400000, guid: 86e4ebc0fa4ea814e8d793b79d204bdb, type: 2}

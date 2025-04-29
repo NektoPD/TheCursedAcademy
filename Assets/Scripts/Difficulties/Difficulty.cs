@@ -13,8 +13,8 @@ namespace Difficulties
     [RequireComponent(typeof(TimeTracker), typeof(OffscreenPositionGenerator))]
     public class Difficulty : MonoBehaviour
     {
-        [SerializeField] private float _cooldown = 1;
-        [SerializeField] private int _maxEnemy = 100;
+        private const string CooldownKey = "DifficultyCooldown";
+        private const string MaxEnemyKey = "DifficultyMaxEnemy";
 
         private EnemyPool _enemyPool;
         private TimeTracker _timeTracker;
@@ -22,6 +22,8 @@ namespace Difficulties
         private List<EnemyData> _enemyDataList;
         private List<int> _enemyIds;
         private Coroutine _coroutine;
+        private float _cooldown;
+        private int _maxEnemy;
 
         private bool _canSpawn = true;
 
@@ -38,6 +40,12 @@ namespace Difficulties
         {
             _timeTracker = GetComponent<TimeTracker>();
             _positionGenerator = GetComponent<OffscreenPositionGenerator>();
+
+            if(PlayerPrefs.HasKey(CooldownKey))
+                _cooldown = PlayerPrefs.GetFloat(CooldownKey);
+
+            if(PlayerPrefs.HasKey(MaxEnemyKey))
+                _maxEnemy = PlayerPrefs.GetInt(MaxEnemyKey);
         }
 
         private void OnEnable()

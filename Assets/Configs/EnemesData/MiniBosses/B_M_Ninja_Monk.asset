@@ -16,6 +16,8 @@ MonoBehaviour:
   _name: Ninja Monk
   _health: 21
   _speed: 1.2
+  _immuneTime: 10
+  _money: 30
   _attacks:
   - {fileID: 11400000, guid: e70ff3d51f0307f41ba4cd20e4f32546, type: 2}
   - {fileID: 11400000, guid: 32ccc4d02c74be142b7e91b1259262e7, type: 2}
