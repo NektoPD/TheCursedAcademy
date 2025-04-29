@@ -2,7 +2,7 @@ namespace ExpPoints
 {
     public interface IExpPoint
     {
-        public int Point { get; }
+        public int Value { get; }
 
         public void Despawn();
     }

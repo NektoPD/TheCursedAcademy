@@ -16,6 +16,8 @@ MonoBehaviour:
   _name: Samurai Archer Ranger
   _health: 20
   _speed: 0.8
+  _immuneTime: 10
+  _money: 30
   _attacks:
   - {fileID: 11400000, guid: 882ae8aecd14f2f4aadbb01f1976360e, type: 2}
   - {fileID: 11400000, guid: 32cc7d3879327cd4996f1fb48b13e3ee, type: 2}

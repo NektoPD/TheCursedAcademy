@@ -11,23 +11,26 @@ namespace CharacterLogic.Initializer
 {
     public class CharacterInitializer : MonoBehaviour
     {
-        [SerializeField] private Character _characterPrefab;
+        private const string Key = "CharacterId";
+
         [SerializeField] private CharacterData[] _characterDatas;
         [SerializeField] private CharacterSpawner _characterSpawner;
 
         private PerkController _perkController;
+        private CharacterFabric _fabric;
 
         public Transform PlayerTransform { get; private set; }
 
         [Inject]
-        private void Construct(PerkController perkController)
+        private void Construct(PerkController perkController, CharacterFabric fabric)
         {
             _perkController = perkController;
+            _fabric = fabric;
         }
 
         private void Start()
         {
-            CreateCharacter(CharacterData.CharacterType.Girl1);
+            CreateCharacter((CharacterData.CharacterType)PlayerPrefs.GetInt(Key));
         }
 
         public void CreateCharacter(CharacterData.CharacterType type)
@@ -39,7 +42,7 @@ namespace CharacterLogic.Initializer
 
             Dictionary<PerkType, float> finalPerkBonuses = _perkController.GetFinalPerkValues();
 
-            Character characterToSpawn = Instantiate(_characterPrefab);
+            Character characterToSpawn = _fabric.Create();
             characterToSpawn.Construct(chosenData, finalPerkBonuses);
             _characterSpawner.Spawn(characterToSpawn);
             PlayerTransform = characterToSpawn.transform;

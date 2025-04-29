@@ -1,42 +1,43 @@
-using CharacterLogic.Data;
-using TMPro;
+using Data;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace Applicators
 {
-    public class CharacterApplicator : MonoBehaviour
+    public class CharacterApplicator : BaseApplicator<CharacterVisualData>
     {
-        [SerializeField] private TextMeshProUGUI _name;
-        [SerializeField] private TextMeshProUGUI _description;
+        private const string Key = "CharacterId";
+
         [SerializeField] private Image _item;
-        [SerializeField] private CharacterClickHandler[] _characters;
-        [SerializeField] private CharacterData _defaultCharacter;
+        [SerializeField] private Button _play;
+        [SerializeField] private SceneAsset _scene;
 
-        private void Start()
+        protected override void OnEnable()
         {
-            Application(_defaultCharacter);
+            base.OnEnable();
+            _play.onClick.AddListener(OnPlayClick);
         }
 
-        private void OnEnable()
+        protected override void OnDisable()
         {
-            foreach (var character in _characters)
-                character.Clicked += OnClick;
+            base.OnDisable();
+            _play.onClick.RemoveListener(OnPlayClick);
         }
 
-        private void OnDisable()
+        protected override void Application(CharacterVisualData data)
         {
-            foreach (var character in _characters)
-                character.Clicked -= OnClick;
+            Name.text = data.Name;
+            Description.text = data.Description;
+            MainImage.sprite = data.Sprite;
+            _item.sprite = data.Data.StartItem.Data.ItemIcon;
         }
 
-        private void OnClick(CharacterData data) => Application(data);
-
-        private void Application(CharacterData data)
+        private void OnPlayClick()
         {
-            _name.text = data.Type.ToString();
-            _description.text = data.Type.ToString();
-            _item.sprite = data.StartItem.Data.ItemIcon;
+            PlayerPrefs.SetInt(Key, (int)CurrentItem.Data.Type);
+            SceneManager.LoadScene(_scene.name);
         }
     }
 }

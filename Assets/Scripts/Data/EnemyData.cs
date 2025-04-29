@@ -13,6 +13,8 @@ namespace Data.EnemesData
         [SerializeField] private string _name;
         [SerializeField] private float _health;
         [SerializeField] private float _speed;
+        [SerializeField] private float _immuneTime;
+        [SerializeField] private int _money;
         [SerializeField] private List<AttackData> _attacks;
         [SerializeField] private RuntimeAnimatorController _animatorController;
         [SerializeField] private ExpPointData _expPointData;
@@ -25,6 +27,10 @@ namespace Data.EnemesData
         public float Health => _health;
 
         public float Speed => _speed;
+
+        public float ImmuneTime => _immuneTime;
+
+        public int Money => _money;
 
         public IReadOnlyList<AttackData> Attacks => _attacks;
 

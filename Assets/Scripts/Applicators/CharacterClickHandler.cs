@@ -1,19 +1,8 @@
-﻿using CharacterLogic.Data;
-using System;
-using UnityEngine;
-using UnityEngine.EventSystems;
+using Data;
 
 namespace Applicators
 {
-    public class CharacterClickHandler : MonoBehaviour, IPointerClickHandler
+    public class CharacterClickHandler : BaseClickHandler<CharacterVisualData>
     {
-        [SerializeField] private CharacterData _characterData;
-
-        public event Action<CharacterData> Clicked;
-
-        public void OnPointerClick(PointerEventData eventData)
-        {
-            Clicked?.Invoke(_characterData);
-        }
     }
 }
