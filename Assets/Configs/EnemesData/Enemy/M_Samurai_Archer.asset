@@ -16,6 +16,8 @@ MonoBehaviour:
   _name: Samurai Archer
   _health: 25
   _speed: 1.4
+  _immuneTime: 5
+  _money: 10
   _attacks:
   - {fileID: 11400000, guid: 45871d4498eb5974e96f32f3726668ca, type: 2}
   _animatorController: {fileID: 9100000, guid: 088a0908b38ff9e469aa15a2ad4f093d, type: 2}

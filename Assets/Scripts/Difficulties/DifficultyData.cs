@@ -1,12 +1,13 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Difficulties
 {
     [System.Serializable]
     public class DifficultyData
     {
-        private float _playTime;
-        private List<int> _enemyIds;
+        [SerializeField] private float _playTime;
+        [SerializeField] private List<int> _enemyIds;
 
         public DifficultyData(float playTime, List<int> enemyIds)
         {

@@ -6,7 +6,13 @@ namespace Difficulties
 {
     public class DifficutySaver : MonoBehaviour
     {
-        private const string Key = "DifficultyData";
+        private const string DataKey = "DifficultyData";
+        private const string CooldownKey = "DifficultyCooldown";
+        private const string MaxEnemyKey = "DifficultyMaxEnemy";
+
+        [SerializeField] private float _cooldown = 1;
+        [SerializeField] private int _maxEnemy = 100;
+        [SerializeField] private List<DifficultyData> _dataList;
 
         private void Start()
         {
@@ -15,15 +21,11 @@ namespace Difficulties
 
         private void SaveDifficultyData()
         {
-            List<DifficultyData> dataList = new()
-            {
-                new DifficultyData(0f, new List<int> { 1, 2, 3 }),
-                new DifficultyData(2f, new List<int> { 4, 5, 6 }),
-            };
+            string json = JsonConvert.SerializeObject(_dataList);
 
-            string json = JsonConvert.SerializeObject(dataList);
-
-            PlayerPrefs.SetString(Key, json);
+            PlayerPrefs.SetString(DataKey, json);
+            PlayerPrefs.SetFloat(CooldownKey, _cooldown);
+            PlayerPrefs.SetInt(MaxEnemyKey, _maxEnemy);
             PlayerPrefs.Save();
         }
     }

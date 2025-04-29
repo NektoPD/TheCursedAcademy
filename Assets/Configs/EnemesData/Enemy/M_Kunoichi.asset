@@ -16,6 +16,8 @@ MonoBehaviour:
   _name: Kunoichi
   _health: 25
   _speed: 1
+  _immuneTime: 5
+  _money: 10
   _attacks:
   - {fileID: 11400000, guid: 14f6134cc571a27488f3c1c10cefacc2, type: 2}
   _animatorController: {fileID: 9100000, guid: 81ff223ba441b0544a8ad3c1352aa103, type: 2}

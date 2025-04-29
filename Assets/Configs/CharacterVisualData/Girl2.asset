@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cf944aa5a62ec243866640ed66104e2, type: 3}
+  m_Name: Girl2
+  m_EditorClassIdentifier: 
+  _name: "\u0418\u043C\u044F 2"
+  _description: "\u0414\u0435\u0432\u0430\u043E\u0447\u043A\u0430 2"
+  _sprite: {fileID: 21300000, guid: ca94fc23f9ee5a4488e2ff1bd3930a25, type: 3}
+  _data: {fileID: 11400000, guid: 8c348f29f66bb8b459a0672ac0b895cd, type: 2}
