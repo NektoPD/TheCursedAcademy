@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using CharacterLogic.Data;
 using CharacterLogic.InputHandler;
@@ -5,6 +6,7 @@ using HealthSystem;
 using InventorySystem;
 using Items.BaseClass;
 using Items.Enums;
+using StatistiscSystem;
 using UnityEngine;
 
 namespace CharacterLogic
@@ -15,7 +17,7 @@ namespace CharacterLogic
     [RequireComponent(typeof(CharacterSpriteHolder))]
     [RequireComponent(typeof(CharacterView))]
     [RequireComponent(typeof(CharacterAttacker))]
-    public class Character : MonoBehaviour, IDamageable
+    public class Character : MonoBehaviour, IDamageable, IStatisticsTransmitter
     {
         [SerializeField] private CharacterInventoryUI _inventoryUI;
 
@@ -37,6 +39,8 @@ namespace CharacterLogic
         private float _moveSpeed;
         private Item _startItem;
 
+        public event Action<Statistics> StatisticCollected; // Нужно вызвать после сбора статистики
+
         public void Construct(CharacterData characterData, Dictionary<PerkType, float> perkBonuses)
         {
             InitializeCharacterData(characterData, perkBonuses);
@@ -56,7 +60,7 @@ namespace CharacterLogic
             _movementHandler = GetComponent<CharacterMovementHandler>();
             _spriteHolder = GetComponent<CharacterSpriteHolder>();
             _view = GetComponent<CharacterView>();
-            _attacker = GetComponent<CharacterAttacker>();
+            _attacker = GetComponent<CharacterAttacker>(); 
 
             Camera.main.transform.SetParent(transform);
         }
@@ -145,6 +149,12 @@ namespace CharacterLogic
         public void TakeDamage(float damage)
         {
             _health.TakeDamage(damage);
+        }
+
+        public void Revive()
+        {
+            _health.TakeHeal(_hp);
+            UpdateHealthView(_hp);
         }
     }
 }

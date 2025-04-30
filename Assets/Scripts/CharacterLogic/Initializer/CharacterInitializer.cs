@@ -20,6 +20,8 @@ namespace CharacterLogic.Initializer
         private CharacterFabric _fabric;
 
         public Transform PlayerTransform { get; private set; }
+        
+        public Character Character { get; private set; }
 
         [Inject]
         private void Construct(PerkController perkController, CharacterFabric fabric)
@@ -46,6 +48,7 @@ namespace CharacterLogic.Initializer
             characterToSpawn.Construct(chosenData, finalPerkBonuses);
             _characterSpawner.Spawn(characterToSpawn);
             PlayerTransform = characterToSpawn.transform;
+            Character = characterToSpawn;
         }
     }
 }
