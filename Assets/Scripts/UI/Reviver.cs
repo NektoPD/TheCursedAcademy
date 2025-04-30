@@ -6,7 +6,7 @@ using Utils;
 using YG;
 using Zenject;
 
-namespace EndUI
+namespace UI
 {
     public class Reviver : MonoBehaviour
     {

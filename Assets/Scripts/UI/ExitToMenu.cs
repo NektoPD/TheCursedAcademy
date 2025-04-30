@@ -9,7 +9,7 @@ using WalletSystem;
 using YG;
 using Zenject;
 
-namespace EndUI
+namespace UI
 {
     public class ExitToMenu : MonoBehaviour
     {

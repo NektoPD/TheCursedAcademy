@@ -1,7 +1,7 @@
 using CharacterLogic.Initializer;
 using UnityEngine;
 using Zenject;
-using EndUI;
+using UI;
 using StatistiscSystem;
 
 public class EndWindowInstaller : MonoInstaller
