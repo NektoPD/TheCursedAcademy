@@ -1,4 +1,4 @@
-using EndUI;
+using CharacterLogic.Initializer;
 using TMPro;
 using UnityEngine;
 using Zenject;
@@ -18,9 +18,9 @@ namespace StatistiscSystem
         private IStatisticsTransmitter _transmitter;
 
         [Inject]
-        private void Construct(IStatisticsTransmitter transmitter)
+        private void Construct(CharacterInitializer characterInitializer)
         {
-            _transmitter = transmitter;
+            _transmitter = characterInitializer.Character;
         }
 
         private void OnEnable()

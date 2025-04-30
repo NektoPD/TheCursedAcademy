@@ -2,6 +2,7 @@ using CharacterLogic.Initializer;
 using UnityEngine;
 using Zenject;
 using EndUI;
+using StatistiscSystem;
 
 public class EndWindowInstaller : MonoInstaller
 {
@@ -11,5 +12,6 @@ public class EndWindowInstaller : MonoInstaller
     {
         Container.BindInstance(_initializer).WhenInjectedInto<ExitToMenu>();
         Container.BindInstance(_initializer).WhenInjectedInto<Reviver>();
+        Container.BindInstance(_initializer).WhenInjectedInto<StatisticsApplicator>();
     }
 }
