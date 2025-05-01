@@ -5495,7 +5495,7 @@ GameObject:
   - component: {fileID: 1080222185}
   - component: {fileID: 1080222184}
   m_Layer: 5
-  m_Name: Error
+  m_Name: Warning
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

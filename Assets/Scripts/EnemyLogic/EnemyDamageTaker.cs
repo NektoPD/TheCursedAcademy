@@ -42,6 +42,9 @@ namespace EnemyLogic
         public void Initialize(float maxHealth, float immuneTime)
         {
             _isDied = false;
+            _inImmune = false;
+            _enemyAnimator.SetDeadBool(false);
+
             _health = new Health(maxHealth);
             _healthBar.SetHealth(_health);
             _immuneTime = immuneTime;
@@ -69,7 +72,7 @@ namespace EnemyLogic
         {
             _isDied = true;
             _ejector.Eject();
-            _enemyAnimator.SetDeadTrigger();
+            _enemyAnimator.SetDeadBool(true);
         }
 
         private IEnumerator Countdown()

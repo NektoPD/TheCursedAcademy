@@ -27,10 +27,12 @@ namespace EnemyLogic
 
         public void SetHurtTigger() => SetTriggerByName(Hurt);
 
-        public void SetDeadTrigger()
+        public void SetDeadBool(bool state)
         {
-            _animator.Rebind();
-            SetTriggerByName(Dead);
+            if (_animator.GetBool(Dead) == state)
+                return;
+
+            _animator.SetBool(Dead, state);
         }
     }
 }

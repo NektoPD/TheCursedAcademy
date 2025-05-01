@@ -20,6 +20,6 @@ MonoBehaviour:
   _money: 10
   _attacks:
   - {fileID: 11400000, guid: 45871d4498eb5974e96f32f3726668ca, type: 2}
-  _animatorController: {fileID: 9100000, guid: 088a0908b38ff9e469aa15a2ad4f093d, type: 2}
+  _animatorController: {fileID: 22100000, guid: afb7338eb37db03478c09b7280478ecc, type: 2}
   _expPointData: {fileID: 11400000, guid: a79a5afe89ea1794e9a5e2f7d0b6e0dc, type: 2}
   _prefab: {fileID: 5431957914877251030, guid: 707d13c71f5787d41a66c1a2f5337672, type: 3}
