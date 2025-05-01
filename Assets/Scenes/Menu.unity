@@ -2188,7 +2188,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1747389267}
   m_HandleRect: {fileID: 1747389266}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -5851,7 +5851,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: -22.72998, y: 0.00024414062}
-  m_SizeDelta: {x: -800.719, y: -39.595703}
+  m_SizeDelta: {x: -799.28125, y: -40.40442}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &966411558
 MonoBehaviour:
@@ -11477,7 +11477,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 392, y: 267.40952}
+  m_AnchoredPosition: {x: 392, y: 267.40955}
   m_SizeDelta: {x: 46.614014, y: 112.17999}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1866922560
@@ -13687,6 +13687,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 939b96d90e74a4940965f29fe9651b53, type: 3}
+    - target: {fileID: 40673591775423670, guid: 17b64ea488dc4c84b80ae97ec48057e0, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: e2bc092428bb01b44813bf791ac242b2, type: 3}
     - target: {fileID: 784919741830025521, guid: 17b64ea488dc4c84b80ae97ec48057e0, type: 3}
       propertyPath: m_Name
       value: Item
