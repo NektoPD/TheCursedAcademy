@@ -8,14 +8,14 @@ namespace UI
 
         public void Show()
         {
-            Time.timeScale = 0;
             _window.SetActive(true);
+            Time.timeScale = 0;
         }
 
         public void Close()
         {
-            _window.SetActive(false);
             Time.timeScale = 1;
+            _window.SetActive(false);
         }
     }
 }

@@ -14,7 +14,7 @@ namespace CharacterLogic
         {
             if (collision.gameObject.TryGetComponent(out Money money))
             {
-                _wallet.AddMoney(money.Value);
+                //_wallet.AddMoney(money.Value); тут я думаю, что лучше сохранить куда-то кол-во собранных денег, а потом в конце при смерти сразу записывать их в кошель, чтобы нельзя было выйти из меню паузы и деньги оставались на счёту
                 money.Despawn();
             }
 
