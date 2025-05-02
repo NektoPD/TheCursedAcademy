@@ -815,7 +815,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 0
-  m_Spacing: 6.052084
+  m_Spacing: 5.583334
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
@@ -1057,7 +1057,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 0
-  m_Spacing: 6.052084
+  m_Spacing: 5.583334
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
@@ -2454,6 +2454,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3512750513296824355, guid: ee3b19b42c6695e4dba717ea2869eb1e, type: 3}
+      propertyPath: projectile
+      value: 
+      objectReference: {fileID: 1146699642033185192}
     - target: {fileID: 7097592164904198365, guid: ee3b19b42c6695e4dba717ea2869eb1e, type: 3}
       propertyPath: m_Name
       value: Shadow
