@@ -61711,6 +61711,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 129304176239373143}
     m_Modifications:
+    - target: {fileID: 2577585254963922478, guid: f6a5710827e32d3489da2c249e3bc400, type: 3}
+      propertyPath: m_SortingOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2577585254963922480, guid: f6a5710827e32d3489da2c249e3bc400, type: 3}
       propertyPath: m_Name
       value: PF Props Stone Cube
@@ -78281,10 +78285,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1346759764372887245}
     m_Modifications:
-    - target: {fileID: 2577585254963922478, guid: f6a5710827e32d3489da2c249e3bc400, type: 3}
-      propertyPath: m_SortingOrder
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 2577585254963922480, guid: f6a5710827e32d3489da2c249e3bc400, type: 3}
       propertyPath: m_Name
       value: PF Props Stone Cube (3)
@@ -95769,6 +95769,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1346759764372887245}
     m_Modifications:
+    - target: {fileID: 2577585254963922478, guid: f6a5710827e32d3489da2c249e3bc400, type: 3}
+      propertyPath: m_SortingOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2577585254963922480, guid: f6a5710827e32d3489da2c249e3bc400, type: 3}
       propertyPath: m_Name
       value: PF Props Stone Cube (2)

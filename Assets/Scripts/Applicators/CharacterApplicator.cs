@@ -26,7 +26,7 @@ namespace Applicators
             _play.onClick.RemoveListener(OnPlayClick);
         }
 
-        protected override void Application(CharacterVisualData data)
+        protected override void Applicate(CharacterVisualData data)
         {
             Name.text = data.Name;
             Description.text = data.Description;

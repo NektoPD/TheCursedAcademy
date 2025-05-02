@@ -17,5 +17,7 @@ namespace Applicators
         {
             Clicked?.Invoke(_data);
         }
+
+        protected void SetData(T data) => _data = data;
     }
 }

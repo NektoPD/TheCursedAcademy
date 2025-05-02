@@ -22,7 +22,7 @@ namespace Applicators
         private void Start()
         {
             CurrentItem = _defaultItem;
-            Application(_defaultItem);
+            Applicate(_defaultItem);
         }
 
         protected virtual void OnEnable()
@@ -37,12 +37,12 @@ namespace Applicators
                 item.Clicked -= OnClick;
         }
 
-        protected abstract void Application(T data);
+        protected abstract void Applicate(T data);
 
         private void OnClick(T data)
         {
             CurrentItem = data;
-            Application(data);
+            Applicate(data);
         }
     }
 }

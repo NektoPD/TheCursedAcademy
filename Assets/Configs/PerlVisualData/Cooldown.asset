@@ -13,8 +13,12 @@ MonoBehaviour:
   m_Name: Cooldown
   m_EditorClassIdentifier: 
   _type: 4
-  _name: "\u041F\u0435\u0440\u0435\u0437\u0430\u0440\u044F\u0434\u043A\u0430"
-  _description: "\u0423\u043C\u0435\u043D\u044C\u0448\u0430\u0435\u0442 \u043F\u0435\u0440\u0435\u0437\u0430\u0440\u044F\u0434\u043A\u0443
-    \u043F\u0440\u0435\u0434\u043C\u0435\u0442\u043E\u0432 \u043D\u0430 %"
+  _nameRu: "\u041F\u0435\u0440\u0435\u0437\u0430\u0440\u044F\u0434\u043A\u0430"
+  _nameEn: Reloading
+  _nameTr: Silah doldurma
+  _descriptionRu: "\u0423\u043C\u0435\u043D\u044C\u0448\u0430\u0435\u0442 \u043F\u0435\u0440\u0435\u0437\u0430\u0440\u044F\u0434\u043A\u0443
+    \u043F\u0440\u0435\u0434\u043C\u0435\u0442\u043E\u0432 \u043D\u0430 % "
+  _descriptionEn: 'Reduces item cooldown by % '
+  _descriptionTr: "E\u015Fya bekleme s\xFCresini % azalt\u0131r"
   _sprite: {fileID: 21300000, guid: fdd63fa144863f34ab0e81a34e0bc127, type: 3}
   _defaultPrice: 30

@@ -12,7 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6cf944aa5a62ec243866640ed66104e2, type: 3}
   m_Name: Girl3
   m_EditorClassIdentifier: 
-  _name: "\u0418\u043C\u044F 3"
-  _description: "\u0414\u0435\u0432\u043E\u0447\u043A\u0430 3"
+  _nameRu: "\u0414\u0435\u0432\u043E\u0447\u043A\u0430 3"
+  _nameEn: Girl 3
+  _nameTr: "K\u0131z 3"
+  _descriptionRu: "\u0414\u0435\u0432\u043E\u0447\u043A\u0430 3"
+  _descriptionEn: Girl 3
+  _descriptionTr: "K\u0131z 3"
   _sprite: {fileID: 21300000, guid: ba3e2f3447c71144d947554ae808785b, type: 3}
   _data: {fileID: 11400000, guid: 2ad6b65242e84e54b9a9f6e5aa246fd9, type: 2}

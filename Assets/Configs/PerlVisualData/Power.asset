@@ -13,8 +13,12 @@ MonoBehaviour:
   m_Name: Power
   m_EditorClassIdentifier: 
   _type: 0
-  _name: "\u0421\u0438\u043B\u0430"
-  _description: "\u0423\u0432\u0435\u043B\u0438\u0447\u0438\u0432\u0430\u0435\u0442
-    \u0443\u0440\u043E\u043D \u043D\u0430 n-%"
+  _nameRu: "\u0421\u0438\u043B\u0430"
+  _nameEn: Power
+  _nameTr: Kuvvet
+  _descriptionRu: "\u0423\u0432\u0435\u043B\u0438\u0447\u0438\u0432\u0430\u0435\u0442
+    \u0443\u0440\u043E\u043D \u043D\u0430 %"
+  _descriptionEn: Increases damage by %
+  _descriptionTr: "Hasar\u0131 % oran\u0131nda art\u0131r\u0131r"
   _sprite: {fileID: 21300000, guid: 939b96d90e74a4940965f29fe9651b53, type: 3}
   _defaultPrice: 5

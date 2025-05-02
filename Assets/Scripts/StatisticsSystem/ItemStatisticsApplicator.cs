@@ -12,7 +12,7 @@ namespace StatistiscSystem
             foreach (var item in statistics.Items)
             {
                 var itemView = Instantiate(_prefab, _itemStatisticsContainer);
-                itemView.View(item.Item.ItemIcon, item.TotalDamage.ToString(), item.Level.ToString(), item.DPS.ToString(), item.TimeInInventory.ToString());
+                itemView.View(item.Item.ItemIcon, item.TotalDamage.ToString(), item.Level.ToString(), item.DPS.ToString(), item.TimeInInventory.ToString(@"hh\:mm\:ss"));
             }
         }
     }

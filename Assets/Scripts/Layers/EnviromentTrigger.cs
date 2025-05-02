@@ -36,7 +36,5 @@ namespace Layers
             foreach (var renderer in _renderers)
                 renderer.color = _originalColor;
         }
-
-        private bool ItsSameLayer(int firstLayer, int secondLayer) => (firstLayer & (1 << secondLayer)) == 0;
     }
 }

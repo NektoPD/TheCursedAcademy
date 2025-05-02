@@ -13,8 +13,12 @@ MonoBehaviour:
   m_Name: Health
   m_EditorClassIdentifier: 
   _type: 2
-  _name: "\u0417\u0434\u043E\u0440\u043E\u0432\u044C\u0435"
-  _description: "\u0423\u0432\u0435\u043B\u0438\u0447\u0438\u0432\u0430\u0435\u0442
-    \u043E\u0437 \u043D\u0430 %"
+  _nameRu: "\u0417\u0434\u043E\u0440\u043E\u0432\u044C\u0435"
+  _nameEn: Health
+  _nameTr: "Sa\u011Fl\u0131k"
+  _descriptionRu: "\u0423\u0432\u0435\u043B\u0438\u0447\u0438\u0432\u0430\u0435\u0442
+    \u0437\u0434\u043E\u0440\u043E\u0432\u044C\u0435 \u043D\u0430 %"
+  _descriptionEn: Increases health by %
+  _descriptionTr: "Sa\u011Fl\u0131\u011F\u0131 % oran\u0131nda art\u0131r\u0131r"
   _sprite: {fileID: 21300000, guid: cf9a10531b6f53c44accc4186a513701, type: 3}
   _defaultPrice: 7

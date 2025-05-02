@@ -14,23 +14,23 @@ namespace StatistiscSystem
         [SerializeField] private Transform _itemsContainer;
         [SerializeField] private SpriteSetter _itemPrefab;
         [SerializeField] private ItemStatisticsApplicator _itemStatisticsApplicator;
-
-        private IStatisticsTransmitter _transmitter;
+        
+        private CharacterInitializer _characterInitializer;
 
         [Inject]
         private void Construct(CharacterInitializer characterInitializer)
         {
-            _transmitter = characterInitializer.Character;
+            _characterInitializer = characterInitializer;
         }
 
         private void OnEnable()
         {
-            _transmitter.StatisticCollected += Applicate;
+            _characterInitializer.Character.StatisticCollected += Applicate;
         }
 
         private void OnDisable()
         {
-            _transmitter.StatisticCollected -= Applicate;
+            _characterInitializer.Character.StatisticCollected -= Applicate;
         }
 
         private void Applicate(Statistics statistics)
@@ -38,7 +38,7 @@ namespace StatistiscSystem
             _totalScore.text = statistics.TotalScore.ToString();
             _level.text = statistics.Level.ToString();
             _coins.text = statistics.Coins.ToString();
-            _time.text = statistics.LiveTime.ToString();
+            _time.text = statistics.LiveTime.ToString(@"hh\:mm\:ss");
 
             foreach (var item in statistics.Items)
             {

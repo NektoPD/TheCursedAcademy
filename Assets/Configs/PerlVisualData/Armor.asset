@@ -13,8 +13,12 @@ MonoBehaviour:
   m_Name: Armor
   m_EditorClassIdentifier: 
   _type: 1
-  _name: "\u0411\u0440\u043E\u043D\u044F"
-  _description: "\u0423\u043C\u0435\u043D\u044C\u0448\u0430\u0435\u0442 \u043F\u043E\u043B\u0443\u0447\u0430\u0435\u043C
+  _nameRu: "\u0411\u0440\u043E\u043D\u044F"
+  _nameEn: Armor
+  _nameTr: "Z\u0131rh"
+  _descriptionRu: "\u0423\u043C\u0435\u043D\u044C\u0448\u0430\u0435\u0442 \u043F\u043E\u043B\u0443\u0447\u0430\u0435\u043C
     \u0443\u0440\u043E\u043D \u043D\u0430 % \u0438\u043B\u0438 1"
+  _descriptionEn: Reduces damage taken by % or 1
+  _descriptionTr: "Al\u0131nan hasar\u0131 % veya 1 oran\u0131nda azalt\u0131r"
   _sprite: {fileID: 21300000, guid: e2cd885fd4161514a94052a6b4dcb32f, type: 3}
   _defaultPrice: 10

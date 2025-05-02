@@ -39,7 +39,7 @@ namespace Applicators
             _buy.onClick.RemoveListener(OnBuyClick);
         }
 
-        protected override void Application(PerkVisualData data)
+        protected override void Applicate(PerkVisualData data)
         {
             Name.text = data.Name;
             Description.text = data.Description;
