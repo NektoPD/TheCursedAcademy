@@ -10,6 +10,7 @@ namespace Items.ItemVariations
     [RequireComponent(typeof(SpriteRenderer))]
     public abstract class ItemProjectile : MonoBehaviour
     {
+        protected Transform Transform;
         protected float Damage;
         protected Item Owner;
         protected readonly HashSet<IDamageable> HitEnemies = new HashSet<IDamageable>();
@@ -19,6 +20,7 @@ namespace Items.ItemVariations
         protected virtual void Awake()
         {
             SpriteRenderer = GetComponent<SpriteRenderer>();
+            Transform = transform;
         }
 
         public virtual void Initialize(float damage, Item owner)

@@ -9,5 +9,6 @@ namespace Items.Enums
         Toys,
         Parfume,
         Chalk,
+        GreatIdea,
     }
 }

@@ -1,4 +1,5 @@
 using PlayerPerksController;
+using TheraBytes.BetterUi;
 using UnityEngine;
 using Zenject;
 using UnityEngine.SceneManagement;
@@ -19,6 +20,7 @@ namespace Infrastructure
         private void Start()
         {
             SceneManager.LoadScene("Menu");
+            ResolutionMonitor.EnsureInstance();
         }
     }
 }
