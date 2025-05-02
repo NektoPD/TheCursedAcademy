@@ -16,8 +16,10 @@ MonoBehaviour:
   _name: Kunoichi Ranger
   _health: 20
   _speed: 0.8
+  _immuneTime: 5
+  _money: 10
   _attacks:
   - {fileID: 11400000, guid: 077e640c1474ad24d9f0da6d3e928a83, type: 2}
-  _animatorController: {fileID: 9100000, guid: 2224cc5a0bb9a89448e5ad09e5915412, type: 2}
+  _animatorController: {fileID: 22100000, guid: 02c249d9d4fdfc44e92d81971d12e084, type: 2}
   _expPointData: {fileID: 11400000, guid: aa3f29e862eddee4d8381968e8f8f8a3, type: 2}
   _prefab: {fileID: 5431957914877251030, guid: 707d13c71f5787d41a66c1a2f5337672, type: 3}

@@ -16,9 +16,11 @@ MonoBehaviour:
   _name: Samurai Commander
   _health: 40
   _speed: 1.2
+  _immuneTime: 10
+  _money: 30
   _attacks:
   - {fileID: 11400000, guid: c9a98d71763e4724c9d5ad7f443a997d, type: 2}
   - {fileID: 11400000, guid: 1145c3bed61691546bd0ba92a7cf0d05, type: 2}
-  _animatorController: {fileID: 9100000, guid: 3621deb6e084c3a4780f2ce3ca156055, type: 2}
+  _animatorController: {fileID: 22100000, guid: cfa9010611e1c534db408f09b3e15ced, type: 2}
   _expPointData: {fileID: 11400000, guid: 4a4c29a431849594f8bfdd3847ab8601, type: 2}
   _prefab: {fileID: 5431957914877251030, guid: b6a685fd219968a4480130cba3a09846, type: 3}

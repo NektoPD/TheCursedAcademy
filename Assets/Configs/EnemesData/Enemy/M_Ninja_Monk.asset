@@ -16,8 +16,10 @@ MonoBehaviour:
   _name: Ninja Monk
   _health: 21
   _speed: 1.2
+  _immuneTime: 5
+  _money: 10
   _attacks:
   - {fileID: 11400000, guid: 3d485275c39c156429baf3fee5d32cc1, type: 2}
-  _animatorController: {fileID: 9100000, guid: a0873fb72d96a6946a7c5bdee7c00bb8, type: 2}
+  _animatorController: {fileID: 22100000, guid: 66da623c778349946b6c52cfbf38d030, type: 2}
   _expPointData: {fileID: 11400000, guid: aa3f29e862eddee4d8381968e8f8f8a3, type: 2}
   _prefab: {fileID: 5431957914877251030, guid: 707d13c71f5787d41a66c1a2f5337672, type: 3}

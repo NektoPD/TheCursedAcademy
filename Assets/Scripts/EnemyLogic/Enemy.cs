@@ -5,15 +5,16 @@ using UnityEngine;
 
 namespace EnemyLogic
 {
-    [RequireComponent(typeof(EnemyMover), typeof(EnemyAnimator))]
+    [RequireComponent(typeof(EnemyMover), typeof(EnemyAnimator), typeof(EnemyEjector))]
     [RequireComponent(typeof(EnemyDamageTaker), typeof(EnemyAttacker))]
     public class Enemy : MonoBehaviour, IPoolEntity
     {
         private EnemyMover _mover;
-        private EnemyAnimator _view;
+        private EnemyAnimator _animator;
         private EnemyDamageTaker _damageTaker;
         private EnemyAttacker _attacker;
         private EnemyPool _pool;
+        private EnemyEjector _ejector;
         private string _name;
 
         public string Name => _name;
@@ -21,9 +22,10 @@ namespace EnemyLogic
         private void Awake()
         {
             _mover = GetComponent<EnemyMover>();
-            _view = GetComponent<EnemyAnimator>();
+            _animator = GetComponent<EnemyAnimator>();
             _damageTaker = GetComponent<EnemyDamageTaker>();
             _attacker = GetComponent<EnemyAttacker>();
+            _ejector = GetComponent<EnemyEjector>();
         }
 
         public void Initialize(IData<Enemy> data, EnemyPool pool)
@@ -31,11 +33,11 @@ namespace EnemyLogic
             EnemyData enemyData = data as EnemyData;
 
             _name = enemyData.Name;
-
-            _damageTaker.Initialize(enemyData.Health, enemyData.ExpPointData);
+            _animator.Initialize(enemyData.AnimatorController);
+            _damageTaker.Initialize(enemyData.Health, enemyData.ImmuneTime);
             _mover.Initialize(enemyData.Speed);
-            _view.Initialize(enemyData.AnimatorController);
             _attacker.Initialize(enemyData.Attacks);
+            _ejector.Initialize(enemyData.ExpPointData, enemyData.Money);
 
             _pool = pool;
         }

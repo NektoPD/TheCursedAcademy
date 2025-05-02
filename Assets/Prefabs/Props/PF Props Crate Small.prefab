@@ -143,6 +143,7 @@ GameObject:
   - component: {fileID: 8150476868737220291}
   - component: {fileID: 696639824520242731}
   - component: {fileID: 2859387436221667114}
+  - component: {fileID: 4300722676117832226}
   m_Layer: 0
   m_Name: Shadow
   m_TagString: Untagged
@@ -276,3 +277,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _upOrder: -1
   _downOrder: 2
+--- !u!114 &4300722676117832226
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8150476868737220289}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4d7f523f8ef17a438e3524811411535, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enemy:
+    serializedVersion: 2
+    m_Bits: 256
+  _player:
+    serializedVersion: 2
+    m_Bits: 1024
+  _renderers:
+  - {fileID: 8150476868300563374}
+  _transparencyAmount: 0.5

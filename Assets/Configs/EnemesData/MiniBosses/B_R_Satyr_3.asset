@@ -16,9 +16,11 @@ MonoBehaviour:
   _name: Satyr 3
   _health: 15
   _speed: 1
+  _immuneTime: 10
+  _money: 30
   _attacks:
   - {fileID: 11400000, guid: 9186cbca81c50544baa14ec8e583d58b, type: 2}
   - {fileID: 11400000, guid: 0ad8d19bef274d9409bccffb90a3bd79, type: 2}
-  _animatorController: {fileID: 9100000, guid: a5247ae2469dfbd4ea92977aaecbcfef, type: 2}
+  _animatorController: {fileID: 22100000, guid: 96ddfc240883c6340843022248bf2611, type: 2}
   _expPointData: {fileID: 11400000, guid: aa3f29e862eddee4d8381968e8f8f8a3, type: 2}
   _prefab: {fileID: 5431957914877251030, guid: b6a685fd219968a4480130cba3a09846, type: 3}

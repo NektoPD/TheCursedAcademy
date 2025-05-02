@@ -16,6 +16,8 @@ MonoBehaviour:
   _name: Kitsune
   _health: 200
   _speed: 0.7
+  _immuneTime: 15
+  _money: 100
   _attacks:
   - {fileID: 11400000, guid: cd16211891179e84588934ebd3bc4eb7, type: 2}
   - {fileID: 11400000, guid: 395fe905f379f19449865824e66fbf16, type: 2}

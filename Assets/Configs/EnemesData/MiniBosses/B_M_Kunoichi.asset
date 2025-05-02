@@ -16,9 +16,11 @@ MonoBehaviour:
   _name: Kunoichi
   _health: 25
   _speed: 1
+  _immuneTime: 10
+  _money: 30
   _attacks:
   - {fileID: 11400000, guid: 2d7ccc8c235bd6a45bc44f99ba6a097f, type: 2}
   - {fileID: 11400000, guid: b42090a6a720eb249a6cb8a112456967, type: 2}
-  _animatorController: {fileID: 9100000, guid: 81ff223ba441b0544a8ad3c1352aa103, type: 2}
+  _animatorController: {fileID: 22100000, guid: 4a8566f158973444c9c1cfd18c1fd293, type: 2}
   _expPointData: {fileID: 11400000, guid: a79a5afe89ea1794e9a5e2f7d0b6e0dc, type: 2}
   _prefab: {fileID: 5431957914877251030, guid: b6a685fd219968a4480130cba3a09846, type: 3}
