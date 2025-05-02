@@ -3741,6 +3741,7 @@ GameObject:
   - component: {fileID: 592951843}
   - component: {fileID: 592951842}
   - component: {fileID: 592951845}
+  - component: {fileID: 592951846}
   m_Layer: 5
   m_Name: End
   m_TagString: Untagged
@@ -3850,6 +3851,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _window: {fileID: 592951840}
+--- !u!114 &592951846
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 592951840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3273c087c0ca47c4eadb6ff991717edd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _totalScore: {fileID: 735487614}
+  _level: {fileID: 206302045}
+  _coins: {fileID: 1255957094}
+  _time: {fileID: 1339941472}
+  _itemsContainer: {fileID: 146775892}
+  _itemPrefab: {fileID: 5170279618621805201, guid: 3a55fe69758159642b80c22094f7b865, type: 3}
+  _itemStatisticsApplicator: {fileID: 1154928584}
 --- !u!1 &617971208
 GameObject:
   m_ObjectHideFlags: 0
@@ -8388,7 +8408,6 @@ GameObject:
   - component: {fileID: 1343795801}
   - component: {fileID: 1343795803}
   - component: {fileID: 1343795802}
-  - component: {fileID: 1343795805}
   m_Layer: 5
   m_Name: Filter
   m_TagString: Untagged
@@ -8456,25 +8475,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1343795800}
   m_CullTransparentMesh: 1
---- !u!114 &1343795805
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1343795800}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3273c087c0ca47c4eadb6ff991717edd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _totalScore: {fileID: 735487614}
-  _level: {fileID: 206302045}
-  _coins: {fileID: 1255957094}
-  _time: {fileID: 1339941472}
-  _itemsContainer: {fileID: 146775892}
-  _itemPrefab: {fileID: 5170279618621805201, guid: 3a55fe69758159642b80c22094f7b865, type: 3}
-  _itemStatisticsApplicator: {fileID: 1154928584}
 --- !u!1 &1351985113
 GameObject:
   m_ObjectHideFlags: 0
