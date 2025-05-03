@@ -4,11 +4,14 @@ using UnityEngine;
 using Zenject;
 using UnityEngine.SceneManagement;
 using WalletSystem;
+using UnityEditor;
 
 namespace Infrastructure
 {
     public class BootLoader : MonoBehaviour
     {
+        [SerializeField] private SceneAsset _scene;
+
         private PerkController _perkController;
         private Wallet _wallet;
 
@@ -24,7 +27,7 @@ namespace Infrastructure
 
         private void Start()
         {
-            SceneManager.LoadScene("Menu");
+            SceneManager.LoadScene(_scene.name);
             ResolutionMonitor.EnsureInstance();
         }
     }

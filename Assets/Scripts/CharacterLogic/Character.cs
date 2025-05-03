@@ -20,6 +20,7 @@ namespace CharacterLogic
     public class Character : MonoBehaviour, IDamageable, IStatisticsTransmitter
     {
         [SerializeField] private CharacterInventoryUI _inventoryUI;
+        [SerializeField] private bool _cameraOnCharacter;
 
         private CharacterData _characterData;
         private CharacterAnimationController _animationController;
@@ -62,7 +63,8 @@ namespace CharacterLogic
             _view = GetComponent<CharacterView>();
             _attacker = GetComponent<CharacterAttacker>(); 
 
-            Camera.main.transform.SetParent(transform);
+            if(_cameraOnCharacter)
+                Camera.main.transform.SetParent(transform);
         }
 
         private void OnDisable()
@@ -77,6 +79,20 @@ namespace CharacterLogic
             HandleMovementAnimations();
         }
 
+        public void ActivateCharacter()
+        {
+            _movementHandler.EnableMovement();
+            _movementHandler.SetSpeed(_moveSpeed);
+            _attacker.EnableAttack();
+        }
+
+        public void DisableCharacter()
+        {
+            _movementHandler.DisableMovement();
+            _movementHandler.SetSpeed(0);
+            _attacker.DisableAttack();
+        }
+
         private void InitializeCharacterComponents()
         {
             _health = new Health(_hp);
@@ -85,6 +101,7 @@ namespace CharacterLogic
             _inventory = new CharacterInventory();
 
             _attacker.Initialize(_inventory, _attackCooldown);
+
             _inventoryUI.DisableAllSlots();
             _inventoryUI.Initialize(_inventory);
 
@@ -119,15 +136,8 @@ namespace CharacterLogic
             _spriteHolder.FlipSprite(movingLeft);
         }
 
-        private void ActivateCharacter()
-        {
-            _movementHandler.EnableMovement();
-            _movementHandler.SetSpeed(_moveSpeed);
-            _attacker.EnableAttack();
-        }
-
         private void UpdateHealthView(float currentHealth)
-        {
+        {   
             _view.UpdateHpBar(currentHealth, _hp);
         }
 

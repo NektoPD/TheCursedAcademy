@@ -37,6 +37,9 @@ namespace EnemyLogic
 
         private void FixedUpdate()
         {
+            if (_initializer == null)
+                return;
+
             if (_canMove == false)
             {
                 _enemyView.SetSpeed(0);
