@@ -477,7 +477,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf5317f8b7828e74fb873d1d8983ef77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _cooldown: 5
+  _cooldown: 1
   _maxEnemy: 100
   _dataList:
   - _playTime: 0

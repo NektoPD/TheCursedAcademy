@@ -1,23 +1,15 @@
 using Data;
-using TMPro;
+using UI.Applicators.ClickHandlers;
 using UnityEngine;
-using UnityEngine.UI;
 
-namespace Applicators
+namespace UI.Applicators
 {
     public abstract class BaseApplicator<T> : MonoBehaviour where T : IVisualData
     {
-        [SerializeField] private TextMeshProUGUI _name;
-        [SerializeField] private TextMeshProUGUI _description;
-        [SerializeField] private Image _image;
         [SerializeField] private BaseClickHandler<T>[] _items;
         [SerializeField] private T _defaultItem;
 
         protected T CurrentItem;
-
-        protected TextMeshProUGUI Name => _name;
-        protected TextMeshProUGUI Description => _description;
-        protected Image MainImage => _image;
 
         private void Start()
         {
@@ -38,6 +30,8 @@ namespace Applicators
         }
 
         protected abstract void Applicate(T data);
+
+        public void SetdDefaultItem(T item) => _defaultItem = item;
 
         private void OnClick(T data)
         {

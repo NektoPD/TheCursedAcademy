@@ -3,7 +3,7 @@ using System;
 using UnityEngine.EventSystems;
 using UnityEngine;
 
-namespace Applicators
+namespace UI.Applicators.ClickHandlers
 {
     public abstract class BaseClickHandler<T> : MonoBehaviour, IPointerClickHandler where T : IVisualData
     {
@@ -18,6 +18,6 @@ namespace Applicators
             Clicked?.Invoke(_data);
         }
 
-        protected void SetData(T data) => _data = data;
+        public void SetData(T data) => _data = data;
     }
 }

@@ -11,7 +11,6 @@ namespace Items.ItemVariations
     {
         [SerializeField] private GreatIdeaProjectile _ideaProjectilePrefab;
         [SerializeField] private float _projectileLifetime = 3f;
-        [SerializeField] private float _projectileSpeed = 5f;
         [SerializeField] private int _initialPoolSize = 5;
         [SerializeField] private float _detectionRadius = 10f;
         [SerializeField] private LayerMask _enemyLayerMask;

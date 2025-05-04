@@ -1,7 +1,8 @@
+using UI.Applicators.ClickHandlers;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Applicators
+namespace UI.Applicators
 {
     public class TextureApplicator : MonoBehaviour
     {

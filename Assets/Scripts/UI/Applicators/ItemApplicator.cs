@@ -1,19 +1,17 @@
-using Applicators;
 using Data;
-using Items.ItemData;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Applicators_
+namespace UI.Applicators
 {
     public class ItemApplicator : BaseApplicator<ItemVisualData>
     {
-        [SerializeField] private StatApplicator _statPrefab;
+        [SerializeField] private StatView _statPrefab;
         [SerializeField] private Transform _statContainer;
         [SerializeField] private Button _ok;
 
-        private List<StatApplicator> _currentStats = new ();
+        private readonly List<StatView> _currentStats = new ();
 
         protected override void OnEnable()
         {
@@ -31,18 +29,14 @@ namespace Applicators_
         {
             RemoveAllStat();
 
-            //добавление характеристик, пока не знаю, как они реализованы, нужно доделать
-            ItemDataConfig config = data.Config;
-
-            AddStat(nameof(config.Damage), config.Damage);
-            AddStat(nameof(config.Cooldown), config.Cooldown);
-            AddStat(nameof(config.Rarity), config.Rarity);
+            foreach (var stat in data.Stats)
+                AddStat(stat.Name, $"{stat.PastValue} -> {stat.CurrentValue}");
         }
 
-        private void AddStat(string name, float value)
+        private void AddStat(string name, string value)
         {
-            StatApplicator stat = Instantiate(_statPrefab, _statContainer);
-            stat.Applicate(name, value);
+            StatView stat = Instantiate(_statPrefab, _statContainer);
+            stat.Applicate(name, value.ToString());
             _currentStats.Add(stat);
         }
 
@@ -56,8 +50,7 @@ namespace Applicators_
 
         private void AddItem()
         {
-            //тут нужно добавить текущий итем CurrentItem в инвентарь. Но тут есть только ItemDataConfig, а в инвентарь добавляются Item. Пока хз, как создать Item
-            
+            //тут нужно добавить текущий итем CurrentItem в инвентарь. Но тут есть только ItemDataConfig, а в инвентарь добавляются Item. Пока хз, как создать Item          
         }
     }
 }

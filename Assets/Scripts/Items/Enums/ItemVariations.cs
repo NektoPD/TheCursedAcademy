@@ -10,5 +10,6 @@ namespace Items.Enums
         Parfume,
         Chalk,
         GreatIdea,
+        BeautyZone,
     }
 }
