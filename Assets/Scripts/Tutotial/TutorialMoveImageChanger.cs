@@ -2,9 +2,9 @@ using UnityEngine;
 using UnityEngine.UI;
 using YG;
 
-namespace Training
+namespace Tutorial
 {
-    public class TrainingMoveImageChanger : MonoBehaviour
+    public class TutorialMoveImageChanger : MonoBehaviour
     {
         [SerializeField] private Image _image;
         [SerializeField] private Sprite _wasd;

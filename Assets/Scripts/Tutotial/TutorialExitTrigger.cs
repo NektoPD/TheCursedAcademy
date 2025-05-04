@@ -3,9 +3,9 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Training
+namespace Tutorial
 {
-    public class TrainingExitTrigger : MonoBehaviour
+    public class TutorialExitTrigger : MonoBehaviour
     {
         [SerializeField] private SceneAsset _scene;
 

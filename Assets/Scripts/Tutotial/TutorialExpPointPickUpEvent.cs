@@ -5,11 +5,11 @@ using UI;
 using UnityEngine;
 using Zenject;
 
-namespace Training
+namespace Tutorial
 {
-    public class TrainingExpPointPickUpEvent : MonoBehaviour
+    public class TutorialExpPointPickUpEvent : MonoBehaviour
     {
-        [SerializeField] private TrainingTaskController _taskController;
+        [SerializeField] private TutorialTaskController _taskController;
         [SerializeField] private LevelUpWindow _window;
         [SerializeField] private List<ItemVisualData> _items;
 

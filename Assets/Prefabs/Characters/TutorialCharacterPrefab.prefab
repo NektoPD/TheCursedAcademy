@@ -279,7 +279,7 @@ GameObject:
   - component: {fileID: 5356356848076173662}
   - component: {fileID: 7899819894831871340}
   m_Layer: 10
-  m_Name: TrainingCharacterPrefab
+  m_Name: TutorialCharacterPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

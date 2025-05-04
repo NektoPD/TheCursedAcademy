@@ -2,10 +2,10 @@ using Data.ExpPointsData;
 using EnemyLogic;
 using UnityEngine;
 
-namespace Training
+namespace Tutorial
 {
     [RequireComponent(typeof(EnemyDamageTaker), typeof(EnemyEjector))]
-    public class EnemyInitializer : MonoBehaviour
+    public class TutorialEnemyInitializer : MonoBehaviour
     {
         [SerializeField] private float _maxHp;
         [SerializeField] private float _immuneTime;
