@@ -2,6 +2,7 @@ using WalletSystem.MoneyLogic;
 using System.Collections.Generic;
 using System.Linq;
 using Zenject;
+using System;
 
 namespace Pools 
 {
@@ -9,8 +10,9 @@ namespace Pools
     {
         private readonly List<Money> _entityPool = new();
         protected readonly DiContainer Container;
+        private readonly Money _prefab;
 
-        private Money _prefab;
+        public event Action MoneyReturned;
 
         public MoneyPool(DiContainer container, Money prefab)
         {
@@ -34,6 +36,10 @@ namespace Pools
             return newEntity;
         }
 
-        public void ReturnEntity(Money entity) => _entityPool.Add(entity);
+        public void ReturnEntity(Money entity)
+        {
+            MoneyReturned?.Invoke();
+            _entityPool.Add(entity);
+        }
     }
 }

@@ -22,6 +22,8 @@ namespace EnemyLogic
         private bool _isDied = false;
         private bool _inImmune = false;
 
+        public Health Health => _health;
+
         private void Awake()
         {
             _healthBar = GetComponent<HealthBar>();

@@ -15,11 +15,12 @@ namespace UI
 
         public void ShowWithItems(List<ItemVisualData> items)
         {
+            Show();
+
             for (int i = 0; i < CountItems; i++)
                 _itemsVisual[i].Initialize(items[i]);
 
             _applicator.SetdDefaultItem(items.First());
-            Show();
         }
     }
 }

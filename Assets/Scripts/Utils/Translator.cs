@@ -6,6 +6,9 @@ namespace Utils
     {
         public static string Translate(string ru, string en, string tr)
         {
+            if (ru == null || en == null || tr == null)
+                return string.Empty;
+
             return YandexGame.EnvironmentData.language switch
             {
                 "ru" => ru.Trim(),
