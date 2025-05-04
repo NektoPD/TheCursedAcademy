@@ -1026,10 +1026,10 @@ MonoBehaviour:
   m_Name: TextSwitcherClipAsset
   m_EditorClassIdentifier: 
   _template:
-    _textRu: "\u0412\u043E\u0443, \u0430 \u0442\u044B \u0441\u0442\u0430\u043B\u0430
+    _textRu: "\u0412\u0430\u0443, \u0430 \u0442\u044B \u0441\u0442\u0430\u043B\u0430
       \u0441\u0438\u043B\u044C\u043D\u0435\u0435. \u041F\u043E\u0437\u0434\u0440\u0430\u0432\u043B\u044F\u044E!"
-    _textEn: 
-    _textTr: 
+    _textEn: Wow, and you've gotten stronger. Congratulations!
+    _textTr: "Vay can\u0131na, daha da g\xFC\xE7lenmi\u015Fsin. Tebrikler!"
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1635,8 +1635,8 @@ MonoBehaviour:
       \u043E\u0442\u043F\u0440\u0430\u0432\u043B\u044F\u0442\u044C \u0432 \u043C\u0438\u0440
       \u043F\u043E\u043A\u043E\u0440\u044F\u0442\u044C \u043D\u043E\u0432\u044B\u0435
       \u0432\u044B\u0441\u043E\u0442\u044B"
-    _textEn: 
-    _textTr: 
+    _textEn: And now you can send out into the world to conquer new heights
+    _textTr: "Ve \u015Fimdi yeni zirveleri fethetmek i\xE7in d\xFCnyaya g\xF6nderebilirsiniz"
 --- !u!114 &5578918011413900238
 MonoBehaviour:
   m_ObjectHideFlags: 1
