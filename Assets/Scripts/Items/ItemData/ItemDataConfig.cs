@@ -1,4 +1,5 @@
 using UnityEngine;
+using Enums;
 
 namespace Items.ItemData
 {

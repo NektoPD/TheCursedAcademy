@@ -18,7 +18,7 @@ namespace Items.ItemVariations.Toys
 
         public override void Initialize(float damage, Item owner)
         {
-            base.Initialize(damage, owner);
+            Initialize(damage, owner);
         }
 
         private void Update()
