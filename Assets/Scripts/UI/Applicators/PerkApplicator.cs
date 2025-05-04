@@ -7,10 +7,14 @@ using UnityEngine.UI;
 using WalletSystem;
 using Zenject;
 
-namespace Applicators
+namespace UI.Applicators
 {
     public class PerkApplicator : BaseApplicator<PerkVisualData>
     {
+        [SerializeField] private TextMeshProUGUI _name;
+        [SerializeField] private TextMeshProUGUI _description;
+        [SerializeField] private Image _image;
+        [SerializeField] private Image _item;
         [SerializeField] private TextMeshProUGUI _cost;
         [SerializeField] private Button _buy;
         [SerializeField] private GameObject _error;
@@ -41,9 +45,9 @@ namespace Applicators
 
         protected override void Applicate(PerkVisualData data)
         {
-            Name.text = data.Name;
-            Description.text = data.Description;
-            MainImage.sprite = data.Sprite;
+            _name.text = data.Name;
+            _description.text = data.Description;
+            _image.sprite = data.Sprite;
             _cost.text = (data.DefaultPrice * (_perkController.GetPerkLevel(data.Type) + 1)).ToString();
         }
 

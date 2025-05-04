@@ -1,6 +1,6 @@
 using Data;
 
-namespace Applicators
+namespace UI.Applicators.ClickHandlers
 {
     public class CharacterClickHandler : BaseClickHandler<CharacterVisualData>
     {

@@ -1,40 +1,30 @@
 using Items.ItemData;
-using TMPro;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using Utils;
 
 namespace Data
 {
-    public class ItemVisualData : MonoBehaviour, IVisualData
+    [CreateAssetMenu(fileName = "PerkVisualData", menuName = "VisualData/ItemVisualData ", order = 1)]
+    public class ItemVisualData : ScriptableObject, IVisualData
     {
-        [SerializeField] private TextMeshProUGUI _textName;
-        [SerializeField] private TextMeshProUGUI _textDescription;
-        [SerializeField] private Image _image;
+        [SerializeField] private string _nameRu;
+        [SerializeField] private string _nameEn;
+        [SerializeField] private string _nameTr;
+        [SerializeField] private string _descriptionRu;
+        [SerializeField] private string _descriptionEn;
+        [SerializeField] private string _descriptionTr;
+        [SerializeField] private ItemDataConfig _config;
+        [SerializeField] private List<StatVisualData> _stats;
 
-        private string _name;
-        private string _description;
-        private Sprite _sprite;
-        private ItemDataConfig _config;
+        public string Name => Translator.Translate(_nameRu, _nameEn, _nameTr);
 
-        public string Name => _name;
+        public string Description => Translator.Translate(_descriptionRu, _descriptionEn, _descriptionTr);
 
-        public string Description => _description;
-
-        public Sprite Sprite => _sprite;
+        public Sprite Sprite => _config.ItemIcon;
 
         public ItemDataConfig Config => _config;
 
-        public void Initialize(ItemDataConfig itemData)
-        {
-            _config = itemData;
-            _name = Translator.Translate(itemData.ItemNameRu, itemData.ItemNameEn, itemData.ItemNameTr);
-            _description = Translator.Translate(itemData.DescriptionRu, itemData.DescriptionEn, itemData.DescriptionTr);
-            _sprite = itemData.ItemIcon;
-
-            _textName.text = _name;
-            _textDescription.text = _description;
-            _image.sprite = _sprite;
-        }
+        public IReadOnlyList<StatVisualData> Stats => _stats;
     }
 }

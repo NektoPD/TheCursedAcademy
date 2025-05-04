@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd4d21b6c929c2549a014203567e41ed, type: 3}
+  m_Name: BookVisualData
+  m_EditorClassIdentifier: 
+  _nameRu: "\u041A\u043D\u0438\u0433\u0430"
+  _nameEn: Book
+  _nameTr: Kitap
+  _descriptionRu: "\u041A\u043D\u0438\u0433\u0430"
+  _descriptionEn: Book
+  _descriptionTr: Kitap
+  _config: {fileID: 11400000, guid: e4d7d734813450c499f05b0935801e2a, type: 2}
+  _stats:
+  - _nameRu: "\u0423\u0440\u043E\u043D"
+    _nameEn: Damage
+    _nameTr: Hasar
+    _value: 4
+  - _nameRu: "\u041A\u043E\u043B\u043B\u0438\u0447\u0435\u0441\u0442\u0432\u043E
+      \u0441\u043D\u0430\u0440\u044F\u0434\u043E\u0432"
+    _nameEn: Number of shells
+    _nameTr: "Tur say\u0131s\u0131"
+    _value: 2
+  - _nameRu: "\u0412\u0440\u0435\u043C\u044F \u043F\u0435\u0440\u0435\u0437\u0430\u0440\u044F\u0434\u043A\u0438"
+    _nameEn: "\u0412\u0440\u0435\u043C\u044F \u043F\u0435\u0440\u0435\u0437\u0430\u0440\u044F\u0434\u043A\u0438"
+    _nameTr: "\u015Earj s\xFCresi"
+    _value: 5

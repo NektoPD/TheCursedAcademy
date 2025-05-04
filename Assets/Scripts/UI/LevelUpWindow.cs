@@ -1,19 +1,22 @@
 using Data;
-using Items.ItemData;
 using System.Collections.Generic;
+using System.Linq;
+using UI.Applicators;
 using UnityEngine;
 
 namespace UI 
 { 
     public class LevelUpWindow : Window
     {
-        [SerializeField] private List<ItemVisualData> _itemsVisual;
+        [SerializeField] private List<ItemView> _itemsVisual;
+        [SerializeField] private ItemApplicator _applicator;
 
-        public void ShowWithItems(List<ItemDataConfig> items)
+        public void ShowWithItems(List<ItemVisualData> items)
         {
             for (int i = 0; i < items.Count; i++)
                 _itemsVisual[i].Initialize(items[i]);
 
+            _applicator.SetdDefaultItem(items.First());
             Show();
         }
     }

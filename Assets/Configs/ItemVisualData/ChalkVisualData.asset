@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd4d21b6c929c2549a014203567e41ed, type: 3}
+  m_Name: ChalkVisualData
+  m_EditorClassIdentifier: 
+  _nameRu: "\u041A\u043E\u0440\u043E\u0431\u043A\u0430 \u043C\u0435\u043B\u0430"
+  _nameEn: Box of chalk
+  _nameTr: "Bir kutu tebe\u015Fir"
+  _descriptionRu: "\u0421\u0442\u0440\u0435\u043B\u044F\u0435\u0442 \u0432 \u0441\u043B\u0443\u0447\u0430\u0439\u043D\u044B\u0445
+    \u0432\u0440\u0430\u0433\u043E\u0432, \u043D\u0430\u043D\u043E\u0441\u044F \u0431\u043E\u043B\u044C\u0448\u043E\u0439
+    \u0443\u0440\u043E\u043D"
+  _descriptionEn: Shoots at random enemies, dealing high damage
+  _descriptionTr: "Rastgele d\xFC\u015Fmanlara ate\u015F eder, y\xFCksek hasar verir"
+  _config: {fileID: 11400000, guid: ac9a95052a0a62b4ea3d0fc2fae6574a, type: 2}
+  _stats:
+  - _nameRu: "\u0423\u0440\u043E\u043D"
+    _nameEn: 
+    _nameTr: 
+    _value: 3
+  - _nameRu: "\u0412\u0440\u0435\u043C\u044F \u043F\u0435\u0440\u0435\u0437\u0430\u0440\u044F\u0434\u043A\u0438"
+    _nameEn: 
+    _nameTr: 
+    _value: 4
+  - _nameRu: "\u0421\u043A\u043E\u0440\u043E\u0441\u0442\u044C \u043F\u043E\u043B\u0451\u0442\u0430"
+    _nameEn: 
+    _nameTr: 
+    _value: 5

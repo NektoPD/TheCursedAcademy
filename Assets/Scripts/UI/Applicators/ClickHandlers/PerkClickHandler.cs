@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Applicators
+namespace UI.Applicators.ClickHandlers
 {
     public class PerkClickHandler : BaseClickHandler<PerkVisualData>
     {
