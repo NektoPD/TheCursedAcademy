@@ -312,7 +312,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c788cb8fdf921f043b70dd82d7ed3901, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _scene: {fileID: 102900000, guid: c0e019047fb46444db4c60950007939a, type: 3}
+  _menu: {fileID: 102900000, guid: f5660bcd0631fa649999b4513fbe9f3d, type: 3}
+  _tutorial: {fileID: 102900000, guid: c0e019047fb46444db4c60950007939a, type: 3}
+  _type: 0
 --- !u!4 &168348300
 Transform:
   m_ObjectHideFlags: 0

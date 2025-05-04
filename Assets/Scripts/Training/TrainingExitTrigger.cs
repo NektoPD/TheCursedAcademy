@@ -1,3 +1,4 @@
+using CharacterLogic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -10,11 +11,12 @@ namespace Training
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            SceneManager.LoadScene(_scene.name);
+            if(collision.TryGetComponent(out Character _))
+                SceneManager.LoadScene(_scene.name);
         }
 
-        public void On() => enabled = true;
+        public void On() => gameObject.SetActive(true);
 
-        public void Off() => enabled = false;
+        public void Off() => gameObject.SetActive(false);
     }
 }

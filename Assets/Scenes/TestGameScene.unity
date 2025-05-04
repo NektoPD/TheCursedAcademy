@@ -1487,7 +1487,8 @@ MonoBehaviour:
     \u0445\u043E\u0442\u0438\u0442\u0435 \u0432\u044B\u0439\u0442\u0438? \u0432 \u0442\u0430\u043A\u043E\u043C
     \u0441\u043B\u0443\u0447\u0430\u0435 \u0441\u043E\u0431\u0440\u0430\u043D\u043D\u044B\u0435
     \u0434\u0435\u043D\u044C\u0433\u0438 \u043D\u0435 \u0441\u043E\u0445\u0440\u0430\u043D\u044F\u0442\u0441\u044F"
-  en: 'Are you sure you want to go out? '
+  en: Are you sure you want to go out? In such a case, the money collected will not
+    be saved
   tr: "D\u0131\u015Far\u0131 \xE7\u0131kmak istedi\u011Finden emin misin? Bu durumda,
     toplanan para kurtar\u0131lmayacak"
   az: 
@@ -1543,7 +1544,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "\u0412\u044B \u0443\u0432\u0435\u0440\u0435\u043D\u044B, \u0447\u0442\u043E
-    \u0445\u043E\u0442\u0438\u0442\u0435 \u0432\u044B\u0439\u0442\u0438? \u0432 \u0442\u0430\u043A\u043E\u043C
+    \u0445\u043E\u0442\u0438\u0442\u0435 \u0432\u044B\u0439\u0442\u0438? \u0412 \u0442\u0430\u043A\u043E\u043C
     \u0441\u043B\u0443\u0447\u0430\u0435 \u0441\u043E\u0431\u0440\u0430\u043D\u043D\u044B\u0435
     \u0434\u0435\u043D\u044C\u0433\u0438 \u043D\u0435 \u0441\u043E\u0445\u0440\u0430\u043D\u044F\u0442\u0441\u044F"
   m_isRightToLeft: 0
@@ -3599,6 +3600,7 @@ GameObject:
   - component: {fileID: 574168416}
   - component: {fileID: 574168415}
   - component: {fileID: 574168414}
+  - component: {fileID: 574168417}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -3743,6 +3745,58 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 574168412}
   m_CullTransparentMesh: 1
+--- !u!114 &574168417
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 574168412}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f34f36451b093ee4c83ad4aa5459d2ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textMPComponent: {fileID: 574168415}
+  uniqueFontTMP: {fileID: 0}
+  textLComponent: {fileID: 0}
+  infoYG: {fileID: 11400000, guid: 162644796a8b0d044bce3d6fda0641e3, type: 2}
+  text: 
+  ru: "\u041F\u043E\u0434\u0440\u043E\u0431\u043D\u0430\u044F \u0441\u0442\u0430\u0442\u0438\u0441\u0442\u0438\u043A\u0430"
+  en: Detailed statistics
+  tr: "Ayr\u0131nt\u0131l\u0131 \u0130statistikler"
+  az: 
+  be: 
+  he: 
+  hy: 
+  ka: 
+  et: 
+  fr: 
+  kk: 
+  ky: 
+  lt: 
+  lv: 
+  ro: 
+  tg: 
+  tk: 
+  uk: 
+  uz: 
+  es: 
+  pt: 
+  ar: 
+  id: 
+  ja: 
+  it: 
+  de: 
+  hi: 
+  changeOnlyFont: 0
+  fontNumber: 0
+  uniqueFont: {fileID: 0}
+  additionalText: {fileID: 0}
+  textHeight: 20
+  processTranslateLabel: 3/3 completed
+  componentTextField: 1
+  countLang: 3
 --- !u!1 &592951840
 GameObject:
   m_ObjectHideFlags: 0
@@ -8151,6 +8205,7 @@ GameObject:
   - component: {fileID: 1330325709}
   - component: {fileID: 1330325711}
   - component: {fileID: 1330325710}
+  - component: {fileID: 1330325712}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -8276,6 +8331,58 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1330325708}
   m_CullTransparentMesh: 1
+--- !u!114 &1330325712
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1330325708}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f34f36451b093ee4c83ad4aa5459d2ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textMPComponent: {fileID: 1330325710}
+  uniqueFontTMP: {fileID: 0}
+  textLComponent: {fileID: 0}
+  infoYG: {fileID: 11400000, guid: 162644796a8b0d044bce3d6fda0641e3, type: 2}
+  text: 
+  ru: "\u041F\u0430\u0443\u0437\u0430"
+  en: Pause
+  tr: Duraklamak
+  az: 
+  be: 
+  he: 
+  hy: 
+  ka: 
+  et: 
+  fr: 
+  kk: 
+  ky: 
+  lt: 
+  lv: 
+  ro: 
+  tg: 
+  tk: 
+  uk: 
+  uz: 
+  es: 
+  pt: 
+  ar: 
+  id: 
+  ja: 
+  it: 
+  de: 
+  hi: 
+  changeOnlyFont: 0
+  fontNumber: 0
+  uniqueFont: {fileID: 0}
+  additionalText: {fileID: 0}
+  textHeight: 20
+  processTranslateLabel: 3/3 completed
+  componentTextField: 1
+  countLang: 3
 --- !u!1 &1339941470
 GameObject:
   m_ObjectHideFlags: 0
@@ -8761,6 +8868,7 @@ GameObject:
   - component: {fileID: 1424905877}
   - component: {fileID: 1424905879}
   - component: {fileID: 1424905878}
+  - component: {fileID: 1424905880}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -8884,6 +8992,58 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1424905876}
   m_CullTransparentMesh: 1
+--- !u!114 &1424905880
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1424905876}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f34f36451b093ee4c83ad4aa5459d2ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textMPComponent: {fileID: 1424905878}
+  uniqueFontTMP: {fileID: 0}
+  textLComponent: {fileID: 0}
+  infoYG: {fileID: 11400000, guid: 162644796a8b0d044bce3d6fda0641e3, type: 2}
+  text: 
+  ru: "\u0412\u044B\u0431\u0435\u0440\u0435\u0442\u0435 \u043F\u0435\u0440\u0434\u043C\u0435\u0442"
+  en: Choose Perdmet
+  tr: "Perdmet'i se\xE7in"
+  az: 
+  be: 
+  he: 
+  hy: 
+  ka: 
+  et: 
+  fr: 
+  kk: 
+  ky: 
+  lt: 
+  lv: 
+  ro: 
+  tg: 
+  tk: 
+  uk: 
+  uz: 
+  es: 
+  pt: 
+  ar: 
+  id: 
+  ja: 
+  it: 
+  de: 
+  hi: 
+  changeOnlyFont: 0
+  fontNumber: 0
+  uniqueFont: {fileID: 0}
+  additionalText: {fileID: 0}
+  textHeight: 20
+  processTranslateLabel: 3/3 completed
+  componentTextField: 1
+  countLang: 3
 --- !u!1 &1436805055
 GameObject:
   m_ObjectHideFlags: 0
@@ -9266,6 +9426,7 @@ GameObject:
   - component: {fileID: 1505521837}
   - component: {fileID: 1505521839}
   - component: {fileID: 1505521838}
+  - component: {fileID: 1505521840}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -9389,6 +9550,58 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1505521836}
   m_CullTransparentMesh: 1
+--- !u!114 &1505521840
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1505521836}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f34f36451b093ee4c83ad4aa5459d2ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textMPComponent: {fileID: 1505521838}
+  uniqueFontTMP: {fileID: 0}
+  textLComponent: {fileID: 0}
+  infoYG: {fileID: 11400000, guid: 162644796a8b0d044bce3d6fda0641e3, type: 2}
+  text: 
+  ru: "\u0423\u0440\u043E\u0432\u0435\u043D\u044C \u043F\u043E\u0432\u044B\u0448\u0435\u043D!"
+  en: The level is increased!
+  tr: "Seviye artt\u0131!"
+  az: 
+  be: 
+  he: 
+  hy: 
+  ka: 
+  et: 
+  fr: 
+  kk: 
+  ky: 
+  lt: 
+  lv: 
+  ro: 
+  tg: 
+  tk: 
+  uk: 
+  uz: 
+  es: 
+  pt: 
+  ar: 
+  id: 
+  ja: 
+  it: 
+  de: 
+  hi: 
+  changeOnlyFont: 0
+  fontNumber: 0
+  uniqueFont: {fileID: 0}
+  additionalText: {fileID: 0}
+  textHeight: 20
+  processTranslateLabel: 3/3 completed
+  componentTextField: 1
+  countLang: 3
 --- !u!1 &1530259425
 GameObject:
   m_ObjectHideFlags: 0
@@ -13229,6 +13442,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 54641623}
     m_Modifications:
+    - target: {fileID: 5233685229616896905, guid: c8a89fb7e4733e74cafc43c628a07a2d, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: fecd0f64664bc5d4b9e30873be8925f6, type: 3}
     - target: {fileID: 5638424486309135639, guid: c8a89fb7e4733e74cafc43c628a07a2d, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5

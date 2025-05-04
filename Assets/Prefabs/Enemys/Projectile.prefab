@@ -88,7 +88,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.64, y: 0.64}
+  m_Size: {x: 0.53, y: 0.09}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 0
@@ -151,8 +151,8 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.64, y: 0.64}
-    newSize: {x: 0.64, y: 0.64}
+    oldSize: {x: 0.53, y: 0.09}
+    newSize: {x: 0.53, y: 0.09}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
@@ -270,6 +270,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3731170251492434386}
     m_Modifications:
+    - target: {fileID: 1227840600389596078, guid: ee3b19b42c6695e4dba717ea2869eb1e, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.9060994
+      objectReference: {fileID: 0}
+    - target: {fileID: 1227840600389596078, guid: ee3b19b42c6695e4dba717ea2869eb1e, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.7927979
+      objectReference: {fileID: 0}
+    - target: {fileID: 1227840600389596078, guid: ee3b19b42c6695e4dba717ea2869eb1e, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.2908704
+      objectReference: {fileID: 0}
     - target: {fileID: 1227840600389596078, guid: ee3b19b42c6695e4dba717ea2869eb1e, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.002

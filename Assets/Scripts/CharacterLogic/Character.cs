@@ -88,9 +88,20 @@ namespace CharacterLogic
 
         public void DisableCharacter()
         {
+            _attacker.DisableAttack();
             _movementHandler.DisableMovement();
             _movementHandler.SetSpeed(0);
-            _attacker.DisableAttack();
+        }
+
+        public void TakeDamage(float damage)
+        {
+            _health.TakeDamage(damage);
+        }
+
+        public void Revive()
+        {
+            _health.TakeHeal(_hp);
+            UpdateHealthView(_hp);
         }
 
         private void InitializeCharacterComponents()
@@ -154,17 +165,6 @@ namespace CharacterLogic
         private void OnMovingRight()
         {
             _spriteHolder.FlipSprite(false);
-        }
-
-        public void TakeDamage(float damage)
-        {
-            _health.TakeDamage(damage);
-        }
-
-        public void Revive()
-        {
-            _health.TakeHeal(_hp);
-            UpdateHealthView(_hp);
         }
     }
 }

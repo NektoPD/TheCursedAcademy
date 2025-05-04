@@ -1,4 +1,5 @@
 using Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Zenject;
@@ -12,6 +13,8 @@ namespace Pools
 
         private int _count;
 
+        public event Action Returned;
+
         public Pool(DiContainer container)
         {
             Container = container;
@@ -19,7 +22,11 @@ namespace Pools
 
         public int Active => _count - EntityPool.Count;
 
-        public void ReturnEntity(T entity) => EntityPool.Add(entity);
+        public void ReturnEntity(T entity)
+        {
+            EntityPool.Add(entity);
+            Returned?.Invoke();
+        }
 
         public T Get(IData<T> data)
         {
