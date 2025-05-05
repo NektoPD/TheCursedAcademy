@@ -5,14 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2352e6f7-7a00-4256-b434-98f90d0b0896" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.TheCursedAcademy/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TheCursedAcademy/.idea/encodings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/Gum.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.TheCursedAcademy/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TheCursedAcademy/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Configs/CharacterConfigs/Girl1.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Configs/CharacterConfigs/Girl1.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/BootScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/BootScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Items/BeautiZoneItem.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Items/BeautiZoneItem.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/Enums/ItemVariations.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Items/Enums/ItemVariations.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/ItemData/ItemDataConfig.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Items/ItemData/ItemDataConfig.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/GreatIdea/GreatIdea.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/GreatIdea/GreatIdea.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/BeautiZone/BeautyZoneItem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/BeautiZone/BeautyZoneItem.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/ItemProjectile.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/ItemProjectile.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/Toys/ToysProjectile.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/Toys/ToysProjectile.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Projectiles/Area.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Projectiles/Area.png.meta" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -150,7 +151,7 @@
       <workItem from="1745161099951" duration="4350000" />
       <workItem from="1745853065256" duration="5858000" />
       <workItem from="1746163402810" duration="8514000" />
-      <workItem from="1746334450820" duration="1763000" />
+      <workItem from="1746334450820" duration="8142000" />
     </task>
     <servers />
   </component>

@@ -11,5 +11,6 @@ namespace Items.Enums
         Chalk,
         GreatIdea,
         BeautyZone,
+        Gums,
     }
 }

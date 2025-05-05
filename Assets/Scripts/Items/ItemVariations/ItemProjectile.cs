@@ -10,12 +10,12 @@ namespace Items.ItemVariations
     [RequireComponent(typeof(SpriteRenderer))]
     public abstract class ItemProjectile : MonoBehaviour
     {
-        protected Transform Transform;
         protected float Damage;
         protected Item Owner;
         protected readonly HashSet<IDamageable> HitEnemies = new HashSet<IDamageable>();
 
         public SpriteRenderer SpriteRenderer { get; private set; }
+        public Transform Transform { get; private set; }
 
         protected virtual void Awake()
         {

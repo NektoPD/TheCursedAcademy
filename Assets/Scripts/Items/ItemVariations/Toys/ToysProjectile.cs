@@ -7,15 +7,7 @@ namespace Items.ItemVariations.Toys
     public class ToysProjectile : ItemProjectile
     {
         [SerializeField] private float _rotationSpeed = 360f;
-
-        public Transform Transform { get; private set; }
-
-        protected override void Awake()
-        {
-            base.Awake();
-            Transform = transform;
-        }
-
+        
         public override void Initialize(float damage, Item owner)
         {
             Initialize(damage, owner);

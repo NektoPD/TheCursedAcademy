@@ -10,14 +10,18 @@ namespace Items.ItemVariations.BeautiZone
     {
         [SerializeField] private BeautyZoneItemProjectile _beautyZoneProjectilePrefab;
         [SerializeField] private float _zoneRadius = 1.5f;
+
         [SerializeField] private float _zoneDuration = 2f;
-       // [SerializeField] private float _spawnOffset = 0.5f;
+
+        // [SerializeField] private float _spawnOffset = 0.5f;
         [SerializeField] private int _initialPoolSize = 2;
 
         [SerializeField] private int _level = 1;
         [SerializeField] private float _damageMultiplierPerLevel = 0.2f;
         [SerializeField] private float _radiusMultiplierPerLevel = 0.1f;
         [SerializeField] private float _durationMultiplierPerLevel = 0.1f;
+
+        [SerializeField] private float _spawnYOffset = 0.7f;
 
         private ItemProjectilePool _projectilePool;
         private Transform _transform;
@@ -40,9 +44,10 @@ namespace Items.ItemVariations.BeautiZone
             float currentDuration = _zoneDuration * (1 + _durationMultiplierPerLevel * (_level - 1));
             float currentDamage = Data.Damage * (1 + _damageMultiplierPerLevel * (_level - 1));
 
-            Vector3 spawnPosition = _transform.position;
+            Vector3 spawnPosition = new Vector3(_transform.position.x, _transform.position.y - _spawnYOffset,
+                _transform.position.z);
 
-            BeautyZoneItemProjectile zoneProjectile = 
+            BeautyZoneItemProjectile zoneProjectile =
                 _projectilePool.GetFromPool<BeautyZoneItemProjectile>(spawnPosition, Quaternion.identity);
 
             zoneProjectile.Initialize(currentDamage, this);
