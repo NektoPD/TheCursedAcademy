@@ -12,5 +12,6 @@ namespace Items.Enums
         GreatIdea,
         BeautyZone,
         Gums,
+        BellRing,
     }
 }

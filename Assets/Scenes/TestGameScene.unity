@@ -1478,8 +1478,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f34f36451b093ee4c83ad4aa5459d2ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textMPComponent: {fileID: 268850803}
-  uniqueFontTMP: {fileID: 0}
   textLComponent: {fileID: 0}
   infoYG: {fileID: 11400000, guid: 162644796a8b0d044bce3d6fda0641e3, type: 2}
   text: 
@@ -2612,8 +2610,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f34f36451b093ee4c83ad4aa5459d2ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textMPComponent: {fileID: 420353042}
-  uniqueFontTMP: {fileID: 0}
   textLComponent: {fileID: 0}
   infoYG: {fileID: 11400000, guid: 162644796a8b0d044bce3d6fda0641e3, type: 2}
   text: 
@@ -3451,8 +3447,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f34f36451b093ee4c83ad4aa5459d2ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textMPComponent: {fileID: 558994012}
-  uniqueFontTMP: {fileID: 0}
   textLComponent: {fileID: 0}
   infoYG: {fileID: 11400000, guid: 162644796a8b0d044bce3d6fda0641e3, type: 2}
   text: 
@@ -3757,8 +3751,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f34f36451b093ee4c83ad4aa5459d2ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textMPComponent: {fileID: 574168415}
-  uniqueFontTMP: {fileID: 0}
   textLComponent: {fileID: 0}
   infoYG: {fileID: 11400000, guid: 162644796a8b0d044bce3d6fda0641e3, type: 2}
   text: 
@@ -4159,8 +4151,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f34f36451b093ee4c83ad4aa5459d2ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textMPComponent: {fileID: 632121335}
-  uniqueFontTMP: {fileID: 0}
   textLComponent: {fileID: 0}
   infoYG: {fileID: 11400000, guid: 162644796a8b0d044bce3d6fda0641e3, type: 2}
   text: 
@@ -4578,8 +4568,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f34f36451b093ee4c83ad4aa5459d2ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textMPComponent: {fileID: 646946975}
-  uniqueFontTMP: {fileID: 0}
   textLComponent: {fileID: 0}
   infoYG: {fileID: 11400000, guid: 162644796a8b0d044bce3d6fda0641e3, type: 2}
   text: 
@@ -5561,8 +5549,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f34f36451b093ee4c83ad4aa5459d2ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textMPComponent: {fileID: 853898990}
-  uniqueFontTMP: {fileID: 0}
   textLComponent: {fileID: 0}
   infoYG: {fileID: 11400000, guid: 162644796a8b0d044bce3d6fda0641e3, type: 2}
   text: 
@@ -5967,8 +5953,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f34f36451b093ee4c83ad4aa5459d2ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textMPComponent: {fileID: 1023028539}
-  uniqueFontTMP: {fileID: 0}
   textLComponent: {fileID: 0}
   infoYG: {fileID: 11400000, guid: 162644796a8b0d044bce3d6fda0641e3, type: 2}
   text: 
@@ -6175,8 +6159,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f34f36451b093ee4c83ad4aa5459d2ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textMPComponent: {fileID: 1026297539}
-  uniqueFontTMP: {fileID: 0}
   textLComponent: {fileID: 0}
   infoYG: {fileID: 11400000, guid: 162644796a8b0d044bce3d6fda0641e3, type: 2}
   text: 
@@ -7034,8 +7016,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f34f36451b093ee4c83ad4aa5459d2ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textMPComponent: {fileID: 1163747708}
-  uniqueFontTMP: {fileID: 0}
   textLComponent: {fileID: 0}
   infoYG: {fileID: 11400000, guid: 162644796a8b0d044bce3d6fda0641e3, type: 2}
   text: 
@@ -7686,8 +7666,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f34f36451b093ee4c83ad4aa5459d2ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textMPComponent: {fileID: 1288223042}
-  uniqueFontTMP: {fileID: 0}
   textLComponent: {fileID: 0}
   infoYG: {fileID: 11400000, guid: 162644796a8b0d044bce3d6fda0641e3, type: 2}
   text: 
@@ -8343,8 +8321,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f34f36451b093ee4c83ad4aa5459d2ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textMPComponent: {fileID: 1330325710}
-  uniqueFontTMP: {fileID: 0}
   textLComponent: {fileID: 0}
   infoYG: {fileID: 11400000, guid: 162644796a8b0d044bce3d6fda0641e3, type: 2}
   text: 
@@ -9004,8 +8980,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f34f36451b093ee4c83ad4aa5459d2ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textMPComponent: {fileID: 1424905878}
-  uniqueFontTMP: {fileID: 0}
   textLComponent: {fileID: 0}
   infoYG: {fileID: 11400000, guid: 162644796a8b0d044bce3d6fda0641e3, type: 2}
   text: 
@@ -9562,8 +9536,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f34f36451b093ee4c83ad4aa5459d2ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textMPComponent: {fileID: 1505521838}
-  uniqueFontTMP: {fileID: 0}
   textLComponent: {fileID: 0}
   infoYG: {fileID: 11400000, guid: 162644796a8b0d044bce3d6fda0641e3, type: 2}
   text: 
@@ -9652,8 +9624,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f34f36451b093ee4c83ad4aa5459d2ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textMPComponent: {fileID: 1530259428}
-  uniqueFontTMP: {fileID: 0}
   textLComponent: {fileID: 0}
   infoYG: {fileID: 11400000, guid: 162644796a8b0d044bce3d6fda0641e3, type: 2}
   text: 
@@ -9883,8 +9853,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f34f36451b093ee4c83ad4aa5459d2ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textMPComponent: {fileID: 1565960017}
-  uniqueFontTMP: {fileID: 0}
   textLComponent: {fileID: 0}
   infoYG: {fileID: 11400000, guid: 162644796a8b0d044bce3d6fda0641e3, type: 2}
   text: 
@@ -10070,8 +10038,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f34f36451b093ee4c83ad4aa5459d2ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textMPComponent: {fileID: 1583760579}
-  uniqueFontTMP: {fileID: 0}
   textLComponent: {fileID: 0}
   infoYG: {fileID: 11400000, guid: 162644796a8b0d044bce3d6fda0641e3, type: 2}
   text: 
@@ -10620,8 +10586,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f34f36451b093ee4c83ad4aa5459d2ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textMPComponent: {fileID: 1669346547}
-  uniqueFontTMP: {fileID: 0}
   textLComponent: {fileID: 0}
   infoYG: {fileID: 11400000, guid: 162644796a8b0d044bce3d6fda0641e3, type: 2}
   text: 
@@ -10851,8 +10815,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f34f36451b093ee4c83ad4aa5459d2ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textMPComponent: {fileID: 1695217208}
-  uniqueFontTMP: {fileID: 0}
   textLComponent: {fileID: 0}
   infoYG: {fileID: 11400000, guid: 162644796a8b0d044bce3d6fda0641e3, type: 2}
   text: 
@@ -11564,8 +11526,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f34f36451b093ee4c83ad4aa5459d2ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textMPComponent: {fileID: 1745565699}
-  uniqueFontTMP: {fileID: 0}
   textLComponent: {fileID: 0}
   infoYG: {fileID: 11400000, guid: 162644796a8b0d044bce3d6fda0641e3, type: 2}
   text: 
@@ -11984,8 +11944,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f34f36451b093ee4c83ad4aa5459d2ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textMPComponent: {fileID: 1790158454}
-  uniqueFontTMP: {fileID: 0}
   textLComponent: {fileID: 0}
   infoYG: {fileID: 11400000, guid: 162644796a8b0d044bce3d6fda0641e3, type: 2}
   text: 
@@ -13261,8 +13219,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f34f36451b093ee4c83ad4aa5459d2ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textMPComponent: {fileID: 2114559042}
-  uniqueFontTMP: {fileID: 0}
   textLComponent: {fileID: 0}
   infoYG: {fileID: 11400000, guid: 162644796a8b0d044bce3d6fda0641e3, type: 2}
   text: 
