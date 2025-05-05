@@ -57,11 +57,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b0c5b7368054c1dac035eef5a959379, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Data>k__BackingField: {fileID: 0}
+  <Data>k__BackingField: {fileID: 11400000, guid: 23411b5b5870b324691382ccd7271dd4, type: 2}
   _bellProjectilePrefab: {fileID: 4406227163197462480, guid: e2dcafb12b86d4849819a6b24aa0eab4, type: 3}
   _freezeDuration: 3
   _initialPoolSize: 5
-  _detectionRadius: 8
   _enemyLayerMask:
     serializedVersion: 2
     m_Bits: 256
