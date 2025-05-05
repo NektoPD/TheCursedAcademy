@@ -1,56 +1,59 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-[RequireComponent(typeof(SpriteRenderer))]
-public class EnemyDamageView : MonoBehaviour
+namespace EnemyLogic
 {
-    private readonly Color DamageColor = new (1f, 0.5f, 0.5f);
-
-    private SpriteRenderer _spriteRenderer;
-    private Color _originalColor;
-    private Coroutine _coroutine;
-
-    private void Awake()
+    [RequireComponent(typeof(SpriteRenderer))]
+    public class EnemyDamageView : MonoBehaviour
     {
-        _spriteRenderer = GetComponent<SpriteRenderer>();
-    }
+        [SerializeField] private Color DamageColor = new(1f, 0.5f, 0.5f);
 
-    private void Start()
-    {
-        _originalColor = _spriteRenderer.color;
-    }
+        private SpriteRenderer _spriteRenderer;
+        private Color _originalColor;
+        private Coroutine _coroutine;
 
-    public void StartFlash(float duration)
-    {
-        if (_coroutine != null)
-            StopCoroutine(_coroutine);
-
-        _coroutine = StartCoroutine(FlashCoroutine(duration));
-    }
-
-    private IEnumerator FlashCoroutine(float duration)
-    {
-        float halfDuration = duration / 2f;
-        Color flashColor = DamageColor;
-
-        float elapsed = 0f;
-        while (elapsed < halfDuration)
+        private void Awake()
         {
-            float t = elapsed / halfDuration; 
-            _spriteRenderer.color = Color.Lerp(_originalColor, flashColor, t);
-            elapsed += Time.deltaTime;
-            yield return null;
+            _spriteRenderer = GetComponent<SpriteRenderer>();
         }
 
-        elapsed = 0f;
-        while (elapsed < halfDuration)
+        private void Start()
         {
-            float t = elapsed / halfDuration; 
-            _spriteRenderer.color = Color.Lerp(flashColor, _originalColor, t);
-            elapsed += Time.deltaTime;
-            yield return null;
+            _originalColor = _spriteRenderer.color;
         }
 
-        _spriteRenderer.color = _originalColor;
+        public void StartFlash(float duration)
+        {
+            if (_coroutine != null)
+                StopCoroutine(_coroutine);
+
+            _coroutine = StartCoroutine(FlashCoroutine(duration));
+        }
+
+        private IEnumerator FlashCoroutine(float duration)
+        {
+            float halfDuration = duration / 2f;
+            Color flashColor = DamageColor;
+
+            float elapsed = 0f;
+            while (elapsed < halfDuration)
+            {
+                float t = elapsed / halfDuration;
+                _spriteRenderer.color = Color.Lerp(_originalColor, flashColor, t);
+                elapsed += Time.deltaTime;
+                yield return null;
+            }
+
+            elapsed = 0f;
+            while (elapsed < halfDuration)
+            {
+                float t = elapsed / halfDuration;
+                _spriteRenderer.color = Color.Lerp(flashColor, _originalColor, t);
+                elapsed += Time.deltaTime;
+                yield return null;
+            }
+
+            _spriteRenderer.color = _originalColor;
+        }
     }
 }
