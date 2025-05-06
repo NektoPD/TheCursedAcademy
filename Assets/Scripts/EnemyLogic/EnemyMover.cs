@@ -42,7 +42,7 @@ namespace EnemyLogic
 
             if (_canMove == false)
             {
-                _enemyView.SetSpeed(0);
+                _enemyView.SetFloatSpeed(0);
                 return;
             }
 
@@ -51,12 +51,12 @@ namespace EnemyLogic
             if (Vector2.Distance(GetCurrentPosition(), _initializer.PlayerTransform.position) > _attackRange)
             {
                 _transform.position = Vector2.MoveTowards(_transform.position, _initializer.PlayerTransform.position, _speed * Time.fixedDeltaTime);
-                _enemyView.SetSpeed(_speed);
+                _enemyView.SetFloatSpeed(_speed);
             }
             else
             {
                 TargetInRange?.Invoke(_initializer.PlayerTransform);
-                _enemyView.SetSpeed(0);
+                _enemyView.SetFloatSpeed(0);
             }
         }
 

@@ -31,14 +31,22 @@ namespace EnemyLogic
             _defaultColor = _spriteRenderer.color;
         }
 
-        public void Freeze() => SetState(false, _defaultColor, _color);
+        public void Freeze()
+        {
+            _animator.SetHurtTigger();
+            _animator.SetAnimatorSpeed(0f);
+            SetState(false, _defaultColor, _color);
+        }
 
-        public void Unfreeze() => SetState(true, _color, _defaultColor);
+        public void Unfreeze()
+        {
+            _animator.ResetSpeed();
+            SetState(true, _color, _defaultColor);
+        }
 
         private void SetState(bool componentEnabled, Color firstColor, Color secondColor)
         {
             _mover.enabled = componentEnabled;
-            _animator.enabled = componentEnabled;
             _attacker.enabled = componentEnabled;
 
             if (_coroutine != null)

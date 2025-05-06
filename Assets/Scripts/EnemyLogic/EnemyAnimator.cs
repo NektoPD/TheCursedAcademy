@@ -9,7 +9,8 @@ namespace EnemyLogic
         private const string Dead = nameof(Dead);
         private const string Hurt = nameof(Hurt);
 
-        protected Animator _animator;
+        private float _speed;
+        private Animator _animator;
 
         private void Awake()
         {
@@ -19,9 +20,10 @@ namespace EnemyLogic
         public void Initialize(RuntimeAnimatorController animatorController)
         {
             _animator.runtimeAnimatorController = animatorController;
+            _speed = _animator.speed;
         }
 
-        public void SetSpeed(float speed) => _animator.SetFloat(Speed, speed);
+        public void SetFloatSpeed(float speed) => _animator.SetFloat(Speed, speed);
 
         public void SetTriggerByName(string name) => _animator.SetTrigger(name);
 
@@ -34,5 +36,9 @@ namespace EnemyLogic
 
             _animator.SetBool(Dead, state);
         }
+
+        public void SetAnimatorSpeed(float speed) => _animator.speed = speed;
+
+        public void ResetSpeed() => _animator.speed = _speed;
     }
 }
