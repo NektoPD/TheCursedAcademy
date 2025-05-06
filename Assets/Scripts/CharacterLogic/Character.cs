@@ -6,6 +6,7 @@ using HealthSystem;
 using InventorySystem;
 using Items.BaseClass;
 using Items.Enums;
+using Items.ItemVariations;
 using StatistiscSystem;
 using UnityEngine;
 
@@ -39,6 +40,8 @@ namespace CharacterLogic
         private float _attackCooldown;
         private float _moveSpeed;
         private Item _startItem;
+        private bool _isInvincible = false;
+        private Transform _transform;
 
         public event Action<Statistics> StatisticCollected; // Нужно вызвать после сбора статистики
 
@@ -61,10 +64,12 @@ namespace CharacterLogic
             _movementHandler = GetComponent<CharacterMovementHandler>();
             _spriteHolder = GetComponent<CharacterSpriteHolder>();
             _view = GetComponent<CharacterView>();
-            _attacker = GetComponent<CharacterAttacker>(); 
+            _attacker = GetComponent<CharacterAttacker>();
 
-            if(_cameraOnCharacter)
+            if (_cameraOnCharacter)
                 Camera.main.transform.SetParent(transform);
+
+            _transform = transform;
         }
 
         private void OnDisable()
@@ -95,6 +100,9 @@ namespace CharacterLogic
 
         public void TakeDamage(float damage)
         {
+            if (_isInvincible)
+                return;
+
             _health.TakeDamage(damage);
         }
 
@@ -102,6 +110,16 @@ namespace CharacterLogic
         {
             _health.TakeHeal(_hp);
             UpdateHealthView(_hp);
+        }
+
+        private void OnInvincibilityEnabled()
+        {
+            _isInvincible = true;
+        }
+
+        private void OnInvincibilityDisabled()
+        {
+            _isInvincible = false;
         }
 
         private void InitializeCharacterComponents()
@@ -129,12 +147,23 @@ namespace CharacterLogic
             _attackCooldown = characterData.AttackRegenerationSpeed -
                               GetPerkBonus(perkBonuses, PerkType.AttackCooldown);
             _moveSpeed = characterData.MoveSpeed + GetPerkBonus(perkBonuses, PerkType.Speed);
-            _startItem = Instantiate(characterData.StartItem, transform);
-            _startItem.Initialize(_movementHandler);
-            _startItem.transform.position = transform.position;
+            _startItem = Instantiate(characterData.StartItem);
 
-            if (_startItem.Data.ItemVariation == ItemVariations.Chalk)
-                _startItem.transform.SetParent(transform);
+            if (_startItem.Data.ItemVariation != ItemVariations.Parfume)
+            {
+                _startItem.transform.SetParent(_transform);
+            }
+
+            if (_startItem.Data.ItemVariation == ItemVariations.Backpack)
+            {
+                BackpackItem backpackItem = (BackpackItem)_startItem;
+
+                backpackItem.InvincibilityEnabled += OnInvincibilityEnabled;
+                backpackItem.InvincibilityDisabled += OnInvincibilityDisabled;
+            }
+
+            _startItem.transform.position = transform.position;
+            _startItem.Initialize(_movementHandler);
         }
 
         private void HandleMovementAnimations()
@@ -148,7 +177,7 @@ namespace CharacterLogic
         }
 
         private void UpdateHealthView(float currentHealth)
-        {   
+        {
             _view.UpdateHpBar(currentHealth, _hp);
         }
 

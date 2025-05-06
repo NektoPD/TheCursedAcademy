@@ -13,5 +13,6 @@ namespace Items.Enums
         BeautyZone,
         Gums,
         BellRing,
+        Backpack,
     }
 }
