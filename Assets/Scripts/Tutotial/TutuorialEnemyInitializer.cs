@@ -7,6 +7,8 @@ namespace Tutorial
     [RequireComponent(typeof(EnemyDamageTaker), typeof(EnemyEjector))]
     public class TutorialEnemyInitializer : MonoBehaviour
     {
+        private readonly int _moneyDropChancePerProcent = 100;
+
         [SerializeField] private float _maxHp;
         [SerializeField] private float _immuneTime;
         [SerializeField] private ExpPointData _expPoint;
@@ -24,7 +26,7 @@ namespace Tutorial
         private void Start()
         {
             _damageTracker.Initialize(_maxHp, _immuneTime);
-            _enemyEjector.Initialize(_expPoint, _money);
+            _enemyEjector.Initialize(_expPoint, _money, _moneyDropChancePerProcent);
         }
     }
 }

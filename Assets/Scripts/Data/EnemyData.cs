@@ -15,6 +15,7 @@ namespace Data.EnemesData
         [SerializeField] private float _speed;
         [SerializeField] private float _immuneTime;
         [SerializeField] private int _money;
+        [SerializeField] private int _moneyDropChancePerProcent;
         [SerializeField] private List<AttackData> _attacks;
         [SerializeField] private RuntimeAnimatorController _animatorController;
         [SerializeField] private ExpPointData _expPointData;
@@ -31,6 +32,8 @@ namespace Data.EnemesData
         public float ImmuneTime => _immuneTime;
 
         public int Money => _money;
+
+        public int MoneyDropChancePerProcent => _moneyDropChancePerProcent;
 
         public IReadOnlyList<AttackData> Attacks => _attacks;
 
