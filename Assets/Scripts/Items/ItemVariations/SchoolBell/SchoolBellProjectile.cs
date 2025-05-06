@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using EnemyLogic;
 using HealthSystem;
@@ -16,7 +17,7 @@ namespace Items.ItemVariations.SchoolBell
         private float _freezeDuration;
         private float _freezeRadius;
         private LayerMask _enemyLayerMask;
-        private readonly Dictionary<Enemy, Coroutine> _frozenEnemies = new Dictionary<Enemy, Coroutine>();
+        private readonly Dictionary<EnemyFreezer, Coroutine> _frozenEnemies = new Dictionary<EnemyFreezer, Coroutine>();
 
         protected override void Awake()
         {
@@ -38,8 +39,6 @@ namespace Items.ItemVariations.SchoolBell
                     StartCoroutine(DeactivateAfterAnimation(animationLength));
                 }
             }
-
-            FreezeSurroundingEnemies();
         }
 
         private IEnumerator DeactivateAfterAnimation(float animationLength)
@@ -74,7 +73,7 @@ namespace Items.ItemVariations.SchoolBell
             _enemyLayerMask = layerMask;
         }
 
-        private void FreezeSurroundingEnemies()
+        public void FreezeSurroundingEnemies()
         {
             Collider2D[] enemiesInRange = Physics2D.OverlapCircleAll(
                 Transform.position,
@@ -83,46 +82,35 @@ namespace Items.ItemVariations.SchoolBell
 
             foreach (Collider2D enemyCollider in enemiesInRange)
             {
-                if (!enemyCollider.TryGetComponent(out Enemy enemy))
-                    return;
-
-                if (enemy.TryGetComponent(out IFreezable freezable) && !_frozenEnemies.ContainsKey(enemy))
+                if (enemyCollider.TryGetComponent(out EnemyFreezer freezable) && !_frozenEnemies.ContainsKey(freezable))
                 {
-                    Coroutine freezeCoroutine = StartCoroutine(FreezeEnemy(freezable, enemy));
-                    _frozenEnemies.Add(enemy, freezeCoroutine);
+                    Coroutine freezeCoroutine = StartCoroutine(FreezeEnemy(freezable));
+                    _frozenEnemies.Add(freezable, freezeCoroutine);
                 }
             }
         }
 
-        private IEnumerator FreezeEnemy(IFreezable freezable, Enemy enemy)
+        private IEnumerator FreezeEnemy(EnemyFreezer freezable)
         {
             freezable.Freeze();
 
             yield return new WaitForSeconds(_freezeDuration);
 
-            if (enemy && freezable != null)
+            if (freezable != null)
             {
                 freezable.Unfreeze();
             }
 
-            _frozenEnemies.Remove(enemy);
-        }
-
-        protected override void OnTriggerEnter2D(Collider2D collision)
-        {
-            if (collision.TryGetComponent(out IDamageable damageable) && HitEnemies.Add(damageable))
-            {
-                damageable?.TakeDamage(Damage * 0.1f);
-            }
+            _frozenEnemies.Remove(freezable);
         }
 
         private void OnDisable()
         {
             foreach (var pair in _frozenEnemies)
             {
-                if (pair.Key != null && pair.Key.TryGetComponent(out IFreezable freezable))
+                if (pair.Key != null)
                 {
-                    freezable.Unfreeze();
+                    pair.Key.Unfreeze();
                 }
 
                 if (pair.Value != null)

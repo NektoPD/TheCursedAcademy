@@ -41,8 +41,6 @@ namespace EnemyLogic
             _animator.enabled = componentEnabled;
             _attacker.enabled = componentEnabled;
 
-            Debug.Log("f");
-
             if (_coroutine != null)
                 StopCoroutine(_coroutine);
 

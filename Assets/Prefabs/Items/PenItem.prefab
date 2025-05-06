@@ -48,7 +48,7 @@ MonoBehaviour:
   <Data>k__BackingField: {fileID: 11400000, guid: 6878c1fd492223e429ff4a7656b2936e, type: 2}
   _penProjectilePrefab: {fileID: 5145289430692580087, guid: 6c9b3009a705f7a4999777cf88c476ed, type: 3}
   _projectileLifetime: 1.5
-  _attackWidth: 3
+  _attackWidth: 1
   _initialPoolSize: 3
   _spawnOffset: 0.5
 --- !u!114 &4116023999278531465

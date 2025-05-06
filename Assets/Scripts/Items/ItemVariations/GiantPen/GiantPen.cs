@@ -14,11 +14,13 @@ namespace Items.ItemVariations
         [SerializeField] private float _attackWidth = 1.5f;
         [SerializeField] private int _initialPoolSize = 3;
         [SerializeField] private float _spawnOffset = 0.5f;
+        [SerializeField] private Vector3 _projectileScale = new Vector3(1f, 1.5f, 1.5f);
+        [SerializeField] private float _damageMultiplier = 1f;
+        [SerializeField] private float _widthMultiplier = 1f;
 
         private int _level = 1;
-        private float _damageMultiplier = 1f;
-        private float _widthMultiplier = 1f;
         private ItemProjectilePool _projectilePool;
+        private bool _lastMovementWasLeft = false;
 
         private void Awake()
         {
@@ -26,29 +28,44 @@ namespace Items.ItemVariations
             _projectilePool.Initialize(_penProjectilePrefab, _initialPoolSize);
         }
 
+        private void Update()
+        {
+            if (MovementHandler.IsMoving())
+            {
+                _lastMovementWasLeft = MovementHandler.IsMovingLeft();
+            }
+        }
+
         protected override void PerformAttack()
         {
-            PenProjectile penProjectile = _projectilePool.GetFromPool<PenProjectile>(transform.position, Quaternion.identity);
+            bool isMovingLeft = MovementHandler.IsMoving() 
+                ? MovementHandler.IsMovingLeft() 
+                : _lastMovementWasLeft;
+                
+            float facingDirection = isMovingLeft ? -1f : 1f;
 
-            float facingDirection = MovementHandler.IsMovingLeft() ? -1f : 1f;
-
-            penProjectile.transform.position = new Vector2(
+            Vector3 spawnPosition = new Vector3(
                 transform.position.x + (_spawnOffset * facingDirection),
-                transform.position.y);
+                transform.position.y,
+                transform.position.z);
+                
+            PenProjectile penProjectile = _projectilePool.GetFromPool<PenProjectile>(spawnPosition, Quaternion.identity);
 
             penProjectile.transform.localScale = new Vector3(
                 _attackWidth * _widthMultiplier * Mathf.Abs(facingDirection),
-                1.5f,
-                1.5f);
+                _projectileScale.y,
+                _projectileScale.z);
 
             SpriteRenderer spriteRenderer = penProjectile.SpriteRenderer;
             if (spriteRenderer != null)
             {
-                spriteRenderer.flipX = facingDirection < 0;
+                spriteRenderer.flipX = isMovingLeft;
             }
 
             penProjectile.Initialize(Data.Damage * _damageMultiplier, this);
             penProjectile.ClearHitEnemies();
+
+            penProjectile.PlayParticleEffect(_projectileLifetime, isMovingLeft);
 
             StartCoroutine(EnableProjectile(penProjectile, _projectileLifetime));
         }
