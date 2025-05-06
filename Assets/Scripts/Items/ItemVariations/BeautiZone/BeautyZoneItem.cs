@@ -13,9 +13,9 @@ namespace Items.ItemVariations.BeautiZone
         [SerializeField] private float _zoneDuration = 2f;
         [SerializeField] private int _initialPoolSize = 2;
         [SerializeField] private int _level = 1;
-        [SerializeField] private float _damageMultiplierPerLevel = 0.2f;
+       // [SerializeField] private float _damageMultiplierPerLevel = 0.2f;
         [SerializeField] private float _radiusMultiplierPerLevel = 0.1f;
-        [SerializeField] private float _durationMultiplierPerLevel = 0.1f;
+        //[SerializeField] private float _durationMultiplierPerLevel = 0.1f;
         [SerializeField] private float _spawnYOffset = 0.7f;
 
         [Header("Gizmo Visualization")] [SerializeField]
