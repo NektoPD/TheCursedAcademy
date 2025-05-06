@@ -18,6 +18,7 @@ MonoBehaviour:
   _speed: 1.2
   _immuneTime: 5
   _money: 10
+  _moneyDropChancePerProcent: 15
   _attacks:
   - {fileID: 11400000, guid: f6e2fc15b39fe87428bf47efde96574a, type: 2}
   _animatorController: {fileID: 22100000, guid: cfa9010611e1c534db408f09b3e15ced, type: 2}

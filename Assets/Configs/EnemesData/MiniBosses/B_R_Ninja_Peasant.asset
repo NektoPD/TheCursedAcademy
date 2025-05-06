@@ -18,6 +18,7 @@ MonoBehaviour:
   _speed: 0.6
   _immuneTime: 10
   _money: 30
+  _moneyDropChancePerProcent: 25
   _attacks:
   - {fileID: 11400000, guid: bcd9c20b49627f347b22c020ee3d8d1f, type: 2}
   - {fileID: 11400000, guid: cc73c28abb9dba8489d00d64fdabc2fc, type: 2}
