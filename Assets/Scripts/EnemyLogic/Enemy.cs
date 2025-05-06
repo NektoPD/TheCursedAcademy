@@ -38,7 +38,7 @@ namespace EnemyLogic
             _damageTaker.Initialize(enemyData.Health, enemyData.ImmuneTime);
             _mover.Initialize(enemyData.Speed);
             _attacker.Initialize(enemyData.Attacks);
-            _ejector.Initialize(enemyData.ExpPointData, enemyData.Money);
+            _ejector.Initialize(enemyData.ExpPointData, enemyData.Money, enemyData.MoneyDropChancePerProcent);
 
             _pool = pool;
         }
