@@ -1,21 +1,21 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using HealthSystem;
 using Items.BaseClass;
 using UnityEngine;
 using UnityEngine.Pool;
 
-namespace Items.ItemVariations
+namespace Items.ItemVariations.MultiSlingshot
 {
-    public class ChalkProjectile : ItemProjectile
+    public class MultiSlingshotItemProjectile : ItemProjectile
     {
-        private Vector2 _targetDirection;
+        private Vector2 _direction;
         private float _speed;
-        private IObjectPool<ChalkProjectile> _pool;
+        private IObjectPool<MultiSlingshotItemProjectile> _pool;
         private Coroutine _lifetimeCoroutine;
         private new List<IDamageable> HitEnemies = new List<IDamageable>();
 
-        public void SetPool(IObjectPool<ChalkProjectile> pool)
+        public void SetPool(IObjectPool<MultiSlingshotItemProjectile> pool)
         {
             _pool = pool;
         }
@@ -31,13 +31,12 @@ namespace Items.ItemVariations
             HitEnemies.Clear();
         }
 
-        public void Launch(Vector2 targetPosition, float speed, float lifetime)
+        public void Launch(Vector2 direction, float speed, float lifetime)
         {
             _speed = speed;
+            _direction = direction.normalized;
 
-            _targetDirection = (targetPosition - (Vector2)transform.position).normalized;
-
-            float angle = Mathf.Atan2(_targetDirection.y, _targetDirection.x) * Mathf.Rad2Deg;
+            float angle = Mathf.Atan2(_direction.y, _direction.x) * Mathf.Rad2Deg;
             transform.rotation = Quaternion.Euler(0, 0, angle);
 
             if (_lifetimeCoroutine != null)
@@ -50,7 +49,7 @@ namespace Items.ItemVariations
 
         private void Update()
         {
-            transform.position += (Vector3)_targetDirection * _speed * Time.deltaTime;
+            transform.position += (Vector3)_direction * _speed * Time.deltaTime;
         }
 
         protected override void OnTriggerEnter2D(Collider2D collision)

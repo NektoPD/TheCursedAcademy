@@ -14,5 +14,6 @@ namespace Items.Enums
         Gums,
         BellRing,
         Backpack,
+        MultiSlingshot,
     }
 }
