@@ -1,0 +1,64 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &9165772493487042265
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6225786358518053357}
+  - component: {fileID: 9208260638859512005}
+  m_Layer: 0
+  m_Name: CatsItem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6225786358518053357
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9165772493487042265}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.11518577, y: -1.525588, z: 0.012165742}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &9208260638859512005
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9165772493487042265}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c08fdc668ea4251a969ff682f3437d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <Data>k__BackingField: {fileID: 11400000, guid: 937c6ed2d639f354a927be126f0a40ac, type: 2}
+  _catPrefab: {fileID: 1961552358002179585, guid: 11bb420c410de714eb9acab0ab743cdf, type: 3}
+  _spawnPoint: {fileID: 6225786358518053357}
+  _catLifetime: 10
+  _maxDistanceFromPlayer: 3
+  _catMovementSpeed: 3
+  _catsPerSpawn: 3
+  _detectionRadius: 5
+  _respawnDelay: 1.5
+  _catDisappearEffectPrefab: {fileID: 19848222, guid: e4fc72c1b3da74d4697708bcd2a9db60, type: 3}
+  _effectPoolSize: 10
+  _baseCatsPerSpawn: 3
+  _catsPerLevelDiv: 2
+  _baseDetectionRadius: 5
+  _detectionRadiusPerLevel: 0.5
+  _maxDetectionRadius: 10
+  _poolDefaultCapacity: 10
+  _poolMaxSize: 50
