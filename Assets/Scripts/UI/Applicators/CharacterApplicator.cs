@@ -2,8 +2,8 @@ using Data;
 using TMPro;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Utils;
 
 namespace UI.Applicators
 {
@@ -17,6 +17,7 @@ namespace UI.Applicators
         [SerializeField] private Image _item;
         [SerializeField] private Button _play;
         [SerializeField] private SceneAsset _scene;
+        [SerializeField] private SceneChanger _changer;
 
         protected override void OnEnable()
         {
@@ -41,7 +42,7 @@ namespace UI.Applicators
         private void OnPlayClick()
         {
             PlayerPrefs.SetInt(Key, (int)CurrentItem.Data.Type);
-            SceneManager.LoadScene(_scene.name);
+            _changer.ChangeScene(_scene);
         }
     }
 }

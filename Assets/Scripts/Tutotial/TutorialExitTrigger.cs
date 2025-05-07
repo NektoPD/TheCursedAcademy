@@ -1,18 +1,19 @@
 using CharacterLogic;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using Utils;
 
 namespace Tutorial
 {
     public class TutorialExitTrigger : MonoBehaviour
     {
         [SerializeField] private SceneAsset _scene;
+        [SerializeField] private SceneChanger _changer;
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
             if(collision.TryGetComponent(out Character _))
-                SceneManager.LoadScene(_scene.name);
+                _changer.ChangeScene(_scene);
         }
 
         public void On() => gameObject.SetActive(true);
