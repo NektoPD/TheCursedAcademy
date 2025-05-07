@@ -15,5 +15,6 @@ namespace Items.Enums
         BellRing,
         Backpack,
         MultiSlingshot,
+        Cats
     }
 }

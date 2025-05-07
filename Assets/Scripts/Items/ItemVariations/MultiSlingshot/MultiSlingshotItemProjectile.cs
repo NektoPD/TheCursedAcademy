@@ -37,7 +37,7 @@ namespace Items.ItemVariations.MultiSlingshot
             _direction = direction.normalized;
 
             float angle = Mathf.Atan2(_direction.y, _direction.x) * Mathf.Rad2Deg;
-            transform.rotation = Quaternion.Euler(0, 0, angle);
+            Transform.rotation = Quaternion.Euler(0, 0, angle);
 
             if (_lifetimeCoroutine != null)
             {
@@ -49,7 +49,7 @@ namespace Items.ItemVariations.MultiSlingshot
 
         private void Update()
         {
-            transform.position += (Vector3)_direction * _speed * Time.deltaTime;
+            Transform.position += (Vector3)_direction * _speed * Time.deltaTime;
         }
 
         protected override void OnTriggerEnter2D(Collider2D collision)

@@ -31,6 +31,8 @@ namespace Items.ItemVariations.MultiSlingshot
 
         private ObjectPool<MultiSlingshotItemProjectile> _projectilePool;
         private int _level = 1;
+        private Vector2 _lastAttackDirection = Vector2.right;
+        private CharacterLogic.InputHandler.CharacterMovementHandler _characterMovementHandler;
 
         private void Awake()
         {
@@ -43,6 +45,12 @@ namespace Items.ItemVariations.MultiSlingshot
                 defaultCapacity: _poolDefaultCapacity,
                 maxSize: _poolMaxSize
             );
+
+            _characterMovementHandler = FindObjectOfType<CharacterLogic.InputHandler.CharacterMovementHandler>();
+            if (_characterMovementHandler != null)
+            {
+                SubscribeToMovementEvents();
+            }
         }
 
         private MultiSlingshotItemProjectile CreateProjectile()
@@ -70,12 +78,48 @@ namespace Items.ItemVariations.MultiSlingshot
             Destroy(projectile.gameObject);
         }
 
+        private void SubscribeToMovementEvents()
+        {
+            _characterMovementHandler.MovingLeft += OnMovingLeft;
+            _characterMovementHandler.MovingRight += OnMovingRight;
+        }
+
+        private void UnsubscribeFromMovementEvents()
+        {
+            if (_characterMovementHandler != null)
+            {
+                _characterMovementHandler.MovingLeft -= OnMovingLeft;
+                _characterMovementHandler.MovingRight -= OnMovingRight;
+            }
+        }
+
+        private void OnMovingLeft()
+        {
+            _lastAttackDirection = Vector2.left;
+        }
+
+        private void OnMovingRight()
+        {
+            _lastAttackDirection = Vector2.right;
+        }
+
         protected override void PerformAttack()
         {
             Vector2 baseDirection = GetAttackDirection();
 
+            if (baseDirection.sqrMagnitude > 0.01f)
+            {
+                _lastAttackDirection = baseDirection;
+            }
+
             float angleStep = _spreadAngle / (_projectilesPerShot - 1);
             float startAngle = -_spreadAngle / 2;
+
+            if (_projectilesPerShot == 1)
+            {
+                angleStep = 0;
+                startAngle = 0;
+            }
 
             for (int i = 0; i < _projectilesPerShot; i++)
             {
@@ -90,23 +134,14 @@ namespace Items.ItemVariations.MultiSlingshot
 
         private Vector2 GetAttackDirection()
         {
-            if (MovementHandler.IsMoving())
+            Vector2 inputDirection = GetPlayerInputDirection();
+
+            if (inputDirection.sqrMagnitude > _movementThreshold)
             {
-                Vector2 moveDir = new Vector2(
-                    MovementHandler.IsMovingLeft() ? -1 : 1,
-                    0
-                );
-
-                Vector2 inputDirection = GetPlayerInputDirection();
-                if (inputDirection.sqrMagnitude > _movementThreshold)
-                {
-                    return inputDirection.normalized;
-                }
-
-                return moveDir;
+                return inputDirection.normalized;
             }
 
-            return default;
+            return _lastAttackDirection;
         }
 
         private Vector2 GetPlayerInputDirection()
@@ -133,6 +168,16 @@ namespace Items.ItemVariations.MultiSlingshot
             _projectilesPerShot = _baseProjectilesPerShot + _level / _projectilesPerLevelDiv;
 
             _spreadAngle = Mathf.Min(_baseSpreadAngle + (_level * _spreadAnglePerLevel), _maxSpreadAngle);
+        }
+
+        private void OnDisable()
+        {
+            UnsubscribeFromMovementEvents();
+        }
+
+        private void OnDestroy()
+        {
+            UnsubscribeFromMovementEvents();
         }
     }
 }
