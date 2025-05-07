@@ -1,8 +1,8 @@
 using UI;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Utils;
 
 public class PauseWindow : Window
 {
@@ -10,6 +10,7 @@ public class PauseWindow : Window
     [SerializeField] private Button _close;
     [SerializeField] private Button _exit;
     [SerializeField] private SceneAsset _menu;
+    [SerializeField] private SceneChanger _changer;
 
     private void OnEnable()
     {
@@ -27,6 +28,7 @@ public class PauseWindow : Window
 
     private void ChangeScene()
     {
-        SceneManager.LoadScene(_menu.name);
+        Close();
+        _changer.ChangeScene(_menu);
     }
 }
