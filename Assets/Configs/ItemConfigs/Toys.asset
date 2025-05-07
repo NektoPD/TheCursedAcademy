@@ -12,16 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7fc2b3813dc710448f98a412d5c29db, type: 3}
   m_Name: Toys
   m_EditorClassIdentifier: 
-  ItemNameRu: "\u0418\u0433\u0440\u0443\u0448\u043A\u0438"
-  ItemNameEn: Toys
-  ItemNameTr: Oyuncaklar
   Damage: 2
   Cooldown: 1
   MaxLevel: 2
   Rarity: 3
   ItemIcon: {fileID: 21300000, guid: 75c8c86df719cc74b97f05e0e586dae4, type: 3}
-  DescriptionRu: "\u041A\u0440\u0443\u0436\u0438\u0442\u0441\u044F \u0432\u043E\u043A\u0440\u0443\u0433
-    \u043F\u0435\u0440\u0441\u043E\u043D\u0430\u0436\u0430"
-  DescriptionEn: Swirling around the character
-  DescriptionTr: "Karakterin etraf\u0131nda d\xF6n\xFCyor"
-  ItemVariation: 0
+  ItemVariation: 4

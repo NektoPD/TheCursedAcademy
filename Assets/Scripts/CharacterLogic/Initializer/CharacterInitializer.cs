@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using CharacterLogic.Data;
 using CharacterLogic.Spawner;
+using Installers;
+using Items.ItemHolder;
 using PlayerPerksController;
 using UnityEngine;
 using Zenject;
@@ -18,16 +20,20 @@ namespace CharacterLogic.Initializer
 
         private PerkController _perkController;
         private CharacterFabric _fabric;
+        private ItemsHolder _itemsHolder;
 
         public Transform PlayerTransform { get; private set; }
-        
+
         public Character Character { get; private set; }
 
         [Inject]
-        private void Construct(PerkController perkController, CharacterFabric fabric)
+        private void Construct(PerkController perkController, CharacterFabric fabric, ItemsHolder itemsHolder)
         {
             _perkController = perkController;
             _fabric = fabric;
+
+            Debug.Log(itemsHolder);
+            _itemsHolder = itemsHolder;
         }
 
         private void Start()
@@ -45,7 +51,7 @@ namespace CharacterLogic.Initializer
             Dictionary<PerkType, float> finalPerkBonuses = _perkController.GetFinalPerkValues();
 
             Character characterToSpawn = _fabric.Create();
-            characterToSpawn.Construct(chosenData, finalPerkBonuses);
+            characterToSpawn.Construct(chosenData, finalPerkBonuses, _itemsHolder);
             _characterSpawner.Spawn(characterToSpawn);
             PlayerTransform = characterToSpawn.transform;
             Character = characterToSpawn;

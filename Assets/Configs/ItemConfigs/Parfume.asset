@@ -12,16 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7fc2b3813dc710448f98a412d5c29db, type: 3}
   m_Name: Parfume
   m_EditorClassIdentifier: 
-  ItemNameRu: "\u0414\u0443\u0445\u0438 "
-  ItemNameEn: 'Perfume '
-  ItemNameTr: "Parf\xFCm "
   Damage: 10
   Cooldown: 10
   MaxLevel: 4
   Rarity: 3
-  ItemIcon: {fileID: 21300000, guid: 5eb5aab577211d04da56252691194c7e, type: 3}
-  DescriptionRu: "\u0421\u043E\u0437\u0434\u0430\u0435\u0442 \u0437\u043E\u043D\u044B,
-    \u043D\u0430\u043D\u043E\u0441\u044F\u0449\u0438\u0435 \u0443\u0440\u043E\u043D"
-  DescriptionEn: Creates zones that deal damage
-  DescriptionTr: "Hasar veren b\xF6lgeler olu\u015Fturur"
-  ItemVariation: 0
+  ItemIcon: {fileID: 21300000, guid: c3beffe42ff2af148a0438cbb4f44263, type: 3}
+  ItemVariation: 5

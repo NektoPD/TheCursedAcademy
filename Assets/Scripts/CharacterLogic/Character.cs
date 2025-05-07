@@ -6,6 +6,7 @@ using HealthSystem;
 using InventorySystem;
 using Items.BaseClass;
 using Items.Enums;
+using Items.ItemHolder;
 using Items.ItemVariations;
 using StatistiscSystem;
 using UnityEngine;
@@ -32,6 +33,7 @@ namespace CharacterLogic
         private CharacterView _view;
         private CharacterAttacker _attacker;
         private CharacterInventory _inventory;
+        private ItemsHolder _itemsHolder;
 
         private float _attackPower;
         private float _armor;
@@ -45,12 +47,15 @@ namespace CharacterLogic
 
         public event Action<Statistics> StatisticCollected; // Нужно вызвать после сбора статистики
 
-        public void Construct(CharacterData characterData, Dictionary<PerkType, float> perkBonuses)
+        public void Construct(CharacterData characterData, Dictionary<PerkType, float> perkBonuses,
+            ItemsHolder itemsHolder)
         {
+            _itemsHolder = itemsHolder;
+            
             InitializeCharacterData(characterData, perkBonuses);
             InitializeCharacterComponents();
             ActivateCharacter();
-
+            
             _animationController.SetAnimatorOverride(characterData.AnimatorController);
 
             _movementHandler.MovingLeft += OnMovingLeft;
@@ -147,7 +152,10 @@ namespace CharacterLogic
             _attackCooldown = characterData.AttackRegenerationSpeed -
                               GetPerkBonus(perkBonuses, PerkType.AttackCooldown);
             _moveSpeed = characterData.MoveSpeed + GetPerkBonus(perkBonuses, PerkType.Speed);
-            _startItem = Instantiate(characterData.StartItem);
+
+            _startItem = _itemsHolder.GetItemByType(characterData.StartItem.Data.ItemVariation);
+
+            _startItem.gameObject.SetActive(true);
 
             if (_startItem.Data.ItemVariation != ItemVariations.Parfume)
             {

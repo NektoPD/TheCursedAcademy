@@ -12,12 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7fc2b3813dc710448f98a412d5c29db, type: 3}
   m_Name: BeautyZone
   m_EditorClassIdentifier: 
-  ItemName: "\u0417\u043E\u043D\u0430 \u043A\u0440\u0430\u0441\u043E\u0442\u044B"
   Damage: 3
   Cooldown: 5
   MaxLevel: 5
   Rarity: 4
-  ItemIcon: {fileID: 21300000, guid: a1d21d3ed14011944bc248a8ca86db2c, type: 3}
-  Description: "\u041D\u0430\u043D\u043E\u0441\u0438\u0442 \u0443\u0440\u043E\u043D
-    \u0432 \u043F\u043E\u043B\u0435 \u0434\u0435\u0439\u0441\u0442\u0432\u0438\u044F."
+  ItemIcon: {fileID: 21300000, guid: dc4a684c9f781434f85057fb9cfcb818, type: 3}
   ItemVariation: 8
