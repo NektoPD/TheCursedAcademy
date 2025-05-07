@@ -12,16 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7fc2b3813dc710448f98a412d5c29db, type: 3}
   m_Name: MagicRuler
   m_EditorClassIdentifier: 
-  ItemNameRu: "\u041C\u0430\u0433\u0438\u0447\u0435\u0441\u043A\u0430\u044F \u043B\u0438\u043D\u0435\u0439\u043A\u0430"
-  ItemNameEn: Magic ruler
-  ItemNameTr: Sihirli cetvel
   Damage: 15
   Cooldown: 2
   MaxLevel: 3
   Rarity: 2
-  ItemIcon: {fileID: 21300000, guid: 55cd8a0672530064584a82fd80e54fe9, type: 3}
-  DescriptionRu: "\u041C\u043E\u0436\u043D\u043E \u0431\u044B\u0441\u0442\u0440\u043E
-    \u043C\u0435\u0442\u043D\u0443\u0442\u044C \u043F\u0435\u0440\u0435\u0434 \u0441\u043E\u0431\u043E\u0439"
-  DescriptionEn: You can quickly throw it in front of you
-  DescriptionTr: "H\u0131zl\u0131ca \xF6n\xFCn\xFCze atabilirsiniz"
+  ItemIcon: {fileID: 21300000, guid: 375f2fa5dc4d58446a5bd96e82de9474, type: 3}
   ItemVariation: 0
