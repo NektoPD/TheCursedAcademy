@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79e0d6057c68f96459f2c36d9e637040, type: 3}
   m_Name: B_RA_Kunoichi
   m_EditorClassIdentifier: 
-  _nameInAnimator: Attack
-  _cooldown: 3
-  _attackRange: 2.5
-  _damage: 10
-  _countProjectiles: 1
-  _projectile: {fileID: 11400000, guid: 8e90e3eb1ba2c5c48a7873d7f53c995a, type: 2}
+  <NameInAnimator>k__BackingField: Attack
+  <Cooldown>k__BackingField: 4.5
+  <AttackRange>k__BackingField: 2.5
+  <Damage>k__BackingField: 15
+  <CountProjectiles>k__BackingField: 1
+  <ProjectileData>k__BackingField: {fileID: 11400000, guid: 8e90e3eb1ba2c5c48a7873d7f53c995a, type: 2}

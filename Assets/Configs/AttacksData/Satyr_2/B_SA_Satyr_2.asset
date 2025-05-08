@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f59118a007856c14ab9b7ba08f5898ac, type: 3}
   m_Name: B_SA_Satyr_2
   m_EditorClassIdentifier: 
-  _nameInAnimator: Spawn
-  _cooldown: 120
-  _attackRange: 30
-  _countEnemy: 2
-  _enemysData:
+  <NameInAnimator>k__BackingField: Spawn
+  <Cooldown>k__BackingField: 120
+  <AttackRange>k__BackingField: 66666
+  <EnemyCount>k__BackingField: 2
+  <EnemysData>k__BackingField:
   - {fileID: 11400000, guid: b7bf53076db16a944aef03988c82ca28, type: 2}

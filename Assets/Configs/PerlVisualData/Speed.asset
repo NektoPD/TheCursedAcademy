@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07864c3fceb4cde45993daa6d6308b25, type: 3}
   m_Name: Speed
   m_EditorClassIdentifier: 
-  _type: 5
   _nameRu: "\u0421\u043A\u043E\u0440\u043E\u0441\u0442\u044C"
   _nameEn: 'Speed '
   _nameTr: "H\u0131z "
@@ -21,5 +20,6 @@ MonoBehaviour:
     \u043D\u0430 %"
   _descriptionEn: Increases the hero's speed by %
   _descriptionTr: "Kahraman\u0131n h\u0131z\u0131n\u0131 % oran\u0131nda art\u0131r\u0131r"
-  _sprite: {fileID: 21300000, guid: e32a706f1ae0817459fc8aae241066ce, type: 3}
-  _defaultPrice: 12
+  <Type>k__BackingField: 5
+  <Sprite>k__BackingField: {fileID: 21300000, guid: e32a706f1ae0817459fc8aae241066ce, type: 3}
+  <DefaultPrice>k__BackingField: 60

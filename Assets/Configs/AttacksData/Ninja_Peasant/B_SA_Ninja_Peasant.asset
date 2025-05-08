@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f59118a007856c14ab9b7ba08f5898ac, type: 3}
   m_Name: B_SA_Ninja_Peasant
   m_EditorClassIdentifier: 
-  _nameInAnimator: Spawn
-  _cooldown: 120
-  _attackRange: 10
-  _countEnemy: 2
-  _enemysData:
+  <NameInAnimator>k__BackingField: Spawn
+  <Cooldown>k__BackingField: 120
+  <AttackRange>k__BackingField: 66666
+  <EnemyCount>k__BackingField: 4
+  <EnemysData>k__BackingField:
   - {fileID: 11400000, guid: fc988b99148f3614e9e351734b96f12b, type: 2}
   - {fileID: 11400000, guid: b88f366cda7274b49b47ef7f158122f6, type: 2}

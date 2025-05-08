@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 895040df9547a3e43bec46a7c2a95b64, type: 3}
   m_Name: B_MA_Samurai_Commander
   m_EditorClassIdentifier: 
-  _nameInAnimator: Attack
-  _cooldown: 2
-  _attackRange: 0.7
-  _damage: 23
+  <NameInAnimator>k__BackingField: Attack
+  <Cooldown>k__BackingField: 3
+  <AttackRange>k__BackingField: 0.7
+  <Damage>k__BackingField: 34.5

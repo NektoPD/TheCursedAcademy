@@ -12,15 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6bf8074def3e6845af1d1a5ebf94b04, type: 3}
   m_Name: R_Satyr_3
   m_EditorClassIdentifier: 
-  _id: 3
-  _name: Satyr 3
-  _health: 15
-  _speed: 1
-  _immuneTime: 5
-  _money: 10
-  _moneyDropChancePerProcent: 5
-  _attacks:
+  <Id>k__BackingField: 3
+  <Name>k__BackingField: Satyr 3
+  <Health>k__BackingField: 15
+  <Speed>k__BackingField: 1
+  <ImmuneTime>k__BackingField: 5
+  <Money>k__BackingField: 5
+  <MoneyDropChancePerProcent>k__BackingField: 15
+  <Attacks>k__BackingField:
   - {fileID: 11400000, guid: 3360232b491049944bc270c5ed40d843, type: 2}
-  _animatorController: {fileID: 22100000, guid: 96ddfc240883c6340843022248bf2611, type: 2}
-  _expPointData: {fileID: 11400000, guid: a9f9b65962bcfac42bc433586f9b7025, type: 2}
-  _prefab: {fileID: 5431957914877251030, guid: 707d13c71f5787d41a66c1a2f5337672, type: 3}
+  <AnimatorController>k__BackingField: {fileID: 22100000, guid: 96ddfc240883c6340843022248bf2611, type: 2}
+  <ExpPointData>k__BackingField: {fileID: 11400000, guid: a9f9b65962bcfac42bc433586f9b7025, type: 2}
+  <Prefab>k__BackingField: {fileID: 5431957914877251030, guid: 707d13c71f5787d41a66c1a2f5337672, type: 3}

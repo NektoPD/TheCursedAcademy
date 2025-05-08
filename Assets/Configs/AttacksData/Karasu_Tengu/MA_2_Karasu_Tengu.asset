@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 895040df9547a3e43bec46a7c2a95b64, type: 3}
   m_Name: MA_2_Karasu_Tengu
   m_EditorClassIdentifier: 
-  _nameInAnimator: Attack_2
-  _cooldown: 1
-  _attackRange: 0.9
-  _damage: 10
+  <NameInAnimator>k__BackingField: Attack_2
+  <Cooldown>k__BackingField: 4
+  <AttackRange>k__BackingField: 0.9
+  <Damage>k__BackingField: 20

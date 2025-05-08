@@ -12,15 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6bf8074def3e6845af1d1a5ebf94b04, type: 3}
   m_Name: M_Samurai_Commander
   m_EditorClassIdentifier: 
-  _id: 13
-  _name: Samurai Commander
-  _health: 40
-  _speed: 1.2
-  _immuneTime: 5
-  _money: 10
-  _moneyDropChancePerProcent: 15
-  _attacks:
+  <Id>k__BackingField: 13
+  <Name>k__BackingField: Samurai Commander
+  <Health>k__BackingField: 40
+  <Speed>k__BackingField: 1.2
+  <ImmuneTime>k__BackingField: 5
+  <Money>k__BackingField: 15
+  <MoneyDropChancePerProcent>k__BackingField: 15
+  <Attacks>k__BackingField:
   - {fileID: 11400000, guid: f6e2fc15b39fe87428bf47efde96574a, type: 2}
-  _animatorController: {fileID: 22100000, guid: cfa9010611e1c534db408f09b3e15ced, type: 2}
-  _expPointData: {fileID: 11400000, guid: a79a5afe89ea1794e9a5e2f7d0b6e0dc, type: 2}
-  _prefab: {fileID: 5431957914877251030, guid: 707d13c71f5787d41a66c1a2f5337672, type: 3}
+  <AnimatorController>k__BackingField: {fileID: 22100000, guid: cfa9010611e1c534db408f09b3e15ced, type: 2}
+  <ExpPointData>k__BackingField: {fileID: 11400000, guid: a79a5afe89ea1794e9a5e2f7d0b6e0dc, type: 2}
+  <Prefab>k__BackingField: {fileID: 5431957914877251030, guid: 707d13c71f5787d41a66c1a2f5337672, type: 3}

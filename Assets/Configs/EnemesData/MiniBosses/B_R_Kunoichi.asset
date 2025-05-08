@@ -12,16 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6bf8074def3e6845af1d1a5ebf94b04, type: 3}
   m_Name: B_R_Kunoichi
   m_EditorClassIdentifier: 
-  _id: 105
-  _name: Kunoichi Ranger
-  _health: 20
-  _speed: 0.8
-  _immuneTime: 10
-  _money: 30
-  _moneyDropChancePerProcent: 25
-  _attacks:
+  <Id>k__BackingField: 105
+  <Name>k__BackingField: Boss Range Kunoichi
+  <Health>k__BackingField: 30
+  <Speed>k__BackingField: 0.4
+  <ImmuneTime>k__BackingField: 10
+  <Money>k__BackingField: 25
+  <MoneyDropChancePerProcent>k__BackingField: 25
+  <Attacks>k__BackingField:
   - {fileID: 11400000, guid: 5c073ef0b6f62d34cb86e936c4113563, type: 2}
   - {fileID: 11400000, guid: b42090a6a720eb249a6cb8a112456967, type: 2}
-  _animatorController: {fileID: 22100000, guid: 02c249d9d4fdfc44e92d81971d12e084, type: 2}
-  _expPointData: {fileID: 11400000, guid: a79a5afe89ea1794e9a5e2f7d0b6e0dc, type: 2}
-  _prefab: {fileID: 5431957914877251030, guid: b6a685fd219968a4480130cba3a09846, type: 3}
+  <AnimatorController>k__BackingField: {fileID: 22100000, guid: 02c249d9d4fdfc44e92d81971d12e084, type: 2}
+  <ExpPointData>k__BackingField: {fileID: 11400000, guid: 4a4c29a431849594f8bfdd3847ab8601, type: 2}
+  <Prefab>k__BackingField: {fileID: 5431957914877251030, guid: b6a685fd219968a4480130cba3a09846, type: 3}

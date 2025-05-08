@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f59118a007856c14ab9b7ba08f5898ac, type: 3}
   m_Name: B_SA_Kunoichi
   m_EditorClassIdentifier: 
-  _nameInAnimator: Spawn
-  _cooldown: 120
-  _attackRange: 10
-  _countEnemy: 2
-  _enemysData:
+  <NameInAnimator>k__BackingField: Spawn
+  <Cooldown>k__BackingField: 120
+  <AttackRange>k__BackingField: 6666
+  <EnemyCount>k__BackingField: 4
+  <EnemysData>k__BackingField:
   - {fileID: 11400000, guid: 5b1122ad02ee9d24ab7132fdfef63d68, type: 2}
   - {fileID: 11400000, guid: 80910cd2f02950d429333a65ff4932ab, type: 2}

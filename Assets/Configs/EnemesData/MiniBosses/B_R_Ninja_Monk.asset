@@ -12,16 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6bf8074def3e6845af1d1a5ebf94b04, type: 3}
   m_Name: B_R_Ninja_Monk
   m_EditorClassIdentifier: 
-  _id: 107
-  _name: Ninja Monk Ranger
-  _health: 18
-  _speed: 0.7
-  _immuneTime: 10
-  _money: 30
-  _moneyDropChancePerProcent: 25
-  _attacks:
+  <Id>k__BackingField: 107
+  <Name>k__BackingField: Boss Range Ninja Monk
+  <Health>k__BackingField: 27
+  <Speed>k__BackingField: 0.35
+  <ImmuneTime>k__BackingField: 10
+  <Money>k__BackingField: 25
+  <MoneyDropChancePerProcent>k__BackingField: 25
+  <Attacks>k__BackingField:
   - {fileID: 11400000, guid: c7fd9bb03fea3aa4b8a7586a181788fc, type: 2}
   - {fileID: 11400000, guid: 32ccc4d02c74be142b7e91b1259262e7, type: 2}
-  _animatorController: {fileID: 22100000, guid: 56c792c61a25d8849b7458285f36e616, type: 2}
-  _expPointData: {fileID: 11400000, guid: a79a5afe89ea1794e9a5e2f7d0b6e0dc, type: 2}
-  _prefab: {fileID: 5431957914877251030, guid: b6a685fd219968a4480130cba3a09846, type: 3}
+  <AnimatorController>k__BackingField: {fileID: 22100000, guid: 56c792c61a25d8849b7458285f36e616, type: 2}
+  <ExpPointData>k__BackingField: {fileID: 11400000, guid: 4a4c29a431849594f8bfdd3847ab8601, type: 2}
+  <Prefab>k__BackingField: {fileID: 5431957914877251030, guid: b6a685fd219968a4480130cba3a09846, type: 3}

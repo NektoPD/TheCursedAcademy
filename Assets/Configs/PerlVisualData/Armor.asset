@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07864c3fceb4cde45993daa6d6308b25, type: 3}
   m_Name: Armor
   m_EditorClassIdentifier: 
-  _type: 1
   _nameRu: "\u0411\u0440\u043E\u043D\u044F"
   _nameEn: Armor
   _nameTr: "Z\u0131rh"
@@ -20,5 +19,6 @@ MonoBehaviour:
     \u0443\u0440\u043E\u043D \u043D\u0430 % \u0438\u043B\u0438 1"
   _descriptionEn: Reduces damage taken by % or 1
   _descriptionTr: "Al\u0131nan hasar\u0131 % veya 1 oran\u0131nda azalt\u0131r"
-  _sprite: {fileID: 21300000, guid: e2cd885fd4161514a94052a6b4dcb32f, type: 3}
-  _defaultPrice: 10
+  <Type>k__BackingField: 1
+  <Sprite>k__BackingField: {fileID: 21300000, guid: e2cd885fd4161514a94052a6b4dcb32f, type: 3}
+  <DefaultPrice>k__BackingField: 15

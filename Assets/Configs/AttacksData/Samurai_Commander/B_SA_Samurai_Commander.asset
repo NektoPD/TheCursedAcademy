@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f59118a007856c14ab9b7ba08f5898ac, type: 3}
   m_Name: B_SA_Samurai_Commander
   m_EditorClassIdentifier: 
-  _nameInAnimator: Spawn
-  _cooldown: 120
-  _attackRange: 10
-  _countEnemy: 2
-  _enemysData:
+  <NameInAnimator>k__BackingField: Spawn
+  <Cooldown>k__BackingField: 120
+  <AttackRange>k__BackingField: 6666
+  <EnemyCount>k__BackingField: 2
+  <EnemysData>k__BackingField:
   - {fileID: 11400000, guid: 3c3e37f5c46270b45bd3be2bc01cd3d6, type: 2}

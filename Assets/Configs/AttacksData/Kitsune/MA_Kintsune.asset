@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 895040df9547a3e43bec46a7c2a95b64, type: 3}
   m_Name: MA_Kintsune
   m_EditorClassIdentifier: 
-  _nameInAnimator: Attack_1
-  _cooldown: 20
-  _attackRange: 0.8
-  _damage: 20
+  <NameInAnimator>k__BackingField: Attack_1
+  <Cooldown>k__BackingField: 10
+  <AttackRange>k__BackingField: 0.8
+  <Damage>k__BackingField: 80

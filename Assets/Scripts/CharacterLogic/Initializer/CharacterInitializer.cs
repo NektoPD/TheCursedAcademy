@@ -31,8 +31,6 @@ namespace CharacterLogic.Initializer
         {
             _perkController = perkController;
             _fabric = fabric;
-
-            Debug.Log(itemsHolder);
             _itemsHolder = itemsHolder;
         }
 

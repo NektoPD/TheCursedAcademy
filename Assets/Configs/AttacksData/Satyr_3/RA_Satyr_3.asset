@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79e0d6057c68f96459f2c36d9e637040, type: 3}
   m_Name: RA_Satyr_3
   m_EditorClassIdentifier: 
-  _nameInAnimator: Attack
-  _cooldown: 3
-  _attackRange: 0.5
-  _damage: 3
-  _countProjectiles: 1
-  _projectile: {fileID: 11400000, guid: 5df02395c8193d6479204b8ff4e09390, type: 2}
+  <NameInAnimator>k__BackingField: Attack
+  <Cooldown>k__BackingField: 3
+  <AttackRange>k__BackingField: 0.5
+  <Damage>k__BackingField: 3
+  <CountProjectiles>k__BackingField: 1
+  <ProjectileData>k__BackingField: {fileID: 11400000, guid: 5df02395c8193d6479204b8ff4e09390, type: 2}

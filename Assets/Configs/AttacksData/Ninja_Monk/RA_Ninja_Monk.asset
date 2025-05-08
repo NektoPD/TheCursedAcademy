@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79e0d6057c68f96459f2c36d9e637040, type: 3}
   m_Name: RA_Ninja_Monk
   m_EditorClassIdentifier: 
-  _nameInAnimator: Attack
-  _cooldown: 3
-  _attackRange: 2
-  _damage: 15
-  _countProjectiles: 1
-  _projectile: {fileID: 11400000, guid: e3c293dcd58fd344f8560ec84fdf2c20, type: 2}
+  <NameInAnimator>k__BackingField: Attack
+  <Cooldown>k__BackingField: 3
+  <AttackRange>k__BackingField: 2
+  <Damage>k__BackingField: 15
+  <CountProjectiles>k__BackingField: 1
+  <ProjectileData>k__BackingField: {fileID: 11400000, guid: e3c293dcd58fd344f8560ec84fdf2c20, type: 2}

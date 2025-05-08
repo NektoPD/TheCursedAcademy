@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f59118a007856c14ab9b7ba08f5898ac, type: 3}
   m_Name: SA_Yamabush_Tengu
   m_EditorClassIdentifier: 
-  _nameInAnimator: Spawn
-  _cooldown: 120
-  _attackRange: 10
-  _countEnemy: 4
-  _enemysData:
+  <NameInAnimator>k__BackingField: Spawn
+  <Cooldown>k__BackingField: 120
+  <AttackRange>k__BackingField: 66666
+  <EnemyCount>k__BackingField: 4
+  <EnemysData>k__BackingField:
   - {fileID: 11400000, guid: d88f6f16b69eaeb4082af2f72d490579, type: 2}
   - {fileID: 11400000, guid: 5e609892bebe2d348bfd813bbcc9e7b0, type: 2}
   - {fileID: 11400000, guid: 8c1e6798637dd6d4983250db8a8d00a6, type: 2}

@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79e0d6057c68f96459f2c36d9e637040, type: 3}
   m_Name: RA_2_Kitsune
   m_EditorClassIdentifier: 
-  _nameInAnimator: Attack_3
-  _cooldown: 5
-  _attackRange: 6
-  _damage: 10
-  _countProjectiles: 1
-  _projectile: {fileID: 11400000, guid: 8f923516666992f4982aad4711c6fe60, type: 2}
+  <NameInAnimator>k__BackingField: Attack_3
+  <Cooldown>k__BackingField: 8
+  <AttackRange>k__BackingField: 4
+  <Damage>k__BackingField: 60
+  <CountProjectiles>k__BackingField: 1
+  <ProjectileData>k__BackingField: {fileID: 11400000, guid: 8f923516666992f4982aad4711c6fe60, type: 2}

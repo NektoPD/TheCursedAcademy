@@ -12,16 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6bf8074def3e6845af1d1a5ebf94b04, type: 3}
   m_Name: B_M_Samurai_Archer
   m_EditorClassIdentifier: 
-  _id: 111
-  _name: Samurai Archer
-  _health: 25
-  _speed: 1.4
-  _immuneTime: 10
-  _money: 30
-  _moneyDropChancePerProcent: 25
-  _attacks:
+  <Id>k__BackingField: 111
+  <Name>k__BackingField: Boss Samurai Archer
+  <Health>k__BackingField: 37.5
+  <Speed>k__BackingField: 0.7
+  <ImmuneTime>k__BackingField: 10
+  <Money>k__BackingField: 30
+  <MoneyDropChancePerProcent>k__BackingField: 25
+  <Attacks>k__BackingField:
   - {fileID: 11400000, guid: 4527746a0d6ba6e488e514439db51c08, type: 2}
   - {fileID: 11400000, guid: 32cc7d3879327cd4996f1fb48b13e3ee, type: 2}
-  _animatorController: {fileID: 22100000, guid: afb7338eb37db03478c09b7280478ecc, type: 2}
-  _expPointData: {fileID: 11400000, guid: 4a4c29a431849594f8bfdd3847ab8601, type: 2}
-  _prefab: {fileID: 5431957914877251030, guid: b6a685fd219968a4480130cba3a09846, type: 3}
+  <AnimatorController>k__BackingField: {fileID: 22100000, guid: afb7338eb37db03478c09b7280478ecc, type: 2}
+  <ExpPointData>k__BackingField: {fileID: 11400000, guid: 4a4c29a431849594f8bfdd3847ab8601, type: 2}
+  <Prefab>k__BackingField: {fileID: 5431957914877251030, guid: b6a685fd219968a4480130cba3a09846, type: 3}

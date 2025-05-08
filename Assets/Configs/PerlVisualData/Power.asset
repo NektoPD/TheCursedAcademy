@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07864c3fceb4cde45993daa6d6308b25, type: 3}
   m_Name: Power
   m_EditorClassIdentifier: 
-  _type: 0
   _nameRu: "\u0421\u0438\u043B\u0430"
   _nameEn: Power
   _nameTr: Kuvvet
@@ -20,5 +19,6 @@ MonoBehaviour:
     \u0443\u0440\u043E\u043D \u043D\u0430 %"
   _descriptionEn: Increases damage by %
   _descriptionTr: "Hasar\u0131 % oran\u0131nda art\u0131r\u0131r"
-  _sprite: {fileID: 21300000, guid: 939b96d90e74a4940965f29fe9651b53, type: 3}
-  _defaultPrice: 5
+  <Type>k__BackingField: 0
+  <Sprite>k__BackingField: {fileID: 21300000, guid: 939b96d90e74a4940965f29fe9651b53, type: 3}
+  <DefaultPrice>k__BackingField: 24

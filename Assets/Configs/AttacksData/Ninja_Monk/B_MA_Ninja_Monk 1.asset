@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 895040df9547a3e43bec46a7c2a95b64, type: 3}
   m_Name: B_MA_Ninja_Monk 1
   m_EditorClassIdentifier: 
-  _nameInAnimator: Attack
-  _cooldown: 1.5
-  _attackRange: 0.6
-  _damage: 6
+  <NameInAnimator>k__BackingField: Attack
+  <Cooldown>k__BackingField: 2.25
+  <AttackRange>k__BackingField: 0.6
+  <Damage>k__BackingField: 9

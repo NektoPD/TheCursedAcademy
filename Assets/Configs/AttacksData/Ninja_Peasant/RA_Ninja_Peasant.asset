@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79e0d6057c68f96459f2c36d9e637040, type: 3}
   m_Name: RA_Ninja_Peasant
   m_EditorClassIdentifier: 
-  _nameInAnimator: Attack
-  _cooldown: 2
-  _attackRange: 2.4
-  _damage: 5
-  _countProjectiles: 1
-  _projectile: {fileID: 11400000, guid: 6e667b0e79d8c3545a77b37593d57deb, type: 2}
+  <NameInAnimator>k__BackingField: Attack
+  <Cooldown>k__BackingField: 2
+  <AttackRange>k__BackingField: 2.4
+  <Damage>k__BackingField: 5
+  <CountProjectiles>k__BackingField: 1
+  <ProjectileData>k__BackingField: {fileID: 11400000, guid: 6e667b0e79d8c3545a77b37593d57deb, type: 2}
