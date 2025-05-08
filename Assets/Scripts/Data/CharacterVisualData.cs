@@ -13,15 +13,12 @@ namespace Data
         [SerializeField] private string _descriptionRu;
         [SerializeField] private string _descriptionEn;
         [SerializeField] private string _descriptionTr;
-        [SerializeField] private Sprite _sprite;
-        [SerializeField] private CharacterData _data;
+
+        [field: SerializeField] public Sprite Sprite {  get; private set; }
+        [field: SerializeField] public CharacterData Data { get; private set; }
 
         public string Name => Translator.Translate(_nameRu, _nameEn, _nameTr);
 
         public string Description => Translator.Translate(_descriptionRu, _descriptionEn, _descriptionTr);
-
-        public Sprite Sprite => _sprite;
-
-        public CharacterData Data => _data;
     }
 }

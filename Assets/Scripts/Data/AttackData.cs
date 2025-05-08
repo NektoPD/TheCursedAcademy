@@ -4,14 +4,8 @@ namespace Data.AttacksData
 {
     public abstract class AttackData : ScriptableObject
     {
-        [SerializeField] private string _nameInAnimator;
-        [SerializeField] private float _cooldown;
-        [SerializeField] private float _attackRange;
-
-        public string NameInAnimator => _nameInAnimator;
-
-        public float Cooldown => _cooldown;
-
-        public float AttackRange => _attackRange;
+        [field: SerializeField] public string NameInAnimator {  get; private set; }
+        [field: SerializeField] public float Cooldown { get; private set; }
+        [field: SerializeField] public float AttackRange { get; private set; }
     }
 }

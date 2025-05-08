@@ -7,11 +7,7 @@ namespace Data.AttacksData
     [CreateAssetMenu(fileName = "SpawnAttackData", menuName = "Attacks/SpawnAttackData ", order = 3)]
     public class SpawnAttackData : AttackData
     {
-        [SerializeField] private int _countEnemy;
-        [SerializeField] private List<EnemyData> _enemysData;
-
-        public int EnemyCount => _countEnemy;
-
-        public IReadOnlyList<EnemyData> EnemysData => _enemysData;
+        [field: SerializeField] public int EnemyCount { get; private set; }
+        [field: SerializeField] public List<EnemyData> EnemysData { get; private set; }
     }
 }

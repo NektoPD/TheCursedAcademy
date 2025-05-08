@@ -1,5 +1,5 @@
 using Items.Enums;
-using Items.ItemData;
+using Items.Stats;
 using System.Collections.Generic;
 using UnityEngine;
 using Utils;
@@ -15,18 +15,13 @@ namespace Data
         [SerializeField] private string _descriptionRu;
         [SerializeField] private string _descriptionEn;
         [SerializeField] private string _descriptionTr;
-        [SerializeField] private ItemDataConfig _config;
-        [SerializeField] private List<StatVisualData> _stats;
+
+        [field: SerializeField] public Sprite Sprite { get; private set; }
+        [field: SerializeField] public List<Stat> Stats { get; private set; }
         [field: SerializeField] public ItemVariations Variation {  get; private set; }
 
         public string Name => Translator.Translate(_nameRu, _nameEn, _nameTr);
 
         public string Description => Translator.Translate(_descriptionRu, _descriptionEn, _descriptionTr);
-
-        public Sprite Sprite => _config.ItemIcon;
-
-        public ItemDataConfig Config => _config;
-
-        public IReadOnlyList<StatVisualData> Stats => _stats;
     }
 }

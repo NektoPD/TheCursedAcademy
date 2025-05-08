@@ -1,7 +1,7 @@
 using System.Collections;
-using Data;
 using HealthSystem;
 using Items.BaseClass;
+using Items.Stats;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -18,7 +18,7 @@ namespace Items.ItemVariations
         private ObjectPool<ChalkProjectile> _projectilePool;
         private int _level = 1;
 
-        private StatVisualData _projectilesPerAttackVisual;
+        private Stat _projectilesPerAttackVisual;
 
         private void Awake()
         {

@@ -6,17 +6,9 @@ namespace Data.ProjectilesData
     [CreateAssetMenu(fileName = "ProjectileData", menuName = "Projectiles/ProjectileData", order = 1)]
     public class ProjectileData : ScriptableObject, IData<Projectile>
     {
-        [SerializeField] private float _speed;
-        [SerializeField] private Sprite _sprite;
-        [SerializeField] private RuntimeAnimatorController _animatorController;
-        [SerializeField] private Projectile _prefab;
-
-        public float Speed => _speed;
-
-        public Sprite Sprite => _sprite;
-
-        public RuntimeAnimatorController AnimatorController => _animatorController;
-
-        public Projectile Prefab => _prefab;
+        [field: SerializeField] public float Speed { get; private set; }
+        [field: SerializeField] public Sprite Sprite { get; private set; }
+        [field: SerializeField] public RuntimeAnimatorController AnimatorController { get; private set; }
+        [field: SerializeField] public Projectile Prefab { get; private set; }
     }
 }

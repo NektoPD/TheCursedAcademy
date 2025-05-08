@@ -2,10 +2,10 @@ using System;
 using UnityEngine;
 using Utils;
 
-namespace Data
+namespace Items.Stats
 {
     [Serializable]
-    public class StatVisualData
+    public class Stat
     {
         [SerializeField] private string _nameRu;
         [SerializeField] private string _nameEn;
