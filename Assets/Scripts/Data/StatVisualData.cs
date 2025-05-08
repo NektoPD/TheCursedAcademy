@@ -11,19 +11,16 @@ namespace Data
         [SerializeField] private string _nameEn;
         [SerializeField] private string _nameTr;
         [SerializeField] private float _value;
-
-        private float _pastValue = 0;
+        [SerializeField] private float _step;
 
         public string Name => Translator.Translate(_nameRu, _nameEn, _nameTr);
 
         public float CurrentValue => _value;
 
-        public float PastValue => _pastValue;
+        public float NextValue => _value + _step;
 
-        public void SetValue(float value)
-        {
-            _pastValue = _value;
-            _value = value;
-        }
+        public void SetStep(float step) => _step = step;
+
+        public void LevelUp() => _value = _value + _step;
     }
 }

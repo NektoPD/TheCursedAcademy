@@ -34,7 +34,7 @@ namespace UI.Applicators
             RemoveAllStat();
 
             foreach (var stat in data.Stats)
-                AddStat(stat.Name, $"{stat.PastValue} -> {stat.CurrentValue}");
+                AddStat(stat.Name, $"{stat.CurrentValue} -> {stat.NextValue}");
         }
 
         private void AddStat(string name, string value)

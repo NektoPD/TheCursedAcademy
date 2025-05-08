@@ -109,7 +109,7 @@ namespace Items.ItemVariations
         {
             _level++;
 
-            _projectilesPerAttackVisual.SetValue(3 + _level);
+            _projectilesPerAttackVisual.LevelUp(3 + _level);
             _projectilesPerAttack = 3 + _level;
         }
     }
