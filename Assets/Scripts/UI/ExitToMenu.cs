@@ -2,7 +2,6 @@ using CharacterLogic.Initializer;
 using StatistiscSystem;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Utils;
 using WalletSystem;
@@ -17,6 +16,7 @@ namespace UI
         [SerializeField] private Button _adsExit;
         [SerializeField] private SceneAsset _menuScene;
         [SerializeField] private Ads _ads;
+        [SerializeField] private SceneChanger _changer;
 
         private CharacterInitializer _characterInitializer;
         private int _coins;
@@ -56,7 +56,7 @@ namespace UI
 
         private void Exit()
         {
-            SceneManager.LoadScene(_menuScene.name);
+            _changer.ChangeScene(_menuScene);
         }
 
         private void OnRevardedShow(int obj)

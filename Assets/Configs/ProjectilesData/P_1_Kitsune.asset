@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85165dc2513409147abf47532b84c84e, type: 3}
   m_Name: P_1_Kitsune
   m_EditorClassIdentifier: 
-  <Speed>k__BackingField: 1
+  <Speed>k__BackingField: 2.5
   <Sprite>k__BackingField: {fileID: 1865227415, guid: bd51326cdd117e7478b731a1ee4577c2, type: 3}
   <AnimatorController>k__BackingField: {fileID: 9100000, guid: 819299bf3375e624a9894d5969bf74b8, type: 2}
   <Prefab>k__BackingField: {fileID: 4589835787153175935, guid: bd130ac1d46b21c4db788345e43257bd, type: 3}

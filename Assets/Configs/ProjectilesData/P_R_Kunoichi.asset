@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85165dc2513409147abf47532b84c84e, type: 3}
   m_Name: P_R_Kunoichi
   m_EditorClassIdentifier: 
-  <Speed>k__BackingField: 1
+  <Speed>k__BackingField: 2.5
   <Sprite>k__BackingField: {fileID: 741711442, guid: ce167c23fcb603e47ac9d165ba41f819, type: 3}
   <AnimatorController>k__BackingField: {fileID: 9100000, guid: 5c5b1169256410842bd4b205ae7d0aea, type: 2}
   <Prefab>k__BackingField: {fileID: 4589835787153175935, guid: bd130ac1d46b21c4db788345e43257bd, type: 3}

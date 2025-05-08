@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85165dc2513409147abf47532b84c84e, type: 3}
   m_Name: P_R_Ninja_Monk
   m_EditorClassIdentifier: 
-  <Speed>k__BackingField: 1
+  <Speed>k__BackingField: 2.5
   <Sprite>k__BackingField: {fileID: 2020475808, guid: ee2532726f4b4ea42abd25a67b1a8bab, type: 3}
   <AnimatorController>k__BackingField: {fileID: 9100000, guid: ef4d6e64c71267b438187aa0f324361e, type: 2}
   <Prefab>k__BackingField: {fileID: 4589835787153175935, guid: bd130ac1d46b21c4db788345e43257bd, type: 3}

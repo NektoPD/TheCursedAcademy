@@ -50,7 +50,7 @@ namespace StatistiscSystem
 
             _itemStatisticsApplicator.Applicate(statistics);
 
-            _window.Show();
+            _window.OpenWindow();
         }
     }
 }

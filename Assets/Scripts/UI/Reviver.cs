@@ -10,9 +10,12 @@ namespace UI
 {
     public class Reviver : MonoBehaviour
     {
+        private const string Close = nameof(Close);
+
         [SerializeField] private Button _revive;
         [SerializeField] private Ads _ads;
         [SerializeField] private EndWindow _endWindow;
+        [SerializeField] private Animator _animator;
 
         private Character _character;
         private bool _isShowing = false;
@@ -46,7 +49,7 @@ namespace UI
             if (_isShowing == false)
                 return;
 
-            _endWindow.Close();
+            _animator.SetTrigger(Close);
             _character.Revive();
         }
     }

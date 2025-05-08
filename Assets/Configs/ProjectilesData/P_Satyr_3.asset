@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85165dc2513409147abf47532b84c84e, type: 3}
   m_Name: P_Satyr_3
   m_EditorClassIdentifier: 
-  <Speed>k__BackingField: 1
+  <Speed>k__BackingField: 2.5
   <Sprite>k__BackingField: {fileID: -1168114802, guid: af87522eea3030f45b85acfb7be932b6, type: 3}
   <AnimatorController>k__BackingField: {fileID: 9100000, guid: 2c1c78e3981757840a3e0e19b93c7328, type: 2}
   <Prefab>k__BackingField: {fileID: 4589835787153175935, guid: bd130ac1d46b21c4db788345e43257bd, type: 3}

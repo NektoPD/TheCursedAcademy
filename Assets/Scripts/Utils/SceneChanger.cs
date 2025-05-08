@@ -19,6 +19,7 @@ namespace Utils
         public void ChangeScene(SceneAsset asset)
         {
             _scene = asset;
+            Time.timeScale = 1f;
             _fade.FadeIn();
         }
 

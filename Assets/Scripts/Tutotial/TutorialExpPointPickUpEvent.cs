@@ -31,7 +31,7 @@ namespace Tutorial
         private void OnReturned()
         {
             _taskController.ShowNextTask();
-            _window.Show();
+            _window.OpenWindow();
         }
     }
 }

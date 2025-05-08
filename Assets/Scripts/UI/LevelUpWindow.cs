@@ -36,9 +36,9 @@ namespace UI
             _initializer.Character.LevelUp -= LevelUp;
         }
 
-        public override void Show()
+        public override void OpenWindow()
         {
-            base.Show();
+            base.OpenWindow();
 
             _itemsHolder.GetVisualDatas(CountItems, out List<ItemVisualData> datas);
 
@@ -48,6 +48,6 @@ namespace UI
             _applicator.SetdDefaultItem(datas.First());
         }
 
-        private void LevelUp() => Show();
+        private void LevelUp() => OpenWindow();
     }
 }

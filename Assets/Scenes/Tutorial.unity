@@ -2224,17 +2224,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 1344444861}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 1344444869}
+        m_TargetAssemblyTypeName: UnityEngine.Animator, UnityEngine
+        m_MethodName: SetTrigger
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
+          m_StringArgument: Close
+          m_BoolArgument: 1
         m_CallState: 2
 --- !u!114 &259941854
 MonoBehaviour:
@@ -3315,7 +3315,7 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 1344444867}
           m_TargetAssemblyTypeName: UI.Window, Assembly-CSharp
-          m_MethodName: Show
+          m_MethodName: OpenWindow
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -3329,7 +3329,7 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 2112695956}
           m_TargetAssemblyTypeName: UI.Window, Assembly-CSharp
-          m_MethodName: Show
+          m_MethodName: OpenWindow
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -3745,7 +3745,6 @@ GameObject:
   - component: {fileID: 385249932}
   - component: {fileID: 385249935}
   - component: {fileID: 385249934}
-  - component: {fileID: 385249933}
   m_Layer: 5
   m_Name: Task
   m_TagString: Untagged
@@ -3802,27 +3801,6 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
---- !u!95 &385249933
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 385249930}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &385249934
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4629,18 +4607,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1888921436}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 385249930}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
@@ -4653,16 +4619,16 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 1344444867}
-        m_TargetAssemblyTypeName: UI.Window, Assembly-CSharp
-        m_MethodName: Close
-        m_Mode: 1
+      - m_Target: {fileID: 1888921442}
+        m_TargetAssemblyTypeName: UnityEngine.Animator, UnityEngine
+        m_MethodName: SetTrigger
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: Close
           m_BoolArgument: 1
         m_CallState: 2
 --- !u!114 &546154174
@@ -5053,16 +5019,16 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1095507680}
-        m_TargetAssemblyTypeName: UI.Window, Assembly-CSharp
-        m_MethodName: Close
-        m_Mode: 1
+      - m_Target: {fileID: 1095507682}
+        m_TargetAssemblyTypeName: UnityEngine.Animator, UnityEngine
+        m_MethodName: SetTrigger
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: Close
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 1410960909}
@@ -8915,6 +8881,7 @@ GameObject:
   - component: {fileID: 1095507678}
   - component: {fileID: 1095507680}
   - component: {fileID: 1095507681}
+  - component: {fileID: 1095507682}
   m_Layer: 5
   m_Name: LevelUpMain
   m_TagString: Untagged
@@ -9021,6 +8988,27 @@ MonoBehaviour:
   _statPrefab: {fileID: 3710618050461301228, guid: 27ddeb5a78bebb34ba013bad27135548, type: 3}
   _statContainer: {fileID: 353115234}
   _ok: {fileID: 589127891}
+--- !u!95 &1095507682
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1095507676}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 22100000, guid: effc06336a9a1594294aee8697ffdb42, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 2
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1097558635
 GameObject:
   m_ObjectHideFlags: 0
@@ -9295,16 +9283,16 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2112695956}
-        m_TargetAssemblyTypeName: UI.Window, Assembly-CSharp
-        m_MethodName: Close
-        m_Mode: 1
+      - m_Target: {fileID: 2112695957}
+        m_TargetAssemblyTypeName: UnityEngine.Animator, UnityEngine
+        m_MethodName: SetTrigger
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: Close
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1101949808
@@ -10315,6 +10303,7 @@ GameObject:
   - component: {fileID: 1344444863}
   - component: {fileID: 1344444867}
   - component: {fileID: 1344444868}
+  - component: {fileID: 1344444869}
   m_Layer: 5
   m_Name: Move
   m_TagString: Untagged
@@ -10344,7 +10333,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -1023.3576, y: -203.95264}
+  m_SizeDelta: {x: -1024.6035, y: -203.25183}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1344444863
 MonoBehaviour:
@@ -10452,6 +10441,27 @@ MonoBehaviour:
   _image: {fileID: 1049338879}
   _wasd: {fileID: 21300000, guid: b0179830a07f5d74bab3db97db0ee111, type: 3}
   _joystick: {fileID: 21300000, guid: 792dd540070ce12418ca359167216cb6, type: 3}
+--- !u!95 &1344444869
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1344444861}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 22100000, guid: 066f383744b397c448a7ea3958027749, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 2
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!4 &1379561509 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7947911505737750448, guid: 6d69371a87148ee4dac7b2b814437ffd, type: 3}
@@ -10781,7 +10791,7 @@ PlayableDirector:
   - key: {fileID: 2776262491121836284, guid: d6cffdb78a1961140a0e1c348505663c, type: 2}
     value: {fileID: 385249930}
   - key: {fileID: 2913782078855960410, guid: d6cffdb78a1961140a0e1c348505663c, type: 2}
-    value: {fileID: 385249933}
+    value: {fileID: 0}
   - key: {fileID: -3118943941510631883, guid: d6cffdb78a1961140a0e1c348505663c, type: 2}
     value: {fileID: 1304306893}
   - key: {fileID: 4925601004368204774, guid: d6cffdb78a1961140a0e1c348505663c, type: 2}
@@ -12916,6 +12926,8 @@ GameObject:
   - component: {fileID: 1888921440}
   - component: {fileID: 1888921439}
   - component: {fileID: 1888921438}
+  - component: {fileID: 1888921442}
+  - component: {fileID: 1888921443}
   m_Layer: 5
   m_Name: Attack
   m_TagString: Untagged
@@ -12944,7 +12956,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -755.6957, y: -296.88568}
+  m_SizeDelta: {x: -756.9415, y: -296.18488}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1888921438
 MonoBehaviour:
@@ -13024,6 +13036,40 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1888921436}
   m_CullTransparentMesh: 1
+--- !u!95 &1888921442
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1888921436}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 22100000, guid: effc06336a9a1594294aee8697ffdb42, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 2
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1888921443
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1888921436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d543d974a6bf3984a81a8d4fa8b4d30a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _window: {fileID: 1888921436}
 --- !u!1 &1889394995
 GameObject:
   m_ObjectHideFlags: 0
@@ -14483,6 +14529,7 @@ GameObject:
   - component: {fileID: 2112695952}
   - component: {fileID: 2112695951}
   - component: {fileID: 2112695956}
+  - component: {fileID: 2112695957}
   m_Layer: 5
   m_Name: LevelUPTraining
   m_TagString: Untagged
@@ -14590,7 +14637,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -314.73743, y: -223.53967}
+  m_SizeDelta: {x: -316.15442, y: -222.74268}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2112695956
 MonoBehaviour:
@@ -14605,6 +14652,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _window: {fileID: 2112695950}
+--- !u!95 &2112695957
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2112695950}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 22100000, guid: effc06336a9a1594294aee8697ffdb42, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 2
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &2124377129
 PrefabInstance:
   m_ObjectHideFlags: 0

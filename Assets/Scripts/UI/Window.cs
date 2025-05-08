@@ -6,16 +6,12 @@ namespace UI
     {
         [SerializeField] private GameObject _window;
 
-        public virtual void Show()
-        {
-            _window.SetActive(true);
-            Time.timeScale = 0;
-        }
+        public virtual void OpenWindow() => _window.SetActive(true);
 
-        public void Close()
-        {
-            Time.timeScale = 1;
-            _window.SetActive(false);
-        }
+        public void CloseWindow() => _window.SetActive(false);
+
+        private void StopTime() => Time.timeScale = 0f;
+
+        private void StartTime() => Time.timeScale = 1f;
     }
 }
