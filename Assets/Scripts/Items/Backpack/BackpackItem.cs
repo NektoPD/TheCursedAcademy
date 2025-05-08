@@ -13,9 +13,13 @@ namespace Items.ItemVariations
         [SerializeField] private BackpackItemProjectile _backpackProjectilePrefab;
         [SerializeField] private float _effectDuration = 3f;
         [SerializeField] private int _initialPoolSize = 1;
-        [SerializeField] private float _durationMultiplier = 1f;
+
+        [Header("Level Up Settings")]
+        [SerializeField] private float _durationIncreasePerLevel = 0.25f;
+        [SerializeField] private float _cooldownReductionPerLevel = 0.9f;
 
         private int _level = 1;
+        private float _durationMultiplier = 1f;
         private ItemProjectilePool _projectilePool;
         private BackpackItemProjectile _activeProjectile;
         private Coroutine _activeEffectCoroutine;
@@ -29,6 +33,8 @@ namespace Items.ItemVariations
             _projectilePool = GetComponent<ItemProjectilePool>();
             _projectilePool.Initialize(_backpackProjectilePrefab, _initialPoolSize);
             _transform = transform;
+
+            _durationMultiplier = 1f;
         }
 
         protected override void PerformAttack()
@@ -58,7 +64,10 @@ namespace Items.ItemVariations
         protected override void LevelUp()
         {
             _level++;
-            _durationMultiplier += 0.25f;
+
+            _durationMultiplier += _durationIncreasePerLevel;
+
+            Data.Cooldown *= _cooldownReductionPerLevel;
         }
 
         private IEnumerator DisableEffectAfterDuration(float duration)

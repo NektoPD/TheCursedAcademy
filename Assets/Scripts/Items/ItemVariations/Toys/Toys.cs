@@ -19,9 +19,18 @@ namespace Items.ItemVariations.Toys
         [SerializeField] private float _scaleUpDuration = 0.5f;
         [SerializeField] private float _delayBeforeNextAttack = 0.5f;
 
+        [Header("Level Up Settings")]
+        [SerializeField] private float _baseDamageMultiplier = 1f;
+        [SerializeField] private float _damageIncreasePerLevel = 0.15f;
+        [SerializeField] private float _radiusIncreasePerLevel = 0.1f;
+        [SerializeField] private float _rotationSpeedIncreasePerLevel = 15f;
+        [SerializeField] private float _cooldownReductionPerLevel = 0.95f;
+
         private int _level = 1;
         private int _currentProjectileCount;
         private float _damageMultiplier = 1f;
+        private float _radiusMultiplier = 1f;
+        private float _rotationSpeedMultiplier = 1f;
         private ItemProjectilePool _projectilePool;
         private ToysProjectile[] _activeProjectiles;
         private Coroutine _attackCycleCoroutine;
@@ -35,6 +44,11 @@ namespace Items.ItemVariations.Toys
             _currentProjectileCount = _baseProjectileCount;
             _activeProjectiles = new ToysProjectile[_maxProjectileCount];
             _transform = transform;
+
+            _damageMultiplier = _baseDamageMultiplier;
+            _radiusMultiplier = 1f;
+            _rotationSpeedMultiplier = 1f;
+            
             UpdateAngleStep();
         }
 
@@ -92,7 +106,7 @@ namespace Items.ItemVariations.Toys
                     projectile,
                     initialAngle,
                     _delayBeforeNextAttack,
-                    _rotationRadius));
+                    _rotationRadius * _radiusMultiplier));
             }
         }
 
@@ -110,6 +124,15 @@ namespace Items.ItemVariations.Toys
         protected override void LevelUp()
         {
             _level++;
+
+            _damageMultiplier += _damageIncreasePerLevel;
+
+            _radiusMultiplier += _radiusIncreasePerLevel;
+
+            _rotationSpeedMultiplier += _rotationSpeedIncreasePerLevel / _rotationSpeed;
+            _rotationSpeed = 180f * _rotationSpeedMultiplier;
+
+            Data.Cooldown *= _cooldownReductionPerLevel;
 
             if (_level % 2 == 0 && _currentProjectileCount < _maxProjectileCount)
             {

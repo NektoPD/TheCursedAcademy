@@ -18,6 +18,7 @@ namespace Items.ItemVariations
         private int _projectileCount = 1;
         private float _damageMultiplier = 1f;
         private ItemProjectilePool _projectilePool;
+        private int _level = 1;
 
         private void Awake()
         {
@@ -70,6 +71,23 @@ namespace Items.ItemVariations
 
         protected override void LevelUp()
         {
+            _level++;
+
+            _projectileCount++;
+
+            switch (_level)
+            {
+                case 2:
+                    _damageMultiplier = 1.25f;
+                    _detectionRadius *= 1.2f;
+                    break;
+
+                case 3:
+                    _damageMultiplier = 1.5f;
+                    Data.Cooldown *= 0.85f;
+                    _detectionRadius *= 1.2f;
+                    break;
+            }
         }
 
         private IEnumerator EnableProjectile(ItemProjectile projectile, float lifetime)

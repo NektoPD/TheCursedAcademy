@@ -38,18 +38,19 @@ namespace Items.ItemVariations
 
         protected override void PerformAttack()
         {
-            bool isMovingLeft = MovementHandler.IsMoving() 
-                ? MovementHandler.IsMovingLeft() 
+            bool isMovingLeft = MovementHandler.IsMoving()
+                ? MovementHandler.IsMovingLeft()
                 : _lastMovementWasLeft;
-                
+
             float facingDirection = isMovingLeft ? -1f : 1f;
 
             Vector3 spawnPosition = new Vector3(
                 transform.position.x + (_spawnOffset * facingDirection),
                 transform.position.y,
                 transform.position.z);
-                
-            PenProjectile penProjectile = _projectilePool.GetFromPool<PenProjectile>(spawnPosition, Quaternion.identity);
+
+            PenProjectile penProjectile =
+                _projectilePool.GetFromPool<PenProjectile>(spawnPosition, Quaternion.identity);
 
             penProjectile.transform.localScale = new Vector3(
                 _attackWidth * _widthMultiplier * Mathf.Abs(facingDirection),
@@ -73,6 +74,19 @@ namespace Items.ItemVariations
         protected override void LevelUp()
         {
             _level++;
+
+            switch (_level)
+            {
+                case 2:
+                    _damageMultiplier = 1.3f;
+                    Data.Cooldown *= 0.85f;
+                    break;
+
+                case 3:
+                    _damageMultiplier = 1.7f;
+                    Data.Cooldown *= 0.85f;
+                    break;
+            }
         }
 
         private IEnumerator EnableProjectile(ItemProjectile projectile, float lifetime)

@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd4d21b6c929c2549a014203567e41ed, type: 3}
+  m_Name: GiantPenVisualData
+  m_EditorClassIdentifier: 
+  _nameRu: "\u0413\u0438\u0433\u0430\u043D\u0442\u0441\u043A\u0430\u044F \u0440\u0443\u0447\u043A\u0430"
+  _nameEn: Giant pen
+  _nameTr: Dev kalem
+  _descriptionRu: "\u0410\u0442\u0430\u043A\u0443\u0435\u0442 \u0433\u043E\u0440\u0438\u0437\u043E\u043D\u0442\u0430\u043B\u044C\u043D\u043E,
+    \u043F\u0440\u043E\u0445\u043E\u0434\u044F \u0441\u043A\u0432\u043E\u0437\u044C
+    \u0432\u0440\u0430\u0433\u043E\u0432."
+  _descriptionEn: Attacks horizontally, passing through enemies.
+  _descriptionTr: "D\xFC\u015Fmanlar\u0131n i\xE7inden ge\xE7erek yatay olarak sald\u0131r\u0131r."
+  <Sprite>k__BackingField: {fileID: 21300000, guid: cef611fa1d6baec44a367a6ce0fd8d8b, type: 3}
+  <Stats>k__BackingField:
+  - _nameRu: "\u041C\u043D\u043E\u0436\u0438\u0442\u0435\u043B\u044C \u0443\u0440\u043E\u043D\u0430"
+    _nameEn: Damage multiplier
+    _nameTr: "Hasar \xE7arpan\u0131"
+    _value: 1
+    _step: 1.3
+  - _nameRu: "\u0423\u0432\u0435\u043B\u0438\u0447\u0435\u043D\u0438\u0435 \u0441\u043A\u043E\u0440\u043E\u0441\u0442\u0438
+      \u0430\u0442\u0430\u043A\u0438"
+    _nameEn: Cooldown reduction
+    _nameTr: "Hasar \xE7arpan\u0131"
+    _value: 1
+    _step: 0.85
+  <Variation>k__BackingField: 0

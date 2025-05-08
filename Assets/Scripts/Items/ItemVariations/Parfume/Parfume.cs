@@ -13,8 +13,6 @@ namespace Items.ItemVariations
         [SerializeField] private float _projectileLifetime = 10f;
         [SerializeField] private float _damageZoneDuration = 10f;
         [SerializeField] private int _initialPoolSize = 3;
-       // [SerializeField] private float _minSpawnDistance = 8f;
-        //[SerializeField] private float _maxSpawnDistance = 12f;
         [SerializeField] private float _minScreenOffset = 0.1f;
         [SerializeField] private float _maxScreenOffset = 0.3f;
         [SerializeField] private float _projectileSpeed = 5f;
@@ -23,10 +21,15 @@ namespace Items.ItemVariations
         [SerializeField] private float _minScreenInsetY = 0.2f;
         [SerializeField] private float _maxScreenInsetY = 0.8f;
 
-        private int _level = 1;
+        [Header("Level Up Settings")]
+        [SerializeField] private float _baseDamageMultiplier = 1f;
+        [SerializeField] private float _durationMultiplierIncreasePerLevel = 0.15f;
+        [SerializeField] private int _baseProjectileCount = 1;
 
-        /*private float _damageMultiplier = 1f;
-        private float _radiusMultiplier = 1f;*/
+        private int _level = 1;
+        private float _damageMultiplier = 1f;
+        private float _durationMultiplier = 1f;
+        private int _projectileCount = 1;
         private ItemProjectilePool _projectilePool;
         private Camera _mainCamera;
 
@@ -35,27 +38,41 @@ namespace Items.ItemVariations
             _projectilePool = GetComponent<ItemProjectilePool>();
             _projectilePool.Initialize(_parfumeProjectilePrefab, _initialPoolSize);
             _mainCamera = Camera.main;
+
+            _damageMultiplier = _baseDamageMultiplier;
+            _durationMultiplier = 1f;
+            _projectileCount = _baseProjectileCount;
         }
 
         protected override void PerformAttack()
         {
-            Vector2 spawnPosition = GetRandomPositionOutsideScreen();
+            for (int i = 0; i < _projectileCount; i++)
+            {
+                Vector2 spawnPosition = GetRandomPositionOutsideScreen();
+                Vector2 targetPosition = GetRandomPositionInsideScreen();
 
-            Vector2 targetPosition = GetRandomPositionInsideScreen();
+                ParfumeProjectile parfumeProjectile =
+                    _projectilePool.GetFromPool<ParfumeProjectile>(spawnPosition, Quaternion.identity);
 
-            ParfumeProjectile parfumeProjectile =
-                _projectilePool.GetFromPool<ParfumeProjectile>(spawnPosition, Quaternion.identity);
+                if (parfumeProjectile != null)
+                {
+                    parfumeProjectile.Initialize(Data.Damage * _damageMultiplier, this);
+                    parfumeProjectile.SetupMovement(targetPosition, _projectileSpeed, _damageZoneDuration * _durationMultiplier);
+                    parfumeProjectile.ClearHitEnemies();
 
-            parfumeProjectile.Initialize(Data.Damage, this);
-            parfumeProjectile.SetupMovement(targetPosition, _projectileSpeed, _damageZoneDuration);
-            parfumeProjectile.ClearHitEnemies();
-
-            StartCoroutine(DisableProjectileAfterLifetime(parfumeProjectile, _projectileLifetime));
+                    StartCoroutine(DisableProjectileAfterLifetime(parfumeProjectile, _projectileLifetime));
+                }
+            }
         }
 
         protected override void LevelUp()
         {
             _level++;
+
+            _damageMultiplier *= 1.25f;
+            _projectileCount++;
+            Data.Cooldown *= 0.85f;
+            _durationMultiplier = 1f + _durationMultiplierIncreasePerLevel;
         }
 
         private Vector2 GetRandomPositionOutsideScreen()

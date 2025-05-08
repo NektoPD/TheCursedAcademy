@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd4d21b6c929c2549a014203567e41ed, type: 3}
+  m_Name: BeautyZoneVisualData
+  m_EditorClassIdentifier: 
+  _nameRu: "\u0417\u043E\u043D\u0430 \u043A\u0440\u0430\u0441\u043E\u0442\u044B"
+  _nameEn: Beauty Zone
+  _nameTr: "G\xFCzellik B\xF6lgesi"
+  _descriptionRu: "\u041D\u0430\u043D\u043E\u0441\u0438\u0442 \u0443\u0440\u043E\u043D
+    \u0432 \u043F\u043E\u043B\u0435 \u0434\u0435\u0439\u0441\u0442\u0432\u0438\u044F"
+  _descriptionEn: Deals damage in the field of action
+  _descriptionTr: "Eylem alan\u0131nda hasar verir"
+  <Sprite>k__BackingField: {fileID: 21300000, guid: dc4a684c9f781434f85057fb9cfcb818, type: 3}
+  <Stats>k__BackingField:
+  - _nameRu: "\u041C\u043D\u043E\u0436\u0438\u0442\u0435\u043B\u044C \u0443\u0440\u043E\u043D\u0430"
+    _nameEn: Damage multiplier
+    _nameTr: "Hasar \xE7arpan\u0131"
+    _value: 1
+    _step: 1.3
+  - _nameRu: "\u0423\u0432\u0435\u043B\u0438\u0447\u0435\u043D\u0438\u0435 \u0440\u0430\u0434\u0438\u0443\u0441\u0430"
+    _nameEn: Radius increase
+    _nameTr: "Yar\u0131\xE7ap art\u0131\u015F\u0131"
+    _value: 1
+    _step: 1.2
+  - _nameRu: "\u0423\u0432\u0435\u043B\u0438\u0447\u0435\u043D\u0438\u0435 \u0434\u043B\u0438\u0442\u0435\u043B\u044C\u043D\u043E\u0441\u0442\u0438
+      \u044D\u0444\u0444\u0435\u043A\u0442\u0430"
+    _nameEn: Increasing the duration of the effect
+    _nameTr: "Etki s\xFCresinin art\u0131r\u0131lmas\u0131"
+    _value: 1
+    _step: 1.2
+  - _nameRu: "\u0423\u0432\u0435\u043B\u0438\u0447\u0435\u043D\u0438\u0435 \u0441\u043A\u043E\u0440\u043E\u0441\u0442\u0438
+      \u0430\u0442\u0430\u043A\u0438"
+    _nameEn: Increase in attack speed
+    _nameTr: "Sald\u0131r\u0131 h\u0131z\u0131nda art\u0131\u015F"
+    _value: 1
+    _step: 0.85
+  <Variation>k__BackingField: 8

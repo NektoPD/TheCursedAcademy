@@ -21,6 +21,7 @@ namespace Items.ItemVariations
         private int _level = 1;
         private float _damageMultiplier = 1f;
         private ItemProjectilePool _projectilePool;
+        private int _projectileCount = 1;
 
         private void Awake()
         {
@@ -30,34 +31,56 @@ namespace Items.ItemVariations
 
         protected override void PerformAttack()
         {
-            Transform target = FindNearestEnemy();
-            if (target == null) return;
+            Transform[] targets = FindNearestEnemies(_projectileCount);
+            if (targets.Length == 0) return;
 
-            MirrorProjectile mirrorProjectile =
-                _projectilePool.GetFromPool<MirrorProjectile>(transform.position, Quaternion.identity);
-            if (mirrorProjectile == null) return;
-
-            mirrorProjectile.transform.position = transform.position;
-
-            Vector2 direction = (target.position - transform.position).normalized;
-
-            mirrorProjectile.Initialize(Data.Damage * _damageMultiplier, this);
-            mirrorProjectile.SetDirection(direction);
-            mirrorProjectile.SetSpeed(_projectileSpeed);
-
-            if (_enableTargeting)
+            for (int i = 0; i < _projectileCount; i++)
             {
-                mirrorProjectile.SetTarget(target);
+                if (i >= targets.Length) break;
+
+                Transform target = targets[i];
+                
+                MirrorProjectile mirrorProjectile =
+                    _projectilePool.GetFromPool<MirrorProjectile>(transform.position, Quaternion.identity);
+                if (mirrorProjectile == null) continue;
+
+                mirrorProjectile.transform.position = transform.position;
+
+                Vector2 direction = (target.position - transform.position).normalized;
+
+                mirrorProjectile.Initialize(Data.Damage * _damageMultiplier, this);
+                mirrorProjectile.SetDirection(direction);
+                mirrorProjectile.SetSpeed(_projectileSpeed);
+
+                if (_enableTargeting)
+                {
+                    mirrorProjectile.SetTarget(target);
+                }
+
+                mirrorProjectile.ClearHitEnemies();
+
+                StartCoroutine(EnableProjectile(mirrorProjectile, _projectileLifetime));
             }
-
-            mirrorProjectile.ClearHitEnemies();
-
-            StartCoroutine(EnableProjectile(mirrorProjectile, _projectileLifetime));
         }
 
         protected override void LevelUp()
         {
             _level++;
+
+            switch (_level)
+            {
+                case 2:
+                    _damageMultiplier = 1.25f;
+                    _projectileSpeed *= 1.2f;
+                    _detectionRadius *= 1.15f;
+                    break;
+
+                case 3:
+                    _damageMultiplier = 1.5f;
+                    Data.Cooldown *= 0.85f;
+                    _projectileCount = 2;
+                    break;
+            }
         }
 
         private Transform FindNearestEnemy()
@@ -69,6 +92,18 @@ namespace Items.ItemVariations
                 .OrderBy(c => Vector2.Distance(transform.position, c.transform.position))
                 .Select(c => c.transform)
                 .FirstOrDefault();
+        }
+
+        private Transform[] FindNearestEnemies(int count)
+        {
+            Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, _detectionRadius, _enemyLayer);
+
+            return colliders
+                .Where(c => c.TryGetComponent(out IDamageable _))
+                .OrderBy(c => Vector2.Distance(transform.position, c.transform.position))
+                .Select(c => c.transform)
+                .Take(count)
+                .ToArray();
         }
 
         private IEnumerator EnableProjectile(MirrorProjectile projectile, float lifetime)

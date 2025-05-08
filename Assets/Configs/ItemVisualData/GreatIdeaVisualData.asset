@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd4d21b6c929c2549a014203567e41ed, type: 3}
+  m_Name: GreatIdeaVisualData
+  m_EditorClassIdentifier: 
+  _nameRu: "\u0411\u043B\u0435\u0441\u0442\u044F\u0449\u0430\u044F \u0438\u0434\u0435\u044F"
+  _nameEn: Brilliant idea
+  _nameTr: Harika bir fikir
+  _descriptionRu: "\u0411\u044C\u0435\u0442 \u0432 \u0441\u043B\u0443\u0447\u0430\u0439\u043D\u044B\u0445
+    \u0432\u0440\u0430\u0433\u043E\u0432"
+  _descriptionEn: Hits random enemies
+  _descriptionTr: "Rastgele d\xFC\u015Fmanlara vurur"
+  <Sprite>k__BackingField: {fileID: 21300000, guid: 6deb57a3c5225ec4e93b2b82a1864308, type: 3}
+  <Stats>k__BackingField:
+  - _nameRu: "\u041C\u043D\u043E\u0436\u0438\u0442\u0435\u043B\u044C \u0443\u0440\u043E\u043D\u0430"
+    _nameEn: Damage multiplier
+    _nameTr: "Hasar \xE7arpan\u0131"
+    _value: 1
+    _step: 1.25
+  - _nameRu: "\u0420\u0430\u0434\u0438\u0443\u0441 \u043E\u0431\u043D\u0430\u0440\u0443\u0436\u0435\u043D\u0438\u044F"
+    _nameEn: Detection radius
+    _nameTr: "Alg\u0131lama yar\u0131\xE7ap\u0131"
+    _value: 1
+    _step: 1.2
+  <Variation>k__BackingField: 7

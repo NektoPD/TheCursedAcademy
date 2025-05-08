@@ -10,39 +10,38 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cd4d21b6c929c2549a014203567e41ed, type: 3}
-  m_Name: BookVisualData
+  m_Name: ParfumeVisualData
   m_EditorClassIdentifier: 
-  _nameRu: "\u0423\u0447\u0435\u0431\u043D\u0438\u043A"
-  _nameEn: Textbook
-  _nameTr: "Ders Kitab\u0131"
-  _descriptionRu: "\u0411\u043E\u043B\u044C\u0448\u043E\u0439 \u0443\u0440\u043E\u043D,
-    \u0431\u043E\u043B\u044C\u0448\u0430\u044F \u043E\u0431\u043B\u0430\u0441\u0442\u044C
-    \u043F\u043E\u0440\u0430\u0436\u0435\u043D\u0438\u044F"
-  _descriptionEn: High damage, large area of effect
-  _descriptionTr: "Y\xFCksek hasar, geni\u015F etki alan\u0131"
-  <Sprite>k__BackingField: {fileID: 21300000, guid: c6146dbef5ac7334a82ec9ef7b8b3971, type: 3}
+  _nameRu: "\u0414\u0443\u0445\u0438"
+  _nameEn: Perfume
+  _nameTr: "Parf\xFCm"
+  _descriptionRu: "\u0421\u043E\u0437\u0434\u0430\u0435\u0442 \u0437\u043E\u043D\u044B,
+    \u043D\u0430\u043D\u043E\u0441\u044F\u0449\u0438\u0435 \u0443\u0440\u043E\u043D"
+  _descriptionEn: Creates zones that deal damage
+  _descriptionTr: "Hasar veren b\xF6lgeler olu\u015Fturur"
+  <Sprite>k__BackingField: {fileID: 21300000, guid: c3beffe42ff2af148a0438cbb4f44263, type: 3}
   <Stats>k__BackingField:
   - _nameRu: "\u041C\u043D\u043E\u0436\u0438\u0442\u0435\u043B\u044C \u0443\u0440\u043E\u043D\u0430"
     _nameEn: Damage multiplier
     _nameTr: "Hasar \xE7arpan\u0131"
     _value: 1
-    _step: 1.3
+    _step: 1.25
   - _nameRu: "\u0423\u0432\u0435\u043B\u0438\u0447\u0435\u043D\u0438\u0435 \u0441\u043A\u043E\u0440\u043E\u0441\u0442\u0438
       \u0430\u0442\u0430\u043A\u0438"
     _nameEn: Increase in attack speed
     _nameTr: "Sald\u0131r\u0131 h\u0131z\u0131nda art\u0131\u015F"
     _value: 1
-    _step: 1.1
-  - _nameRu: "\u0423\u0432\u0435\u043B\u0438\u0447\u0435\u043D\u0438\u0435 \u0434\u043B\u0438\u0442\u0435\u043B\u044C\u043D\u043E\u0441\u0442\u0438
-      \u0430\u0442\u0430\u043A\u0438"
-    _nameEn: Increased attack duration
-    _nameTr: "Art\u0131r\u0131lm\u0131\u015F sald\u0131r\u0131 s\xFCresi"
-    _value: 1
-    _step: 1.2
+    _step: 0.85
   - _nameRu: "\u0423\u0432\u0435\u043B\u0438\u0447\u0435\u043D\u0438\u0435 \u043A\u043E\u043B\u0438\u0447\u0435\u0441\u0442\u0432\u0430
       \u0441\u043D\u0430\u0440\u044F\u0434\u043E\u0432"
     _nameEn: Increase in the number of projectiles
     _nameTr: "Mermi say\u0131s\u0131nda art\u0131\u015F"
     _value: 1
     _step: 1
-  <Variation>k__BackingField: 3
+  - _nameRu: "\u0423\u0432\u0435\u043B\u0438\u0447\u0435\u043D\u0438\u0435 \u0434\u043B\u0438\u0442\u0435\u043B\u044C\u043D\u043E\u0441\u0442\u0438
+      \u044D\u0444\u0444\u0435\u043A\u0442\u0430"
+    _nameEn: Increasing the duration of the effect
+    _nameTr: "Etki s\xFCresinin art\u0131r\u0131lmas\u0131"
+    _value: 1
+    _step: 0.15
+  <Variation>k__BackingField: 5

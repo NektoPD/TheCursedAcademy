@@ -23,17 +23,18 @@ namespace Items.ItemVariations.Cats
             Idle
         }
 
-        [Header("Animation")]
-        [SerializeField] private Animator _animator;
+        [Header("Animation")] [SerializeField] private Animator _animator;
 
-        [Header("Combat Settings")]
-        [SerializeField] private float _attackCooldown = 0.5f;
+        [Header("Combat Settings")] [SerializeField]
+        private float _attackCooldown = 0.5f;
+
         [SerializeField] private float _optimalAttackDistance = 1.5f;
         [SerializeField] private float _attackDistanceThreshold = 0.3f;
         [SerializeField] private LayerMask _enemyLayer;
 
-        [Header("Behavior Settings")]
-        [SerializeField] private float _idleChance = 0.1f;
+        [Header("Behavior Settings")] [SerializeField]
+        private float _idleChance = 0.1f;
+
         [SerializeField] private float _idleDuration = 2f;
         [SerializeField] private float _stateCheckInterval = 0.2f;
         [SerializeField] private float _idleCheckTime = 3f;
@@ -46,8 +47,7 @@ namespace Items.ItemVariations.Cats
         [SerializeField] private float _walkFrequencyX = 1.5f;
         [SerializeField] private float _walkFrequencyY = 1.2f;
 
-        [Header("Effects")]
-        [SerializeField] private ParticleSystem _disappearEffectPrefab;
+        [Header("Effects")] [SerializeField] private ParticleSystem _disappearEffectPrefab;
 
         private IObjectPool<CatsProjectile> _pool;
         private Transform _playerTransform;
@@ -71,7 +71,7 @@ namespace Items.ItemVariations.Cats
             _catsController = controller;
         }
 
-        private void Awake()
+        protected override void Awake()
         {
             base.Awake();
             InitializeParticleEffect();
@@ -141,7 +141,8 @@ namespace Items.ItemVariations.Cats
                     CheckForEnemies();
                 }
 
-                if (_currentState == CatState.Walking && _timeSinceLastStateChange > _idleCheckTime && Random.value < _idleChance)
+                if (_currentState == CatState.Walking && _timeSinceLastStateChange > _idleCheckTime &&
+                    Random.value < _idleChance)
                 {
                     ChangeState(CatState.Idle);
                     yield return new WaitForSeconds(_idleDuration);
@@ -231,7 +232,7 @@ namespace Items.ItemVariations.Cats
             {
                 Vector2 directionToPlayer =
                     ((Vector2)_playerTransform.position - (Vector2)Transform.position).normalized;
-                Transform.position += (Vector3)directionToPlayer * _speed * _returnToPlayerSpeedMultiplier * Time.deltaTime;
+                Transform.position += (Vector3)directionToPlayer * (_speed * _returnToPlayerSpeedMultiplier * Time.deltaTime);
                 FlipBasedOnDirection(directionToPlayer.x);
             }
             else
@@ -241,10 +242,11 @@ namespace Items.ItemVariations.Cats
                     Mathf.Cos(Time.time * _walkFrequencyY + GetInstanceID())
                 ).normalized;
 
-                float speedMultiplier = distanceToPlayer < _minDistanceToPlayer ? 
-                    _nearPlayerSpeedMultiplier : _walkSpeedMultiplier;
-                    
-                Transform.position += (Vector3)randomDirection * _speed * speedMultiplier * Time.deltaTime;
+                float speedMultiplier = distanceToPlayer < _minDistanceToPlayer
+                    ? _nearPlayerSpeedMultiplier
+                    : _walkSpeedMultiplier;
+
+                Transform.position += (Vector3)randomDirection * (_speed * speedMultiplier * Time.deltaTime);
                 FlipBasedOnDirection(randomDirection.x);
             }
         }
@@ -269,7 +271,7 @@ namespace Items.ItemVariations.Cats
             if (distanceToEnemy > _optimalAttackDistance + _attackDistanceThreshold)
             {
                 Vector2 directionToEnemy = ((Vector2)_targetEnemy.position - (Vector2)Transform.position).normalized;
-                Transform.position += (Vector3)directionToEnemy * _speed * Time.deltaTime;
+                Transform.position += (Vector3)directionToEnemy * (_speed * Time.deltaTime);
                 FlipBasedOnDirection(directionToEnemy.x);
             }
             else
@@ -288,13 +290,13 @@ namespace Items.ItemVariations.Cats
             if (distanceToEnemy < _optimalAttackDistance - _attackDistanceThreshold)
             {
                 Vector2 directionFromEnemy = ((Vector2)Transform.position - (Vector2)_targetEnemy.position).normalized;
-                Transform.position += (Vector3)directionFromEnemy * _speed * _positionMaintenanceSpeedMultiplier * Time.deltaTime;
+                Transform.position += (Vector3)directionFromEnemy * (_speed * _positionMaintenanceSpeedMultiplier * Time.deltaTime);
                 FlipBasedOnDirection(-directionFromEnemy.x);
             }
             else if (distanceToEnemy > _optimalAttackDistance + _attackDistanceThreshold)
             {
                 Vector2 directionToEnemy = ((Vector2)_targetEnemy.position - (Vector2)Transform.position).normalized;
-                Transform.position += (Vector3)directionToEnemy * _speed * _positionMaintenanceSpeedMultiplier * Time.deltaTime;
+                Transform.position += (Vector3)directionToEnemy * (_speed * _positionMaintenanceSpeedMultiplier * Time.deltaTime);
                 FlipBasedOnDirection(directionToEnemy.x);
             }
             else
@@ -386,9 +388,6 @@ namespace Items.ItemVariations.Cats
         {
             if (xDirection != 0)
             {
-                if (SpriteRenderer == null)
-                    Debug.LogError("SpriteRenderer is null on CatsProjectile");
-
                 SpriteRenderer.flipX = xDirection < 0;
             }
         }

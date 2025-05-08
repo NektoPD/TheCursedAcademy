@@ -197,6 +197,20 @@ namespace Items.ItemVariations.Cats
             _catsPerSpawn = _baseCatsPerSpawn + _level / _catsPerLevelDiv;
             _detectionRadius = Mathf.Min(_baseDetectionRadius + (_level * _detectionRadiusPerLevel),
                 _maxDetectionRadius);
+
+            switch (_level)
+            {
+                case 2:
+                    Data.Damage *= 1.3f;
+                    Data.Cooldown *= 0.85f;
+                    break;
+            
+                case 3:
+                    Data.Damage *= 1.6f;
+                    Data.Cooldown *= 0.85f;
+                    _catMovementSpeed *= 1.2f;
+                    break;
+            }
         }
 
         private void OnDestroy()

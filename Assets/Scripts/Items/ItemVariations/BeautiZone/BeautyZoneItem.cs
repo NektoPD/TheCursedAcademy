@@ -12,18 +12,13 @@ namespace Items.ItemVariations.BeautiZone
         [SerializeField] private float _zoneRadius = 1.5f;
         [SerializeField] private float _zoneDuration = 2f;
         [SerializeField] private int _initialPoolSize = 2;
-        [SerializeField] private int _level = 1;
-       // [SerializeField] private float _damageMultiplierPerLevel = 0.2f;
-        [SerializeField] private float _radiusMultiplierPerLevel = 0.1f;
-        //[SerializeField] private float _durationMultiplierPerLevel = 0.1f;
         [SerializeField] private float _spawnYOffset = 0.7f;
-
-        [Header("Gizmo Visualization")] [SerializeField]
-        private Color _gizmoFillColor = new Color(0.5f, 0.1f, 0.7f, 0.3f);
-
-        [SerializeField] private Color _gizmoOutlineColor = new Color(0.8f, 0.2f, 1f, 0.8f);
+        [SerializeField] private float _damageMultiplier = 1f;
+        [SerializeField] private float _radiusMultiplier = 1f;
+        [SerializeField] private float _durationMultiplier = 1f;
         [SerializeField] private float _projectileReturnDelay = 0.5f;
 
+        private int _level = 1;
         private ItemProjectilePool _projectilePool;
         private Transform _transform;
 
@@ -39,42 +34,21 @@ namespace Items.ItemVariations.BeautiZone
             StartCoroutine(ActivateZone());
         }
 
-        private void OnDrawGizmosSelected()
-        {
-            Gizmos.color = _gizmoFillColor;
-
-            float currentRadius = _zoneRadius * (1 + _radiusMultiplierPerLevel * (_level - 1));
-
-            Vector3 spawnPosition = new Vector3(transform.position.x, transform.position.y - _spawnYOffset,
-                transform.position.z);
-            Gizmos.DrawSphere(spawnPosition, currentRadius);
-
-            Gizmos.color = _gizmoOutlineColor;
-            Gizmos.DrawWireSphere(spawnPosition, currentRadius);
-
-            Gizmos.color = Color.white;
-            Gizmos.DrawLine(transform.position, spawnPosition);
-        }
-
         private IEnumerator ActivateZone()
         {
-            float currentRadius = _zoneRadius;
-            float currentDuration = _zoneDuration;
-            float currentDamage = Data.Damage;
-
             Vector3 spawnPosition = new Vector3(_transform.position.x, _transform.position.y - _spawnYOffset,
                 _transform.position.z);
 
             BeautyZoneItemProjectile zoneProjectile =
                 _projectilePool.GetFromPool<BeautyZoneItemProjectile>(spawnPosition, Quaternion.identity);
 
-            zoneProjectile.Initialize(currentDamage, this);
+            zoneProjectile.Initialize(Data.Damage * _damageMultiplier, this);
             zoneProjectile.ClearHitEnemies();
-            zoneProjectile.SetRadius(currentRadius);
-            zoneProjectile.SetDuration(currentDuration);
+            zoneProjectile.SetRadius(_zoneRadius * _radiusMultiplier);
+            zoneProjectile.SetDuration(_zoneDuration * _durationMultiplier);
             zoneProjectile.Activate();
 
-            StartCoroutine(EnableProjectile(zoneProjectile, currentDuration));
+            StartCoroutine(EnableProjectile(zoneProjectile, _zoneDuration * _durationMultiplier));
 
             yield return null;
         }
@@ -94,6 +68,23 @@ namespace Items.ItemVariations.BeautiZone
         protected override void LevelUp()
         {
             _level++;
+
+            switch (_level)
+            {
+                case 2:
+                    _damageMultiplier = 1.3f;
+                    _radiusMultiplier = 1.2f;
+                    _durationMultiplier = 1.2f;
+                    Data.Cooldown *= 0.9f;
+                    break;
+
+                case 3:
+                    _damageMultiplier = 1.6f;
+                    _radiusMultiplier = 1.4f;
+                    _durationMultiplier = 1.4f;
+                    Data.Cooldown *= 0.85f;
+                    break;
+            }
         }
     }
 }

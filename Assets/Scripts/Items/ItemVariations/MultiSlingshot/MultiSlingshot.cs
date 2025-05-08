@@ -13,13 +13,7 @@ namespace Items.ItemVariations.MultiSlingshot
         [SerializeField] private int _projectilesPerShot = 3;
         [SerializeField] private float _spreadAngle = 30f;
 
-        [Header("Level Up Settings")] [SerializeField]
-        private int _baseProjectilesPerShot = 3;
-
-        [SerializeField] private int _projectilesPerLevelDiv = 2;
-        [SerializeField] private float _baseSpreadAngle = 30f;
-        [SerializeField] private float _spreadAnglePerLevel = 5f;
-        [SerializeField] private float _maxSpreadAngle = 60f;
+        [SerializeField] private float _baseProjectileSpeed = 8f;
 
         [Header("Movement Thresholds")] [SerializeField]
         private float _movementThreshold = 0.1f;
@@ -33,6 +27,7 @@ namespace Items.ItemVariations.MultiSlingshot
         private int _level = 1;
         private Vector2 _lastAttackDirection = Vector2.right;
         private CharacterLogic.InputHandler.CharacterMovementHandler _characterMovementHandler;
+        private float _damageMultiplier = 1f;
 
         private void Awake()
         {
@@ -51,6 +46,8 @@ namespace Items.ItemVariations.MultiSlingshot
             {
                 SubscribeToMovementEvents();
             }
+
+            _projectileSpeed = _baseProjectileSpeed;
         }
 
         private MultiSlingshotItemProjectile CreateProjectile()
@@ -127,7 +124,7 @@ namespace Items.ItemVariations.MultiSlingshot
                 Vector2 direction = RotateVector(baseDirection, currentAngle);
 
                 MultiSlingshotItemProjectile projectile = _projectilePool.Get();
-                projectile.Initialize(Data.Damage, this);
+                projectile.Initialize(Data.Damage * _damageMultiplier, this);
                 projectile.Launch(direction, _projectileSpeed, _projectileLifetime);
             }
         }
@@ -165,9 +162,10 @@ namespace Items.ItemVariations.MultiSlingshot
         {
             _level++;
 
-            _projectilesPerShot = _baseProjectilesPerShot + _level / _projectilesPerLevelDiv;
-
-            _spreadAngle = Mathf.Min(_baseSpreadAngle + (_level * _spreadAnglePerLevel), _maxSpreadAngle);
+            _projectilesPerShot++;
+            _damageMultiplier *= 1.25f;
+            Data.Cooldown *= 0.85f;
+            _projectileSpeed *= 1.2f;
         }
 
         private void OnDisable()
