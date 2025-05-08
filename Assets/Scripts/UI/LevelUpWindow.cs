@@ -40,9 +40,7 @@ namespace UI
         {
             base.Show();
 
-            List<ItemVisualData> datas = new();
-
-            _itemsHolder.GetVisualDatas(CountItems, out datas);
+            _itemsHolder.GetVisualDatas(CountItems, out List<ItemVisualData> datas);
 
             for (int i = 0; i < CountItems; i++)
                 _itemsVisual[i].Initialize(datas[i]);
