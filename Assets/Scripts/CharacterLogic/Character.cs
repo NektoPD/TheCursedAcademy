@@ -46,6 +46,7 @@ namespace CharacterLogic
         private Transform _transform;
 
         public event Action<Statistics> StatisticCollected; // Нужно вызвать после сбора статистики
+        public event Action LevelUp; // Нужно вызвать после level up
 
         public void Construct(CharacterData characterData, Dictionary<PerkType, float> perkBonuses,
             ItemsHolder itemsHolder)

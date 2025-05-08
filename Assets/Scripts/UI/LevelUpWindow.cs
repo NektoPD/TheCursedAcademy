@@ -1,3 +1,4 @@
+using CharacterLogic.Initializer;
 using Data;
 using Items.ItemHolder;
 using System.Collections.Generic;
@@ -16,11 +17,23 @@ namespace UI
         [SerializeField] private ItemApplicator _applicator;
 
         private ItemsHolder _itemsHolder;
+        private CharacterInitializer _initializer;
 
         [Inject]
-        private void Construct(ItemsHolder holder)
+        private void Construct(ItemsHolder holder, CharacterInitializer characterInitializer)
         {
             _itemsHolder = holder;
+            _initializer = characterInitializer;
+        }
+
+        private void OnEnable()
+        {
+            _initializer.Character.LevelUp += LevelUp;
+        }
+
+        private void OnDisable()
+        {
+            _initializer.Character.LevelUp -= LevelUp;
         }
 
         public override void Show()
@@ -36,5 +49,7 @@ namespace UI
 
             _applicator.SetdDefaultItem(datas.First());
         }
+
+        private void LevelUp() => Show();
     }
 }

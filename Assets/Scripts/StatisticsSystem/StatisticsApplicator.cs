@@ -1,5 +1,6 @@
 using CharacterLogic.Initializer;
 using TMPro;
+using UI;
 using UnityEngine;
 using Zenject;
 
@@ -14,6 +15,7 @@ namespace StatistiscSystem
         [SerializeField] private Transform _itemsContainer;
         [SerializeField] private SpriteSetter _itemPrefab;
         [SerializeField] private ItemStatisticsApplicator _itemStatisticsApplicator;
+        [SerializeField] private EndWindow _window;
         
         private CharacterInitializer _characterInitializer;
 
@@ -47,6 +49,8 @@ namespace StatistiscSystem
             }
 
             _itemStatisticsApplicator.Applicate(statistics);
+
+            _window.Show();
         }
     }
 }
