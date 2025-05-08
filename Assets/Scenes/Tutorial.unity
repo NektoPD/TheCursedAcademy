@@ -123,6 +123,51 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &5925356
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5925358}
+  - component: {fileID: 5925357}
+  m_Layer: 0
+  m_Name: ItemApplicatorInstaller
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &5925357
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5925356}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0513df829b4b6f40b4c524f6402b59d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _applicator: {fileID: 1095507681}
+--- !u!4 &5925358
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5925356}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1.7662588, y: 3.1725101, z: -0.13255636}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2030190570}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &9409836 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2055102311959635375, guid: 413081fc53a78a043b38591243616398, type: 3}
@@ -4118,6 +4163,51 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!1 &432614733
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 432614735}
+  - component: {fileID: 432614734}
+  m_Layer: 0
+  m_Name: ItemHolderInstaller
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &432614734
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 432614733}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54fdec7151324696b807dc82ec5a880a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _itemsHolder: {fileID: 7288893023048778939, guid: 8156a09c484bd5f48995611e4ba716cd, type: 3}
+--- !u!4 &432614735
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 432614733}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1.7662588, y: 3.1725101, z: -0.13255636}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2030190570}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &451773697 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7927576777899018053, guid: 953e47090b005bd4c8c80a5ad6972add, type: 3}
@@ -10195,10 +10285,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _taskController: {fileID: 385249935}
   _window: {fileID: 1095507680}
-  _items:
-  - {fileID: 11400000, guid: 0a48d2ef79d70714ca1758e1e2b46c36, type: 2}
-  - {fileID: 11400000, guid: 90090b12a8124de4785c6a92e1a7f90d, type: 2}
-  - {fileID: 11400000, guid: 8d159aeb4e3bd1241b71a9865aeaf466, type: 2}
 --- !u!4 &1340026654
 Transform:
   m_ObjectHideFlags: 0
@@ -13535,6 +13621,8 @@ MonoBehaviour:
   - {fileID: 46295596}
   - {fileID: 1979593854}
   - {fileID: 597777749}
+  - {fileID: 432614734}
+  - {fileID: 5925357}
   _installerPrefabs: []
   _autoRun: 1
   OnPreInstall:
@@ -13568,6 +13656,8 @@ Transform:
   - {fileID: 46295597}
   - {fileID: 1979593855}
   - {fileID: 597777750}
+  - {fileID: 432614735}
+  - {fileID: 5925358}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2036607759

@@ -6,7 +6,7 @@ namespace UI
     {
         [SerializeField] private GameObject _window;
 
-        public void Show()
+        public virtual void Show()
         {
             _window.SetActive(true);
             Time.timeScale = 0;

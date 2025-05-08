@@ -1,3 +1,4 @@
+using Items.Enums;
 using Items.ItemData;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,6 +17,7 @@ namespace Data
         [SerializeField] private string _descriptionTr;
         [SerializeField] private ItemDataConfig _config;
         [SerializeField] private List<StatVisualData> _stats;
+        [field: SerializeField] public ItemVariations Variation {  get; private set; }
 
         public string Name => Translator.Translate(_nameRu, _nameEn, _nameTr);
 

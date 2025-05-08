@@ -1,4 +1,5 @@
 using System.Collections;
+using Data;
 using HealthSystem;
 using Items.BaseClass;
 using UnityEngine;
@@ -16,7 +17,9 @@ namespace Items.ItemVariations
         
         private ObjectPool<ChalkProjectile> _projectilePool;
         private int _level = 1;
-        
+
+        private StatVisualData _projectilesPerAttackVisual;
+
         private void Awake()
         {
             _projectilePool = new ObjectPool<ChalkProjectile>(
@@ -28,6 +31,8 @@ namespace Items.ItemVariations
                 defaultCapacity: 10,
                 maxSize: 100
             );
+
+            _projectilesPerAttackVisual = VisualData.Stats[0];
         }
         
         private ChalkProjectile CreateProjectile()
@@ -103,8 +108,9 @@ namespace Items.ItemVariations
         protected override void LevelUp()
         {
             _level++;
-            
-            //_projectilesPerAttack = 3 + _level;
+
+            _projectilesPerAttackVisual.SetValue(3 + _level);
+            _projectilesPerAttack = 3 + _level;
         }
     }
 }

@@ -1,6 +1,4 @@
-using Data;
 using Pools;
-using System.Collections.Generic;
 using UI;
 using UnityEngine;
 using Zenject;
@@ -11,7 +9,6 @@ namespace Tutorial
     {
         [SerializeField] private TutorialTaskController _taskController;
         [SerializeField] private LevelUpWindow _window;
-        [SerializeField] private List<ItemVisualData> _items;
 
         private ExpPointPool _expPointPool;
 
@@ -34,7 +31,7 @@ namespace Tutorial
         private void OnReturned()
         {
             _taskController.ShowNextTask();
-            _window.ShowWithItems(_items);
+            _window.Show();
         }
     }
 }

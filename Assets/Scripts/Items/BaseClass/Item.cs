@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using CharacterLogic.InputHandler;
 using Data;
 using Items.Interfaces;
@@ -13,6 +14,7 @@ namespace Items.BaseClass
 
         private bool _canAttack = true;
         private IEnumerator _attackCoroutine;
+        private List<StatVisualData> _visualData;
 
         [field: SerializeField] public ItemDataConfig Data { get; private set; }
         [field: SerializeField] public ItemVisualData VisualData { get; private set; }

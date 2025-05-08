@@ -1,4 +1,6 @@
 using Data;
+using Items.Enums;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,6 +14,8 @@ namespace UI.Applicators
         [SerializeField] private Button _ok;
 
         private readonly List<StatView> _currentStats = new ();
+
+        public event Action<ItemVariations> ItemSelected;
 
         protected override void OnEnable()
         {
@@ -48,9 +52,6 @@ namespace UI.Applicators
             _currentStats.Clear();
         }
 
-        private void AddItem()
-        {
-            //тут нужно добавить текущий итем CurrentItem в инвентарь. Но тут есть только ItemDataConfig, а в инвентарь добавляются Item. Пока хз, как создать Item          
-        }
+        private void AddItem() => ItemSelected?.Invoke(CurrentItem.Variation);
     }
 }

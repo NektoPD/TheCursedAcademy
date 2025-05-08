@@ -32,6 +32,14 @@ namespace Items.ItemHolder
             return _createdItems[randomIndex].VisualData;
         }
 
+        public void GetVisualDatas(int count, out List<ItemVisualData> datas)
+        {
+            datas = new();
+
+            for (int i = 0; i < count; i++)
+                datas.Add(GetVisualData());
+        }
+
         private void CreateAllItems()
         {
             foreach (var item in _itemPrefabs.Select(itemPrefab => Instantiate(itemPrefab, _container)))
