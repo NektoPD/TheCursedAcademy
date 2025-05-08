@@ -1,5 +1,6 @@
 using System.Collections;
 using CharacterLogic.InputHandler;
+using Data;
 using Items.Interfaces;
 using Items.ItemData;
 using UnityEngine;
@@ -8,12 +9,13 @@ namespace Items.BaseClass
 {
     public abstract class Item : MonoBehaviour, IAttackable
     {
-        [field: SerializeField] public ItemDataConfig Data { get; private set; }
-
         protected CharacterMovementHandler MovementHandler;
 
         private bool _canAttack = true;
         private IEnumerator _attackCoroutine;
+
+        [field: SerializeField] public ItemDataConfig Data { get; private set; }
+        [field: SerializeField] public ItemVisualData VisualData { get; private set; }
 
         public void Initialize(CharacterMovementHandler movementHandler)
         {
@@ -33,8 +35,9 @@ namespace Items.BaseClass
 
         private IEnumerator AttackCooldown()
         {
+            var coolDown = new WaitForSeconds(Data.Cooldown);
             _canAttack = false;
-            yield return new WaitForSeconds(Data.Cooldown);
+            yield return coolDown;
             _canAttack = true;
         }
     }

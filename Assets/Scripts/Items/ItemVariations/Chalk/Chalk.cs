@@ -104,7 +104,7 @@ namespace Items.ItemVariations
         {
             _level++;
             
-            _projectilesPerAttack = 3 + _level;
+            //_projectilesPerAttack = 3 + _level;
         }
     }
 }
