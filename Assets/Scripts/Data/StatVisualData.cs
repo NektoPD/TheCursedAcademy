@@ -21,6 +21,6 @@ namespace Data
 
         public void SetStep(float step) => _step = step;
 
-        public void LevelUp() => _value = _value + _step;
+        public void LevelUp() => _value += _step;
     }
 }
