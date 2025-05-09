@@ -24,9 +24,9 @@ namespace CharacterLogic.Initializer
         private ItemsHolder _itemsHolder;
         private ItemApplicator _itemApplicator;
 
-        public Transform PlayerTransform { get; private set; }
+        public event Action<Character> CharacterCreated;
 
-        public Character Character { get; private set; }
+        public Transform PlayerTransform { get; private set; }
 
         [Inject]
         private void Construct(PerkController perkController, CharacterFabric fabric, ItemsHolder itemsHolder,
@@ -56,7 +56,7 @@ namespace CharacterLogic.Initializer
             characterToSpawn.Construct(chosenData, finalPerkBonuses, _itemsHolder, _itemApplicator);
             _characterSpawner.Spawn(characterToSpawn);
             PlayerTransform = characterToSpawn.transform;
-            Character = characterToSpawn;
+            CharacterCreated?.Invoke(characterToSpawn);
         }
     }
 }

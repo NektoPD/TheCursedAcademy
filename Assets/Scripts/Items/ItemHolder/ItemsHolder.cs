@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Data;
 using Items.BaseClass;
-using Items.ItemData;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -37,7 +35,17 @@ namespace Items.ItemHolder
             datas = new();
 
             for (int i = 0; i < count; i++)
-                datas.Add(GetVisualData());
+            {
+                ItemVisualData item = GetVisualData();
+
+                if(datas.Contains(item) == false)
+                {
+                    i--;
+                    continue;
+                }
+
+                datas.Add(item);
+            }
         }
 
         private void CreateAllItems()

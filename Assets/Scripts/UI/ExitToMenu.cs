@@ -1,5 +1,4 @@
-using CharacterLogic.Initializer;
-using StatistiscSystem;
+using CharacterLogic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
@@ -18,21 +17,18 @@ namespace UI
         [SerializeField] private Ads _ads;
         [SerializeField] private SceneChanger _changer;
 
-        private CharacterInitializer _characterInitializer;
         private int _coins;
         private bool _isShowing = false;
         private Wallet _wallet;
 
         [Inject]
-        public void Construct(Wallet wallet, CharacterInitializer characterInitializer)
+        public void Construct(Wallet wallet)
         {
             _wallet = wallet;
-            _characterInitializer = characterInitializer;
         }
 
         private void OnEnable()
         {
-            _characterInitializer.Character.StatisticCollected += Initialize;
             _exit.onClick.AddListener(Exit);
             _adsExit.onClick.AddListener(Ads);
             YandexGame.RewardVideoEvent += OnRevardedShow;
@@ -40,13 +36,12 @@ namespace UI
 
         private void OnDisable()
         {
-            _characterInitializer.Character.StatisticCollected -= Initialize;
             _exit.onClick.RemoveListener(Exit);
             _adsExit.onClick.RemoveListener(Ads);
             YandexGame.RewardVideoEvent -= OnRevardedShow;
         }
 
-        public void Initialize(Statistics statistics) => _coins = statistics.Coins;
+        public void SetCoins(int coins) => _coins = coins;
 
         private void Ads()
         {

@@ -31,7 +31,7 @@ namespace UI.Applicators
 
         protected abstract void Applicate(T data);
 
-        public void SetdDefaultItem(T item) => _defaultItem = item;
+        public void SetDefaultItem(T item) => _defaultItem = item;
 
         private void OnClick(T data)
         {

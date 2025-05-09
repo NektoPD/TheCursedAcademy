@@ -31,6 +31,9 @@ namespace UI.Applicators
 
         protected override void Applicate(ItemVisualData data)
         {
+            if(data == null)
+                return;
+
             RemoveAllStat();
 
             foreach (var stat in data.Stats)

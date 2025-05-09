@@ -2,16 +2,29 @@ using UnityEngine;
 
 namespace UI
 {
+    [RequireComponent(typeof(WindowAnimation))]
     public abstract class Window : MonoBehaviour
     {
         [SerializeField] private GameObject _window;
 
-        public virtual void OpenWindow() => _window.SetActive(true);
+        private WindowAnimation _windowAnimation;
 
-        public void CloseWindow() => _window.SetActive(false);
+        private void Awake()
+        {
+            _windowAnimation = GetComponent<WindowAnimation>();
+        }
 
-        private void StopTime() => Time.timeScale = 0f;
+        public virtual void OpenWindow()
+        {
+            gameObject.SetActive(true);
+            _windowAnimation.Open();
+            _windowAnimation.StopTime();
+        }
 
-        private void StartTime() => Time.timeScale = 1f;
+        public void CloseWindow()
+        {
+            _windowAnimation.Close();
+            _windowAnimation.StartTime();
+        }
     }
 }

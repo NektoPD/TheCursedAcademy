@@ -1,30 +1,19 @@
 using CharacterLogic;
-using CharacterLogic.Initializer;
 using UnityEngine;
 using UnityEngine.UI;
 using Utils;
 using YG;
-using Zenject;
 
 namespace UI
 {
     public class Reviver : MonoBehaviour
     {
-        private const string Close = nameof(Close);
-
         [SerializeField] private Button _revive;
         [SerializeField] private Ads _ads;
-        [SerializeField] private EndWindow _endWindow;
-        [SerializeField] private Animator _animator;
+        [SerializeField] private WindowAnimation _window;
 
         private Character _character;
         private bool _isShowing = false;
-
-        [Inject]
-        public void Construct(CharacterInitializer characterInitializer)
-        {
-            _character = characterInitializer.Character;
-        }
 
         private void OnEnable()
         {
@@ -38,6 +27,8 @@ namespace UI
             YandexGame.RewardVideoEvent -= Revive;
         }
 
+        public void Inizialize(Character character) => _character = character;
+
         private void Ads()
         {
             _ads.OpenRewardAd();
@@ -49,7 +40,8 @@ namespace UI
             if (_isShowing == false)
                 return;
 
-            _animator.SetTrigger(Close);
+            _window.Close();
+            _window.StartTime();
             _character.Revive();
         }
     }

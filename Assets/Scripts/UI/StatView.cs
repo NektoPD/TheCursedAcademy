@@ -13,6 +13,10 @@ namespace UI
         public void Applicate(string name, string value)
         {
             _name.text = name;
+
+            if (value == "1")
+                value = "0";
+
             _value.text = value;
         }
     }
