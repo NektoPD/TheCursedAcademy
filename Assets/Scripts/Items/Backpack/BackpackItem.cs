@@ -61,7 +61,7 @@ namespace Items.ItemVariations
             _activeEffectCoroutine = StartCoroutine(DisableEffectAfterDuration(effectDuration));
         }
 
-        protected override void LevelUp()
+        public override void LevelUp()
         {
             _level++;
 

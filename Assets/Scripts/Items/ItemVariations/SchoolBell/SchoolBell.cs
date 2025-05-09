@@ -55,7 +55,7 @@ namespace Items.ItemVariations.SchoolBell
             projectile.FreezeSurroundingEnemies();
         }
 
-        protected override void LevelUp()
+        public override void LevelUp()
         {
             _level++;
 

@@ -69,7 +69,7 @@ namespace Items.ItemVariations
             StartCoroutine(EnableProjectile(projectile, _projectileLifetime));
         }
 
-        protected override void LevelUp()
+        public override void LevelUp()
         {
             _level++;
 

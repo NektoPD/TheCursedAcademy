@@ -65,7 +65,7 @@ namespace Items.ItemVariations.BeautiZone
             }
         }
 
-        protected override void LevelUp()
+        public override void LevelUp()
         {
             _level++;
 
@@ -82,7 +82,7 @@ namespace Items.ItemVariations.BeautiZone
                     _damageMultiplier = 1.6f;
                     _radiusMultiplier = 1.4f;
                     _durationMultiplier = 1.4f;
-                    Data.Cooldown *= 0.85f;
+                    Data.Cooldown *= 0.9f;
                     break;
             }
         }

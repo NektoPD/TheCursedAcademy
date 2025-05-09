@@ -15,9 +15,9 @@ namespace CharacterLogic
             _hpBar.value = value / maxHealth;
         }
 
-        public void UpdateLevelBar(float value, float levelRequieremnt)
+        public void UpdateLevelBar(int value, int levelRequirement)
         {
-            _levelBar.value = value / levelRequieremnt;
+            _levelBar.value = (float)value / levelRequirement;
         }
 
         public void SetHeroImage(Sprite image)

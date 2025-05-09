@@ -101,7 +101,7 @@ namespace Items.ItemVariations
             return (Vector2)transform.position + Random.insideUnitCircle.normalized * 10f;
         }
 
-        protected override void LevelUp()
+        public override void LevelUp()
         {
             _level++;
 
@@ -115,7 +115,7 @@ namespace Items.ItemVariations
                     break;
 
                 case 3:
-                    Data.Damage *= 1.3f;
+                    Data.Damage *= 1.25f;
                     Data.Cooldown *= 0.85f;
                     _projectileLifetime *= 1.3f;
                     break;

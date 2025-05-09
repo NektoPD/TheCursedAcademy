@@ -121,7 +121,7 @@ namespace Items.ItemVariations.Toys
             }
         }
 
-        protected override void LevelUp()
+        public override void LevelUp()
         {
             _level++;
 

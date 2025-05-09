@@ -29,9 +29,9 @@ namespace Items.BaseClass
             StartCoroutine(AttackCooldown());
         }
 
-        protected abstract void PerformAttack();
+        public abstract void LevelUp();
 
-        protected abstract void LevelUp();
+        protected abstract void PerformAttack();
 
         private IEnumerator AttackCooldown()
         {

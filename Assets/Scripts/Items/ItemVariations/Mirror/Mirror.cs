@@ -63,7 +63,7 @@ namespace Items.ItemVariations
             }
         }
 
-        protected override void LevelUp()
+        public override void LevelUp()
         {
             _level++;
 

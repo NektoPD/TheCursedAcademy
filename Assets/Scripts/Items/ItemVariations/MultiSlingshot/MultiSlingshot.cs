@@ -158,7 +158,7 @@ namespace Items.ItemVariations.MultiSlingshot
             );
         }
 
-        protected override void LevelUp()
+        public override void LevelUp()
         {
             _level++;
 

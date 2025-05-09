@@ -57,7 +57,7 @@ namespace Items.ItemVariations.Book
                 Vector2 direction = Quaternion.Euler(0, 0, currentAngle) * Vector2.up;
                 if (projectile.Rigidbody2D != null)
                 {
-                    projectile.Rigidbody2D.velocity = direction * _projectileSpeed * _projectileSpeedMultiplier;
+                    projectile.Rigidbody2D.velocity = direction * (_projectileSpeed * _projectileSpeedMultiplier);
                 }
 
                 StartCoroutine(EnableProjectile(projectile, _projectileLifetime * _projectileLifetimeMultiplier));
@@ -84,7 +84,7 @@ namespace Items.ItemVariations.Book
             }
         }
 
-        protected override void LevelUp()
+        public override void LevelUp()
         {
             _level++;
 
@@ -103,7 +103,7 @@ namespace Items.ItemVariations.Book
                     _projectileSpeedMultiplier = 1.2f;
                     _projectileLifetimeMultiplier = 1.4f;
                     _projectileCount = 4;
-                    Data.Cooldown *= 0.85f;
+                    Data.Cooldown *= 0.9f;
                     break;
             }
         }

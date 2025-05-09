@@ -71,7 +71,7 @@ namespace Items.ItemVariations
             StartCoroutine(EnableProjectile(penProjectile, _projectileLifetime));
         }
 
-        protected override void LevelUp()
+        public override void LevelUp()
         {
             _level++;
 
@@ -83,7 +83,7 @@ namespace Items.ItemVariations
                     break;
 
                 case 3:
-                    _damageMultiplier = 1.7f;
+                    _damageMultiplier = 1.6f;
                     Data.Cooldown *= 0.85f;
                     break;
             }

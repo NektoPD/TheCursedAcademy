@@ -91,7 +91,7 @@ namespace Items.ItemVariations.MagicRuller
             _projectilePool.ReturnToPool(projectile);
         }
 
-        protected override void LevelUp()
+        public override void LevelUp()
         {
             _level++;
 

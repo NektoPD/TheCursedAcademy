@@ -190,7 +190,7 @@ namespace Items.ItemVariations.Cats
             }
         }
 
-        protected override void LevelUp()
+        public override void LevelUp()
         {
             _level++;
 
