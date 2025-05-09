@@ -38,7 +38,7 @@ namespace Items.ItemHolder
             {
                 ItemVisualData item = GetVisualData();
 
-                if(datas.Contains(item) == false)
+                if(datas.Contains(item) != false)
                 {
                     i--;
                     continue;

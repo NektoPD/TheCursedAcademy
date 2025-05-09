@@ -14,9 +14,6 @@ namespace UI
         {
             _name.text = name;
 
-            if (value == "1")
-                value = "0";
-
             _value.text = value;
         }
     }

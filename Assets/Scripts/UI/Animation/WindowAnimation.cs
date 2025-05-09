@@ -56,7 +56,7 @@ namespace UI
         private Tween DoFadeBackground(float alfa, float duration)
         {
             if (_background == null)
-                return DOTween.To(() => 0, x => { }, 0, 0);
+                return null;
             
             return _background.DOFade(alfa, duration).SetUpdate(true);
         }
