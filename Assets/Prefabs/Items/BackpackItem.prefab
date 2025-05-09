@@ -58,7 +58,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <Data>k__BackingField: {fileID: 11400000, guid: 09fcfbb4f1571174fa545d8b01af8379, type: 2}
+  <VisualData>k__BackingField: {fileID: 11400000, guid: 66bd3d70612fff54cb36c2e523d4c45d, type: 2}
   _backpackProjectilePrefab: {fileID: 6561051405164203202, guid: fcc0f46784aef14429c2d1c4b5407548, type: 3}
   _effectDuration: 3
   _initialPoolSize: 1
-  _durationMultiplier: 1
+  _durationIncreasePerLevel: 0.25
+  _cooldownReductionPerLevel: 0.9

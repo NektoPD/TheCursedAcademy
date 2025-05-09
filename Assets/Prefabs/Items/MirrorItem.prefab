@@ -58,6 +58,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <Data>k__BackingField: {fileID: 11400000, guid: f961eb543c1be7440869c8690000080b, type: 2}
+  <VisualData>k__BackingField: {fileID: 11400000, guid: 8d159aeb4e3bd1241b71a9865aeaf466, type: 2}
   _mirrorProjectilePrefab: {fileID: 2090763106050072845, guid: 7a69ced92ab790e47aed7dae4a0d64ef, type: 3}
   _projectileLifetime: 3
   _projectileSpeed: 5
@@ -66,3 +67,4 @@ MonoBehaviour:
   _enemyLayer:
     serializedVersion: 2
     m_Bits: 256
+  _enableTargeting: 1

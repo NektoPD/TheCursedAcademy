@@ -58,10 +58,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <Data>k__BackingField: {fileID: 11400000, guid: 23411b5b5870b324691382ccd7271dd4, type: 2}
+  <VisualData>k__BackingField: {fileID: 11400000, guid: 5f318f8344ba7414195f58563dcdec64, type: 2}
   _bellProjectilePrefab: {fileID: 4406227163197462480, guid: e2dcafb12b86d4849819a6b24aa0eab4, type: 3}
   _freezeDuration: 3
+  _ySpawnOffset: 2
   _initialPoolSize: 5
   _enemyLayerMask:
     serializedVersion: 2
     m_Bits: 256
   _bellEffectRadius: 3
+  _baseDamageMultiplier: 1
+  _effectDurationIncreasePerLevel: 0.2
+  _radiusIncreasePerLevel: 0.5
+  _cooldownReductionPerLevel: 0.9

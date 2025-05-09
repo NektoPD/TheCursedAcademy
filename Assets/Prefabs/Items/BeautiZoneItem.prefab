@@ -58,12 +58,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <Data>k__BackingField: {fileID: 11400000, guid: 50c409cf8f96824459592c175a6ced65, type: 2}
+  <VisualData>k__BackingField: {fileID: 11400000, guid: 87a815cd966d0ed458ae1b9f8d5083bc, type: 2}
   _beautyZoneProjectilePrefab: {fileID: 2338013965513972884, guid: 6175b5469932dc84e87d99f3bb30af3d, type: 3}
   _zoneRadius: 1.3
   _zoneDuration: 2
   _initialPoolSize: 2
-  _level: 1
-  _damageMultiplierPerLevel: 0.2
-  _radiusMultiplierPerLevel: 0.1
-  _durationMultiplierPerLevel: 0.1
   _spawnYOffset: 0.6
+  _damageMultiplier: 1
+  _radiusMultiplier: 1
+  _durationMultiplier: 1
+  _projectileReturnDelay: 0.5

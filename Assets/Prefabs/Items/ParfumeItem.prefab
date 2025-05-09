@@ -58,12 +58,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <Data>k__BackingField: {fileID: 11400000, guid: e9534379c358bd141b90b6ea43c8a93c, type: 2}
+  <VisualData>k__BackingField: {fileID: 11400000, guid: 8176bd63671e9a9449a42b8653ccc751, type: 2}
   _parfumeProjectilePrefab: {fileID: 4132972598041474757, guid: 9d7fe9b725aeec741bf37368311bbba9, type: 3}
   _projectileLifetime: 6
   _damageZoneDuration: 5
   _initialPoolSize: 3
-  _minSpawnDistance: 8
-  _maxSpawnDistance: 12
   _minScreenOffset: 0.1
   _maxScreenOffset: 0.3
   _projectileSpeed: 6
@@ -71,3 +70,6 @@ MonoBehaviour:
   _maxScreenInsetX: 0.8
   _minScreenInsetY: 0.2
   _maxScreenInsetY: 0.8
+  _baseDamageMultiplier: 1
+  _durationMultiplierIncreasePerLevel: 0.15
+  _baseProjectileCount: 1

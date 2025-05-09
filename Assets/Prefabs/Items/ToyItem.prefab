@@ -59,6 +59,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <Data>k__BackingField: {fileID: 11400000, guid: 71d1ba605c2bf7643ba96deac2d014a5, type: 2}
+  <VisualData>k__BackingField: {fileID: 11400000, guid: bc77e2e7cb82a324fb2fdddd0604bd30, type: 2}
   _toysProjectilePrefab: {fileID: 162434049889405546, guid: a43ee06356910d94d98bb2016fa97871, type: 3}
   _baseProjectileCount: 2
   _maxProjectileCount: 5
@@ -69,6 +70,11 @@ MonoBehaviour:
   _scaleDownDuration: 0.7
   _scaleUpDuration: 0.7
   _delayBeforeNextAttack: 5
+  _baseDamageMultiplier: 1
+  _damageIncreasePerLevel: 0.15
+  _radiusIncreasePerLevel: 0.1
+  _rotationSpeedIncreasePerLevel: 15
+  _cooldownReductionPerLevel: 0.95
 --- !u!114 &4717046134111735468
 MonoBehaviour:
   m_ObjectHideFlags: 0

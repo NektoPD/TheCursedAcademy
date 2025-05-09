@@ -58,6 +58,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <Data>k__BackingField: {fileID: 11400000, guid: e4d7d734813450c499f05b0935801e2a, type: 2}
+  <VisualData>k__BackingField: {fileID: 11400000, guid: 0a48d2ef79d70714ca1758e1e2b46c36, type: 2}
   _bookProjectilePrefab: {fileID: 2557149982764238370, guid: e1321489a4f173d4c86e434a5d641b69, type: 3}
   _projectileSpeed: 4
   _spawnOffset: 0.5
@@ -66,5 +67,7 @@ MonoBehaviour:
   _spreadAngle: 30
   _initialPoolSize: 6
   _level: 1
-  _damageMultiplierPerLevel: 0.2
-  _cooldownReductionPerLevel: 0.1
+  _damageMultiplier: 1
+  _projectileSpeedMultiplier: 1
+  _projectileLifetimeMultiplier: 1
+  _projectileSpawnInterval: 0.1

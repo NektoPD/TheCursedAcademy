@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <Data>k__BackingField: {fileID: 11400000, guid: ac9a95052a0a62b4ea3d0fc2fae6574a, type: 2}
+  <VisualData>k__BackingField: {fileID: 11400000, guid: 90090b12a8124de4785c6a92e1a7f90d, type: 2}
   _projectilePrefab: {fileID: 6184519693877796747, guid: e632a941e3b17b54facfa46f57f1335c, type: 3}
   _spawnPoint: {fileID: 7503991393892268567}
   _projectileLifetime: 5

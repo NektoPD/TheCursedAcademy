@@ -45,17 +45,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <Data>k__BackingField: {fileID: 11400000, guid: 96295d578d48f1d428459db83a9bdd69, type: 2}
+  <VisualData>k__BackingField: {fileID: 11400000, guid: 1dd40d4b910d58f419acce24b93c2f4e, type: 2}
   _projectilePrefab: {fileID: 5758707169459221309, guid: da334d3766229564eb728b5fb81bdfb6, type: 3}
   _spawnPoint: {fileID: 7248130139366308460}
   _projectileLifetime: 3
   _projectileSpeed: 8
   _projectilesPerShot: 3
   _spreadAngle: 30
-  _baseProjectilesPerShot: 3
-  _projectilesPerLevelDiv: 2
-  _baseSpreadAngle: 30
-  _spreadAnglePerLevel: 5
-  _maxSpreadAngle: 60
+  _baseProjectileSpeed: 8
   _movementThreshold: 0.1
   _poolDefaultCapacity: 10
   _poolMaxSize: 100

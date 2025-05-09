@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <Data>k__BackingField: {fileID: 11400000, guid: 937c6ed2d639f354a927be126f0a40ac, type: 2}
+  <VisualData>k__BackingField: {fileID: 11400000, guid: 440dc489763826c4d880fd88fd9161bf, type: 2}
   _catPrefab: {fileID: 1961552358002179585, guid: 11bb420c410de714eb9acab0ab743cdf, type: 3}
   _spawnPoint: {fileID: 6225786358518053357}
   _catLifetime: 10
@@ -52,7 +53,6 @@ MonoBehaviour:
   _catMovementSpeed: 3
   _catsPerSpawn: 3
   _detectionRadius: 5
-  _respawnDelay: 1.5
   _catDisappearEffectPrefab: {fileID: 19848222, guid: e4fc72c1b3da74d4697708bcd2a9db60, type: 3}
   _effectPoolSize: 10
   _baseCatsPerSpawn: 3
