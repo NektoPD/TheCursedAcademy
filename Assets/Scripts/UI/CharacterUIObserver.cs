@@ -1,6 +1,7 @@
 using CharacterLogic;
 using CharacterLogic.Initializer;
 using StatistiscSystem;
+using UI.Applicators;
 using UnityEngine;
 
 namespace UI
@@ -8,7 +9,8 @@ namespace UI
     public class CharacterUIObserver : MonoBehaviour
     {
         [SerializeField] private LevelUpWindow _levelUpWindow;
-        [SerializeField] private StatisticsApplicator _applicator;
+        [SerializeField] private StatisticsApplicator _statisticApplicator;
+        [SerializeField] private ItemApplicator _itemApplicator;
         [SerializeField] private CharacterInitializer _initializer;
         [SerializeField] private ExitToMenu _exit;
         [SerializeField] private Reviver _reviver;
@@ -35,6 +37,7 @@ namespace UI
         {
             _character = character;
             _reviver.Inizialize(character);
+            _itemApplicator.Initialize(character.Inventory);
             _character.StatisticCollected += StatisticApplicate;
             _character.LevelUp += LevelUp;
         }
@@ -43,7 +46,7 @@ namespace UI
 
         private void StatisticApplicate(Statistics statistics)
         {
-            _applicator.Applicate(statistics);
+            _statisticApplicator.Applicate(statistics);
             _exit.SetCoins(statistics.Coins);
         }
     }

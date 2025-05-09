@@ -46,7 +46,7 @@ namespace UI
                 .Append(_rectTransform.DOAnchorPos(newPosition, _duration))
                 .SetUpdate(true);
 
-            _currentTween =suquence.OnComplete(() => gameObject.SetActive(false)).Play();
+            _currentTween = suquence.OnComplete(() => gameObject.SetActive(false)).Play();
         }
 
         public void StopTime() => Time.timeScale = 0f;
@@ -56,7 +56,7 @@ namespace UI
         private Tween DoFadeBackground(float alfa, float duration)
         {
             if (_background == null)
-                return null;
+                return DOTween.To(() => 0, x => { }, 0, 0);
             
             return _background.DOFade(alfa, duration).SetUpdate(true);
         }

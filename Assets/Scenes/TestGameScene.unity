@@ -2779,7 +2779,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _levelUpWindow: {fileID: 1027732308}
-  _applicator: {fileID: 592951846}
+  _statisticApplicator: {fileID: 592951846}
+  _itemApplicator: {fileID: 1027732307}
   _initializer: {fileID: 475003801}
   _exit: {fileID: 1151193883}
   _reviver: {fileID: 483261450}

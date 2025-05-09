@@ -52,6 +52,8 @@ namespace CharacterLogic
         public event Action<Statistics> StatisticCollected;
         public event Action LevelUp;
 
+        public CharacterInventory Inventory => _inventory;
+
         public void Construct(CharacterData characterData, Dictionary<PerkType, float> perkBonuses,
             ItemsHolder itemsHolder, ItemApplicator itemApplicator)
         {
