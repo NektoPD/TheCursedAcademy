@@ -1,5 +1,5 @@
 using TMPro;
-using UI;
+using UI.Animation;
 using UnityEngine;
 
 namespace StatistiscSystem

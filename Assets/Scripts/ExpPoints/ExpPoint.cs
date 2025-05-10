@@ -7,7 +7,7 @@ using Utils;
 namespace ExpPoints
 {
     [RequireComponent(typeof(SpriteRenderer), typeof(ResizeCollider), typeof(Animator))]
-    public class ExpPoint : MonoBehaviour, IPoolEntity, IExpPoint
+    public class ExpPoint : MonoBehaviour, IPoolEntity, IPickable
     {
         private int _point;
         private ExpPointPool _pool;

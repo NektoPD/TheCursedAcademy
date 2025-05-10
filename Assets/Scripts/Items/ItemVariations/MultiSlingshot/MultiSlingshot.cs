@@ -24,7 +24,6 @@ namespace Items.ItemVariations.MultiSlingshot
         [SerializeField] private int _poolMaxSize = 100;
 
         private ObjectPool<MultiSlingshotItemProjectile> _projectilePool;
-        private int _level = 1;
         private Vector2 _lastAttackDirection = Vector2.right;
         private CharacterLogic.InputHandler.CharacterMovementHandler _characterMovementHandler;
         private float _damageMultiplier = 1f;
@@ -160,7 +159,7 @@ namespace Items.ItemVariations.MultiSlingshot
 
         public override void LevelUp()
         {
-            _level++;
+            Level++;
 
             _projectilesPerShot++;
             _damageMultiplier *= 1.25f;

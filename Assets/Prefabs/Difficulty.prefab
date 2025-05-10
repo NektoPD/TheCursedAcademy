@@ -10,8 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4077441829507946847}
   - component: {fileID: 970782710457982917}
-  - component: {fileID: 5021247734564835070}
-  - component: {fileID: 1749558086535877097}
+  - component: {fileID: 1008435288563323971}
   m_Layer: 0
   m_Name: Difficulty
   m_TagString: Untagged
@@ -46,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d79fcae04f8fe6c4c8419ecbcdc3a027, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &5021247734564835070
+--- !u!114 &1008435288563323971
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -55,19 +54,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1722418168373373105}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a1b4734f7435b84cba4f5af322ea5a6, type: 3}
+  m_Script: {fileID: 11500000, guid: f79b61998beb1884ebabff8e6311064e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1749558086535877097
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1722418168373373105}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 453e930adec2fff4fb272b7b63481579, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _offset: 0.1
+  spawnRadius: 1

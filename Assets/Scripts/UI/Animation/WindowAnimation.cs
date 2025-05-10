@@ -2,7 +2,7 @@ using UnityEngine;
 using DG.Tweening;
 using UnityEngine.UI;
 
-namespace UI
+namespace UI.Animation
 {
     [RequireComponent(typeof(RectTransform))]
     public class WindowAnimation : MonoBehaviour

@@ -1,6 +1,6 @@
-namespace ExpPoints
+namespace Utils
 {
-    public interface IExpPoint
+    public interface IPickable
     {
         public int Value { get; }
 

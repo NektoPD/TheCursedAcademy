@@ -1,3 +1,4 @@
+using Difficulties.TimeTrackers.TimeDatas;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,7 +7,7 @@ namespace Difficulties
 {
     public class DifficutySaver : MonoBehaviour
     {
-        private const string DataKey = "DifficultyData";
+        private const string DataKey = nameof(DifficultyData);
         private const string CooldownKey = "DifficultyCooldown";
         private const string MaxEnemyKey = "DifficultyMaxEnemy";
 
@@ -26,7 +27,7 @@ namespace Difficulties
             PlayerPrefs.SetString(DataKey, json);
             PlayerPrefs.SetFloat(CooldownKey, _cooldown);
             PlayerPrefs.SetInt(MaxEnemyKey, _maxEnemy);
-            PlayerPrefs.Save();
+            PlayerPrefs.Save();      
         }
     }
 }

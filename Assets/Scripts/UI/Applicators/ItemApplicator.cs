@@ -1,6 +1,7 @@
 using Data;
 using InventorySystem;
 using Items.Enums;
+using Items.Stats;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +18,7 @@ namespace UI.Applicators
         [SerializeField] private Transform _statContainer;
         [SerializeField] private Button _ok;
 
-        private CharacterInventory _inventory;
+        private IEnumerable<ItemVisualData> _visualDatasInInventory;
 
         public event Action<ItemVariations> ItemSelected;
 
@@ -33,22 +34,20 @@ namespace UI.Applicators
             _ok.onClick.RemoveListener(AddItem);
         }
 
-        public void Initialize(CharacterInventory inventory) => _inventory = inventory;
+        public void Inizialize(IEnumerable<ItemVisualData> visualDatasInInventory) => _visualDatasInInventory = visualDatasInInventory;
 
         protected override void Applicate(ItemVisualData data)
         {
             if(data == null)
                 return;
 
-            IEnumerable<ItemVisualData> visualDatasInInventory = _inventory.Items.Select(item => item.VisualData);
-
             RemoveAllStat();
 
             foreach (var stat in data.Stats)
-                if (visualDatasInInventory.Contains(data))
+                if (_visualDatasInInventory.Contains(data))
                     AddStat(stat.Name, $"{stat.CurrentValue} -> {stat.NextValue}");
                 else
-                    AddStat(stat.Name, $"{stat.CurrentValue}");
+                    AddStat(stat.Name, $"0 -> {stat.CurrentValue}");
         }
         
         private void AddStat(string name, string value)

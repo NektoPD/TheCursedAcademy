@@ -16,7 +16,6 @@ namespace Items.ItemVariations
         [SerializeField] private int _projectilesPerAttack = 3;
 
         private ObjectPool<ChalkProjectile> _projectilePool;
-        private int _level = 1;
 
         private void Awake()
         {
@@ -103,11 +102,11 @@ namespace Items.ItemVariations
 
         public override void LevelUp()
         {
-            _level++;
+            Level++;
 
             _projectilesPerAttack++;
 
-            switch (_level)
+            switch (Level)
             {
                 case 2:
                     Data.Damage *= 1.25f;

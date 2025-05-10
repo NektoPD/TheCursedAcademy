@@ -18,7 +18,6 @@ namespace Items.ItemVariations
         [SerializeField] private float _damageMultiplier = 1f;
         [SerializeField] private float _widthMultiplier = 1f;
 
-        private int _level = 1;
         private ItemProjectilePool _projectilePool;
         private bool _lastMovementWasLeft = false;
 
@@ -73,9 +72,9 @@ namespace Items.ItemVariations
 
         public override void LevelUp()
         {
-            _level++;
+            Level++;
 
-            switch (_level)
+            switch (Level)
             {
                 case 2:
                     _damageMultiplier = 1.3f;

@@ -26,7 +26,6 @@ namespace Items.ItemVariations.Toys
         [SerializeField] private float _rotationSpeedIncreasePerLevel = 15f;
         [SerializeField] private float _cooldownReductionPerLevel = 0.95f;
 
-        private int _level = 1;
         private int _currentProjectileCount;
         private float _damageMultiplier = 1f;
         private float _radiusMultiplier = 1f;
@@ -123,7 +122,7 @@ namespace Items.ItemVariations.Toys
 
         public override void LevelUp()
         {
-            _level++;
+            Level++;
 
             _damageMultiplier += _damageIncreasePerLevel;
 
@@ -134,7 +133,7 @@ namespace Items.ItemVariations.Toys
 
             Data.Cooldown *= _cooldownReductionPerLevel;
 
-            if (_level % 2 == 0 && _currentProjectileCount < _maxProjectileCount)
+            if (Level % 2 == 0 && _currentProjectileCount < _maxProjectileCount)
             {
                 _currentProjectileCount++;
                 UpdateAngleStep();

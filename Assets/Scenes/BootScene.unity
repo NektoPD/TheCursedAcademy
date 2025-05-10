@@ -460,6 +460,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1702024014}
   - component: {fileID: 1702024013}
+  - component: {fileID: 1702024015}
   m_Layer: 0
   m_Name: DifficultySaver
   m_TagString: Untagged
@@ -482,7 +483,7 @@ MonoBehaviour:
   _cooldown: 1
   _maxEnemy: 100
   _dataList:
-  - _playTime: 0
+  - _playTimeInSeconds: 0
     _enemyIds: 010000000200000003000000
 --- !u!4 &1702024014
 Transform:
@@ -499,6 +500,23 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1702024015
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1702024012}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb9590b84d3753948be9aed60ba2e8bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _dataList:
+  - _ids: 00000000
+    _count: 20
+    _startPlayTimeInSeconds: 1
+    _cooldown: 30
 --- !u!1 &1798631337
 GameObject:
   m_ObjectHideFlags: 0

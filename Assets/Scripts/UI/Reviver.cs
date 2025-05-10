@@ -1,4 +1,5 @@
 using CharacterLogic;
+using UI.Animation;
 using UnityEngine;
 using UnityEngine.UI;
 using Utils;

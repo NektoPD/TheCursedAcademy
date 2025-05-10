@@ -18,7 +18,6 @@ namespace Items.ItemVariations
         [SerializeField] private LayerMask _enemyLayer;
         [SerializeField] private bool _enableTargeting = true;
 
-        private int _level = 1;
         private float _damageMultiplier = 1f;
         private ItemProjectilePool _projectilePool;
         private int _projectileCount = 1;
@@ -65,9 +64,9 @@ namespace Items.ItemVariations
 
         public override void LevelUp()
         {
-            _level++;
+            Level++;
 
-            switch (_level)
+            switch (Level)
             {
                 case 2:
                     _damageMultiplier = 1.25f;

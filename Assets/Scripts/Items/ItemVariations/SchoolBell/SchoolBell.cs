@@ -21,7 +21,6 @@ namespace Items.ItemVariations.SchoolBell
         [SerializeField] private float _radiusIncreasePerLevel = 0.5f;
         [SerializeField] private float _cooldownReductionPerLevel = 0.9f;
 
-        private int _level = 1;
         private float _damageMultiplier = 1f;
         private float _effectDurationMultiplier = 1f;
         private float _radiusMultiplier = 1f;
@@ -57,7 +56,7 @@ namespace Items.ItemVariations.SchoolBell
 
         public override void LevelUp()
         {
-            _level++;
+            Level++;
 
             _damageMultiplier *= 1.25f;
             

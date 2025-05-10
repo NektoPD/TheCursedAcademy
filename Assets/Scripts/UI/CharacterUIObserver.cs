@@ -10,7 +10,6 @@ namespace UI
     {
         [SerializeField] private LevelUpWindow _levelUpWindow;
         [SerializeField] private StatisticsApplicator _statisticApplicator;
-        [SerializeField] private ItemApplicator _itemApplicator;
         [SerializeField] private CharacterInitializer _initializer;
         [SerializeField] private ExitToMenu _exit;
         [SerializeField] private Reviver _reviver;
@@ -37,7 +36,7 @@ namespace UI
         {
             _character = character;
             _reviver.Inizialize(character);
-            _itemApplicator.Initialize(character.Inventory);
+            _levelUpWindow.Initialize(character.Inventory);
             _character.StatisticCollected += StatisticApplicate;
             _character.LevelUp += LevelUp;
         }

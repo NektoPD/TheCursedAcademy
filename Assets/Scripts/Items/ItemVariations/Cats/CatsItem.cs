@@ -39,7 +39,6 @@ namespace Items.ItemVariations.Cats
 
         private ObjectPool<CatsProjectile> _catPool;
         private ObjectPool<ParticleSystem> _effectPool;
-        private int _level = 1;
         private List<CatsProjectile> _activeCats = new List<CatsProjectile>();
         private bool _catsActive = false;
         private Coroutine _respawnCoroutine;
@@ -192,13 +191,13 @@ namespace Items.ItemVariations.Cats
 
         public override void LevelUp()
         {
-            _level++;
+            Level++;
 
-            _catsPerSpawn = _baseCatsPerSpawn + _level / _catsPerLevelDiv;
-            _detectionRadius = Mathf.Min(_baseDetectionRadius + (_level * _detectionRadiusPerLevel),
+            _catsPerSpawn = _baseCatsPerSpawn + Level / _catsPerLevelDiv;
+            _detectionRadius = Mathf.Min(_baseDetectionRadius + (Level * _detectionRadiusPerLevel),
                 _maxDetectionRadius);
 
-            switch (_level)
+            switch (Level)
             {
                 case 2:
                     Data.Damage *= 1.3f;

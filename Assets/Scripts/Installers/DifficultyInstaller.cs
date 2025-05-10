@@ -13,6 +13,7 @@ namespace Installers
         public override void InstallBindings()
         {
             Container.BindInstance(_enemyDataList).WhenInjectedInto<Difficulty>();
+            Container.BindInstance(_enemyDataList).WhenInjectedInto<EventStarter>();
         }
     }
 }

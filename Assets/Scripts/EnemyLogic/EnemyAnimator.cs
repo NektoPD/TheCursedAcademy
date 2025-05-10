@@ -12,6 +12,8 @@ namespace EnemyLogic
         private float _speed;
         private Animator _animator;
 
+        public bool IsDeadAnimationRunning => _animator.GetBool(Dead);
+
         private void Awake()
         {
             _animator = GetComponent<Animator>();

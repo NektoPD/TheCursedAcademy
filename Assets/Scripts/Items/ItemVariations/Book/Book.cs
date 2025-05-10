@@ -16,7 +16,6 @@ namespace Items.ItemVariations.Book
         [SerializeField] private float _spreadAngle = 30f;
         [SerializeField] private int _initialPoolSize = 6;
 
-        [SerializeField] private int _level = 1;
         [SerializeField] private float _damageMultiplier = 1f;
         [SerializeField] private float _projectileSpeedMultiplier = 1f;
         [SerializeField] private float _projectileLifetimeMultiplier = 1f;
@@ -86,9 +85,9 @@ namespace Items.ItemVariations.Book
 
         public override void LevelUp()
         {
-            _level++;
+            Level++;
 
-            switch (_level)
+            switch (Level)
             {
                 case 2:
                     _damageMultiplier = 1.3f;

@@ -26,7 +26,6 @@ namespace Items.ItemVariations
         [SerializeField] private float _durationMultiplierIncreasePerLevel = 0.15f;
         [SerializeField] private int _baseProjectileCount = 1;
 
-        private int _level = 1;
         private float _damageMultiplier = 1f;
         private float _durationMultiplier = 1f;
         private int _projectileCount = 1;
@@ -67,7 +66,7 @@ namespace Items.ItemVariations
 
         public override void LevelUp()
         {
-            _level++;
+            Level++;
 
             _damageMultiplier *= 1.25f;
             _projectileCount++;

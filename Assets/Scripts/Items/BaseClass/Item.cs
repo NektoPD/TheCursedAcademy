@@ -14,8 +14,12 @@ namespace Items.BaseClass
         private bool _canAttack = true;
         private IEnumerator _attackCoroutine;
 
+        protected int Level = 1;
+
         [field: SerializeField] public ItemDataConfig Data { get; private set; }
         [field: SerializeField] public ItemVisualData VisualData { get; private set; }
+
+        public int CurrentLevel => Level;
 
         public void Initialize(CharacterMovementHandler movementHandler)
         {

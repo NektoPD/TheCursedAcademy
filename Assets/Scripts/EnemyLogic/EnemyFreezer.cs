@@ -33,6 +33,9 @@ namespace EnemyLogic
 
         public void Freeze()
         {
+            if (_animator.IsDeadAnimationRunning)
+                return;
+
             _animator.SetHurtTigger();
             _animator.SetAnimatorSpeed(0f);
             SetState(false, _defaultColor, _color);

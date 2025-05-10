@@ -18,7 +18,6 @@ namespace Items.ItemVariations.BeautiZone
         [SerializeField] private float _durationMultiplier = 1f;
         [SerializeField] private float _projectileReturnDelay = 0.5f;
 
-        private int _level = 1;
         private ItemProjectilePool _projectilePool;
         private Transform _transform;
 
@@ -67,9 +66,9 @@ namespace Items.ItemVariations.BeautiZone
 
         public override void LevelUp()
         {
-            _level++;
+            Level++;
 
-            switch (_level)
+            switch (Level)
             {
                 case 2:
                     _damageMultiplier = 1.3f;

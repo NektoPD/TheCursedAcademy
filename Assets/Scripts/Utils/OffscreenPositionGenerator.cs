@@ -3,11 +3,11 @@ using UnityEngine;
 
 namespace Utils
 {
-    public class OffscreenPositionGenerator : MonoBehaviour
+    public static class OffscreenPositionGenerator
     {
-        [SerializeField] private float _offset = 0.1f;
+        private readonly static float _offset = 0.1f;
 
-        public Vector3 GetRandomPositionOutsideCamera()
+        public static Vector3 GetRandomPositionOutsideCamera()
         {
             Camera camera = Camera.main;
 

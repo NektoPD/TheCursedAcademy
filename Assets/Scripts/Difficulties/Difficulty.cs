@@ -1,4 +1,6 @@
 using Data.EnemesData;
+using Difficulties.TimeTrackers;
+using Difficulties.TimeTrackers.TimeDatas;
 using EnemyLogic;
 using Pools;
 using System.Collections;
@@ -10,15 +12,14 @@ using Zenject;
 
 namespace Difficulties
 {
-    [RequireComponent(typeof(TimeTracker), typeof(OffscreenPositionGenerator))]
     public class Difficulty : MonoBehaviour
     {
+        private const string DataKey = nameof(DifficultyData);
         private const string CooldownKey = "DifficultyCooldown";
         private const string MaxEnemyKey = "DifficultyMaxEnemy";
 
         private EnemyPool _enemyPool;
-        private TimeTracker _timeTracker;
-        private OffscreenPositionGenerator _positionGenerator;
+        private DifficultyTimeTracker _timeTracker;
         private List<EnemyData> _enemyDataList;
         private List<int> _enemyIds;
         private Coroutine _coroutine;
@@ -38,14 +39,18 @@ namespace Difficulties
 
         private void Awake()
         {
-            _timeTracker = GetComponent<TimeTracker>();
-            _positionGenerator = GetComponent<OffscreenPositionGenerator>();
+            _timeTracker = new DifficultyTimeTracker();
 
             if(PlayerPrefs.HasKey(CooldownKey))
                 _cooldown = PlayerPrefs.GetFloat(CooldownKey);
 
             if(PlayerPrefs.HasKey(MaxEnemyKey))
                 _maxEnemy = PlayerPrefs.GetInt(MaxEnemyKey);
+        }
+
+        private void Start()
+        {
+            _timeTracker.Start();
         }
 
         private void OnEnable()
@@ -72,13 +77,13 @@ namespace Difficulties
                 if (enemy == null)
                     return;
 
-                enemy.transform.position = _positionGenerator.GetRandomPositionOutsideCamera();
+                enemy.transform.position = OffscreenPositionGenerator.GetRandomPositionOutsideCamera();
 
                 _coroutine = StartCoroutine(Cooldown());
             }
         }
 
-        private void SetIds(List<int> ids) => _enemyIds = ids;
+        private void SetIds(DifficultyData data) => _enemyIds = data.EnemyIds.ToList();
 
         private Enemy GetRandomEnemy()
         {

@@ -1,9 +1,10 @@
 using Pools;
 using UnityEngine;
+using Utils;
 
 namespace WalletSystem.MoneyLogic
 {
-    public class Money : MonoBehaviour, IPoolEntity, IMoney
+    public class Money : MonoBehaviour, IPoolEntity, IPickable
     {
         private MoneyPool _pool;
         private int _value = 0;

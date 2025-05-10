@@ -14,7 +14,6 @@ namespace Items.ItemVariations.MagicRuller
 
         private Transform _transform;
         private ItemProjectilePool _projectilePool;
-        private int _level = 1;
         private float _damage;
         private float _damageMultiplier = 1f;
         private int _projectileCount = 1;
@@ -93,9 +92,9 @@ namespace Items.ItemVariations.MagicRuller
 
         public override void LevelUp()
         {
-            _level++;
+            Level++;
 
-            switch (_level)
+            switch (Level)
             {
                 case 2:
                     _damageMultiplier = 1.25f;
