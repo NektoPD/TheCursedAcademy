@@ -14,8 +14,6 @@ namespace Difficulties
         private void Start()
         {
             string json = JsonConvert.SerializeObject(_dataList);
-            var data = JsonConvert.DeserializeObject<List<GroupEnemysEventData>>(json);
-            Debug.Log(data[0].EnemyIds.Count);
 
             PlayerPrefs.SetString(DataKey, json);
             PlayerPrefs.Save();

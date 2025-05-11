@@ -7,22 +7,22 @@ namespace Difficulties.TimeTrackers.TimeDatas
     [Serializable]
     public class GroupEnemysEventData : ITimeData
     {
-        [SerializeField] private List<int> _ids; //õç
+        [SerializeField] private List<int> _enemyIds;
         [SerializeField] private int _count;
-        [SerializeField] private int _startPlayTimeInSeconds;
+        [SerializeField] private float _playTimeInSeconds;
         [SerializeField] private int _cooldown;
 
-        public GroupEnemysEventData(int startPlayTimeInSeconds, List<int> ids, int count, int cooldown)
+        public GroupEnemysEventData(float playTimeInSeconds, List<int> enemyIds, int count, int cooldown)
         {
-            _ids = ids;
+            _enemyIds = enemyIds;
             _count = count;
-            _startPlayTimeInSeconds = startPlayTimeInSeconds;
+            _playTimeInSeconds = playTimeInSeconds;
             _cooldown = cooldown;
         }
 
-        public float PlayTimeInSeconds => _startPlayTimeInSeconds;
+        public float PlayTimeInSeconds => _playTimeInSeconds;
 
-        public IReadOnlyList<int> EnemyIds => _ids;
+        public IReadOnlyList<int> EnemyIds => _enemyIds;
 
         public int Count => _count;
 

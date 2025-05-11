@@ -17909,6 +17909,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1008435288563323971, guid: fb0854b004ac87049897046a62edd5fa, type: 3}
+      propertyPath: spawnRadius
+      value: 1.2
+      objectReference: {fileID: 0}
     - target: {fileID: 1722418168373373105, guid: fb0854b004ac87049897046a62edd5fa, type: 3}
       propertyPath: m_Name
       value: Difficulty

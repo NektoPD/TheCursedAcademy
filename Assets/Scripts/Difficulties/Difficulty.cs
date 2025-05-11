@@ -19,7 +19,7 @@ namespace Difficulties
         private const string MaxEnemyKey = "DifficultyMaxEnemy";
 
         private EnemyPool _enemyPool;
-        private DifficultyTimeTracker _timeTracker;
+        private TimeTracker<DifficultyData> _timeTracker;
         private List<EnemyData> _enemyDataList;
         private List<int> _enemyIds;
         private Coroutine _coroutine;
@@ -27,6 +27,7 @@ namespace Difficulties
         private int _maxEnemy;
 
         private bool _canSpawn = true;
+        private bool _isLastTime = false;
 
         private readonly int _minIdBoses = 100;
 
@@ -39,7 +40,7 @@ namespace Difficulties
 
         private void Awake()
         {
-            _timeTracker = new DifficultyTimeTracker();
+            _timeTracker = new TimeTracker<DifficultyData>(DataKey);
 
             if(PlayerPrefs.HasKey(CooldownKey))
                 _cooldown = PlayerPrefs.GetFloat(CooldownKey);
@@ -56,11 +57,13 @@ namespace Difficulties
         private void OnEnable()
         {
             _timeTracker.TimeComed += SetIds;
+            _timeTracker.LastTimeComed += SetLastTime;
         }
 
         private void OnDisable()
         {
             _timeTracker.TimeComed -= SetIds;
+            _timeTracker.LastTimeComed -= SetLastTime;
 
             if (_coroutine != null)
                 StopCoroutine(_coroutine);
@@ -85,6 +88,8 @@ namespace Difficulties
 
         private void SetIds(DifficultyData data) => _enemyIds = data.EnemyIds.ToList();
 
+        private void SetLastTime() => _isLastTime = true;
+
         private Enemy GetRandomEnemy()
         {
             if (_enemyIds == null || _enemyIds.Count == 0)
@@ -92,7 +97,7 @@ namespace Difficulties
 
             int id = _enemyIds[Random.Range(0, _enemyIds.Count)];
 
-            if (id >= _minIdBoses)
+            if (id >= _minIdBoses && _isLastTime == false)
                 _enemyIds.Remove(id);
 
             var data = _enemyDataList.First(enemy => enemy.Id == id);

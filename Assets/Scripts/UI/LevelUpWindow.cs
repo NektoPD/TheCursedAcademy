@@ -30,11 +30,13 @@ namespace UI
 
         public override void OpenWindow()
         {
-            base.OpenWindow();
-
             IEnumerable<ItemVisualData> visualDatasInInventory = _inventory.Items.Select(item => item.VisualData);
-
             _itemsHolder.GetVisualDatas(CountItems, out List<ItemVisualData> datas);
+
+            _applicator.Inizialize(visualDatasInInventory);
+            _applicator.SetDefaultItem(datas.First());
+
+            base.OpenWindow();
 
             for (int i = 0; i < CountItems; i++) 
             {
@@ -43,9 +45,6 @@ namespace UI
                 int level = item == null ? 0 : item.CurrentLevel;
                 _itemsVisual[i].Initialize(datas[i], isNew, level);
             }
-
-            _applicator.Inizialize(visualDatasInInventory);
-            _applicator.SetDefaultItem(datas.First());
         }
     }
 }

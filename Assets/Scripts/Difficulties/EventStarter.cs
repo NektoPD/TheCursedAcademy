@@ -5,8 +5,10 @@ using EnemyLogic;
 using Pools;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UIElements;
 using Utils;
 using Zenject;
 
@@ -19,7 +21,7 @@ namespace Difficulties
         [SerializeField] private float spawnRadius = 1f;
 
         private EnemyPool _enemyPool;
-        private EventTimeTracker _timeTracker;
+        private TimeTracker<GroupEnemysEventData> _timeTracker;
         private List<EnemyData> _enemyDataList;
 
         private Coroutine _coroutine;
@@ -33,7 +35,7 @@ namespace Difficulties
 
         private void Awake()
         {
-            _timeTracker = new EventTimeTracker();
+            _timeTracker = new TimeTracker<GroupEnemysEventData>(Key);
         }
 
         private void Start()
@@ -56,10 +58,10 @@ namespace Difficulties
             if (_coroutine != null)
                 StopCoroutine(_coroutine);
             
-            _coroutine = StartCoroutine(Countdown(data));
+            _coroutine = StartCoroutine(Countdown(data, OffscreenPositionGenerator.GetRandomPositionOutsideCamera()));
         }
 
-        private IEnumerator Countdown(GroupEnemysEventData data)
+        private IEnumerator Countdown(GroupEnemysEventData data, Vector3 position)
         {
             var wait = new WaitForSeconds(data.Cooldown);
 
@@ -67,11 +69,12 @@ namespace Difficulties
             {
                 for (int i = 0; i < data.Count; i++)
                 {
-                    var position = OffscreenPositionGenerator.GetRandomPositionOutsideCamera();
                     Vector2 randomPoint = Random.insideUnitCircle * spawnRadius;
                     Vector2 spawnPosition = new(position.x + randomPoint.x, position.y + randomPoint.y);
+
                     var enemyId = data.EnemyIds[Random.Range(0, data.EnemyIds.Count)];
                     var enemy = _enemyPool.Get(_enemyDataList.First(enemy => enemy.Id == enemyId));
+
                     enemy.transform.position = spawnPosition;
                 }
 

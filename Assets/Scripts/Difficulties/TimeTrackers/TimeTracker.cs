@@ -1,4 +1,5 @@
 using Difficulties.TimeTrackers.TimeDatas;
+using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,21 +8,22 @@ using UnityEngine;
 
 namespace Difficulties.TimeTrackers
 {
-    public abstract class TimeTracker<T> where T : ITimeData
+    public class TimeTracker<T> where T : ITimeData
     {
-        protected readonly string Key;
+        private readonly string _key;
 
         private readonly MonoBehaviour _monoBehaviour;
 
         private List<T> _timeDataList;
 
         public event Action<T> TimeComed;
+        public event Action LastTimeComed;
 
         public TimeTracker(string key, string runnerName = "CoroutineRunner")
         {
             var go = new GameObject(runnerName);
             _monoBehaviour = go.AddComponent<CoroutineRunner>();
-            Key = key;
+            _key = key;
         }
 
         public void Start()
@@ -41,15 +43,14 @@ namespace Difficulties.TimeTrackers
 
             while (_timeDataList.Count > 0)
             {
-                T data = _timeDataList.First();
-
-                _timeDataList.Remove(data);
+                T data = _timeDataList.First();       
 
                 float cooldown = 0;
 
                 if (Time.timeSinceLevelLoad >= data.PlayTimeInSeconds)
                 {
                     TimeComed.Invoke(data);
+                    _timeDataList.Remove(data);
 
                     if (_timeDataList.Count > 0)
                         cooldown = _timeDataList.First().PlayTimeInSeconds - Time.timeSinceLevelLoad;
@@ -62,9 +63,22 @@ namespace Difficulties.TimeTrackers
 
                 yield return new WaitForSeconds(cooldown);
             }
+
+            LastTimeComed?.Invoke();
         }
 
-        protected abstract bool TryLoadDifficultyData(out List<T> data);
+        private bool TryLoadDifficultyData(out List<T> data)
+        {
+            data = null;
+
+            if (PlayerPrefs.HasKey(_key))
+            {
+                string json = PlayerPrefs.GetString(_key);
+                data = JsonConvert.DeserializeObject<List<T>>(json);
+            }
+
+            return data != null;
+        }
     }
 
     public class CoroutineRunner : MonoBehaviour { }

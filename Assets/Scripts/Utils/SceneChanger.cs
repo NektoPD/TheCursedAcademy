@@ -9,7 +9,7 @@ namespace Utils
     public class SceneChanger : MonoBehaviour
     {
         private FadeController _fade;
-        private SceneAsset _scene;
+        private AsyncOperation _loadingSceneOperation;
 
         private void Awake()
         {
@@ -18,11 +18,14 @@ namespace Utils
 
         public void ChangeScene(SceneAsset asset)
         {
-            _scene = asset;
             Time.timeScale = 1f;
+
+            _loadingSceneOperation = SceneManager.LoadSceneAsync(asset.name);
+            _loadingSceneOperation.allowSceneActivation = false;
+
             _fade.FadeIn();
         }
 
-        private void ChangeToggle() => SceneManager.LoadScene(_scene.name);
+        private void ChangeToggle() => _loadingSceneOperation.allowSceneActivation = true;
     }
 }

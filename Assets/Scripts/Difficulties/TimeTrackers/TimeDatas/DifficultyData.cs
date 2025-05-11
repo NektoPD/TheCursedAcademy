@@ -6,12 +6,12 @@ namespace Difficulties.TimeTrackers.TimeDatas
     [System.Serializable]
     public class DifficultyData : ITimeData
     {
-        [SerializeField] private int _playTimeInSeconds;
+        [SerializeField] private float _playTimeInSeconds;
         [SerializeField] private List<int> _enemyIds;
 
-        public DifficultyData(int playTime, List<int> enemyIds)
+        public DifficultyData(float playTimeInSeconds, List<int> enemyIds)
         {
-            _playTimeInSeconds = playTime;
+            _playTimeInSeconds = playTimeInSeconds;
             _enemyIds = enemyIds;
         }
 
