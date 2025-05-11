@@ -1,14 +1,11 @@
 using Data.EnemesData;
 using Difficulties.TimeTrackers;
 using Difficulties.TimeTrackers.TimeDatas;
-using EnemyLogic;
 using Pools;
 using System.Collections;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.UIElements;
 using Utils;
 using Zenject;
 
@@ -18,7 +15,8 @@ namespace Difficulties
     {
         private const string Key = nameof(GroupEnemysEventData);
 
-        [SerializeField] private float spawnRadius = 1f;
+        [SerializeField] private float _spawnRadius = 1f;
+        [SerializeField] private float _offset = 0.3f;
 
         private EnemyPool _enemyPool;
         private TimeTracker<GroupEnemysEventData> _timeTracker;
@@ -58,7 +56,7 @@ namespace Difficulties
             if (_coroutine != null)
                 StopCoroutine(_coroutine);
             
-            _coroutine = StartCoroutine(Countdown(data, OffscreenPositionGenerator.GetRandomPositionOutsideCamera()));
+            _coroutine = StartCoroutine(Countdown(data, OffscreenPositionGenerator.GetRandomPositionOutsideCamera(_offset)));
         }
 
         private IEnumerator Countdown(GroupEnemysEventData data, Vector3 position)
@@ -69,7 +67,7 @@ namespace Difficulties
             {
                 for (int i = 0; i < data.Count; i++)
                 {
-                    Vector2 randomPoint = Random.insideUnitCircle * spawnRadius;
+                    Vector2 randomPoint = Random.insideUnitCircle * _spawnRadius;
                     Vector2 spawnPosition = new(position.x + randomPoint.x, position.y + randomPoint.y);
 
                     var enemyId = data.EnemyIds[Random.Range(0, data.EnemyIds.Count)];

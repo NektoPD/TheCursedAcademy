@@ -49,6 +49,9 @@ namespace EnemyLogic
 
         private void SetState(bool componentEnabled, Color firstColor, Color secondColor)
         {
+            if (gameObject.activeSelf == false)
+                return;
+
             _mover.enabled = componentEnabled;
             _attacker.enabled = componentEnabled;
 

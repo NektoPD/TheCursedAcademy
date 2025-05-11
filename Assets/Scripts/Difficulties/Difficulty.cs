@@ -18,6 +18,8 @@ namespace Difficulties
         private const string CooldownKey = "DifficultyCooldown";
         private const string MaxEnemyKey = "DifficultyMaxEnemy";
 
+        [SerializeField] private float _offset = 0.1f;
+
         private EnemyPool _enemyPool;
         private TimeTracker<DifficultyData> _timeTracker;
         private List<EnemyData> _enemyDataList;
@@ -80,7 +82,7 @@ namespace Difficulties
                 if (enemy == null)
                     return;
 
-                enemy.transform.position = OffscreenPositionGenerator.GetRandomPositionOutsideCamera();
+                enemy.transform.position = OffscreenPositionGenerator.GetRandomPositionOutsideCamera(_offset);
 
                 _coroutine = StartCoroutine(Cooldown());
             }

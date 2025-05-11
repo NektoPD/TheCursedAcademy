@@ -5,9 +5,7 @@ namespace Utils
 {
     public static class OffscreenPositionGenerator
     {
-        private readonly static float _offset = 0.1f;
-
-        public static Vector3 GetRandomPositionOutsideCamera()
+        public static Vector3 GetRandomPositionOutsideCamera(float offset)
         {
             Camera camera = Camera.main;
 
@@ -19,19 +17,19 @@ namespace Utils
             switch (side)
             {
                 case Side.Top:
-                    viewportPosition = new Vector3(Random.Range(0f, 1f), 1 + _offset, camera.nearClipPlane);
+                    viewportPosition = new Vector3(Random.Range(0f, 1f), 1 + offset, camera.nearClipPlane);
                     break;
 
                 case Side.Bottom:
-                    viewportPosition = new Vector3(Random.Range(0f, 1f), -_offset, camera.nearClipPlane);
+                    viewportPosition = new Vector3(Random.Range(0f, 1f), -offset, camera.nearClipPlane);
                     break;
 
                 case Side.Left:
-                    viewportPosition = new Vector3(-_offset, Random.Range(0f, 1f), camera.nearClipPlane);
+                    viewportPosition = new Vector3(-offset, Random.Range(0f, 1f), camera.nearClipPlane);
                     break;
 
                 case Side.Right:
-                    viewportPosition = new Vector3(1 + _offset, Random.Range(0f, 1f), camera.nearClipPlane);
+                    viewportPosition = new Vector3(1 + offset, Random.Range(0f, 1f), camera.nearClipPlane);
                     break;
             }
 

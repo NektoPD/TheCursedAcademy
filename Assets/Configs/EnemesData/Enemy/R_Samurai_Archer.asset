@@ -20,7 +20,7 @@ MonoBehaviour:
   <Money>k__BackingField: 15
   <MoneyDropChancePerProcent>k__BackingField: 15
   <Attacks>k__BackingField:
-  - {fileID: 11400000, guid: 882ae8aecd14f2f4aadbb01f1976360e, type: 2}
+  - {fileID: 11400000, guid: 2ef402173606d7b4ab1480d1d623aec8, type: 2}
   <AnimatorController>k__BackingField: {fileID: 22100000, guid: b06507ccf70cd6d49b4502163e0416f4, type: 2}
   <ExpPointData>k__BackingField: {fileID: 11400000, guid: a79a5afe89ea1794e9a5e2f7d0b6e0dc, type: 2}
   <Prefab>k__BackingField: {fileID: 5431957914877251030, guid: 707d13c71f5787d41a66c1a2f5337672, type: 3}

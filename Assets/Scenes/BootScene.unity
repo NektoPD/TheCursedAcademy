@@ -524,7 +524,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _dataList:
   - _enemyIds: 010000000200000003000000
-    _count: 15
+    _count: 10
     _playTimeInSeconds: 30
     _cooldown: 30
   - _enemyIds: 03000000040000000500000006000000070000000800000009000000
