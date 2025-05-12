@@ -22,6 +22,14 @@ namespace EnemyLogic
             _originalColor = _spriteRenderer.color;
         }
 
+        private void OnDisable()
+        {
+            if(_coroutine != null)
+                StopCoroutine(_coroutine);
+
+            _spriteRenderer.color = _originalColor;
+        }
+
         public void StartFlash(float duration)
         {
             if (_coroutine != null)

@@ -4,6 +4,7 @@ using Items.BaseClass;
 using Items.Pools;
 using UnityEngine;
 using HealthSystem;
+using Items.Enums;
 
 namespace Items.ItemVariations
 {
@@ -80,6 +81,13 @@ namespace Items.ItemVariations
                     _projectileCount = 2;
                     break;
             }
+
+            base.LevelUp();
+
+            if(Level + 1 == 3)
+                ItemStats.SetStatStep(StatVariations.ProjectilesCount, 1);
+            else
+                ItemStats.SetStatStep(StatVariations.ProjectilesCount, 0);
         }
 
         private Transform FindNearestEnemy()

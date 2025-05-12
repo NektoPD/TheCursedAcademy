@@ -1,5 +1,6 @@
 using Items.Interfaces;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace EnemyLogic
@@ -31,9 +32,24 @@ namespace EnemyLogic
             _defaultColor = _spriteRenderer.color;
         }
 
+        private void OnEnable()
+        {
+            _animator.DeadAnimationStarted += Unfreeze;
+        }
+
+        private void OnDisable()
+        {
+            _animator.DeadAnimationStarted -= Unfreeze;
+
+            if (_coroutine != null)
+                StopCoroutine(_coroutine);
+
+            _spriteRenderer.color = _defaultColor;
+        }
+
         public void Freeze()
         {
-            if (_animator.IsDeadAnimationRunning)
+            if (_animator.IsDeadAnimationStarted)
                 return;
 
             _animator.SetHurtTigger();

@@ -19,6 +19,7 @@ namespace Difficulties
         private const string MaxEnemyKey = "DifficultyMaxEnemy";
 
         [SerializeField] private float _offset = 0.1f;
+        [SerializeField] private float _cooldownChangeForWave = 0.1f;
 
         private EnemyPool _enemyPool;
         private TimeTracker<DifficultyData> _timeTracker;
@@ -58,13 +59,13 @@ namespace Difficulties
 
         private void OnEnable()
         {
-            _timeTracker.TimeComed += SetIds;
+            _timeTracker.TimeComed += NewWaveEnemysConfig;
             _timeTracker.LastTimeComed += SetLastTime;
         }
 
         private void OnDisable()
         {
-            _timeTracker.TimeComed -= SetIds;
+            _timeTracker.TimeComed -= NewWaveEnemysConfig;
             _timeTracker.LastTimeComed -= SetLastTime;
 
             if (_coroutine != null)
@@ -88,7 +89,11 @@ namespace Difficulties
             }
         }
 
-        private void SetIds(DifficultyData data) => _enemyIds = data.EnemyIds.ToList();
+        private void NewWaveEnemysConfig(DifficultyData data)
+        {
+            _enemyIds = data.EnemyIds.ToList();
+            _cooldown = Mathf.Clamp01(_cooldown -= _cooldownChangeForWave);
+        }
 
         private void SetLastTime() => _isLastTime = true;
 

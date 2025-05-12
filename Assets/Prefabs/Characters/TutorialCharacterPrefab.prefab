@@ -457,6 +457,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36f5d1abd8c6bce4a9e4186e1396830c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _duration: 1
+  _maxRiseHeight: 1
+  _maxPushDistance: 0.5
 --- !u!114 &5188296477762492249
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -548,7 +551,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!114 &7899819894831871340
 MonoBehaviour:
@@ -626,7 +629,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 0
-  m_Spacing: 4.78125
+  m_Spacing: 6.0833335
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
@@ -925,10 +928,10 @@ FixedJoint2D:
   m_ConnectedRigidBody: {fileID: 5356356848076173662}
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
-  m_BreakAction: 3
-  m_AutoConfigureConnectedAnchor: 1
+  m_BreakAction: 0
+  m_AutoConfigureConnectedAnchor: 0
   m_Anchor: {x: 0, y: 0}
-  m_ConnectedAnchor: {x: 0.004999995, y: -0.060000002}
+  m_ConnectedAnchor: {x: 0, y: 0}
   m_DampingRatio: 0
   m_Frequency: 0
 --- !u!1 &7659432992449209945
@@ -993,7 +996,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 0
-  m_Spacing: 4.78125
+  m_Spacing: 6.0833335
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0

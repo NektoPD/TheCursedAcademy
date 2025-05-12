@@ -4,7 +4,6 @@ using UnityEngine;
 using Zenject;
 using UnityEngine.SceneManagement;
 using WalletSystem;
-using UnityEditor;
 using CharacterLogic.Data;
 using YG;
 
@@ -14,8 +13,8 @@ namespace Infrastructure
     {
         private const string Key = "CharacterId";
 
-        [SerializeField] private SceneAsset _menu;
-        [SerializeField] private SceneAsset _tutorial;
+        [SerializeField] private int _menuIdSecene;
+        [SerializeField] private int _tutorialIdSecene;
         [SerializeField] private CharacterData.CharacterType _type;
 
         private PerkController _perkController;
@@ -37,12 +36,12 @@ namespace Infrastructure
             ResolutionMonitor.EnsureInstance();
 
             if (YandexGame.savesData.isFirstSession == false)
-                SceneManager.LoadScene(_menu.name);
+                SceneManager.LoadScene(_menuIdSecene);
 
             YandexGame.savesData.isFirstSession = false;
             YandexGame.SaveProgress();
 
-            SceneManager.LoadScene(_tutorial.name);
+            SceneManager.LoadScene(_tutorialIdSecene);
         }
     }
 }

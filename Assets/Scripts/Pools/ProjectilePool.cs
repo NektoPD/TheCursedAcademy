@@ -1,5 +1,6 @@
 using Data;
 using EnemyLogic.ProjectileLogic;
+using System.Linq;
 using Zenject;
 
 namespace Pools
@@ -15,6 +16,24 @@ namespace Pools
             entity.Initialize(data, this);
             entity.ResetEntity();
             return entity;
+        }
+
+        protected override bool TryGetInPool(IData<Projectile> data, out Projectile entity)
+        {
+            entity = null;
+
+            var currentEntity = EntityPool.Where(entity => entity.Prefab == data.Prefab);
+
+            if (currentEntity.Count() > 0)
+            {
+                entity = currentEntity.First();
+                entity = Initialize(data, entity);
+                EntityPool.Remove(entity);
+
+                return true;
+            }
+
+            return false;
         }
     }
 }

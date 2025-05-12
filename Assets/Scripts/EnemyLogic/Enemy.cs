@@ -17,6 +17,9 @@ namespace EnemyLogic
         private EnemyPool _pool;
         private EnemyEjector _ejector;
         private string _name;
+        private Enemy _prefab;
+
+        public Enemy Prefab => _prefab;
 
         public string Name => _name;
 
@@ -33,6 +36,7 @@ namespace EnemyLogic
         {
             EnemyData enemyData = data as EnemyData;
 
+            _prefab = data.Prefab;
             _name = enemyData.Name;
             _animator.Initialize(enemyData.AnimatorController);
             _damageTaker.Initialize(enemyData.Health, enemyData.ImmuneTime);

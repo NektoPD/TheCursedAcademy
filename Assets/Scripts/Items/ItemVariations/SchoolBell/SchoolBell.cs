@@ -65,6 +65,8 @@ namespace Items.ItemVariations.SchoolBell
             _radiusMultiplier += _radiusIncreasePerLevel;
             
             Data.Cooldown *= _cooldownReductionPerLevel;
+
+            base.LevelUp();
         }
 
         private IEnumerator EnableProjectile(ItemProjectile projectile, float lifetime)

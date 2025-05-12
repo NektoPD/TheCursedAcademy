@@ -1,5 +1,4 @@
 using CharacterLogic;
-using UnityEditor;
 using UnityEngine;
 using Utils;
 
@@ -7,13 +6,13 @@ namespace Tutorial
 {
     public class TutorialExitTrigger : MonoBehaviour
     {
-        [SerializeField] private SceneAsset _scene;
+        [SerializeField] private int _menuIdScene;
         [SerializeField] private SceneChanger _changer;
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
             if(collision.TryGetComponent(out Character _))
-                _changer.ChangeScene(_scene);
+                _changer.ChangeScene(_menuIdScene);
         }
 
         public void On() => gameObject.SetActive(true);

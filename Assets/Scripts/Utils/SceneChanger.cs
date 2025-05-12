@@ -16,11 +16,11 @@ namespace Utils
             _fade = GetComponent<FadeController>();
         }
 
-        public void ChangeScene(SceneAsset asset)
+        public void ChangeScene(int idScene)
         {
             Time.timeScale = 1f;
 
-            _loadingSceneOperation = SceneManager.LoadSceneAsync(asset.name);
+            _loadingSceneOperation = SceneManager.LoadSceneAsync(idScene);
             _loadingSceneOperation.allowSceneActivation = false;
 
             _fade.FadeIn();

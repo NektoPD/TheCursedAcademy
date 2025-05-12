@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Id>k__BackingField: 1000
   <Name>k__BackingField: Kitsune
-  <Health>k__BackingField: 300
-  <Speed>k__BackingField: 0.6
+  <Health>k__BackingField: 8000
+  <Speed>k__BackingField: 0.8
   <ImmuneTime>k__BackingField: 30
   <Money>k__BackingField: 80
   <MoneyDropChancePerProcent>k__BackingField: 100

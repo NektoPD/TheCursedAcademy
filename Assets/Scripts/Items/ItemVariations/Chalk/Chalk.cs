@@ -119,6 +119,8 @@ namespace Items.ItemVariations
                     _projectileLifetime *= 1.3f;
                     break;
             }
+
+            base.LevelUp();
         }
     }
 }

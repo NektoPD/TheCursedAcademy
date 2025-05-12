@@ -13,7 +13,7 @@ namespace UI
     {
         [SerializeField] private Button _exit;
         [SerializeField] private Button _adsExit;
-        [SerializeField] private SceneAsset _menuScene;
+        [SerializeField] private int _menuIdScene;
         [SerializeField] private Ads _ads;
         [SerializeField] private SceneChanger _changer;
 
@@ -51,7 +51,7 @@ namespace UI
 
         private void Exit()
         {
-            _changer.ChangeScene(_menuScene);
+            _changer.ChangeScene(_menuIdScene);
         }
 
         private void OnRevardedShow(int obj)

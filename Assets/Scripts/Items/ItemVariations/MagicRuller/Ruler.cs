@@ -3,6 +3,7 @@ using Items.BaseClass;
 using UnityEngine;
 using Items.Pools;
 using Debug = UnityEngine.Debug;
+using Items.Enums;
 
 namespace Items.ItemVariations.MagicRuller
 {
@@ -108,6 +109,13 @@ namespace Items.ItemVariations.MagicRuller
                     _projectileSpread = 15f;
                     break;
             }
+
+            base.LevelUp();
+
+            if (Level + 1 == 3)
+                ItemStats.SetStatStep(StatVariations.ProjectilesCount, 1);
+            else
+                ItemStats.SetStatStep(StatVariations.ProjectilesCount, 0);
         }
     }
 }

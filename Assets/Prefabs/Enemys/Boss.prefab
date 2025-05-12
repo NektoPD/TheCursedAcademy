@@ -248,9 +248,9 @@ FixedJoint2D:
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
   m_BreakAction: 3
-  m_AutoConfigureConnectedAnchor: 1
+  m_AutoConfigureConnectedAnchor: 0
   m_Anchor: {x: 0, y: 0}
-  m_ConnectedAnchor: {x: -0.013999939, y: -0.064999916}
+  m_ConnectedAnchor: {x: 0, y: 0}
   m_DampingRatio: 0
   m_Frequency: 0
 --- !u!1 &2498897159280832271
@@ -746,6 +746,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 312bff6a11bfe544e8ea360fe8c0b499, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsDeadAnimationStarted: 0
 --- !u!114 &7058349625318565672
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -859,6 +860,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59715aca675b36d47b6ab273ec50c9f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DamageColor: {r: 1, g: 0.5, b: 0.5, a: 1}
 --- !u!114 &8074965241382905773
 MonoBehaviour:
   m_ObjectHideFlags: 0

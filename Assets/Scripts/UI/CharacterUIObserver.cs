@@ -1,7 +1,6 @@
 using CharacterLogic;
 using CharacterLogic.Initializer;
 using StatistiscSystem;
-using UI.Applicators;
 using UnityEngine;
 
 namespace UI
@@ -35,8 +34,13 @@ namespace UI
         private void Inizialize(Character character)
         {
             _character = character;
-            _reviver.Inizialize(character);
-            _levelUpWindow.Initialize(character.Inventory);
+
+            if(_reviver != null)
+                _reviver.Inizialize(character);
+
+            if(_levelUpWindow != null)
+                _levelUpWindow.Initialize(character.Inventory);
+
             _character.StatisticCollected += StatisticApplicate;
             _character.LevelUp += LevelUp;
         }
@@ -45,8 +49,11 @@ namespace UI
 
         private void StatisticApplicate(Statistics statistics)
         {
-            _statisticApplicator.Applicate(statistics);
-            _exit.SetCoins(statistics.Coins);
+            if (_statisticApplicator != null)
+                _statisticApplicator.Applicate(statistics);
+
+            if (_exit != null)
+                _exit.SetCoins(statistics.Coins);
         }
     }
 }

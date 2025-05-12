@@ -14,8 +14,11 @@ namespace ExpPoints
         private SpriteRenderer _spriteRenderer;
         private ResizeCollider _resizeCollider;
         private Animator _animator;
+        private ExpPoint _prefab;
 
         public int Value => _point;
+
+        public ExpPoint Prefab => _prefab;
 
         private void Awake()
         {
@@ -28,6 +31,7 @@ namespace ExpPoints
         {
             ExpPointData expPointData = data as ExpPointData;
 
+            _prefab = data.Prefab;
             _point = expPointData.Point;
             _pool = pool;
             _spriteRenderer.sprite = expPointData.Sprite;

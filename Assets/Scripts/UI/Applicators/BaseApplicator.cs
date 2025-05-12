@@ -14,11 +14,12 @@ namespace UI.Applicators
         private void Start()
         {
             CurrentItem = _defaultItem;
-            Applicate(_defaultItem);
         }
 
         protected virtual void OnEnable()
         {
+            Applicate(_defaultItem);
+
             foreach (var item in _items)
                 item.Clicked += OnClick;
         }

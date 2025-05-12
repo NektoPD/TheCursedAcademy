@@ -210,6 +210,8 @@ namespace Items.ItemVariations.Cats
                     _catMovementSpeed *= 1.2f;
                     break;
             }
+
+            base.LevelUp();
         }
 
         private void OnDestroy()

@@ -1,5 +1,7 @@
 using System.Collections;
+using System.Collections.Generic;
 using Items.BaseClass;
+using Items.Enums;
 using Items.Pools;
 using UnityEngine;
 
@@ -84,6 +86,8 @@ namespace Items.ItemVariations.BeautiZone
                     Data.Cooldown *= 0.9f;
                     break;
             }
+
+            base.LevelUp();
         }
     }
 }

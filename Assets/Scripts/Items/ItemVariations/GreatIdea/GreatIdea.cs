@@ -87,6 +87,8 @@ namespace Items.ItemVariations
                     _detectionRadius *= 1.2f;
                     break;
             }
+
+            base.LevelUp();
         }
 
         private IEnumerator EnableProjectile(ItemProjectile projectile, float lifetime)

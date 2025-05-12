@@ -30,9 +30,8 @@ namespace Pools
 
         public T Get(IData<T> data)
         {
-            if (EntityPool.Count > 0)
+            if (TryGetInPool(data, out T entity))
             {
-                T entity = EntityPool.First();
                 entity = Initialize(data, entity);
                 EntityPool.Remove(entity);
 
@@ -49,5 +48,7 @@ namespace Pools
         protected abstract T Initialize(IData<T> data, T entity);
 
         protected abstract T Create(IData<T> data);
+
+        protected abstract bool TryGetInPool(IData<T> data, out T entity);
     }
 }

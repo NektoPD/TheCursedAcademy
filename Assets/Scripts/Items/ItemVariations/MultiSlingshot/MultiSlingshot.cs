@@ -165,6 +165,8 @@ namespace Items.ItemVariations.MultiSlingshot
             _damageMultiplier *= 1.25f;
             Data.Cooldown *= 0.85f;
             _projectileSpeed *= 1.2f;
+
+            base.LevelUp();
         }
 
         private void OnDisable()

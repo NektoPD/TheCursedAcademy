@@ -72,6 +72,8 @@ namespace Items.ItemVariations
             _projectileCount++;
             Data.Cooldown *= 0.85f;
             _durationMultiplier = 1f + _durationMultiplierIncreasePerLevel;
+
+            base.LevelUp();
         }
 
         private Vector2 GetRandomPositionOutsideScreen()

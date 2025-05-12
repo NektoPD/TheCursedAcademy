@@ -312,8 +312,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c788cb8fdf921f043b70dd82d7ed3901, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _menu: {fileID: 102900000, guid: f5660bcd0631fa649999b4513fbe9f3d, type: 3}
-  _tutorial: {fileID: 102900000, guid: 2cda990e2423bbf4892e6590ba056729, type: 3}
+  _menuIdSecene: 1
+  _tutorialIdSecene: 3
   _type: 0
 --- !u!4 &168348300
 Transform:
@@ -481,7 +481,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _cooldown: 1
-  _maxEnemy: 100
+  _maxEnemy: 1000
   _dataList:
   - _playTimeInSeconds: 0
     _enemyIds: 010000000200000003000000
@@ -490,7 +490,7 @@ MonoBehaviour:
   - _playTimeInSeconds: 180
     _enemyIds: 0a0000000b0000000c0000000d00000068000000690000006a0000006b0000006c0000006d000000
   - _playTimeInSeconds: 360
-    _enemyIds: 6e0000006f0000007000000071000000e9030000ea030000
+    _enemyIds: 0c0000000d0000006e0000006f0000007000000071000000e9030000ea030000
   - _playTimeInSeconds: 540
     _enemyIds: e8030000
   - _playTimeInSeconds: 600

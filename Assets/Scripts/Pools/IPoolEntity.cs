@@ -1,3 +1,5 @@
+using Data;
+
 namespace Pools
 {
     public interface IPoolEntity

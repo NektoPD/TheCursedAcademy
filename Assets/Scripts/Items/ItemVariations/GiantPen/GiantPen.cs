@@ -86,6 +86,8 @@ namespace Items.ItemVariations
                     Data.Cooldown *= 0.85f;
                     break;
             }
+
+            base.LevelUp();
         }
 
         private IEnumerator EnableProjectile(ItemProjectile projectile, float lifetime)

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace EnemyLogic
@@ -12,7 +13,9 @@ namespace EnemyLogic
         private float _speed;
         private Animator _animator;
 
-        public bool IsDeadAnimationRunning => _animator.GetBool(Dead);
+        public bool IsDeadAnimationStarted = false;
+
+        public event Action DeadAnimationStarted;
 
         private void Awake()
         {
@@ -37,6 +40,10 @@ namespace EnemyLogic
                 return;
 
             _animator.SetBool(Dead, state);
+
+            IsDeadAnimationStarted = true;
+
+            DeadAnimationStarted?.Invoke();
         }
 
         public void SetAnimatorSpeed(float speed) => _animator.speed = speed;

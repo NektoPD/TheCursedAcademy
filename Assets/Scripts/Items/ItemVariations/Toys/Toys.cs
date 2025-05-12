@@ -1,5 +1,6 @@
 using System.Collections;
 using Items.BaseClass;
+using Items.Enums;
 using Items.Pools;
 using UnityEngine;
 
@@ -138,6 +139,18 @@ namespace Items.ItemVariations.Toys
                 _currentProjectileCount++;
                 UpdateAngleStep();
             }
+
+            base.LevelUp();
+
+            // ≈сли хочешь, чтобы на каждом уровне мен€лись разные статы, то после base.LevelUp()(применение значений в View) нужно указать следующие шаги лвлов. “огда при следующем проходе они корректо будут отображатьс€.
+            // Ћибо, что проще -> изменить Stat так, чтобы NextValue и CurrentValue записывались вручную без _step. “огда нужно сразу записывать оба значени€. “екущее и новое при следующем обновлении.
+            // ¬ ItemStats раскоментируй методы и используй их, а тут убери base.LevelUp(); и можешь обратно сделать метод абстрактным
+            //  ак тебе будет проще.
+
+            if ((Level + 1) % 2 == 0 && _currentProjectileCount < _maxProjectileCount)
+                ItemStats.SetStatStep(StatVariations.ProjectilesCount, 1);
+            else
+                ItemStats.SetStatStep(StatVariations.ProjectilesCount, 0);
         }
 
         private IEnumerator RotateProjectile(ToysProjectile projectile, float initialAngle, float duration,

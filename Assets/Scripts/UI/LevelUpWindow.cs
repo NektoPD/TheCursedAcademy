@@ -33,8 +33,8 @@ namespace UI
             IEnumerable<ItemVisualData> visualDatasInInventory = _inventory.Items.Select(item => item.VisualData);
             _itemsHolder.GetVisualDatas(CountItems, out List<ItemVisualData> datas);
 
-            _applicator.Inizialize(visualDatasInInventory);
             _applicator.SetDefaultItem(datas.First());
+            _applicator.Inizialize(visualDatasInInventory);
 
             base.OpenWindow();
 

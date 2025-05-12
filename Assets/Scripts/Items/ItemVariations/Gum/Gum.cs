@@ -1,4 +1,5 @@
 ﻿using Items.BaseClass;
+using Items.Enums;
 using Items.Pools;
 using UnityEngine;
 
@@ -84,6 +85,13 @@ namespace Items.ItemVariations.Gum
                     _projectileDirections = 6;
                     break;
             }
+
+            base.LevelUp();
+
+            if ((Level + 1) == 3)
+                ItemStats.SetStatStep(StatVariations.ProjectilesCount, 2);
+            else
+                ItemStats.SetStatStep(StatVariations.ProjectilesCount, 0);
         }
     }
 }

@@ -2,7 +2,6 @@ using Data;
 using Data.ProjectilesData;
 using Pools;
 using UnityEngine;
-using Utils;
 
 namespace EnemyLogic.ProjectileLogic
 {
@@ -14,6 +13,9 @@ namespace EnemyLogic.ProjectileLogic
         private CollisionDetecter _detecter;
         private ProjectileMover _mover;
         private ProjectileData _data;
+        private Projectile _prefab;
+
+        public Projectile Prefab => _prefab;
 
         private void OnEnable()
         {
@@ -26,6 +28,7 @@ namespace EnemyLogic.ProjectileLogic
         {
             ProjectileData projectileData = data as ProjectileData;
 
+            _prefab = data.Prefab;
             _pool = pool;
             _data = projectileData;
             _view.Initialize(projectileData.Sprite, projectileData.AnimatorController);

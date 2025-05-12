@@ -1,3 +1,4 @@
+using Items.Enums;
 using System;
 using UnityEngine;
 using Utils;
@@ -12,12 +13,15 @@ namespace Items.Stats
         [SerializeField] private string _nameTr;
         [SerializeField] private float _value;
         [SerializeField] private float _step;
+        [SerializeField] private StatVariations _variation;
 
         public string Name => Translator.Translate(_nameRu, _nameEn, _nameTr);
 
         public float CurrentValue => _value;
 
         public float NextValue => _value + _step;
+
+        public StatVariations Variation => _variation;
 
         public void SetStep(float step) => _step = step;
 
