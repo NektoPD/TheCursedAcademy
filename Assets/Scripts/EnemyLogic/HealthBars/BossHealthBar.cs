@@ -41,6 +41,6 @@ namespace EnemyLogic.HealthBars
                 Health.Died -= RemoveBar;
         }
 
-        private void RemoveBar() => Destroy(Bar);
+        private void RemoveBar() => Destroy(_healthPanel.gameObject);
     }
 }

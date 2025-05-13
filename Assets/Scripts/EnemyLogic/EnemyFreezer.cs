@@ -1,40 +1,29 @@
 using Items.Interfaces;
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace EnemyLogic
 {
-    [RequireComponent(typeof(SpriteRenderer))]
-    [RequireComponent(typeof(EnemyMover), typeof(EnemyAttacker), typeof(EnemyAnimator))]
+    [RequireComponent(typeof(EnemyAnimator), typeof(EnemyFreezerView))]
     public class EnemyFreezer : MonoBehaviour, IFreezable
     {
-        [SerializeField] private float _duration = 2f;
-        [SerializeField] private Color _color = Color.blue;
+        [SerializeField] private float _immuneTimeInSecinds;
 
-        private SpriteRenderer _spriteRenderer;
-        private EnemyMover _mover;
-        private EnemyAttacker _attacker;
         private EnemyAnimator _animator;
-        private Color _defaultColor;
+        private EnemyFreezerView _view;
         private Coroutine _coroutine;
+        private bool _inImmune = false;
 
         private void Awake()
         {
-            _spriteRenderer = GetComponent<SpriteRenderer>();
             _animator = GetComponent<EnemyAnimator>();
-            _attacker = GetComponent<EnemyAttacker>();
-            _mover = GetComponent<EnemyMover>();
-        }
-
-        private void Start()
-        {
-            _defaultColor = _spriteRenderer.color;
+            _view = GetComponent<EnemyFreezerView>();
         }
 
         private void OnEnable()
         {
             _animator.DeadAnimationStarted += Unfreeze;
+            _inImmune = false;
         }
 
         private void OnDisable()
@@ -43,52 +32,31 @@ namespace EnemyLogic
 
             if (_coroutine != null)
                 StopCoroutine(_coroutine);
-
-            _spriteRenderer.color = _defaultColor;
         }
 
         public void Freeze()
         {
-            if (_animator.IsDeadAnimationStarted)
+            if (_animator.IsDeadAnimationStarted || _inImmune)
                 return;
 
             _animator.SetHurtTigger();
             _animator.SetAnimatorSpeed(0f);
-            SetState(false, _defaultColor, _color);
+            _view.SetState(false);
+
+            _coroutine = StartCoroutine(Countdown());
         }
 
         public void Unfreeze()
         {
             _animator.ResetSpeed();
-            SetState(true, _color, _defaultColor);
+            _view.SetState(true);
         }
 
-        private void SetState(bool componentEnabled, Color firstColor, Color secondColor)
+        private IEnumerator Countdown()
         {
-            if (gameObject.activeSelf == false)
-                return;
-
-            _mover.enabled = componentEnabled;
-            _attacker.enabled = componentEnabled;
-
-            if (_coroutine != null)
-                StopCoroutine(_coroutine);
-
-            _coroutine = StartCoroutine(ChangeColor(firstColor, secondColor));
-        }
-
-        private IEnumerator ChangeColor(Color startColor, Color endColor)
-        {
-            float timeElapsed = 0f;
-
-            while (timeElapsed < _duration)
-            {
-                _spriteRenderer.color = Color.Lerp(startColor, endColor, timeElapsed / _duration);
-                timeElapsed += Time.deltaTime;
-                yield return null;
-            }
-
-            _spriteRenderer.color = endColor;
+            _inImmune = true;
+            yield return new WaitForSeconds(_immuneTimeInSecinds);
+            _inImmune = false;
         }
     }
 }

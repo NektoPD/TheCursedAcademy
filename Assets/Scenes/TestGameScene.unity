@@ -18028,7 +18028,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 970782710457982917, guid: fb0854b004ac87049897046a62edd5fa, type: 3}
       propertyPath: _cooldownChangeForWave
-      value: 0.3
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 1008435288563323971, guid: fb0854b004ac87049897046a62edd5fa, type: 3}
       propertyPath: _offset

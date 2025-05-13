@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c93d33a8f48cbf34ea8ffae5f3a6378a, type: 3}
   m_Name: Large_Exp_Point
   m_EditorClassIdentifier: 
-  <Point>k__BackingField: 8
+  <Point>k__BackingField: 20
   <Sprite>k__BackingField: {fileID: 1722913376, guid: 0bc90a83b779a014599c749493dc94b3, type: 3}
   <AnimatorController>k__BackingField: {fileID: 22100000, guid: dd8f5fc2028ea554bb580123f4c842d6, type: 2}
   <Prefab>k__BackingField: {fileID: 613138129709365310, guid: 07bbdbedcf80dfa46b1ed0788de973c0, type: 3}

@@ -89,9 +89,9 @@ namespace Items.ItemVariations.Gum
             base.LevelUp();
 
             if ((Level + 1) == 3)
-                ItemStats.SetStatStep(StatVariations.ProjectilesCount, 2);
+                ItemStats.SetStatStep(StatVariations.AttackDirectionsCount, 2);
             else
-                ItemStats.SetStatStep(StatVariations.ProjectilesCount, 0);
+                ItemStats.SetStatStep(StatVariations.AttackDirectionsCount, 0);
         }
     }
 }
