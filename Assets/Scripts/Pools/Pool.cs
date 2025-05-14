@@ -1,7 +1,6 @@
 using Data;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Zenject;
 
 namespace Pools
@@ -22,12 +21,7 @@ namespace Pools
 
         public int Active => _count - EntityPool.Count;
 
-        public void ReturnEntity(T entity)
-        {
-            EntityPool.Add(entity);
-            Returned?.Invoke();
-        }
-
+        public IReadOnlyCollection<T> Entites => EntityPool;
         public T Get(IData<T> data)
         {
             if (TryGetInPool(data, out T entity))
@@ -43,6 +37,12 @@ namespace Pools
             var newEntity = Create(data);
             newEntity = Initialize(data, newEntity);
             return newEntity;
+        }
+
+        protected virtual void ReturnEntity(T entity)
+        {
+            EntityPool.Add(entity);
+            Returned?.Invoke();
         }
 
         protected abstract T Initialize(IData<T> data, T entity);

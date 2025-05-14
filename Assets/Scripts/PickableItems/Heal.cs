@@ -1,18 +1,18 @@
-using Data;
 using Pools;
+using Pools.FromPrefab;
 using UnityEngine;
 using Utils;
 
-namespace WalletSystem.MoneyLogic
+namespace PickableItems
 {
-    public class Money : MonoBehaviour, IPoolEntity, IPickable
+    public class Heal : MonoBehaviour, IPoolEntity, IPickable
     {
-        private MoneyPool _pool;
-        private int _value = 0;
+        private HealPool _pool;
+        private int _value;
 
         public int Value => _value;
 
-        public void Initialize(int count, MoneyPool pool)
+        public void Initialize(int count, HealPool pool)
         {
             _pool = pool;
             _value = count;

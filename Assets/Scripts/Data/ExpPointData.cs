@@ -1,4 +1,4 @@
-using ExpPoints;
+using PickableItems;
 using UnityEngine;
 
 namespace Data.ExpPointsData

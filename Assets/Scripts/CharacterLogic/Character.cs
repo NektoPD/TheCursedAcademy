@@ -72,6 +72,7 @@ namespace CharacterLogic
             _health.Changed += UpdateHealthView;
 
             _collisionHandler.GotExpPoint += OnExperienceGained;
+            _collisionHandler.GotHeal += TakeHeal;
 
             UpdateExperienceView(_characterLevelController.CurrentExp);
 
@@ -158,7 +159,10 @@ namespace CharacterLogic
             _health.Changed -= UpdateHealthView;
 
             if (_collisionHandler != null)
+            {
                 _collisionHandler.GotExpPoint -= OnExperienceGained;
+                _collisionHandler.GotHeal -= TakeHeal;
+            }
 
             if (_characterLevelController != null)
                 _characterLevelController.LeveledUp -= OnLeveledUp;
@@ -194,6 +198,14 @@ namespace CharacterLogic
                 return;
 
             _health.TakeDamage(damage);
+        }
+
+        private void TakeHeal(int value)
+        {
+            if (_isInvincible)
+                return;
+
+            _health.TakeHeal(value);
         }
 
         public void Revive()

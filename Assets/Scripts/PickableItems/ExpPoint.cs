@@ -4,7 +4,7 @@ using Pools;
 using UnityEngine;
 using Utils;
 
-namespace ExpPoints
+namespace PickableItems
 {
     [RequireComponent(typeof(SpriteRenderer), typeof(ResizeCollider), typeof(Animator))]
     public class ExpPoint : MonoBehaviour, IPoolEntity, IPickable

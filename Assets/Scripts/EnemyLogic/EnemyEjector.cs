@@ -1,8 +1,8 @@
 using Data.ExpPointsData;
-using ExpPoints;
+using PickableItems;
 using Pools;
+using Pools.FromPrefab;
 using UnityEngine;
-using WalletSystem.MoneyLogic;
 using Zenject;
 
 namespace EnemyLogic

@@ -1,9 +1,9 @@
 using System;
-using ExpPoints;
 using UnityEngine;
-using WalletSystem.MoneyLogic;
 using System.Collections.Generic;
 using Utils;
+using PickableItems;
+using Unity.VisualScripting;
 
 namespace CharacterLogic
 {
@@ -19,6 +19,7 @@ namespace CharacterLogic
 
         public event Action<int> GotMoney;
         public event Action<int> GotExpPoint;
+        public event Action<int> GotHeal;
 
         private void Update()
         {
@@ -54,18 +55,10 @@ namespace CharacterLogic
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            if (collision.gameObject.TryGetComponent(out Money money))
+            if (collision.gameObject.TryGetComponent(out IPickable pickable))
             {
-                //_wallet.AddMoney(money.Value); тут я думаю, что лучше сохранить куда-то кол-во собранных денег, а потом в конце при смерти сразу записывать их в кошель, чтобы нельзя было выйти из меню паузы и деньги оставались на счёту
-                _itemsToAttract[money] = collision.transform;
-                _startPositions[money] = collision.transform.position;
-            }
-
-            if (collision.gameObject.TryGetComponent(out ExpPoint expPoint))
-            {
-                //тут добавление в лвл кол-во поинтов expPoint.Value
-                _itemsToAttract[expPoint] = collision.transform;
-                _startPositions[expPoint] = collision.transform.position;
+                _itemsToAttract[pickable] = collision.transform;
+                _startPositions[pickable] = collision.transform.position;
             }
         }
 
@@ -92,10 +85,24 @@ namespace CharacterLogic
 
         private void CallEvent(IPickable item)
         {
-            if (item is Money)
-                GotMoney?.Invoke(item.Value);
-            else
-                GotExpPoint?.Invoke(item.Value);
+            switch (item)
+            {
+                case Money money:
+                    GotMoney?.Invoke(item.Value);
+                    break;
+
+                case ExpPoint expPoint:
+                    GotExpPoint?.Invoke(item.Value);
+                    break;
+
+                case Heal heal:
+                    GotHeal?.Invoke(item.Value);
+                    break;
+
+                case Magnet magnet:
+                    _itemsToAttract.AddRange(magnet.GetAllActivePickableItems());
+                    break;
+            }
         }
 
         private void RemoveItem(IPickable pickable)
