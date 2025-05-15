@@ -40,7 +40,7 @@ namespace Pools
             return false;
         }
 
-        protected override void ReturnEntity(Enemy entity)
+        public override void ReturnEntity(Enemy entity)
         {
             base.ReturnEntity(entity);
             EnemyReturned?.Invoke(entity.transform);

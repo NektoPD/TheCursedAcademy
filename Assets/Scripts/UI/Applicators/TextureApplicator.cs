@@ -20,17 +20,19 @@ namespace UI.Applicators
 
         private void OnEnable()
         {
+            Applicate(_defaultItem);
+
             foreach (var perk in _items)
-                perk.Clicked += OnClick;
+                perk.Clicked += Applicate;
         }
 
         private void OnDisable()
         {
             foreach (var perk in _items)
-                perk.Clicked -= OnClick;
+                perk.Clicked -= Applicate;
         }
 
-        private void OnClick(Image image)
+        private void Applicate(Image image)
         {
             _currentItem.sprite = _offSprite;
             image.sprite = _onSprite;

@@ -39,7 +39,7 @@ namespace Pools
             return newEntity;
         }
 
-        protected virtual void ReturnEntity(T entity)
+        public virtual void ReturnEntity(T entity)
         {
             EntityPool.Add(entity);
             Returned?.Invoke();
