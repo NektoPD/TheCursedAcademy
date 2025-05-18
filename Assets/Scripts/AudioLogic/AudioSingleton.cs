@@ -7,12 +7,13 @@ namespace AudioLogic
     [RequireComponent(typeof(AudioSource))]
     public class AudioSingleton : MonoBehaviour
     {
-        private const string Menu = nameof(Menu);
-
         private static AudioSingleton s_instance;
 
         [SerializeField] private AudioClip _menu;
         [SerializeField] private AudioClip _level;
+        [SerializeField] private AudioClip _tutorial;
+        [SerializeField] private int _idMenuScene;
+        [SerializeField] private int _idTutorialScene;
 
         private AudioSource _source;
 
@@ -46,8 +47,10 @@ namespace AudioLogic
 
         private void OnSceneChanged(Scene first, Scene second)
         {
-            if (second.name == Menu)
+            if (second.rootCount == _idMenuScene)
                 _source.clip = _menu;
+            else if(second.rootCount == _idTutorialScene)
+                _source.clip = _tutorial;
             else if (_source.clip != _level)
                 _source.clip = _level;
             else
