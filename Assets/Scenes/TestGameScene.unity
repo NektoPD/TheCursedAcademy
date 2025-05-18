@@ -4278,6 +4278,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Installers
       objectReference: {fileID: 0}
+    - target: {fileID: 5404052538881245587, guid: 3cbcb83ddd141304cbea3d046de26e65, type: 3}
+      propertyPath: _healPrefab
+      value: 
+      objectReference: {fileID: 8852081060713305932, guid: 24a5267c4048cc04c9476dd5a3170da0, type: 3}
+    - target: {fileID: 5404052538881245587, guid: 3cbcb83ddd141304cbea3d046de26e65, type: 3}
+      propertyPath: _moneyPrefab
+      value: 
+      objectReference: {fileID: 3407710182228166790, guid: c36cb6b55e0a14146971d6ff4c6d0a10, type: 3}
+    - target: {fileID: 5404052538881245587, guid: 3cbcb83ddd141304cbea3d046de26e65, type: 3}
+      propertyPath: _magnetPrefab
+      value: 
+      objectReference: {fileID: 4196689572753204219, guid: 9977120527bdef74d9fe6dca7662cab2, type: 3}
     - target: {fileID: 7123405191017410640, guid: 3cbcb83ddd141304cbea3d046de26e65, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.7662588
@@ -4317,6 +4329,10 @@ PrefabInstance:
     - target: {fileID: 7123405191017410640, guid: 3cbcb83ddd141304cbea3d046de26e65, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8031461273330761661, guid: 3cbcb83ddd141304cbea3d046de26e65, type: 3}
+      propertyPath: m_Name
+      value: PollFromPrefabInstaller
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5779,7 +5795,7 @@ GameObject:
   - component: {fileID: 835662010}
   - component: {fileID: 835662009}
   m_Layer: 0
-  m_Name: Spawner
+  m_Name: PickableSpawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -5283,7 +5283,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 339e6022eb6eb8e4f806d0a194b9e206, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _prefab: {fileID: 3407710182228166790, guid: c36cb6b55e0a14146971d6ff4c6d0a10, type: 3}
+  _moneyPrefab: {fileID: 3407710182228166790, guid: c36cb6b55e0a14146971d6ff4c6d0a10, type: 3}
+  _healPrefab: {fileID: 8852081060713305932, guid: 24a5267c4048cc04c9476dd5a3170da0, type: 3}
+  _magnetPrefab: {fileID: 4196689572753204219, guid: 9977120527bdef74d9fe6dca7662cab2, type: 3}
 --- !u!4 &597777750
 Transform:
   m_ObjectHideFlags: 0

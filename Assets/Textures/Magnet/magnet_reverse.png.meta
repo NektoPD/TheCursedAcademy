@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 6aa04448706217c44ab9221e2d347dfd
+guid: 986e9909b51232648843414070647fbd
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -162,7 +162,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: heal_0
+      name: magnet_reverse_0
       rect:
         serializedVersion: 2
         x: 0
@@ -176,14 +176,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f5068e88141262c4abf3624ccc59f33b
-      internalID: 2076851164
+      spriteID: 8e9ccc863a822e243b612415df8bf5e5
+      internalID: 1371953489
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: heal_1
+      name: magnet_reverse_1
       rect:
         serializedVersion: 2
         x: 32
@@ -197,14 +197,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 051f4dfb46bf0ce4ea2fc24eacc73b66
-      internalID: 170858760
+      spriteID: 86476103bbb7d8a47b9f559ca0aff58c
+      internalID: 298677738
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: heal_2
+      name: magnet_reverse_2
       rect:
         serializedVersion: 2
         x: 64
@@ -218,8 +218,176 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 97d8cc6fa09683249a22c5b19b1e57de
-      internalID: 1814588155
+      spriteID: 8260fdcd0c912de4db4c9e57258c2f7e
+      internalID: -291125693
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: magnet_reverse_3
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c5a58ee20b0b1214b9a0df693bb5b8e7
+      internalID: 1098049464
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: magnet_reverse_4
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d1143f0821a3f0a4593c5914b033603f
+      internalID: 1924030649
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: magnet_reverse_5
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b8a93bff79d95c04b91635a8e884cb8c
+      internalID: 262523977
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: magnet_reverse_6
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e09d115c7d39a5844881da0d2d79291b
+      internalID: -1097074809
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: magnet_reverse_7
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 33ff7eae45de9cb40808c6b55d779d42
+      internalID: -1707043218
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: magnet_reverse_8
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8a133e1c66bcca746a32d84e15590f52
+      internalID: -893127263
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: magnet_reverse_9
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b10ad5f86631c4e429392caf511209ac
+      internalID: -744366434
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: magnet_reverse_10
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bbc87731749869d43a18ae832959e6be
+      internalID: -2122133331
       vertices: []
       indices: 
       edges: []
@@ -235,9 +403,17 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      heal_0: 2076851164
-      heal_1: 170858760
-      heal_2: 1814588155
+      magnet_reverse_0: 1371953489
+      magnet_reverse_1: 298677738
+      magnet_reverse_10: -2122133331
+      magnet_reverse_2: -291125693
+      magnet_reverse_3: 1098049464
+      magnet_reverse_4: 1924030649
+      magnet_reverse_5: 262523977
+      magnet_reverse_6: -1097074809
+      magnet_reverse_7: -1707043218
+      magnet_reverse_8: -893127263
+      magnet_reverse_9: -744366434
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
