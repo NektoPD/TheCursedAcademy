@@ -32,6 +32,8 @@ namespace Items.BaseClass
             MovementHandler = movementHandler;
             ItemStats = new ItemStats(VisualData);
             _statVariations = VisualData.Stats.Select(stat => stat.Variation);
+            
+            UpdateStatsValues();
         }
 
         public void Attack()
@@ -41,11 +43,13 @@ namespace Items.BaseClass
             StartCoroutine(AttackCooldown());
         }
 
-        public virtual void LevelUp() 
+        public virtual void LevelUp()
         {
-            if(Level <= 3)
+            if (Level <= 3)
                 ItemStats.UpgradeStats(_statVariations);
         }
+
+        protected abstract void UpdateStatsValues();
 
         protected abstract void PerformAttack();
 

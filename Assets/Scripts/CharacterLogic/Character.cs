@@ -1,13 +1,17 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using CameraExtensions;
 using CharacterLogic.Data;
 using CharacterLogic.InputHandler;
+using EnemyLogic;
 using HealthSystem;
 using InventorySystem;
 using Items.BaseClass;
 using Items.Enums;
 using Items.ItemHolder;
 using Items.ItemVariations;
+using Items.ItemVariations.MultiSlingshot;
 using StatistiscSystem;
 using UI.Applicators;
 using UnityEngine;
@@ -20,7 +24,7 @@ namespace CharacterLogic
     [RequireComponent(typeof(CharacterSpriteHolder))]
     [RequireComponent(typeof(CharacterView))]
     [RequireComponent(typeof(CharacterAttacker))]
-    public class Character : MonoBehaviour, IDamageable, IStatisticsTransmitter
+    public class Character : MonoBehaviour, IStatisticsTransmitter, IDamageable
     {
         [SerializeField] private CharacterInventoryUI _inventoryUI;
         [SerializeField] private bool _cameraOnCharacter;
@@ -38,6 +42,7 @@ namespace CharacterLogic
         private CharacterLevelController _characterLevelController;
         private CharacterSessionWallet _characterSessionWallet;
         private ItemApplicator _itemApplicator;
+        private KilledEnemyCounter _killedEnemyCounter;
 
         private float _attackPower;
         private float _armor;
@@ -48,21 +53,25 @@ namespace CharacterLogic
         private Item _startItem;
         private bool _isInvincible = false;
         private Transform _transform;
+        private bool _isDied;
+        private DateTime _gameStart;
 
         public event Action<Statistics> StatisticCollected;
         public event Action LevelUp;
 
         public CharacterInventory Inventory => _inventory;
 
+        public bool IsDied => _isDied;
+
         public void Construct(CharacterData characterData, Dictionary<PerkType, float> perkBonuses,
-            ItemsHolder itemsHolder, ItemApplicator itemApplicator)
+            ItemsHolder itemsHolder, ItemApplicator itemApplicator, KilledEnemyCounter killedEnemyCounter)
         {
             _itemsHolder = itemsHolder;
 
             _collisionHandler = GetComponent<CharacterCollisionHandler>();
 
-            InitializeCharacterData(characterData, perkBonuses);
             InitializeCharacterComponents();
+            InitializeCharacterData(characterData, perkBonuses);
             ActivateCharacter();
 
             _animationController.SetAnimatorOverride(characterData.AnimatorController);
@@ -70,6 +79,10 @@ namespace CharacterLogic
             _movementHandler.MovingLeft += OnMovingLeft;
             _movementHandler.MovingRight += OnMovingRight;
             _health.Changed += UpdateHealthView;
+            _health.LowHealth += _spriteHolder.StartPulsing;
+            _health.Died += _spriteHolder.StopPulsing;
+            _health.Died += OnPlayerDied;
+            _health.HealthRegainedToNormal += _spriteHolder.StopPulsing;
 
             _collisionHandler.GotExpPoint += OnExperienceGained;
             _collisionHandler.GotHeal += TakeHeal;
@@ -77,13 +90,74 @@ namespace CharacterLogic
             UpdateExperienceView(_characterLevelController.CurrentExp);
 
             _itemApplicator = itemApplicator;
+            _killedEnemyCounter = killedEnemyCounter;
 
             _itemApplicator.ItemSelected += OnItemSelected;
+            
+            _killedEnemyCounter.ResetCounter();
+        }
+
+        private void Awake()
+        {
+            _animationController = GetComponent<CharacterAnimationController>();
+            _movementHandler = GetComponent<CharacterMovementHandler>();
+            _spriteHolder = GetComponent<CharacterSpriteHolder>();
+            _view = GetComponent<CharacterView>();
+            _attacker = GetComponent<CharacterAttacker>();
+
+            if (_cameraOnCharacter)
+                Camera.main.transform.SetParent(transform);
+
+            _transform = transform;
+        }
+
+        private void OnDisable()
+        {
+            _movementHandler.MovingLeft -= OnMovingLeft;
+            _movementHandler.MovingRight -= OnMovingRight;
+            _health.Changed -= UpdateHealthView;
+            _health.LowHealth -= _spriteHolder.StartPulsing;
+            _health.Died -= _spriteHolder.StopPulsing;
+            _health.Died -= OnPlayerDied;
+            _health.HealthRegainedToNormal -= _spriteHolder.StopPulsing;
+
+            if (_collisionHandler != null)
+            {
+                _collisionHandler.GotExpPoint -= OnExperienceGained;
+                _collisionHandler.GotHeal -= TakeHeal;
+            }
+
+            if (_characterLevelController != null)
+                _characterLevelController.LeveledUp -= OnLeveledUp;
+
+            _characterLevelController?.Dispose();
+            _characterSessionWallet?.Dispose();
+
+            _itemApplicator.ItemSelected -= OnItemSelected;
+        }
+
+        private void Update()
+        {
+            HandleMovementAnimations();
         }
 
         private void OnExperienceGained(int value)
         {
             UpdateExperienceView(_characterLevelController.CurrentExp);
+        }
+
+        private void OnPlayerDied()
+        {
+            _isDied = true;
+
+            DateTime endGameTime = DateTime.Now;
+            TimeSpan gameSession = endGameTime - _gameStart;
+
+            Statistics statistics = new Statistics(_characterLevelController.CurrentExp,
+                _characterLevelController.CurrentLevel, _killedEnemyCounter.KilledCounter,
+                _characterSessionWallet.CollectedMoney, gameSession, _inventory.GetItemStatisticsList());
+
+            StatisticCollected?.Invoke(statistics);
         }
 
         private void OnItemSelected(ItemVariations selectedItemVariation)
@@ -92,11 +166,9 @@ namespace CharacterLogic
 
             foreach (var item in _inventory.Items)
             {
-                if (item.Data.ItemVariation == selectedItemVariation)
-                {
-                    existingItem = item;
-                    break;
-                }
+                if (item.Data.ItemVariation != selectedItemVariation) continue;
+                existingItem = item;
+                break;
             }
 
             if (existingItem != null)
@@ -123,7 +195,13 @@ namespace CharacterLogic
                         backpackItem.InvincibilityDisabled += OnInvincibilityDisabled;
                     }
 
-                    newItem.transform.position = transform.position;
+                    if (newItem.Data.ItemVariation == ItemVariations.MultiSlingshot)
+                    {
+                        MultiSlingshot multiSlingshot = (MultiSlingshot)newItem;
+                        multiSlingshot.SetMovementHandler(_movementHandler);
+                    }
+
+                    newItem.transform.position = _transform.position;
                     newItem.Initialize(_movementHandler);
 
                     _inventory.AddItem(newItem);
@@ -138,51 +216,12 @@ namespace CharacterLogic
             LevelUp?.Invoke();
         }
 
-        private void Awake()
-        {
-            _animationController = GetComponent<CharacterAnimationController>();
-            _movementHandler = GetComponent<CharacterMovementHandler>();
-            _spriteHolder = GetComponent<CharacterSpriteHolder>();
-            _view = GetComponent<CharacterView>();
-            _attacker = GetComponent<CharacterAttacker>();
-
-            if (_cameraOnCharacter)
-                Camera.main.transform.SetParent(transform);
-
-            _transform = transform;
-        }
-
-        private void OnDisable()
-        {
-            _movementHandler.MovingLeft -= OnMovingLeft;
-            _movementHandler.MovingRight -= OnMovingRight;
-            _health.Changed -= UpdateHealthView;
-
-            if (_collisionHandler != null)
-            {
-                _collisionHandler.GotExpPoint -= OnExperienceGained;
-                _collisionHandler.GotHeal -= TakeHeal;
-            }
-
-            if (_characterLevelController != null)
-                _characterLevelController.LeveledUp -= OnLeveledUp;
-
-            _characterLevelController?.Dispose();
-            _characterSessionWallet?.Dispose();
-
-            _itemApplicator.ItemSelected -= OnItemSelected;
-        }
-
-        private void Update()
-        {
-            HandleMovementAnimations();
-        }
-
         public void ActivateCharacter()
         {
             _movementHandler.EnableMovement();
             _movementHandler.SetSpeed(_moveSpeed);
             _attacker.EnableAttack();
+            CameraShake.Instance.SetTarget(_transform);
         }
 
         public void DisableCharacter()
@@ -197,6 +236,7 @@ namespace CharacterLogic
             if (_isInvincible)
                 return;
 
+            CameraShake.Instance.ShakeCamera(2, 5, 0.3f);
             _health.TakeDamage(damage);
         }
 
@@ -227,7 +267,6 @@ namespace CharacterLogic
         private void InitializeCharacterComponents()
         {
             _health = new Health(_hp);
-            UpdateHealthView(_hp);
 
             _inventory = new CharacterInventory();
 
@@ -236,13 +275,11 @@ namespace CharacterLogic
             _inventoryUI.DisableAllSlots();
             _inventoryUI.Initialize(_inventory);
 
-            _inventory.AddItem(_startItem);
-
             _characterSessionWallet = new CharacterSessionWallet();
             _characterLevelController = new CharacterLevelController();
             _characterSessionWallet.Initialize(_collisionHandler);
             _characterLevelController.Initialize(_collisionHandler);
-            
+
             _characterLevelController.LeveledUp += OnLeveledUp;
         }
 
@@ -257,25 +294,9 @@ namespace CharacterLogic
                               GetPerkBonus(perkBonuses, PerkType.AttackCooldown);
             _moveSpeed = characterData.MoveSpeed + GetPerkBonus(perkBonuses, PerkType.Speed);
 
-            _startItem = _itemsHolder.GetItemByType(characterData.StartItem.Data.ItemVariation);
-
-            _startItem.gameObject.SetActive(true);
-
-            if (_startItem.Data.ItemVariation != ItemVariations.Parfume)
-            {
-                _startItem.transform.SetParent(_transform);
-            }
-
-            if (_startItem.Data.ItemVariation == ItemVariations.Backpack)
-            {
-                BackpackItem backpackItem = (BackpackItem)_startItem;
-
-                backpackItem.InvincibilityEnabled += OnInvincibilityEnabled;
-                backpackItem.InvincibilityDisabled += OnInvincibilityDisabled;
-            }
-
-            _startItem.transform.position = transform.position;
-            _startItem.Initialize(_movementHandler);
+            OnItemSelected(characterData.StartItem.Data.ItemVariation);
+            _health.SetMaxHealth(_hp);
+            UpdateHealthView(_hp);
         }
 
         private void HandleMovementAnimations()

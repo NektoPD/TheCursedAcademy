@@ -6,7 +6,7 @@ using UnityEngine;
 namespace EnemyLogic
 {
     [RequireComponent(typeof(HealthBar), typeof(EnemyAnimator))]
-    [RequireComponent (typeof(EnemyDamageView), typeof(EnemyEjector))]
+    [RequireComponent(typeof(EnemyDamageView), typeof(EnemyEjector))]
     public class EnemyDamageTaker : MonoBehaviour, IDamageable
     {
         private readonly int _duration = 1;
@@ -24,6 +24,8 @@ namespace EnemyLogic
 
         public Health Health => _health;
 
+        public bool IsDied => _isDied;
+
         private void Awake()
         {
             _healthBar = GetComponent<HealthBar>();
@@ -37,7 +39,7 @@ namespace EnemyLogic
             if (_health != null)
                 _health.Died -= Die;
 
-            if(_coroutine != null)
+            if (_coroutine != null)
                 StopCoroutine(_coroutine);
         }
 

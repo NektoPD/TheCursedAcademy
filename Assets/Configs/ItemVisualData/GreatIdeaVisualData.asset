@@ -33,4 +33,10 @@ MonoBehaviour:
     _value: 1
     _step: 1.2
     _variation: 3
+  - _nameRu: "\u0421\u043A\u043E\u0440\u043E\u0441\u0442\u044C \u0430\u0442\u0430\u043A\u0438"
+    _nameEn: Cooldown reduction
+    _nameTr: "Hasar \xE7arpan\u0131"
+    _value: 1
+    _step: 1.2
+    _variation: 1
   <Variation>k__BackingField: 7

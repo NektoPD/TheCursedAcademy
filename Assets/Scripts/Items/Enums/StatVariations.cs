@@ -10,6 +10,8 @@ namespace Items.Enums
         ProjectilesCount,
         ProjectilesSpeed,
         ProjectileDispersion,
+        ProjectileLifetime,
         AttackDirectionsCount,
+        RotationSpeed
     }
 }

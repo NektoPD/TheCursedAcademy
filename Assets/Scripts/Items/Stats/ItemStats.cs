@@ -25,9 +25,9 @@ namespace Items.Stats
 
         public void SetStatStep(StatVariations variation, float step) => GetStat(variation).SetStep(step);
 
-        //public void SetStatCurrentValue(StatVariations variation, float value) => GetStat(variation).SetCurrentValue(value);
+        public void SetStatCurrentValue(StatVariations variation, float value) => GetStat(variation).SetCurrentValue(value);
 
-        //public void SetStatNextValue(StatVariations variation, float value) => GetStat(variation).SetNextValue(value);
+        public void SetStatNextValue(StatVariations variation, float value) => GetStat(variation).SetNextValue(value);
 
         private Stat GetStat(StatVariations variation) => _visualData.Stats.FirstOrDefault(stat => stat.Variation == variation) ?? throw new ArgumentException($"Stat {variation} not found!");
     }

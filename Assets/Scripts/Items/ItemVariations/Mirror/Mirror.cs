@@ -22,11 +22,16 @@ namespace Items.ItemVariations
         private float _damageMultiplier = 1f;
         private ItemProjectilePool _projectilePool;
         private int _projectileCount = 1;
+        private float _damageIncreasePerLevel = 1.25f;
+        private float _projectileSpeedIncreasePerLevel = 1.2f;
+        private float _detectionRadiusIncreasePerLevel = 1.15f;
+        private float _cooldownReductionPerLevel = 0.85f;
 
         private void Awake()
         {
             _projectilePool = GetComponent<ItemProjectilePool>();
             _projectilePool.Initialize(_mirrorProjectilePrefab, _initialPoolSize);
+            
         }
 
         protected override void PerformAttack()
@@ -39,7 +44,7 @@ namespace Items.ItemVariations
                 if (i >= targets.Length) break;
 
                 Transform target = targets[i];
-                
+
                 MirrorProjectile mirrorProjectile =
                     _projectilePool.GetFromPool<MirrorProjectile>(transform.position, Quaternion.identity);
                 if (mirrorProjectile == null) continue;
@@ -67,38 +72,26 @@ namespace Items.ItemVariations
         {
             Level++;
 
-            switch (Level)
-            {
-                case 2:
-                    _damageMultiplier = 1.25f;
-                    _projectileSpeed *= 1.2f;
-                    _detectionRadius *= 1.15f;
-                    break;
-
-                case 3:
-                    _damageMultiplier = 1.5f;
-                    Data.Cooldown *= 0.85f;
-                    _projectileCount = 2;
-                    break;
-            }
-
-            base.LevelUp();
-
-            if(Level + 1 == 3)
-                ItemStats.SetStatStep(StatVariations.ProjectilesCount, 1);
-            else
-                ItemStats.SetStatStep(StatVariations.ProjectilesCount, 0);
+            _damageMultiplier *= _damageIncreasePerLevel;
+            _projectileSpeed *= _projectileSpeedIncreasePerLevel;
+            _detectionRadius *= _detectionRadiusIncreasePerLevel;
+            Data.Cooldown *= _cooldownReductionPerLevel;
+            
+            UpdateStatsValues();
         }
 
-        private Transform FindNearestEnemy()
+        protected override void UpdateStatsValues()
         {
-            Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, _detectionRadius, _enemyLayer);
+            ItemStats.SetStatCurrentValue(StatVariations.Damage, _damageMultiplier);
+            ItemStats.SetStatCurrentValue(StatVariations.AttackSpeed, Data.Cooldown);
+            ItemStats.SetStatCurrentValue(StatVariations.ProjectilesSpeed, _projectileSpeed);
+            ItemStats.SetStatCurrentValue(StatVariations.Radius, _detectionRadius);
 
-            return colliders
-                .Where(c => c.TryGetComponent(out IDamageable _))
-                .OrderBy(c => Vector2.Distance(transform.position, c.transform.position))
-                .Select(c => c.transform)
-                .FirstOrDefault();
+            ItemStats.SetStatNextValue(StatVariations.Damage, _damageMultiplier * _damageIncreasePerLevel);
+            ItemStats.SetStatNextValue(StatVariations.Radius, _detectionRadius * _detectionRadiusIncreasePerLevel);
+            ItemStats.SetStatNextValue(StatVariations.AttackSpeed, Data.Cooldown * _cooldownReductionPerLevel);
+            ItemStats.SetStatNextValue(StatVariations.ProjectilesSpeed,
+                _projectileSpeed * _projectileSpeedIncreasePerLevel);
         }
 
         private Transform[] FindNearestEnemies(int count)

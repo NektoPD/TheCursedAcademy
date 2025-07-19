@@ -1,6 +1,7 @@
 using System.Collections;
 using CharacterLogic.InputHandler;
 using Items.BaseClass;
+using Items.Enums;
 using Items.Pools;
 using UnityEngine;
 
@@ -21,8 +22,9 @@ namespace Items.ItemVariations
         [SerializeField] private float _minScreenInsetY = 0.2f;
         [SerializeField] private float _maxScreenInsetY = 0.8f;
 
-        [Header("Level Up Settings")]
-        [SerializeField] private float _baseDamageMultiplier = 1f;
+        [Header("Level Up Settings")] [SerializeField]
+        private float _baseDamageMultiplier = 1f;
+
         [SerializeField] private float _durationMultiplierIncreasePerLevel = 0.15f;
         [SerializeField] private int _baseProjectileCount = 1;
 
@@ -31,6 +33,9 @@ namespace Items.ItemVariations
         private int _projectileCount = 1;
         private ItemProjectilePool _projectilePool;
         private Camera _mainCamera;
+        private float _damageIncreasePerLevel = 1.25f;
+        private float _cooldownReductionPerLevel = 0.85f;
+
 
         private void Awake()
         {
@@ -41,6 +46,7 @@ namespace Items.ItemVariations
             _damageMultiplier = _baseDamageMultiplier;
             _durationMultiplier = 1f;
             _projectileCount = _baseProjectileCount;
+            transform.SetParent(null);
         }
 
         protected override void PerformAttack()
@@ -56,7 +62,8 @@ namespace Items.ItemVariations
                 if (parfumeProjectile != null)
                 {
                     parfumeProjectile.Initialize(Data.Damage * _damageMultiplier, this);
-                    parfumeProjectile.SetupMovement(targetPosition, _projectileSpeed, _damageZoneDuration * _durationMultiplier);
+                    parfumeProjectile.SetupMovement(targetPosition, _projectileSpeed,
+                        _damageZoneDuration * _durationMultiplier);
                     parfumeProjectile.ClearHitEnemies();
 
                     StartCoroutine(DisableProjectileAfterLifetime(parfumeProjectile, _projectileLifetime));
@@ -68,12 +75,28 @@ namespace Items.ItemVariations
         {
             Level++;
 
-            _damageMultiplier *= 1.25f;
+            _damageMultiplier *= _damageIncreasePerLevel;
             _projectileCount++;
-            Data.Cooldown *= 0.85f;
+            Data.Cooldown *= _cooldownReductionPerLevel;
             _durationMultiplier = 1f + _durationMultiplierIncreasePerLevel;
 
-            base.LevelUp();
+            //base.LevelUp();
+
+            UpdateStatsValues();
+        }
+
+        protected override void UpdateStatsValues()
+        {
+            ItemStats.SetStatCurrentValue(StatVariations.Damage, _damageMultiplier);
+            ItemStats.SetStatCurrentValue(StatVariations.AttackSpeed, Data.Cooldown);
+            ItemStats.SetStatCurrentValue(StatVariations.Duration, _durationMultiplier);
+            ItemStats.SetStatCurrentValue(StatVariations.ProjectilesCount, _projectileCount);
+
+            ItemStats.SetStatNextValue(StatVariations.Damage, _damageMultiplier * _damageIncreasePerLevel);
+            ItemStats.SetStatNextValue(StatVariations.ProjectilesCount, _projectileCount++);
+            ItemStats.SetStatNextValue(StatVariations.AttackSpeed, Data.Cooldown * _cooldownReductionPerLevel);
+            ItemStats.SetStatNextValue(StatVariations.Duration,
+                1f + _durationMultiplierIncreasePerLevel);
         }
 
         private Vector2 GetRandomPositionOutsideScreen()

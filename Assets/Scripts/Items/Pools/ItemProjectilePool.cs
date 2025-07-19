@@ -21,8 +21,7 @@ namespace Items.Pools
 
         private ItemProjectile CreateNewPoolObject()
         {
-            ItemProjectile newObject = Instantiate(_prefab);
-            newObject.transform.SetParent(transform);
+            ItemProjectile newObject = Instantiate(_prefab, transform, true);
             newObject.gameObject.SetActive(false);
             _objectPool.Enqueue(newObject);
             return newObject;

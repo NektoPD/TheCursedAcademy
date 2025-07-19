@@ -5,7 +5,7 @@ namespace StatistiscSystem
 {
     public class ItemStatistics
     {
-        public ItemStatistics(ItemDataConfig item, float totalDamage, int level, int dps, TimeSpan timeInInventory)
+        public ItemStatistics(ItemDataConfig item, float totalDamage, int level, float dps, TimeSpan timeInInventory)
         {
             Item = item;
             TotalDamage = totalDamage;
@@ -20,7 +20,7 @@ namespace StatistiscSystem
 
         public int Level { get; private set; }
 
-        public int DPS { get; private set; }
+        public float DPS { get; private set; }
 
         public TimeSpan TimeInInventory { get; private set; }
     }

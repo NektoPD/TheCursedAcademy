@@ -2,6 +2,7 @@
 using System.Collections;
 using CharacterLogic.InputHandler;
 using Items.BaseClass;
+using Items.Enums;
 using Items.Pools;
 using UnityEngine;
 
@@ -66,8 +67,18 @@ namespace Items.ItemVariations
             _level++;
 
             _durationMultiplier += _durationIncreasePerLevel;
-
             Data.Cooldown *= _cooldownReductionPerLevel;
+            
+            UpdateStatsValues();
+        }
+        
+        protected override void UpdateStatsValues()
+        {
+            ItemStats.SetStatCurrentValue(StatVariations.AttackSpeed, Data.Cooldown);
+            ItemStats.SetStatCurrentValue(StatVariations.Duration, _durationMultiplier);
+
+            ItemStats.SetStatNextValue(StatVariations.AttackSpeed, Data.Cooldown * _cooldownReductionPerLevel);
+            ItemStats.SetStatNextValue(StatVariations.Duration, _durationMultiplier + _durationIncreasePerLevel);
         }
 
         private IEnumerator DisableEffectAfterDuration(float duration)

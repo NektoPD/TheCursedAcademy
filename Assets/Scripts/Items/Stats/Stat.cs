@@ -19,12 +19,22 @@ namespace Items.Stats
 
         public float CurrentValue => _value;
 
-        public float NextValue => _value + _step;
+        public float NextValue { get; private set; }
 
         public StatVariations Variation => _variation;
 
         public void SetStep(float step) => _step = step;
 
         public void LevelUp() => _value += _step;
+
+        public void SetCurrentValue(float value)
+        {
+            _value = value;
+        }
+
+        public void SetNextValue(float value)
+        {
+            NextValue = value;
+        }
     }
 }

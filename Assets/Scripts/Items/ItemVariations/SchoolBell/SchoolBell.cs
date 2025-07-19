@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using Items.BaseClass;
+using Items.Enums;
 using Items.Pools;
 using UnityEngine;
 
@@ -15,13 +16,10 @@ namespace Items.ItemVariations.SchoolBell
         [SerializeField] private LayerMask _enemyLayerMask;
         [SerializeField] private float _bellEffectRadius = 5f;
 
-        [Header("Level Up Settings")]
-        [SerializeField] private float _baseDamageMultiplier = 1f;
         [SerializeField] private float _effectDurationIncreasePerLevel = 0.2f;
         [SerializeField] private float _radiusIncreasePerLevel = 0.5f;
         [SerializeField] private float _cooldownReductionPerLevel = 0.9f;
 
-        private float _damageMultiplier = 1f;
         private float _effectDurationMultiplier = 1f;
         private float _radiusMultiplier = 1f;
         private ItemProjectilePool _projectilePool;
@@ -33,7 +31,6 @@ namespace Items.ItemVariations.SchoolBell
             _projectilePool.Initialize(_bellProjectilePrefab, _initialPoolSize);
             _transform = transform;
 
-            _damageMultiplier = _baseDamageMultiplier;
             _effectDurationMultiplier = 1f;
             _radiusMultiplier = 1f;
         }
@@ -44,7 +41,6 @@ namespace Items.ItemVariations.SchoolBell
                 _projectilePool.GetFromPool<SchoolBellProjectile>(
                     new Vector2(_transform.position.x, _transform.position.y + _ySpawnOffset), Quaternion.identity);
 
-            projectile.Initialize(Data.Damage * _damageMultiplier, this);
             projectile.SetFreezeDuration(_freezeDuration * _effectDurationMultiplier);
             projectile.SetFreezeRadius(_bellEffectRadius * _radiusMultiplier);
             projectile.SetEnemyLayerMask(_enemyLayerMask);
@@ -58,22 +54,36 @@ namespace Items.ItemVariations.SchoolBell
         {
             Level++;
 
-            _damageMultiplier *= 1.25f;
-            
             _effectDurationMultiplier += _effectDurationIncreasePerLevel;
-            
+
             _radiusMultiplier += _radiusIncreasePerLevel;
-            
+
             Data.Cooldown *= _cooldownReductionPerLevel;
 
-            base.LevelUp();
+            //base.LevelUp();
+
+            UpdateStatsValues();
+        }
+
+        protected override void UpdateStatsValues()
+        {
+            ItemStats.SetStatCurrentValue(StatVariations.Radius, _radiusMultiplier);
+            ItemStats.SetStatCurrentValue(StatVariations.AttackSpeed, Data.Cooldown);
+            ItemStats.SetStatCurrentValue(StatVariations.Duration, _effectDurationMultiplier);
+
+            ItemStats.SetStatNextValue(StatVariations.Radius, _radiusMultiplier + _radiusIncreasePerLevel);
+            ItemStats.SetStatNextValue(StatVariations.AttackSpeed, Data.Cooldown * _cooldownReductionPerLevel);
+            ItemStats.SetStatNextValue(StatVariations.Duration,
+                _effectDurationMultiplier + _effectDurationIncreasePerLevel);
         }
 
         private IEnumerator EnableProjectile(ItemProjectile projectile, float lifetime)
         {
+            WaitForSeconds interval = new WaitForSeconds(lifetime);
+
             projectile.gameObject.SetActive(true);
 
-            yield return new WaitForSeconds(lifetime);
+            yield return interval;
 
             if (projectile && projectile.gameObject.activeSelf)
             {

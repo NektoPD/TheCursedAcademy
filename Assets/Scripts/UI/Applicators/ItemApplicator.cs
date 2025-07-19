@@ -42,8 +42,7 @@ namespace UI.Applicators
                 return;
 
             RemoveAllStat();
-
-
+            
             foreach (var stat in data.Stats)
                 if (_visualDatasInInventory.Contains(data))
                     AddStat(stat.Name, $"{stat.CurrentValue} -> {stat.NextValue}");

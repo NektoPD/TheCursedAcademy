@@ -20,8 +20,9 @@ namespace Items.ItemVariations.Toys
         [SerializeField] private float _scaleUpDuration = 0.5f;
         [SerializeField] private float _delayBeforeNextAttack = 0.5f;
 
-        [Header("Level Up Settings")]
-        [SerializeField] private float _baseDamageMultiplier = 1f;
+        [Header("Level Up Settings")] [SerializeField]
+        private float _baseDamageMultiplier = 1f;
+
         [SerializeField] private float _damageIncreasePerLevel = 0.15f;
         [SerializeField] private float _radiusIncreasePerLevel = 0.1f;
         [SerializeField] private float _rotationSpeedIncreasePerLevel = 15f;
@@ -48,7 +49,7 @@ namespace Items.ItemVariations.Toys
             _damageMultiplier = _baseDamageMultiplier;
             _radiusMultiplier = 1f;
             _rotationSpeedMultiplier = 1f;
-            
+
             UpdateAngleStep();
         }
 
@@ -140,17 +141,31 @@ namespace Items.ItemVariations.Toys
                 UpdateAngleStep();
             }
 
-            base.LevelUp();
+            //base.LevelUp();
 
             // ≈сли хочешь, чтобы на каждом уровне мен€лись разные статы, то после base.LevelUp()(применение значений в View) нужно указать следующие шаги лвлов. “огда при следующем проходе они корректо будут отображатьс€.
             // Ћибо, что проще -> изменить Stat так, чтобы NextValue и CurrentValue записывались вручную без _step. “огда нужно сразу записывать оба значени€. “екущее и новое при следующем обновлении.
             // ¬ ItemStats раскоментируй методы и используй их, а тут убери base.LevelUp(); и можешь обратно сделать метод абстрактным
             //  ак тебе будет проще.
 
-            if ((Level + 1) % 2 == 0 && _currentProjectileCount < _maxProjectileCount)
-                ItemStats.SetStatStep(StatVariations.ProjectilesCount, 1);
-            else
-                ItemStats.SetStatStep(StatVariations.ProjectilesCount, 0);
+            UpdateStatsValues();
+        }
+
+        protected override void UpdateStatsValues()
+        {
+            ItemStats.SetStatCurrentValue(StatVariations.Damage, _damageMultiplier);
+            ItemStats.SetStatCurrentValue(StatVariations.Radius, _radiusMultiplier);
+            ItemStats.SetStatCurrentValue(StatVariations.AttackSpeed, Data.Cooldown);
+            ItemStats.SetStatCurrentValue(StatVariations.RotationSpeed, _rotationSpeedMultiplier);
+            ItemStats.SetStatCurrentValue(StatVariations.ProjectilesCount, _currentProjectileCount);
+
+            ItemStats.SetStatNextValue(StatVariations.Damage, _damageMultiplier + _damageIncreasePerLevel);
+            ItemStats.SetStatNextValue(StatVariations.Radius, _radiusMultiplier + _radiusIncreasePerLevel);
+            ItemStats.SetStatNextValue(StatVariations.AttackSpeed, Data.Cooldown * _cooldownReductionPerLevel);
+            ItemStats.SetStatNextValue(StatVariations.RotationSpeed, _rotationSpeedMultiplier + _rotationSpeedIncreasePerLevel / _rotationSpeed);
+
+            if ((Level + 1) % 2 != 0 || _currentProjectileCount >= _maxProjectileCount) return;
+            ItemStats.SetStatNextValue(StatVariations.ProjectilesCount, _currentProjectileCount++);
         }
 
         private IEnumerator RotateProjectile(ToysProjectile projectile, float initialAngle, float duration,

@@ -1,6 +1,7 @@
 using System.Collections;
 using HealthSystem;
 using Items.BaseClass;
+using Items.Enums;
 using Items.Stats;
 using UnityEngine;
 using UnityEngine.Pool;
@@ -16,6 +17,10 @@ namespace Items.ItemVariations
         [SerializeField] private int _projectilesPerAttack = 3;
 
         private ObjectPool<ChalkProjectile> _projectilePool;
+        private float _damageMultiplier = 1.25f;
+        private float _projectileSpeedMultiplier = 1.15f;
+        private float _cooldownMultiplier = 0.85f;
+        private int _projectileCountIncreasePerLevel = 1;
 
         private void Awake()
         {
@@ -28,6 +33,7 @@ namespace Items.ItemVariations
                 defaultCapacity: 10,
                 maxSize: 100
             );
+
         }
 
         private ChalkProjectile CreateProjectile()
@@ -104,23 +110,27 @@ namespace Items.ItemVariations
         {
             Level++;
 
-            _projectilesPerAttack++;
+            _projectilesPerAttack += _projectileCountIncreasePerLevel;
 
-            switch (Level)
-            {
-                case 2:
-                    Data.Damage *= 1.25f;
-                    _projectileSpeed *= 1.15f;
-                    break;
+            Data.Damage *= _damageMultiplier;
+            _projectileSpeed *= _projectileSpeedMultiplier;
+            Data.Cooldown *= _cooldownMultiplier;
 
-                case 3:
-                    Data.Damage *= 1.25f;
-                    Data.Cooldown *= 0.85f;
-                    _projectileLifetime *= 1.3f;
-                    break;
-            }
+            UpdateStatsValues();
+        }
 
-            base.LevelUp();
+        protected override void UpdateStatsValues()
+        {
+            ItemStats.SetStatCurrentValue(StatVariations.Damage, Data.Damage);
+            ItemStats.SetStatCurrentValue(StatVariations.AttackSpeed, Data.Cooldown);
+            ItemStats.SetStatCurrentValue(StatVariations.ProjectilesSpeed, _projectileSpeed);
+            ItemStats.SetStatCurrentValue(StatVariations.ProjectilesCount, _projectilesPerAttack);
+
+            ItemStats.SetStatNextValue(StatVariations.Damage, Data.Damage * _damageMultiplier);
+            ItemStats.SetStatNextValue(StatVariations.AttackSpeed, Data.Cooldown * _cooldownMultiplier);
+            ItemStats.SetStatNextValue(StatVariations.ProjectilesSpeed, _projectileSpeed * _projectileSpeedMultiplier);
+            ItemStats.SetStatNextValue(StatVariations.ProjectilesCount,
+                _projectilesPerAttack + _projectileCountIncreasePerLevel);
         }
     }
 }

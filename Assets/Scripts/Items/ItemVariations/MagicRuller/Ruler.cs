@@ -20,11 +20,17 @@ namespace Items.ItemVariations.MagicRuller
         private int _projectileCount = 1;
         private float _projectileSpread = 0f;
 
+        private float _damageMultiplierPerLevel = 1.25f;
+        private float _projectileSpeedIncreasePerLevel = 1.2f;
+        private float _cooldownReductionPerLevel = 0.85f;
+        private int _projectileCountIncreasePerLevel = 1;
+
         private void Awake()
         {
             _projectilePool = GetComponent<ItemProjectilePool>();
             _projectilePool.Initialize(_projectilePrefab, _initialPoolSize);
             _transform = transform;
+
         }
 
         private void Start()
@@ -95,27 +101,27 @@ namespace Items.ItemVariations.MagicRuller
         {
             Level++;
 
-            switch (Level)
-            {
-                case 2:
-                    _damageMultiplier = 1.25f;
-                    _projectileSpeed *= 1.2f;
-                    break;
+            _damageMultiplier *= _damageMultiplierPerLevel;
+            _projectileSpeed *= _projectileSpeedIncreasePerLevel;
+            Data.Cooldown *= _cooldownReductionPerLevel;
+            _projectileCount += _projectileCountIncreasePerLevel;
 
-                case 3:
-                    _damageMultiplier = 1.5f;
-                    Data.Cooldown *= 0.85f;
-                    _projectileCount = 2;
-                    _projectileSpread = 15f;
-                    break;
-            }
+            UpdateStatsValues();
+        }
 
-            base.LevelUp();
+        protected override void UpdateStatsValues()
+        {
+            ItemStats.SetStatCurrentValue(StatVariations.AttackSpeed, Data.Cooldown);
+            ItemStats.SetStatCurrentValue(StatVariations.Damage, _damageMultiplier);
+            ItemStats.SetStatCurrentValue(StatVariations.ProjectilesCount, _projectileCount);
+            ItemStats.SetStatCurrentValue(StatVariations.ProjectilesSpeed, _projectileSpeed);
 
-            if (Level + 1 == 3)
-                ItemStats.SetStatStep(StatVariations.ProjectilesCount, 1);
-            else
-                ItemStats.SetStatStep(StatVariations.ProjectilesCount, 0);
+            ItemStats.SetStatNextValue(StatVariations.AttackSpeed, Data.Cooldown * _cooldownReductionPerLevel);
+            ItemStats.SetStatNextValue(StatVariations.ProjectilesSpeed,
+                _projectileSpeed * _projectileSpeedIncreasePerLevel);
+            ItemStats.SetStatNextValue(StatVariations.ProjectilesCount,
+                _projectileCount + _projectileCountIncreasePerLevel);
+            ItemStats.SetStatNextValue(StatVariations.Damage, _damageMultiplier * _damageMultiplierPerLevel);
         }
     }
 }

@@ -23,11 +23,17 @@ namespace Items.ItemVariations.BeautiZone
         private ItemProjectilePool _projectilePool;
         private Transform _transform;
 
+        private float _cooldownReductionPerLevel = 0.85f;
+        private float _damageMultiplierPerLevel = 1.25f;
+        private float _radiusMultiplierPerLevel = 1.2f;
+        private float _durationMultiplierPerLevel = 1.2f;
+
         private void Awake()
         {
             _projectilePool = GetComponent<ItemProjectilePool>();
             _projectilePool.Initialize(_beautyZoneProjectilePrefab, _initialPoolSize);
             _transform = transform;
+
         }
 
         protected override void PerformAttack()
@@ -70,24 +76,25 @@ namespace Items.ItemVariations.BeautiZone
         {
             Level++;
 
-            switch (Level)
-            {
-                case 2:
-                    _damageMultiplier = 1.3f;
-                    _radiusMultiplier = 1.2f;
-                    _durationMultiplier = 1.2f;
-                    Data.Cooldown *= 0.9f;
-                    break;
+            _damageMultiplier *= _damageMultiplierPerLevel;
+            _radiusMultiplier *= _radiusMultiplierPerLevel;
+            _durationMultiplier *= _durationMultiplierPerLevel;
+            Data.Cooldown *= _cooldownReductionPerLevel;
 
-                case 3:
-                    _damageMultiplier = 1.6f;
-                    _radiusMultiplier = 1.4f;
-                    _durationMultiplier = 1.4f;
-                    Data.Cooldown *= 0.9f;
-                    break;
-            }
+            UpdateStatsValues();
+        }
 
-            base.LevelUp();
+        protected override void UpdateStatsValues()
+        {
+            ItemStats.SetStatCurrentValue(StatVariations.AttackSpeed, Data.Cooldown);
+            ItemStats.SetStatCurrentValue(StatVariations.Duration, _durationMultiplier);
+            ItemStats.SetStatCurrentValue(StatVariations.Radius, _radiusMultiplier);
+            ItemStats.SetStatCurrentValue(StatVariations.Damage, _damageMultiplier);
+
+            ItemStats.SetStatNextValue(StatVariations.AttackSpeed, Data.Cooldown * _cooldownReductionPerLevel);
+            ItemStats.SetStatNextValue(StatVariations.Duration, _durationMultiplier * _durationMultiplierPerLevel);
+            ItemStats.SetStatNextValue(StatVariations.Radius, _radiusMultiplier * _radiusMultiplierPerLevel);
+            ItemStats.SetStatNextValue(StatVariations.Damage, _damageMultiplier * _damageMultiplierPerLevel);
         }
     }
 }

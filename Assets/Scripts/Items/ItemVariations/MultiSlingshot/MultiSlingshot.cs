@@ -1,4 +1,7 @@
-﻿using Items.BaseClass;
+﻿using System;
+using CharacterLogic.InputHandler;
+using Items.BaseClass;
+using Items.Enums;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -27,6 +30,9 @@ namespace Items.ItemVariations.MultiSlingshot
         private Vector2 _lastAttackDirection = Vector2.right;
         private CharacterLogic.InputHandler.CharacterMovementHandler _characterMovementHandler;
         private float _damageMultiplier = 1f;
+        private float _damageIncreasePerLevel = 1.25f;
+        private float _cooldownReductionPerLevel = 0.85f;
+        private float _projectileSpeedIncreasePerLevel = 1.2f;
 
         private void Awake()
         {
@@ -40,13 +46,16 @@ namespace Items.ItemVariations.MultiSlingshot
                 maxSize: _poolMaxSize
             );
 
-            _characterMovementHandler = FindObjectOfType<CharacterLogic.InputHandler.CharacterMovementHandler>();
-            if (_characterMovementHandler != null)
-            {
-                SubscribeToMovementEvents();
-            }
-
             _projectileSpeed = _baseProjectileSpeed;
+
+        }
+
+        public void SetMovementHandler(CharacterMovementHandler characterMovementHandler)
+        {
+            _characterMovementHandler = characterMovementHandler ??
+                                        throw new ArgumentNullException(nameof(characterMovementHandler));
+
+            SubscribeToMovementEvents();
         }
 
         private MultiSlingshotItemProjectile CreateProjectile()
@@ -78,6 +87,8 @@ namespace Items.ItemVariations.MultiSlingshot
         {
             _characterMovementHandler.MovingLeft += OnMovingLeft;
             _characterMovementHandler.MovingRight += OnMovingRight;
+            _characterMovementHandler.MovingDown += OnMouseDown;
+            _characterMovementHandler.MovingUp += OnMovingUp;
         }
 
         private void UnsubscribeFromMovementEvents()
@@ -86,6 +97,8 @@ namespace Items.ItemVariations.MultiSlingshot
             {
                 _characterMovementHandler.MovingLeft -= OnMovingLeft;
                 _characterMovementHandler.MovingRight -= OnMovingRight;
+                _characterMovementHandler.MovingDown -= OnMouseDown;
+                _characterMovementHandler.MovingUp -= OnMovingUp;
             }
         }
 
@@ -97,6 +110,16 @@ namespace Items.ItemVariations.MultiSlingshot
         private void OnMovingRight()
         {
             _lastAttackDirection = Vector2.right;
+        }
+
+        private void OnMovingUp()
+        {
+            _lastAttackDirection = Vector2.up;
+        }
+
+        private void OnMouseDown()
+        {
+            _lastAttackDirection = Vector2.down;
         }
 
         protected override void PerformAttack()
@@ -162,11 +185,27 @@ namespace Items.ItemVariations.MultiSlingshot
             Level++;
 
             _projectilesPerShot++;
-            _damageMultiplier *= 1.25f;
-            Data.Cooldown *= 0.85f;
-            _projectileSpeed *= 1.2f;
+            _damageMultiplier *= _damageIncreasePerLevel;
+            Data.Cooldown *= _cooldownReductionPerLevel;
+            _projectileSpeed *= _projectileSpeedIncreasePerLevel;
 
-            base.LevelUp();
+            //base.LevelUp();
+
+            UpdateStatsValues();
+        }
+
+        protected override void UpdateStatsValues()
+        {
+            ItemStats.SetStatCurrentValue(StatVariations.Damage, _damageMultiplier);
+            ItemStats.SetStatCurrentValue(StatVariations.AttackSpeed, Data.Cooldown);
+            ItemStats.SetStatCurrentValue(StatVariations.ProjectilesCount, _projectilesPerShot);
+            ItemStats.SetStatCurrentValue(StatVariations.ProjectilesSpeed, _projectileSpeed);
+
+            ItemStats.SetStatNextValue(StatVariations.Damage, _damageMultiplier * _damageIncreasePerLevel);
+            ItemStats.SetStatNextValue(StatVariations.AttackSpeed, Data.Cooldown * _cooldownReductionPerLevel);
+            ItemStats.SetStatNextValue(StatVariations.ProjectilesCount, _projectilesPerShot++);
+            ItemStats.SetStatNextValue(StatVariations.ProjectilesSpeed,
+                _projectileSpeed * _projectileSpeedIncreasePerLevel);
         }
 
         private void OnDisable()

@@ -6,10 +6,9 @@ namespace Items.ItemVariations.Gum
 {
     public class GumProjectile : ItemProjectile
     {
+        private readonly float _deactivationTimer = 3f;
         private Vector2 _direction;
         private float _speed;
-        private Transform _transform;
-        private float _deactivationTimer = 5f;
         private float _currentTimer;
 
         public event Action<GumProjectile> Hit;
@@ -17,7 +16,6 @@ namespace Items.ItemVariations.Gum
         protected override void Awake()
         {
             base.Awake();
-            _transform = transform;
         }
 
         private void OnEnable()
@@ -31,7 +29,7 @@ namespace Items.ItemVariations.Gum
             _direction = direction.normalized;
 
             float angle = Mathf.Atan2(_direction.y, _direction.x) * Mathf.Rad2Deg;
-            _transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+            Transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
         }
 
         public void SetSpeed(float speed)
@@ -41,7 +39,7 @@ namespace Items.ItemVariations.Gum
 
         private void Update()
         {
-            _transform.Translate(_direction * _speed * Time.deltaTime, Space.World);
+            Transform.Translate(_direction * _speed * Time.deltaTime, Space.World);
 
             _currentTimer += Time.deltaTime;
 
@@ -53,9 +51,8 @@ namespace Items.ItemVariations.Gum
         {
             if (collision.TryGetComponent(out IDamageable damageable))
             {
-                if (!HitEnemies.Contains(damageable))
+                if (HitEnemies.Add(damageable))
                 {
-                    HitEnemies.Add(damageable);
                     damageable.TakeDamage(Damage);
                 }
             }

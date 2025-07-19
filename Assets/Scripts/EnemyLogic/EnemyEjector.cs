@@ -18,12 +18,14 @@ namespace EnemyLogic
         private int _moneyDropChancePerProcent;
         private ExpPointPool _expPointPool;
         private ExpPointData _expPointData;
+        private KilledEnemyCounter _killedEnemyCounter;
 
         [Inject]
-        public void Construct(ExpPointPool expPointPool, MoneyPool moneyPool)
+        public void Construct(ExpPointPool expPointPool, MoneyPool moneyPool, KilledEnemyCounter killedEnemyCounter)
         {
             _expPointPool = expPointPool;
             _moneyPool = moneyPool;
+            _killedEnemyCounter = killedEnemyCounter;
         }
 
         public void Initialize(ExpPointData expPointData, int money, int moneyDropChancePerProcent)
@@ -37,8 +39,8 @@ namespace EnemyLogic
         {
             ExpPoint point = _expPointPool.Get(_expPointData);
             point.transform.position = (transform.position + _tolerance) - _offset;
-
-
+            _killedEnemyCounter.AddKilledEnemy();
+            
             if (Random.Range(0f, _maxProcent) <= _moneyDropChancePerProcent)
             {
                 Money money = _moneyPool.Get(_money);

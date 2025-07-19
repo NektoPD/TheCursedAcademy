@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using CharacterLogic.Data;
 using CharacterLogic.Spawner;
+using EnemyLogic;
 using Installers;
 using Items.ItemHolder;
 using PlayerPerksController;
@@ -23,6 +24,7 @@ namespace CharacterLogic.Initializer
         private CharacterFabric _fabric;
         private ItemsHolder _itemsHolder;
         private ItemApplicator _itemApplicator;
+        private KilledEnemyCounter _killedEnemyCounter;
 
         public event Action<Character> CharacterCreated;
 
@@ -30,12 +32,13 @@ namespace CharacterLogic.Initializer
 
         [Inject]
         private void Construct(PerkController perkController, CharacterFabric fabric, ItemsHolder itemsHolder,
-            ItemApplicator itemApplicator)
+            ItemApplicator itemApplicator, KilledEnemyCounter enemyCounter)
         {
             _perkController = perkController;
             _fabric = fabric;
             _itemsHolder = itemsHolder;
             _itemApplicator = itemApplicator;
+            _killedEnemyCounter = enemyCounter;
         }
 
         private void Start()
@@ -53,7 +56,8 @@ namespace CharacterLogic.Initializer
             Dictionary<PerkType, float> finalPerkBonuses = _perkController.GetFinalPerkValues();
 
             Character characterToSpawn = _fabric.Create();
-            characterToSpawn.Construct(chosenData, finalPerkBonuses, _itemsHolder, _itemApplicator);
+            characterToSpawn.Construct(chosenData, finalPerkBonuses, _itemsHolder, _itemApplicator,
+                _killedEnemyCounter);
             _characterSpawner.Spawn(characterToSpawn);
             PlayerTransform = characterToSpawn.transform;
             CharacterCreated?.Invoke(characterToSpawn);

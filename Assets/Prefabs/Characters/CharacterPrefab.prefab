@@ -292,6 +292,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _spriteRenderer: {fileID: 1146699642033185192}
+  _pulseSpeed: 1
+  _pulseIntensity: 1
+  _targetColor: {r: 1, g: 0, b: 0, a: 0.7137255}
 --- !u!114 &3662220516798141517
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -819,7 +822,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 0
-  m_Spacing: 8.21875
+  m_Spacing: 11.25
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
@@ -1061,7 +1064,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 0
-  m_Spacing: 8.21875
+  m_Spacing: 11.25
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0

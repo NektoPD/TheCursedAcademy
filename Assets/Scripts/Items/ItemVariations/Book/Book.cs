@@ -17,20 +17,23 @@ namespace Items.ItemVariations.Book
         [SerializeField] private int _projectileCount = 2;
         [SerializeField] private float _spreadAngle = 30f;
         [SerializeField] private int _initialPoolSize = 6;
-
         [SerializeField] private float _damageMultiplier = 1f;
-        [SerializeField] private float _projectileSpeedMultiplier = 1f;
-        [SerializeField] private float _projectileLifetimeMultiplier = 1f;
         [SerializeField] private float _projectileSpawnInterval = 0.1f;
 
         private ItemProjectilePool _projectilePool;
         private Transform _transform;
+        private float _damageIncreasePerLevel = 1.25f;
+        private float _projectileSpeedIncreasePerLevel = 1.1f;
+        private float _projectileLifetimeIncreasePerLevel = 1.1f;
+        private int _projectileCountIncreasePerLevel = 1;
+        private float _cooldownReductionPerLevel = 0.85f;
 
         private void Awake()
         {
             _projectilePool = GetComponent<ItemProjectilePool>();
             _projectilePool.Initialize(_bookProjectilePrefab, _initialPoolSize);
             _transform = transform;
+            
         }
 
         protected override void PerformAttack()
@@ -52,16 +55,17 @@ namespace Items.ItemVariations.Book
 
                 BookProjectile projectile =
                     _projectilePool.GetFromPool<BookProjectile>(spawnPosition, Quaternion.identity);
+
                 projectile.Initialize(Data.Damage * _damageMultiplier, this);
                 projectile.ClearHitEnemies();
 
                 Vector2 direction = Quaternion.Euler(0, 0, currentAngle) * Vector2.up;
                 if (projectile.Rigidbody2D != null)
                 {
-                    projectile.Rigidbody2D.velocity = direction * (_projectileSpeed * _projectileSpeedMultiplier);
+                    projectile.Rigidbody2D.velocity = direction * (_projectileSpeed);
                 }
 
-                StartCoroutine(EnableProjectile(projectile, _projectileLifetime * _projectileLifetimeMultiplier));
+                StartCoroutine(EnableProjectile(projectile, _projectileLifetime));
 
                 yield return interval;
             }
@@ -71,6 +75,9 @@ namespace Items.ItemVariations.Book
         {
             float timer = 0f;
 
+            Transform originalParent = projectile.transform.parent;
+
+            projectile.transform.SetParent(null);
             projectile.gameObject.SetActive(true);
 
             while (timer < lifetime && projectile && projectile.gameObject.activeSelf)
@@ -81,6 +88,7 @@ namespace Items.ItemVariations.Book
 
             if (projectile && projectile.gameObject.activeSelf)
             {
+                projectile.transform.SetParent(originalParent);
                 _projectilePool.ReturnToPool(projectile);
             }
         }
@@ -89,26 +97,28 @@ namespace Items.ItemVariations.Book
         {
             Level++;
 
-            switch (Level)
-            {
-                case 2:
-                    _damageMultiplier = 1.3f;
-                    _projectileSpeedMultiplier = 1.1f;
-                    _projectileLifetimeMultiplier = 1.2f;
-                    _projectileCount = 3;
-                    Data.Cooldown *= 0.9f;
-                    break;
+            _damageMultiplier *= _damageIncreasePerLevel;
+            _projectileSpeed *= _projectileSpeedIncreasePerLevel;
+            _projectileLifetime *= _projectileLifetimeIncreasePerLevel;
+            _projectileCount += _projectileCountIncreasePerLevel;
+            Data.Cooldown *= _cooldownReductionPerLevel;
+            
+            UpdateStatsValues();
+        }
 
-                case 3:
-                    _damageMultiplier = 1.6f;
-                    _projectileSpeedMultiplier = 1.2f;
-                    _projectileLifetimeMultiplier = 1.4f;
-                    _projectileCount = 4;
-                    Data.Cooldown *= 0.9f;
-                    break;
-            }
+        protected override void UpdateStatsValues()
+        {
+            ItemStats.SetStatCurrentValue(StatVariations.Damage, _damageMultiplier);
+            ItemStats.SetStatCurrentValue(StatVariations.AttackSpeed, Data.Cooldown);
+            ItemStats.SetStatCurrentValue(StatVariations.ProjectilesSpeed, _projectileSpeed);
+            ItemStats.SetStatCurrentValue(StatVariations.ProjectileLifetime, _projectileLifetime);
+            ItemStats.SetStatCurrentValue(StatVariations.ProjectilesCount, _projectileCount);
 
-            base.LevelUp();
+            ItemStats.SetStatNextValue(StatVariations.Damage, _damageMultiplier * _damageIncreasePerLevel);
+            ItemStats.SetStatNextValue(StatVariations.AttackSpeed, Data.Cooldown * _cooldownReductionPerLevel);
+            ItemStats.SetStatNextValue(StatVariations.ProjectilesSpeed, _projectileSpeed * _projectileSpeedIncreasePerLevel);
+            ItemStats.SetStatNextValue(StatVariations.ProjectileLifetime, _projectileLifetime * _projectileLifetimeIncreasePerLevel);
+            ItemStats.SetStatNextValue(StatVariations.ProjectilesCount, _projectileCount + _projectileCountIncreasePerLevel);
         }
     }
 }

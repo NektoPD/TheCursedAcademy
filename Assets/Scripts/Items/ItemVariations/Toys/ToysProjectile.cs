@@ -7,15 +7,15 @@ namespace Items.ItemVariations.Toys
     public class ToysProjectile : ItemProjectile
     {
         [SerializeField] private float _rotationSpeed = 360f;
-        
+
         public override void Initialize(float damage, Item owner)
         {
-            Initialize(damage, owner);
+            base.Initialize(damage, owner);
         }
 
         private void Update()
         {
-            transform.Rotate(0, 0, _rotationSpeed * Time.deltaTime);
+            Transform.Rotate(0, 0, _rotationSpeed * Time.deltaTime);
         }
 
         protected override void OnTriggerEnter2D(Collider2D collision)

@@ -1,5 +1,6 @@
 using System.Collections;
 using Items.BaseClass;
+using Items.Enums;
 using Items.Pools;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -18,6 +19,10 @@ namespace Items.ItemVariations
         private int _projectileCount = 1;
         private float _damageMultiplier = 1f;
         private ItemProjectilePool _projectilePool;
+
+        private float _damageIncreasePerLevel = 1.25f;
+        private float _detectionRadiusIncreasePerLevel = 1.2f;
+        private float _cooldownReductionPerLevel = 0.85f;
 
         private void Awake()
         {
@@ -72,23 +77,22 @@ namespace Items.ItemVariations
         {
             Level++;
 
-            _projectileCount++;
+            _damageMultiplier *= _damageIncreasePerLevel;
+            _detectionRadius *= _detectionRadiusIncreasePerLevel;
+            Data.Cooldown *= _cooldownReductionPerLevel;
 
-            switch (Level)
-            {
-                case 2:
-                    _damageMultiplier = 1.25f;
-                    _detectionRadius *= 1.2f;
-                    break;
+            UpdateStatsValues();
+        }
 
-                case 3:
-                    _damageMultiplier = 1.5f;
-                    Data.Cooldown *= 0.85f;
-                    _detectionRadius *= 1.2f;
-                    break;
-            }
+        protected override void UpdateStatsValues()
+        {
+            ItemStats.SetStatCurrentValue(StatVariations.Damage, _damageMultiplier);
+            ItemStats.SetStatCurrentValue(StatVariations.AttackSpeed, Data.Cooldown);
+            ItemStats.SetStatCurrentValue(StatVariations.Radius, _detectionRadius);
 
-            base.LevelUp();
+            ItemStats.SetStatNextValue(StatVariations.Damage, _damageMultiplier * _damageIncreasePerLevel);
+            ItemStats.SetStatNextValue(StatVariations.AttackSpeed, Data.Cooldown * _cooldownReductionPerLevel);
+            ItemStats.SetStatNextValue(StatVariations.Radius, _detectionRadius * _detectionRadiusIncreasePerLevel);
         }
 
         private IEnumerator EnableProjectile(ItemProjectile projectile, float lifetime)

@@ -1,5 +1,6 @@
 ﻿using CharacterLogic;
 using CharacterLogic.Initializer;
+using EnemyLogic;
 using UnityEngine;
 using Zenject;
 
@@ -13,6 +14,10 @@ namespace Installers
         {
             Container.BindFactory<Character, CharacterFabric>()
                      .FromComponentInNewPrefab(_characterPrefab);
+            
+            Container.Bind<KilledEnemyCounter>()
+                .AsSingle()
+                .NonLazy();
         }
     }
 }
