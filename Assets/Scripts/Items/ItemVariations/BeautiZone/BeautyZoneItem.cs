@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using CharacterLogic;
 using Items.BaseClass;
 using Items.Enums;
 using Items.Pools;
@@ -33,7 +34,6 @@ namespace Items.ItemVariations.BeautiZone
             _projectilePool = GetComponent<ItemProjectilePool>();
             _projectilePool.Initialize(_beautyZoneProjectilePrefab, _initialPoolSize);
             _transform = transform;
-
         }
 
         protected override void PerformAttack()
@@ -55,6 +55,7 @@ namespace Items.ItemVariations.BeautiZone
             zoneProjectile.SetDuration(_zoneDuration * _durationMultiplier);
             zoneProjectile.Activate();
 
+            CharacterSoundController.EnableSoundByType(SoundType.Zone);
             StartCoroutine(EnableProjectile(zoneProjectile, _zoneDuration * _durationMultiplier));
 
             yield return null;
@@ -63,7 +64,7 @@ namespace Items.ItemVariations.BeautiZone
         private IEnumerator EnableProjectile(ItemProjectile projectile, float lifetime)
         {
             projectile.gameObject.SetActive(true);
-
+           
             yield return new WaitForSeconds(lifetime + _projectileReturnDelay);
 
             if (projectile && projectile.gameObject.activeSelf)
@@ -86,15 +87,16 @@ namespace Items.ItemVariations.BeautiZone
 
         protected override void UpdateStatsValues()
         {
-            ItemStats.SetStatCurrentValue(StatVariations.AttackSpeed, Data.Cooldown);
-            ItemStats.SetStatCurrentValue(StatVariations.Duration, _durationMultiplier);
-            ItemStats.SetStatCurrentValue(StatVariations.Radius, _radiusMultiplier);
-            ItemStats.SetStatCurrentValue(StatVariations.Damage, _damageMultiplier);
+            ItemStats.SetStatCurrentValue(Enums.StatVariations.AttackSpeed, Data.Cooldown);
+            ItemStats.SetStatCurrentValue(Enums.StatVariations.Duration, _durationMultiplier);
+            ItemStats.SetStatCurrentValue(Enums.StatVariations.Radius, _radiusMultiplier);
+            ItemStats.SetStatCurrentValue(Enums.StatVariations.Damage, _damageMultiplier);
 
-            ItemStats.SetStatNextValue(StatVariations.AttackSpeed, Data.Cooldown * _cooldownReductionPerLevel);
-            ItemStats.SetStatNextValue(StatVariations.Duration, _durationMultiplier * _durationMultiplierPerLevel);
-            ItemStats.SetStatNextValue(StatVariations.Radius, _radiusMultiplier * _radiusMultiplierPerLevel);
-            ItemStats.SetStatNextValue(StatVariations.Damage, _damageMultiplier * _damageMultiplierPerLevel);
+            ItemStats.SetStatNextValue(Enums.StatVariations.AttackSpeed, Data.Cooldown * _cooldownReductionPerLevel);
+            ItemStats.SetStatNextValue(Enums.StatVariations.Duration,
+                _durationMultiplier * _durationMultiplierPerLevel);
+            ItemStats.SetStatNextValue(Enums.StatVariations.Radius, _radiusMultiplier * _radiusMultiplierPerLevel);
+            ItemStats.SetStatNextValue(Enums.StatVariations.Damage, _damageMultiplier * _damageMultiplierPerLevel);
         }
     }
 }

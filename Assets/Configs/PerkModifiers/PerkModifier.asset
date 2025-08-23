@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae1ec3b5aa46cdf49bcc55dca2b49a90, type: 3}
   m_Name: PerkModifier
   m_EditorClassIdentifier: 
-  _powerModifier: 0
-  _armorModifier: 0
-  _maxHpModifier: 0
-  _hpRegenerationModifier: 0
-  _attackCooldownModifier: 0
-  _speedModifier: 0
+  _powerModifier: 5
+  _armorModifier: 5
+  _maxHpModifier: 10
+  _hpRegenerationModifier: 2
+  _attackCooldownModifier: 0.5
+  _speedModifier: 0.3

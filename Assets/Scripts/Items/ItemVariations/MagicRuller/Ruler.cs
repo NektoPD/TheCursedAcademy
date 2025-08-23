@@ -111,17 +111,17 @@ namespace Items.ItemVariations.MagicRuller
 
         protected override void UpdateStatsValues()
         {
-            ItemStats.SetStatCurrentValue(StatVariations.AttackSpeed, Data.Cooldown);
-            ItemStats.SetStatCurrentValue(StatVariations.Damage, _damageMultiplier);
-            ItemStats.SetStatCurrentValue(StatVariations.ProjectilesCount, _projectileCount);
-            ItemStats.SetStatCurrentValue(StatVariations.ProjectilesSpeed, _projectileSpeed);
+            ItemStats.SetStatCurrentValue(Enums.StatVariations.AttackSpeed, Data.Cooldown);
+            ItemStats.SetStatCurrentValue(Enums.StatVariations.Damage, _damageMultiplier);
+            ItemStats.SetStatCurrentValue(Enums.StatVariations.ProjectilesCount, _projectileCount);
+            ItemStats.SetStatCurrentValue(Enums.StatVariations.ProjectilesSpeed, _projectileSpeed);
 
-            ItemStats.SetStatNextValue(StatVariations.AttackSpeed, Data.Cooldown * _cooldownReductionPerLevel);
-            ItemStats.SetStatNextValue(StatVariations.ProjectilesSpeed,
+            ItemStats.SetStatNextValue(Enums.StatVariations.AttackSpeed, Data.Cooldown * _cooldownReductionPerLevel);
+            ItemStats.SetStatNextValue(Enums.StatVariations.ProjectilesSpeed,
                 _projectileSpeed * _projectileSpeedIncreasePerLevel);
-            ItemStats.SetStatNextValue(StatVariations.ProjectilesCount,
+            ItemStats.SetStatNextValue(Enums.StatVariations.ProjectilesCount,
                 _projectileCount + _projectileCountIncreasePerLevel);
-            ItemStats.SetStatNextValue(StatVariations.Damage, _damageMultiplier * _damageMultiplierPerLevel);
+            ItemStats.SetStatNextValue(Enums.StatVariations.Damage, _damageMultiplier * _damageMultiplierPerLevel);
         }
     }
 }

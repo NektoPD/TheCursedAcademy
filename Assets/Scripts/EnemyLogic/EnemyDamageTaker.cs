@@ -2,6 +2,7 @@ using EnemyLogic.HealthBars;
 using HealthSystem;
 using System.Collections;
 using UnityEngine;
+using Zenject;
 
 namespace EnemyLogic
 {
@@ -19,12 +20,20 @@ namespace EnemyLogic
         private Coroutine _coroutine;
         private float _immuneTime;
 
+        private AudioSource _deathSound;
+
         private bool _isDied = false;
         private bool _inImmune = false;
 
         public Health Health => _health;
 
         public bool IsDied => _isDied;
+
+        [Inject]
+        public void Construct(AudioSource deathSound)
+        {
+            _deathSound = deathSound;
+        }
 
         private void Awake()
         {
@@ -75,6 +84,10 @@ namespace EnemyLogic
         private void Die()
         {
             _isDied = true;
+
+            if (_deathSound != null)
+                _deathSound.Play();
+
             _ejector.Eject();
             _enemyAnimator.SetDeadBool(true);
         }

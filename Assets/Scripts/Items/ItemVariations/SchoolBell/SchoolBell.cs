@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using CharacterLogic;
 using Items.BaseClass;
 using Items.Enums;
 using Items.Pools;
@@ -60,20 +61,18 @@ namespace Items.ItemVariations.SchoolBell
 
             Data.Cooldown *= _cooldownReductionPerLevel;
 
-            //base.LevelUp();
-
             UpdateStatsValues();
         }
 
         protected override void UpdateStatsValues()
         {
-            ItemStats.SetStatCurrentValue(StatVariations.Radius, _radiusMultiplier);
-            ItemStats.SetStatCurrentValue(StatVariations.AttackSpeed, Data.Cooldown);
-            ItemStats.SetStatCurrentValue(StatVariations.Duration, _effectDurationMultiplier);
+            ItemStats.SetStatCurrentValue(Enums.StatVariations.Radius, _radiusMultiplier);
+            ItemStats.SetStatCurrentValue(Enums.StatVariations.AttackSpeed, Data.Cooldown);
+            ItemStats.SetStatCurrentValue(Enums.StatVariations.Duration, _effectDurationMultiplier);
 
-            ItemStats.SetStatNextValue(StatVariations.Radius, _radiusMultiplier + _radiusIncreasePerLevel);
-            ItemStats.SetStatNextValue(StatVariations.AttackSpeed, Data.Cooldown * _cooldownReductionPerLevel);
-            ItemStats.SetStatNextValue(StatVariations.Duration,
+            ItemStats.SetStatNextValue(Enums.StatVariations.Radius, _radiusMultiplier + _radiusIncreasePerLevel);
+            ItemStats.SetStatNextValue(Enums.StatVariations.AttackSpeed, Data.Cooldown * _cooldownReductionPerLevel);
+            ItemStats.SetStatNextValue(Enums.StatVariations.Duration,
                 _effectDurationMultiplier + _effectDurationIncreasePerLevel);
         }
 
@@ -82,6 +81,7 @@ namespace Items.ItemVariations.SchoolBell
             WaitForSeconds interval = new WaitForSeconds(lifetime);
 
             projectile.gameObject.SetActive(true);
+            CharacterSoundController.EnableSoundByType(SoundType.Bell);
 
             yield return interval;
 

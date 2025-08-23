@@ -43,6 +43,7 @@ namespace CharacterLogic
         private CharacterSessionWallet _characterSessionWallet;
         private ItemApplicator _itemApplicator;
         private KilledEnemyCounter _killedEnemyCounter;
+        private CharacterSoundController _characterSoundController;
 
         private float _attackPower;
         private float _armor;
@@ -64,10 +65,12 @@ namespace CharacterLogic
         public bool IsDied => _isDied;
 
         public void Construct(CharacterData characterData, Dictionary<PerkType, float> perkBonuses,
-            ItemsHolder itemsHolder, ItemApplicator itemApplicator, KilledEnemyCounter killedEnemyCounter)
+            ItemsHolder itemsHolder, ItemApplicator itemApplicator, KilledEnemyCounter killedEnemyCounter,
+            CharacterSoundController characterSoundController)
         {
             _itemsHolder = itemsHolder;
-
+            _characterSoundController = characterSoundController;
+            
             _collisionHandler = GetComponent<CharacterCollisionHandler>();
 
             InitializeCharacterComponents();
@@ -93,7 +96,7 @@ namespace CharacterLogic
             _killedEnemyCounter = killedEnemyCounter;
 
             _itemApplicator.ItemSelected += OnItemSelected;
-            
+
             _killedEnemyCounter.ResetCounter();
         }
 
@@ -150,6 +153,7 @@ namespace CharacterLogic
         {
             _isDied = true;
 
+            _characterSoundController.EnableSoundByType(SoundType.GameOver);
             DateTime endGameTime = DateTime.Now;
             TimeSpan gameSession = endGameTime - _gameStart;
 
@@ -201,8 +205,10 @@ namespace CharacterLogic
                         multiSlingshot.SetMovementHandler(_movementHandler);
                     }
 
+                    Debug.Log(_characterSoundController);
+                    
                     newItem.transform.position = _transform.position;
-                    newItem.Initialize(_movementHandler);
+                    newItem.Initialize(_movementHandler, _characterSoundController);
 
                     _inventory.AddItem(newItem);
                 }
@@ -213,6 +219,7 @@ namespace CharacterLogic
         {
             UpdateExperienceView(_characterLevelController.CurrentExp);
 
+            _characterSoundController.EnableSoundByType(SoundType.LevelUp);
             LevelUp?.Invoke();
         }
 
@@ -238,6 +245,7 @@ namespace CharacterLogic
 
             CameraShake.Instance.ShakeCamera(2, 5, 0.3f);
             _health.TakeDamage(damage);
+            _characterSoundController.EnableSoundByType(SoundType.Hit);
         }
 
         private void TakeHeal(int value)
@@ -246,11 +254,13 @@ namespace CharacterLogic
                 return;
 
             _health.TakeHeal(value);
+            _characterSoundController.EnableSoundByType(SoundType.Heal);
         }
 
         public void Revive()
         {
             _health.TakeHeal(_hp);
+            _characterSoundController.EnableSoundByType(SoundType.Heal);
             UpdateHealthView(_hp);
         }
 
@@ -293,6 +303,19 @@ namespace CharacterLogic
             _attackCooldown = characterData.AttackRegenerationSpeed -
                               GetPerkBonus(perkBonuses, PerkType.AttackCooldown);
             _moveSpeed = characterData.MoveSpeed + GetPerkBonus(perkBonuses, PerkType.Speed);
+            
+            Debug.Log(characterData.AttackPower);
+            Debug.Log(GetPerkBonus(perkBonuses, PerkType.Power));
+            Debug.Log(characterData.Armor);
+            Debug.Log(GetPerkBonus(perkBonuses, PerkType.Armor));
+            Debug.Log(characterData.Hp);
+            Debug.Log(GetPerkBonus(perkBonuses, PerkType.MaxHp));
+            Debug.Log(characterData.HpRegenerationSpeed);
+            Debug.Log(GetPerkBonus(perkBonuses, PerkType.HpRegeneration));
+            Debug.Log(characterData.AttackRegenerationSpeed);
+            Debug.Log(GetPerkBonus(perkBonuses, PerkType.AttackCooldown));
+            Debug.Log(characterData.MoveSpeed);
+            Debug.Log(GetPerkBonus(perkBonuses, PerkType.Speed));
 
             OnItemSelected(characterData.StartItem.Data.ItemVariation);
             _health.SetMaxHealth(_hp);

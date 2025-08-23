@@ -1,4 +1,5 @@
 ﻿using System;
+using CharacterLogic;
 using CharacterLogic.InputHandler;
 using Items.BaseClass;
 using Items.Enums;
@@ -47,7 +48,6 @@ namespace Items.ItemVariations.MultiSlingshot
             );
 
             _projectileSpeed = _baseProjectileSpeed;
-
         }
 
         public void SetMovementHandler(CharacterMovementHandler characterMovementHandler)
@@ -148,6 +148,7 @@ namespace Items.ItemVariations.MultiSlingshot
                 MultiSlingshotItemProjectile projectile = _projectilePool.Get();
                 projectile.Initialize(Data.Damage * _damageMultiplier, this);
                 projectile.Launch(direction, _projectileSpeed, _projectileLifetime);
+                CharacterSoundController.EnableSoundByType(SoundType.Slingshot);
             }
         }
 
@@ -189,22 +190,20 @@ namespace Items.ItemVariations.MultiSlingshot
             Data.Cooldown *= _cooldownReductionPerLevel;
             _projectileSpeed *= _projectileSpeedIncreasePerLevel;
 
-            //base.LevelUp();
-
             UpdateStatsValues();
         }
 
         protected override void UpdateStatsValues()
         {
-            ItemStats.SetStatCurrentValue(StatVariations.Damage, _damageMultiplier);
-            ItemStats.SetStatCurrentValue(StatVariations.AttackSpeed, Data.Cooldown);
-            ItemStats.SetStatCurrentValue(StatVariations.ProjectilesCount, _projectilesPerShot);
-            ItemStats.SetStatCurrentValue(StatVariations.ProjectilesSpeed, _projectileSpeed);
+            ItemStats.SetStatCurrentValue(Enums.StatVariations.Damage, _damageMultiplier);
+            ItemStats.SetStatCurrentValue(Enums.StatVariations.AttackSpeed, Data.Cooldown);
+            ItemStats.SetStatCurrentValue(Enums.StatVariations.ProjectilesCount, _projectilesPerShot);
+            ItemStats.SetStatCurrentValue(Enums.StatVariations.ProjectilesSpeed, _projectileSpeed);
 
-            ItemStats.SetStatNextValue(StatVariations.Damage, _damageMultiplier * _damageIncreasePerLevel);
-            ItemStats.SetStatNextValue(StatVariations.AttackSpeed, Data.Cooldown * _cooldownReductionPerLevel);
-            ItemStats.SetStatNextValue(StatVariations.ProjectilesCount, _projectilesPerShot++);
-            ItemStats.SetStatNextValue(StatVariations.ProjectilesSpeed,
+            ItemStats.SetStatNextValue(Enums.StatVariations.Damage, _damageMultiplier * _damageIncreasePerLevel);
+            ItemStats.SetStatNextValue(Enums.StatVariations.AttackSpeed, Data.Cooldown * _cooldownReductionPerLevel);
+            ItemStats.SetStatNextValue(Enums.StatVariations.ProjectilesCount, _projectilesPerShot++);
+            ItemStats.SetStatNextValue(Enums.StatVariations.ProjectilesSpeed,
                 _projectileSpeed * _projectileSpeedIncreasePerLevel);
         }
 

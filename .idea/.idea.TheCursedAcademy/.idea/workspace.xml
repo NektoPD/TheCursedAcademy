@@ -5,85 +5,41 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2352e6f7-7a00-4256-b434-98f90d0b0896" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.TheCursedAcademy/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TheCursedAcademy/.idea/encodings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.TheCursedAcademy/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TheCursedAcademy/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Animations/PlayerAnimations/Girl1/CharacterAnimationController.controller" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Animations/PlayerAnimations/Girl1/CharacterAnimationController.controller" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Animations/PlayerAnimations/Girl1/Girl1OverrideController.overrideController" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Animations/PlayerAnimations/Girl1/Girl1OverrideController.overrideController" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Animations/ProjectileAnimations/Pen/PenProjectile.anim" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Animations/ProjectileAnimations/Pen/PenProjectile.anim" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Animations/ProjectileAnimations/Pen/PenProjectile.controller" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Animations/ProjectileAnimations/Pen/PenProjectile.controller" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Animations/PlayerAnimations/Girl2/Girl2OverrideController.overrideController" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Animations/PlayerAnimations/Girl2/Girl2OverrideController.overrideController" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Animations/PlayerAnimations/Girl3/Girl3Idle.anim" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Animations/PlayerAnimations/Girl3/Girl3Idle.anim" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Animations/PlayerAnimations/Girl3/Girl3OverrideController.overrideController" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Animations/PlayerAnimations/Girl3/Girl3OverrideController.overrideController" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Configs/CharacterConfigs/Girl1.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Configs/CharacterConfigs/Girl1.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Configs/ItemConfigs/Pen.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Configs/ItemConfigs/Pen.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Configs/ItemVisualData/BackbackVisualData.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Configs/ItemVisualData/BackbackVisualData.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Configs/ItemVisualData/BeautyZoneVisualData.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Configs/ItemVisualData/BeautyZoneVisualData.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Configs/ItemVisualData/BookVisualData.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Configs/ItemVisualData/BookVisualData.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Configs/ItemVisualData/CatsVisualData.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Configs/ItemVisualData/CatsVisualData.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Configs/ItemVisualData/ChalkVisualData.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Configs/ItemVisualData/ChalkVisualData.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Configs/ItemVisualData/GiantPenVisualData.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Configs/ItemVisualData/GiantPenVisualData.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Configs/ItemVisualData/GreatIdeaVisualData.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Configs/ItemVisualData/GreatIdeaVisualData.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Configs/ItemVisualData/GumVisualData.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Configs/ItemVisualData/GumVisualData.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Configs/ItemVisualData/MirorVisualData.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Configs/ItemVisualData/MirorVisualData.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Configs/ItemVisualData/ParfumeVisualData.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Configs/ItemVisualData/ParfumeVisualData.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Configs/ItemVisualData/RulerVisualData.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Configs/ItemVisualData/RulerVisualData.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Configs/ItemVisualData/SchoolBellVisualData.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Configs/ItemVisualData/SchoolBellVisualData.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Configs/ItemVisualData/ToysVisualData.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Configs/ItemVisualData/ToysVisualData.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Particles/Epic Toon FX/Prefabs/Combat/Sword/Slash/SwordSlashMini/SwordSlashMiniRed.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Particles/Epic Toon FX/Prefabs/Combat/Sword/Slash/SwordSlashMini/SwordSlashMiniRed.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Characters/CharacterPrefab.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Characters/CharacterPrefab.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Items/GumItem.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Items/GumItem.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Items/PenItem.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Items/PenItem.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Projectiles/GumProjectile.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Projectiles/GumProjectile.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Projectiles/PenProjectile.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Projectiles/PenProjectile.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Resources/DOTweenSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Resources/DOTweenSettings.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Configs/CharacterConfigs/Girl2.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Configs/CharacterConfigs/Girl2.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Configs/CharacterConfigs/Girl3.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Configs/CharacterConfigs/Girl3.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Configs/PerkModifiers/PerkModifier.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Configs/PerkModifiers/PerkModifier.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/BootScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/BootScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Menu.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Menu.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/TestGameScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/TestGameScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/AudioLogic/AudioSingleton.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/AudioLogic/AudioSingleton.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/CharacterLogic/Character.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CharacterLogic/Character.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CharacterLogic/CharacterSpriteHolder.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CharacterLogic/CharacterSpriteHolder.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/CharacterLogic/Initializer/CharacterInitializer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CharacterLogic/Initializer/CharacterInitializer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Data/EnemyData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Data/EnemyData.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/EnemyLogic/EnemyDamageTaker.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/EnemyLogic/EnemyDamageTaker.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/EnemyLogic/EnemyEjector.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/EnemyLogic/EnemyEjector.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/HealthSystem/Health.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/HealthSystem/Health.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/HealthSystem/IDamageable.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/HealthSystem/IDamageable.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Installers/CharacterInstaller.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Installers/CharacterInstaller.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/InventorySystem/CharacterInventory.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/InventorySystem/CharacterInventory.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Installers/EnemyInstaller.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Installers/EnemyInstaller.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/Backpack/BackpackItem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Items/Backpack/BackpackItem.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/BaseClass/Item.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Items/BaseClass/Item.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/Enums/StatVariations.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Items/Enums/StatVariations.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/ItemHolder/ItemsHolder.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Items/ItemHolder/ItemsHolder.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/BeautiZone/BeautyZoneItem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/BeautiZone/BeautyZoneItem.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/Book/Book.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/Book/Book.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/Cats/CatsItem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/Cats/CatsItem.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/Chalk/Chalk.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/Chalk/Chalk.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/GiantPen/GiantPen.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/GiantPen/GiantPen.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/GiantPen/PenProjectile.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/GiantPen/PenProjectile.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/GreatIdea/GreatIdea.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/GreatIdea/GreatIdea.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/Gum/Gum.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/Gum/Gum.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/Gum/GumProjectile.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/Gum/GumProjectile.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/MagicRuller/Ruler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/MagicRuller/Ruler.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/Mirror/Mirror.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/Mirror/Mirror.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/MultiSlingshot/MultiSlingshot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/MultiSlingshot/MultiSlingshot.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/Parfume/Parfume.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/Parfume/Parfume.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/SchoolBell/SchoolBell.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/SchoolBell/SchoolBell.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/Toys/Toys.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/Toys/Toys.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/Toys/ToysProjectile.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/Toys/ToysProjectile.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/Pools/ItemProjectilePool.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Items/Pools/ItemProjectilePool.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/Stats/ItemStats.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Items/Stats/ItemStats.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/Stats/Stat.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Items/Stats/Stat.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/StatisticsSystem/ItemStatistics.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/StatisticsSystem/ItemStatistics.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/StatisticsSystem/StatisticsApplicator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/StatisticsSystem/StatisticsApplicator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/Applicators/ItemApplicator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/Applicators/ItemApplicator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Textures/Projectiles/warrior_skill4_frame1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Textures/Projectiles/warrior_skill4_frame1.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Textures/Projectiles/warrior_skill4_frame2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Textures/Projectiles/warrior_skill4_frame2.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Textures/Projectiles/warrior_skill4_frame3.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Textures/Projectiles/warrior_skill4_frame3.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Textures/Projectiles/warrior_skill4_frame4.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Textures/Projectiles/warrior_skill4_frame4.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Textures/Projectiles/warrior_skill4_frame5.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Textures/Projectiles/warrior_skill4_frame5.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Textures/Projectiles/warrior_skill4_frame6.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Textures/Projectiles/warrior_skill4_frame6.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Textures/Projectiles/warrior_skill4_frame7.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Textures/Projectiles/warrior_skill4_frame7.png.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PlayerPerksController/PerkController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/PlayerPerksController/PerkController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/WalletSystem/Wallet.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/WalletSystem/Wallet.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Sounds/Main.mixer" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Sounds/Main.mixer" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/YandexGame/WorkingData/Editor/SavesEditorYG.json" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/YandexGame/WorkingData/Editor/SavesEditorYG.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -98,6 +54,8 @@
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/5a41d6b7189842eca409fd0b1c3e3dcf17bf78/38/09b67314/IDisposable.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/5a41d6b7189842eca409fd0b1c3e3dcf17bf78/b0/8c5aaaad/IEnumerable`1.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/e97d84204f8d4aef92b538c5bab948f1172800/0e/6677df35/Object.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/e97d84204f8d4aef92b538c5bab948f1172800/24/cca2cb5c/Scene.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/e97d84204f8d4aef92b538c5bab948f1172800/2d/a358cc34/SceneManager.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/e97d84204f8d4aef92b538c5bab948f1172800/51/b49df779/ObjectPool`1.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/e97d84204f8d4aef92b538c5bab948f1172800/62/3391ae41/MonoBehaviour.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/3ea01e77be99618395f448b16bd7cc2bd4248bd9e5d8474964b2d97f39c5d74/System.cs" root0="SKIP_HIGHLIGHTING" />
@@ -252,6 +210,14 @@
       <workItem from="1751817545327" duration="4689000" />
       <workItem from="1751995610731" duration="4821000" />
       <workItem from="1752315207772" duration="8552000" />
+      <workItem from="1752922919382" duration="1671000" />
+      <workItem from="1754215618272" duration="1904000" />
+      <workItem from="1754503218541" duration="1039000" />
+      <workItem from="1754580223069" duration="1330000" />
+      <workItem from="1755438798964" duration="7260000" />
+      <workItem from="1755712801250" duration="1614000" />
+      <workItem from="1755796015541" duration="4553000" />
+      <workItem from="1755946757969" duration="680000" />
     </task>
     <servers />
   </component>

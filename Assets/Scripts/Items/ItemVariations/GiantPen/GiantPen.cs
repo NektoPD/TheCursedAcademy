@@ -1,4 +1,5 @@
 using System.Collections;
+using CharacterLogic;
 using CharacterLogic.InputHandler;
 using Items.BaseClass;
 using Items.Enums;
@@ -85,11 +86,11 @@ namespace Items.ItemVariations
 
         protected override void UpdateStatsValues()
         {
-            ItemStats.SetStatCurrentValue(StatVariations.Damage, _damageMultiplier);
-            ItemStats.SetStatCurrentValue(StatVariations.AttackSpeed, Data.Cooldown);
+            ItemStats.SetStatCurrentValue(Enums.StatVariations.Damage, _damageMultiplier);
+            ItemStats.SetStatCurrentValue(Enums.StatVariations.AttackSpeed, Data.Cooldown);
 
-            ItemStats.SetStatNextValue(StatVariations.Damage, _damageMultiplier + _damageIncreasePerLevel);
-            ItemStats.SetStatNextValue(StatVariations.AttackSpeed, Data.Cooldown * _cooldownReductionPerLevel);
+            ItemStats.SetStatNextValue(Enums.StatVariations.Damage, _damageMultiplier + _damageIncreasePerLevel);
+            ItemStats.SetStatNextValue(Enums.StatVariations.AttackSpeed, Data.Cooldown * _cooldownReductionPerLevel);
         }
 
         private IEnumerator EnableProjectile(ItemProjectile projectile, float lifetime)
@@ -97,6 +98,7 @@ namespace Items.ItemVariations
             float timer = 0f;
 
             projectile.gameObject.SetActive(true);
+            CharacterSoundController.EnableSoundByType(SoundType.Slash);
 
             while (timer < lifetime && projectile && projectile.gameObject.activeSelf)
             {

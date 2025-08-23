@@ -19,6 +19,7 @@ namespace CharacterLogic.Initializer
 
         [SerializeField] private CharacterData[] _characterDatas;
         [SerializeField] private CharacterSpawner _characterSpawner;
+        [SerializeField] private CharacterSoundController _characterSoundController;
 
         private PerkController _perkController;
         private CharacterFabric _fabric;
@@ -57,7 +58,7 @@ namespace CharacterLogic.Initializer
 
             Character characterToSpawn = _fabric.Create();
             characterToSpawn.Construct(chosenData, finalPerkBonuses, _itemsHolder, _itemApplicator,
-                _killedEnemyCounter);
+                _killedEnemyCounter, _characterSoundController);
             _characterSpawner.Spawn(characterToSpawn);
             PlayerTransform = characterToSpawn.transform;
             CharacterCreated?.Invoke(characterToSpawn);

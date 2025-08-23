@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using CharacterLogic;
 using CharacterLogic.InputHandler;
 using Data;
 using Items.Enums;
@@ -15,7 +16,8 @@ namespace Items.BaseClass
     {
         protected CharacterMovementHandler MovementHandler;
         protected ItemStats ItemStats;
-        protected IEnumerable<StatVariations> _statVariations;
+        protected IEnumerable<StatVariations> StatVariations;
+        protected CharacterSoundController CharacterSoundController;
 
         private bool _canAttack = true;
         private IEnumerator _attackCoroutine;
@@ -27,12 +29,14 @@ namespace Items.BaseClass
 
         public int CurrentLevel => Level;
 
-        public void Initialize(CharacterMovementHandler movementHandler)
+        public void Initialize(CharacterMovementHandler movementHandler,
+            CharacterSoundController characterSoundController)
         {
             MovementHandler = movementHandler;
             ItemStats = new ItemStats(VisualData);
-            _statVariations = VisualData.Stats.Select(stat => stat.Variation);
-            
+            StatVariations = VisualData.Stats.Select(stat => stat.Variation);
+            CharacterSoundController = characterSoundController;
+
             UpdateStatsValues();
         }
 
@@ -46,7 +50,7 @@ namespace Items.BaseClass
         public virtual void LevelUp()
         {
             if (Level <= 3)
-                ItemStats.UpgradeStats(_statVariations);
+                ItemStats.UpgradeStats(StatVariations);
         }
 
         protected abstract void UpdateStatsValues();

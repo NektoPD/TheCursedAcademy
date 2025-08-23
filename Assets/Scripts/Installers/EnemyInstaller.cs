@@ -12,11 +12,13 @@ namespace Installers
     {
         [SerializeField] private CharacterInitializer _initializer;
         [SerializeField] private Transform _healthBarsContainer;
+        [SerializeField] private AudioSource _deathSound;
 
         public override void InstallBindings()
         {
             Container.Bind<EnemyPool>().AsSingle();
 
+            Container.BindInstance(_deathSound).AsSingle();
             Container.BindInstance(_initializer).WhenInjectedInto<RangeAttacker>();
             Container.BindInstance(_initializer).WhenInjectedInto<EnemyMover>();
             Container.BindInstance(_healthBarsContainer).WhenInjectedInto<BossHealthBar>();

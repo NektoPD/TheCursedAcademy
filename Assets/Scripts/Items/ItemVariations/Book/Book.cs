@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using CharacterLogic;
 using Items.BaseClass;
 using Items.Enums;
 using Items.Pools;
@@ -33,7 +34,6 @@ namespace Items.ItemVariations.Book
             _projectilePool = GetComponent<ItemProjectilePool>();
             _projectilePool.Initialize(_bookProjectilePrefab, _initialPoolSize);
             _transform = transform;
-            
         }
 
         protected override void PerformAttack()
@@ -79,6 +79,7 @@ namespace Items.ItemVariations.Book
 
             projectile.transform.SetParent(null);
             projectile.gameObject.SetActive(true);
+            CharacterSoundController.EnableSoundByType(SoundType.Book);
 
             while (timer < lifetime && projectile && projectile.gameObject.activeSelf)
             {
@@ -102,23 +103,26 @@ namespace Items.ItemVariations.Book
             _projectileLifetime *= _projectileLifetimeIncreasePerLevel;
             _projectileCount += _projectileCountIncreasePerLevel;
             Data.Cooldown *= _cooldownReductionPerLevel;
-            
+
             UpdateStatsValues();
         }
 
         protected override void UpdateStatsValues()
         {
-            ItemStats.SetStatCurrentValue(StatVariations.Damage, _damageMultiplier);
-            ItemStats.SetStatCurrentValue(StatVariations.AttackSpeed, Data.Cooldown);
-            ItemStats.SetStatCurrentValue(StatVariations.ProjectilesSpeed, _projectileSpeed);
-            ItemStats.SetStatCurrentValue(StatVariations.ProjectileLifetime, _projectileLifetime);
-            ItemStats.SetStatCurrentValue(StatVariations.ProjectilesCount, _projectileCount);
+            ItemStats.SetStatCurrentValue(Enums.StatVariations.Damage, _damageMultiplier);
+            ItemStats.SetStatCurrentValue(Enums.StatVariations.AttackSpeed, Data.Cooldown);
+            ItemStats.SetStatCurrentValue(Enums.StatVariations.ProjectilesSpeed, _projectileSpeed);
+            ItemStats.SetStatCurrentValue(Enums.StatVariations.ProjectileLifetime, _projectileLifetime);
+            ItemStats.SetStatCurrentValue(Enums.StatVariations.ProjectilesCount, _projectileCount);
 
-            ItemStats.SetStatNextValue(StatVariations.Damage, _damageMultiplier * _damageIncreasePerLevel);
-            ItemStats.SetStatNextValue(StatVariations.AttackSpeed, Data.Cooldown * _cooldownReductionPerLevel);
-            ItemStats.SetStatNextValue(StatVariations.ProjectilesSpeed, _projectileSpeed * _projectileSpeedIncreasePerLevel);
-            ItemStats.SetStatNextValue(StatVariations.ProjectileLifetime, _projectileLifetime * _projectileLifetimeIncreasePerLevel);
-            ItemStats.SetStatNextValue(StatVariations.ProjectilesCount, _projectileCount + _projectileCountIncreasePerLevel);
+            ItemStats.SetStatNextValue(Enums.StatVariations.Damage, _damageMultiplier * _damageIncreasePerLevel);
+            ItemStats.SetStatNextValue(Enums.StatVariations.AttackSpeed, Data.Cooldown * _cooldownReductionPerLevel);
+            ItemStats.SetStatNextValue(Enums.StatVariations.ProjectilesSpeed,
+                _projectileSpeed * _projectileSpeedIncreasePerLevel);
+            ItemStats.SetStatNextValue(Enums.StatVariations.ProjectileLifetime,
+                _projectileLifetime * _projectileLifetimeIncreasePerLevel);
+            ItemStats.SetStatNextValue(Enums.StatVariations.ProjectilesCount,
+                _projectileCount + _projectileCountIncreasePerLevel);
         }
     }
 }

@@ -87,15 +87,15 @@ namespace Items.ItemVariations
 
         protected override void UpdateStatsValues()
         {
-            ItemStats.SetStatCurrentValue(StatVariations.Damage, _damageMultiplier);
-            ItemStats.SetStatCurrentValue(StatVariations.AttackSpeed, Data.Cooldown);
-            ItemStats.SetStatCurrentValue(StatVariations.Duration, _durationMultiplier);
-            ItemStats.SetStatCurrentValue(StatVariations.ProjectilesCount, _projectileCount);
+            ItemStats.SetStatCurrentValue(Enums.StatVariations.Damage, _damageMultiplier);
+            ItemStats.SetStatCurrentValue(Enums.StatVariations.AttackSpeed, Data.Cooldown);
+            ItemStats.SetStatCurrentValue(Enums.StatVariations.Duration, _durationMultiplier);
+            ItemStats.SetStatCurrentValue(Enums.StatVariations.ProjectilesCount, _projectileCount);
 
-            ItemStats.SetStatNextValue(StatVariations.Damage, _damageMultiplier * _damageIncreasePerLevel);
-            ItemStats.SetStatNextValue(StatVariations.ProjectilesCount, _projectileCount++);
-            ItemStats.SetStatNextValue(StatVariations.AttackSpeed, Data.Cooldown * _cooldownReductionPerLevel);
-            ItemStats.SetStatNextValue(StatVariations.Duration,
+            ItemStats.SetStatNextValue(Enums.StatVariations.Damage, _damageMultiplier * _damageIncreasePerLevel);
+            ItemStats.SetStatNextValue(Enums.StatVariations.ProjectilesCount, _projectileCount++);
+            ItemStats.SetStatNextValue(Enums.StatVariations.AttackSpeed, Data.Cooldown * _cooldownReductionPerLevel);
+            ItemStats.SetStatNextValue(Enums.StatVariations.Duration,
                 1f + _durationMultiplierIncreasePerLevel);
         }
 

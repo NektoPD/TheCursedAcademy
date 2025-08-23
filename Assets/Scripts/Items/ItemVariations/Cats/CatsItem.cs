@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using CharacterLogic;
 using HealthSystem;
 using Items.BaseClass;
 using Items.Enums;
@@ -55,7 +56,6 @@ namespace Items.ItemVariations.Cats
         private void Awake()
         {
             _transform = transform;
-
         }
 
         private void OnEnable()
@@ -137,6 +137,7 @@ namespace Items.ItemVariations.Cats
         private void OnGetCatFromPool(CatsProjectile cat)
         {
             cat.gameObject.SetActive(true);
+            CharacterSoundController.EnableSoundByType(SoundType.Cats);
             Vector2 randomDirection = Random.insideUnitCircle.normalized * Random.Range(1f, _maxDistanceFromPlayer);
             cat.Transform.position = _transform.position + (Vector3)randomDirection;
             cat.ClearHitEnemies();
@@ -212,17 +213,19 @@ namespace Items.ItemVariations.Cats
 
         protected override void UpdateStatsValues()
         {
-            ItemStats.SetStatCurrentValue(StatVariations.Damage, Data.Damage);
-            ItemStats.SetStatCurrentValue(StatVariations.AttackSpeed, Data.Cooldown);
-            ItemStats.SetStatCurrentValue(StatVariations.ProjectilesSpeed, _catMovementSpeed);
-            ItemStats.SetStatCurrentValue(StatVariations.ProjectilesCount, _catsPerSpawn);
-            ItemStats.SetStatCurrentValue(StatVariations.Radius, _detectionRadius);
+            ItemStats.SetStatCurrentValue(Enums.StatVariations.Damage, Data.Damage);
+            ItemStats.SetStatCurrentValue(Enums.StatVariations.AttackSpeed, Data.Cooldown);
+            ItemStats.SetStatCurrentValue(Enums.StatVariations.ProjectilesSpeed, _catMovementSpeed);
+            ItemStats.SetStatCurrentValue(Enums.StatVariations.ProjectilesCount, _catsPerSpawn);
+            ItemStats.SetStatCurrentValue(Enums.StatVariations.Radius, _detectionRadius);
 
-            ItemStats.SetStatNextValue(StatVariations.Damage, Data.Damage * _damageMultiplier);
-            ItemStats.SetStatNextValue(StatVariations.AttackSpeed, Data.Cooldown * _cooldownMultiplier);
-            ItemStats.SetStatNextValue(StatVariations.ProjectilesSpeed, _catMovementSpeed * _projectileSpeedMultiplier);
-            ItemStats.SetStatNextValue(StatVariations.ProjectilesCount, _baseCatsPerSpawn + Level / _catsPerLevelDiv);
-            ItemStats.SetStatNextValue(StatVariations.Radius, Mathf.Min(
+            ItemStats.SetStatNextValue(Enums.StatVariations.Damage, Data.Damage * _damageMultiplier);
+            ItemStats.SetStatNextValue(Enums.StatVariations.AttackSpeed, Data.Cooldown * _cooldownMultiplier);
+            ItemStats.SetStatNextValue(Enums.StatVariations.ProjectilesSpeed,
+                _catMovementSpeed * _projectileSpeedMultiplier);
+            ItemStats.SetStatNextValue(Enums.StatVariations.ProjectilesCount,
+                _baseCatsPerSpawn + Level / _catsPerLevelDiv);
+            ItemStats.SetStatNextValue(Enums.StatVariations.Radius, Mathf.Min(
                 _baseDetectionRadius + (Level * _detectionRadiusPerLevel),
                 _maxDetectionRadius));
         }

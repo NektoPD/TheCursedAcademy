@@ -14,6 +14,7 @@ namespace AudioLogic
         [SerializeField] private AudioClip _tutorial;
         [SerializeField] private int _idMenuScene;
         [SerializeField] private int _idTutorialScene;
+        [SerializeField] private int _idGameScene;
 
         private AudioSource _source;
 
@@ -47,15 +48,28 @@ namespace AudioLogic
 
         private void OnSceneChanged(Scene first, Scene second)
         {
-            if (second.rootCount == _idMenuScene)
-                _source.clip = _menu;
-            else if(second.rootCount == _idTutorialScene)
-                _source.clip = _tutorial;
-            else if (_source.clip != _level)
-                _source.clip = _level;
-            else
-                return;
+            int currentSceneIndex = second.buildIndex;
+            AudioClip newClip = null;
 
+            if (currentSceneIndex == _idMenuScene)
+            {
+                newClip = _menu;
+            }
+            else if (currentSceneIndex == _idTutorialScene)
+            {
+                newClip = _tutorial;
+            }
+            else if (currentSceneIndex == _idGameScene)
+            {
+                newClip = _level;
+            }
+            else
+            {
+                newClip = _level;
+            }
+
+            if (_source.clip == newClip) return;
+            _source.clip = newClip;
             _source.Play();
         }
 

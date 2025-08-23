@@ -88,16 +88,16 @@ namespace Items.ItemVariations.Gum
 
         protected override void UpdateStatsValues()
         {
-            ItemStats.SetStatCurrentValue(StatVariations.Damage, _damageMultiplier);
-            ItemStats.SetStatCurrentValue(StatVariations.AttackSpeed, Data.Cooldown);
-            ItemStats.SetStatCurrentValue(StatVariations.ProjectilesSpeed, _projectileSpeed);
-            ItemStats.SetStatCurrentValue(StatVariations.AttackDirectionsCount, _projectileDirections);
+            ItemStats.SetStatCurrentValue(Enums.StatVariations.Damage, _damageMultiplier);
+            ItemStats.SetStatCurrentValue(Enums.StatVariations.AttackSpeed, Data.Cooldown);
+            ItemStats.SetStatCurrentValue(Enums.StatVariations.ProjectilesSpeed, _projectileSpeed);
+            ItemStats.SetStatCurrentValue(Enums.StatVariations.AttackDirectionsCount, _projectileDirections);
 
-            ItemStats.SetStatNextValue(StatVariations.Damage, _damageMultiplier * _damageIncreasePerLevel);
-            ItemStats.SetStatNextValue(StatVariations.AttackSpeed, Data.Cooldown * _cooldownReductionPerLevel);
-            ItemStats.SetStatNextValue(StatVariations.ProjectilesSpeed,
+            ItemStats.SetStatNextValue(Enums.StatVariations.Damage, _damageMultiplier * _damageIncreasePerLevel);
+            ItemStats.SetStatNextValue(Enums.StatVariations.AttackSpeed, Data.Cooldown * _cooldownReductionPerLevel);
+            ItemStats.SetStatNextValue(Enums.StatVariations.ProjectilesSpeed,
                 _projectileSpeed * _projectileSpeedIncreasePerLevel);
-            ItemStats.SetStatNextValue(StatVariations.AttackDirectionsCount,
+            ItemStats.SetStatNextValue(Enums.StatVariations.AttackDirectionsCount,
                 _projectileDirections + _projectileDirectionsPerLevel);
         }
     }

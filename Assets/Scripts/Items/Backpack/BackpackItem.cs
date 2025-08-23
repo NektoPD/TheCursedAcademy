@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using CharacterLogic;
 using CharacterLogic.InputHandler;
 using Items.BaseClass;
 using Items.Enums;
@@ -15,8 +16,9 @@ namespace Items.ItemVariations
         [SerializeField] private float _effectDuration = 3f;
         [SerializeField] private int _initialPoolSize = 1;
 
-        [Header("Level Up Settings")]
-        [SerializeField] private float _durationIncreasePerLevel = 0.25f;
+        [Header("Level Up Settings")] [SerializeField]
+        private float _durationIncreasePerLevel = 0.25f;
+
         [SerializeField] private float _cooldownReductionPerLevel = 0.9f;
 
         private int _level = 1;
@@ -58,6 +60,7 @@ namespace Items.ItemVariations
 
             float effectDuration = _effectDuration * _durationMultiplier;
             _activeProjectile.PlayParticleEffect(effectDuration);
+            CharacterSoundController.EnableSoundByType(SoundType.Shield);
 
             _activeEffectCoroutine = StartCoroutine(DisableEffectAfterDuration(effectDuration));
         }
@@ -68,17 +71,17 @@ namespace Items.ItemVariations
 
             _durationMultiplier += _durationIncreasePerLevel;
             Data.Cooldown *= _cooldownReductionPerLevel;
-            
+
             UpdateStatsValues();
         }
-        
+
         protected override void UpdateStatsValues()
         {
-            ItemStats.SetStatCurrentValue(StatVariations.AttackSpeed, Data.Cooldown);
-            ItemStats.SetStatCurrentValue(StatVariations.Duration, _durationMultiplier);
+            ItemStats.SetStatCurrentValue(Enums.StatVariations.AttackSpeed, Data.Cooldown);
+            ItemStats.SetStatCurrentValue(Enums.StatVariations.Duration, _durationMultiplier);
 
-            ItemStats.SetStatNextValue(StatVariations.AttackSpeed, Data.Cooldown * _cooldownReductionPerLevel);
-            ItemStats.SetStatNextValue(StatVariations.Duration, _durationMultiplier + _durationIncreasePerLevel);
+            ItemStats.SetStatNextValue(Enums.StatVariations.AttackSpeed, Data.Cooldown * _cooldownReductionPerLevel);
+            ItemStats.SetStatNextValue(Enums.StatVariations.Duration, _durationMultiplier + _durationIncreasePerLevel);
         }
 
         private IEnumerator DisableEffectAfterDuration(float duration)

@@ -480,11 +480,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d833d1343546fd4d9831136c618bee3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _menu: {fileID: 0}
-  _level: {fileID: 0}
-  _tutorial: {fileID: 0}
+  _menu: {fileID: 8300000, guid: 1e6add7d2f6db424c953fe16a3278a61, type: 3}
+  _level: {fileID: 8300000, guid: a3a4d32759bb8d04aaa5ed946c07592c, type: 3}
+  _tutorial: {fileID: 8300000, guid: eb2c7dabab9603a4caeb5a6d4e0bda11, type: 3}
   _idMenuScene: 1
   _idTutorialScene: 2
+  _idGameScene: 3
 --- !u!82 &1605957188
 AudioSource:
   m_ObjectHideFlags: 0
@@ -499,7 +500,7 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
