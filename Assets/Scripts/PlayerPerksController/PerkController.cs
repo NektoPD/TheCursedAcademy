@@ -11,9 +11,15 @@ namespace PlayerPerksController
 
         private readonly PerkModifiers _perkModifiers = ScriptableObject.CreateInstance<PerkModifiers>();
 
+        public PerkController()
+        {
+            Initialize();
+        }
+        
         public void Initialize()
         {
-            PerkDataWrapper = YandexGame.SDKEnabled ? YandexGame.savesData.PerkDataWrapper : new PerkDataWrapper();
+            //PerkDataWrapper = YandexGame.SDKEnabled ? YandexGame.savesData.PerkDataWrapper : new PerkDataWrapper();
+            PerkDataWrapper = PerkSaver.PerkDataWrapper;
         }
 
         public PerkDataWrapper PerkDataWrapper { get; private set; }
@@ -21,7 +27,7 @@ namespace PlayerPerksController
         public int GetPerkLevel(PerkType type)
         {
             Debug.Log(type);
-            
+
             if (PerkDataWrapper.PerkLevels.ContainsKey(type) == false)
                 throw new NullReferenceException(nameof(type));
 
@@ -30,9 +36,12 @@ namespace PlayerPerksController
 
         public bool TryUpgradePerk(PerkType perkType)
         {
-            if (PerkDataWrapper.PerkLevels.ContainsKey(perkType) && PerkDataWrapper.PerkLevels[perkType] < MaxUpgradeCount)
+            if (PerkDataWrapper.PerkLevels.ContainsKey(perkType) &&
+                PerkDataWrapper.PerkLevels[perkType] < MaxUpgradeCount)
             {
                 PerkDataWrapper.PerkLevels[perkType]++;
+                Debug.Log(PerkDataWrapper.PerkLevels[perkType]);
+                Debug.Log(PerkSaver.PerkDataWrapper.PerkLevels[perkType]);
                 YandexGame.SaveProgress();
                 return true;
             }

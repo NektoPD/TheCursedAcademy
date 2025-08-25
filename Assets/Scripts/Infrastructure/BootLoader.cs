@@ -26,7 +26,7 @@ namespace Infrastructure
             _perkController = controller;
             _wallet = wallet;
 
-            _perkController.Initialize();
+           // _perkController.Initialize();
             _wallet.Initialize();
         }
 

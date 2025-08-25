@@ -55,6 +55,12 @@ namespace CharacterLogic.Initializer
                 throw new NullReferenceException(nameof(chosenData));
 
             Dictionary<PerkType, float> finalPerkBonuses = _perkController.GetFinalPerkValues();
+            
+            foreach (var keyValuePair in PerkSaver.PerkDataWrapper.PerkLevels)
+            {
+                Debug.Log(keyValuePair.Key);
+                Debug.Log(keyValuePair.Value);
+            }
 
             Character characterToSpawn = _fabric.Create();
             characterToSpawn.Construct(chosenData, finalPerkBonuses, _itemsHolder, _itemApplicator,
