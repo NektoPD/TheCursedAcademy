@@ -2,6 +2,7 @@ using Data;
 using PlayerPerksController;
 using System;
 using TMPro;
+using UI.Applicators.ClickHandlers;
 using UnityEngine;
 using UnityEngine.UI;
 using WalletSystem;
@@ -24,11 +25,15 @@ namespace UI.Applicators
 
         public event Action<PerkVisualData> Buyed;
 
+        public PerkController PerkController => _perkController;
+
         [Inject]
         public void Construct(PerkController perkController, Wallet wallet)
         {
             _perkController = perkController;
             _wallet = wallet;
+            
+            Debug.Log(_perkController.PerkDataWrapper.PerkLevels[PerkType.Armor]);
         }
 
         protected override void OnEnable()

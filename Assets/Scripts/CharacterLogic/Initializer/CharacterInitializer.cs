@@ -56,7 +56,7 @@ namespace CharacterLogic.Initializer
 
             Dictionary<PerkType, float> finalPerkBonuses = _perkController.GetFinalPerkValues();
             
-            foreach (var keyValuePair in PerkSaver.PerkDataWrapper.PerkLevels)
+            foreach (var keyValuePair in _perkController.PerkDataWrapper.PerkLevels)
             {
                 Debug.Log(keyValuePair.Key);
                 Debug.Log(keyValuePair.Value);

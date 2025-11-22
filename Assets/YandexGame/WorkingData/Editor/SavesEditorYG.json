@@ -1,17 +1,26 @@
 {
-    "idSave": 532,
-    "isFirstSession": false,
-    "language": "ru",
-    "promptDone": false,
-    "money": 1,
-    "newPlayerName": "Hello!",
-    "openLevels": [
-        false,
-        true,
-        false
-    ],
-    "PerkDataWrapper": {},
-    "WalletWrapper": {
-        "Money": 0
+  "idSave": 30,
+  "isFirstSession": false,
+  "language": "ru",
+  "promptDone": false,
+  "money": 1,
+  "newPlayerName": "Hello!",
+  "openLevels": [
+    false,
+    true,
+    false
+  ],
+  "PerkDataWrapper": {
+    "PerkLevels": {
+      "Power": 0,
+      "Armor": 2,
+      "MaxHp": 0,
+      "HpRegeneration": 1,
+      "AttackCooldown": 0,
+      "Speed": 0
     }
+  },
+  "WalletWrapper": {
+    "Money": 293
+  }
 }

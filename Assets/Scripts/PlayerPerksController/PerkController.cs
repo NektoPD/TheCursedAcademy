@@ -10,16 +10,10 @@ namespace PlayerPerksController
         private const int MaxUpgradeCount = 4;
 
         private readonly PerkModifiers _perkModifiers = ScriptableObject.CreateInstance<PerkModifiers>();
-
-        public PerkController()
-        {
-            Initialize();
-        }
         
         public void Initialize()
         {
-            //PerkDataWrapper = YandexGame.SDKEnabled ? YandexGame.savesData.PerkDataWrapper : new PerkDataWrapper();
-            PerkDataWrapper = PerkSaver.PerkDataWrapper;
+            PerkDataWrapper = YandexGame.savesData.PerkDataWrapper;
         }
 
         public PerkDataWrapper PerkDataWrapper { get; private set; }
@@ -41,7 +35,6 @@ namespace PlayerPerksController
             {
                 PerkDataWrapper.PerkLevels[perkType]++;
                 Debug.Log(PerkDataWrapper.PerkLevels[perkType]);
-                Debug.Log(PerkSaver.PerkDataWrapper.PerkLevels[perkType]);
                 YandexGame.SaveProgress();
                 return true;
             }

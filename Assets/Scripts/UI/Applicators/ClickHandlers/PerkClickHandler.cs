@@ -19,6 +19,12 @@ namespace UI.Applicators.ClickHandlers
 
             foreach (var level in _levels)
                 _currentLevels.Enqueue(level);
+
+            for (int i = 0; i < _applicator.PerkController.GetPerkLevel(Data.Type); i++)
+            {
+                Image level = _currentLevels.Dequeue();
+                level.sprite = _on;
+            }
         }
 
         private void OnEnable()

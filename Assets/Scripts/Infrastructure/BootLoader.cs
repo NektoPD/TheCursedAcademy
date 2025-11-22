@@ -25,9 +25,6 @@ namespace Infrastructure
         {
             _perkController = controller;
             _wallet = wallet;
-
-           // _perkController.Initialize();
-            _wallet.Initialize();
         }
 
         private void Start()
@@ -39,9 +36,13 @@ namespace Infrastructure
                 SceneManager.LoadScene(_menuIdSecene);
 
             YandexGame.savesData.isFirstSession = false;
+
             YandexGame.SaveProgress();
 
             SceneManager.LoadScene(_tutorialIdSecene);
+            
+            _perkController.Initialize();
+            _wallet.Initialize();
         }
     }
 }
