@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Linq;
 using InventorySystem;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace CharacterLogic
 {
@@ -11,6 +13,7 @@ namespace CharacterLogic
         private float _attackRegenerationSpeed;
         private bool _isAttacking = false;
         private IEnumerator _attackCoroutine;
+        private bool _isTutorial;
 
         public void Initialize(CharacterInventory characterInventory, float attackRegenerationSpeed)
         {
@@ -20,7 +23,7 @@ namespace CharacterLogic
 
         private void OnEnable()
         {
-            if (!_isAttacking && _inventory != null)
+            if (!_isAttacking && _inventory != null && !_isTutorial)
             {
                 StartCoroutine(AutoAttackCoroutine());
             }

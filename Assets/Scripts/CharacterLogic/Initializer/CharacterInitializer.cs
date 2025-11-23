@@ -9,6 +9,7 @@ using Items.ItemHolder;
 using PlayerPerksController;
 using UI.Applicators;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Zenject;
 
 namespace CharacterLogic.Initializer
@@ -26,6 +27,8 @@ namespace CharacterLogic.Initializer
         private ItemsHolder _itemsHolder;
         private ItemApplicator _itemApplicator;
         private KilledEnemyCounter _killedEnemyCounter;
+
+        private bool _isTutorial;
 
         public event Action<Character> CharacterCreated;
 
@@ -63,10 +66,15 @@ namespace CharacterLogic.Initializer
             }
 
             Character characterToSpawn = _fabric.Create();
+            
+            if(_isTutorial)
+                characterToSpawn.DisableCharacter();
+            
             characterToSpawn.Construct(chosenData, finalPerkBonuses, _itemsHolder, _itemApplicator,
                 _killedEnemyCounter, _characterSoundController);
             _characterSpawner.Spawn(characterToSpawn);
             PlayerTransform = characterToSpawn.transform;
+            
             CharacterCreated?.Invoke(characterToSpawn);
         }
     }

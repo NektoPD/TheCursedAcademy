@@ -15,6 +15,7 @@ using Items.ItemVariations.MultiSlingshot;
 using StatistiscSystem;
 using UI.Applicators;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace CharacterLogic
 {
@@ -26,6 +27,8 @@ namespace CharacterLogic
     [RequireComponent(typeof(CharacterAttacker))]
     public class Character : MonoBehaviour, IStatisticsTransmitter, IDamageable
     {
+        private const string TutorialSceneName = "Tutorial";
+
         [SerializeField] private CharacterInventoryUI _inventoryUI;
         [SerializeField] private bool _cameraOnCharacter;
 
@@ -56,6 +59,7 @@ namespace CharacterLogic
         private Transform _transform;
         private bool _isDied;
         private DateTime _gameStart;
+        private bool _isTutorial;
 
         public event Action<Statistics> StatisticCollected;
         public event Action LevelUp;
@@ -70,12 +74,14 @@ namespace CharacterLogic
         {
             _itemsHolder = itemsHolder;
             _characterSoundController = characterSoundController;
-            
+
             _collisionHandler = GetComponent<CharacterCollisionHandler>();
 
             InitializeCharacterComponents();
             InitializeCharacterData(characterData, perkBonuses);
-            ActivateCharacter();
+
+            if (!_isTutorial)
+                ActivateCharacter();
 
             _animationController.SetAnimatorOverride(characterData.AnimatorController);
 
@@ -112,6 +118,8 @@ namespace CharacterLogic
                 Camera.main.transform.SetParent(transform);
 
             _transform = transform;
+
+            _isTutorial = SceneManager.GetActiveScene().name is TutorialSceneName;
         }
 
         private void OnDisable()
@@ -206,7 +214,7 @@ namespace CharacterLogic
                     }
 
                     Debug.Log(_characterSoundController);
-                    
+
                     newItem.transform.position = _transform.position;
                     newItem.Initialize(_movementHandler, _characterSoundController);
 
@@ -236,6 +244,12 @@ namespace CharacterLogic
             _attacker.DisableAttack();
             _movementHandler.DisableMovement();
             _movementHandler.SetSpeed(0);
+        }
+
+        public void EnableMovement()
+        {
+            _movementHandler.EnableMovement();
+            _movementHandler.SetSpeed(_moveSpeed);
         }
 
         public void TakeDamage(float damage)
@@ -303,7 +317,7 @@ namespace CharacterLogic
             _attackCooldown = characterData.AttackRegenerationSpeed -
                               GetPerkBonus(perkBonuses, PerkType.AttackCooldown);
             _moveSpeed = characterData.MoveSpeed + GetPerkBonus(perkBonuses, PerkType.Speed);
-            
+
             Debug.Log(characterData.AttackPower);
             Debug.Log(GetPerkBonus(perkBonuses, PerkType.Power));
             Debug.Log(characterData.Armor);

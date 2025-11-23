@@ -18,9 +18,8 @@ namespace EnemyLogic
         private EnemyEjector _ejector;
         private EnemyDamageView _damageView;
         private Coroutine _coroutine;
-        private float _immuneTime;
-
         private AudioSource _deathSound;
+        private float _immuneTime;
 
         private bool _isDied = false;
         private bool _inImmune = false;

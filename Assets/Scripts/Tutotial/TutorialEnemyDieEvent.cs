@@ -1,3 +1,4 @@
+using System;
 using EnemyLogic;
 using Timelines;
 using UnityEngine;
@@ -11,6 +12,8 @@ namespace Tutorial
         [SerializeField] private TimelineController _timelineController;
         [SerializeField] private GameObject _cutscene;
 
+        public event Action TutorialEnemyDied;
+        
         private void OnEnable()
         {
             _damageTacker.Health.Died += Die;
@@ -25,6 +28,7 @@ namespace Tutorial
         {
             _timelineController.StartCutscene(_cutscene.name);
             _taskController.ShowNextTask();
+            TutorialEnemyDied?.Invoke();
         }
     }
 }
