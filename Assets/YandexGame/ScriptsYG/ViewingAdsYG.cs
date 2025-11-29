@@ -2,7 +2,6 @@
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
-using UnityToolbag;
 
 namespace YG
 {
@@ -47,13 +46,17 @@ namespace YG
         public PauseMethod pauseMethod;
 
         [Tooltip("Установите значения при закрытии рекламы")]
-        [ConditionallyVisible(nameof(pauseMethod))]
+#if PLUGIN_YG_2
+        [NestedYG(nameof(pauseMethod))]
+#endif
         public ClosingADValues closingADValues;
 
         [SerializeField, Tooltip("Установить значения в методе Awake (то есть при старте сцены).\nЭто позволит не прописывать события вроде аудио пауза = false или timeScale = 1 в ваших скриптах в методах Awake или Start, что позволит убрать путаницу.")]
         private bool awakeSetValues;
-        [SerializeField, ConditionallyVisible(nameof(awakeSetValues)),
-            Tooltip("Установите значения, которые применятся в методе Awake.")]
+#if PLUGIN_YG_2
+        [NestedYG(nameof(awakeSetValues))]
+#endif
+        [SerializeField, Tooltip("Установите значения, которые применятся в методе Awake.")]
         private ClosingADValues awakeValues;
 
         [Tooltip("Ивенты для выполнения собственных методов. Вызываются при открытии или закрытии любой рекламы.")]
@@ -106,19 +109,17 @@ namespace YG
 
         private void OnEnable()
         {
-            YandexGame.OpenFullAdEvent += Stop;
-            YandexGame.CloseFullAdEvent += Play;
-            YandexGame.OpenVideoEvent += Stop;
-            YandexGame.CloseVideoEvent += Play;
+#if PLUGIN_YG_2
+            YG2.onPauseGame += Pause;
+#endif
             onPause += Pause;
         }
 
         private void OnDisable()
         {
-            YandexGame.OpenFullAdEvent -= Stop;
-            YandexGame.CloseFullAdEvent -= Play;
-            YandexGame.OpenVideoEvent -= Stop;
-            YandexGame.CloseVideoEvent -= Play;
+#if PLUGIN_YG_2
+            YG2.onPauseGame -= Pause;
+#endif
             onPause -= Pause;
         }
 

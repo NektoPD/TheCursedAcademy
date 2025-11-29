@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
-using System.Collections;
 using UnityEngine.Events;
 
 namespace YG
 {
+    [DefaultExecutionOrder(-1)]
     public class ForVisualScriptYG : MonoBehaviour
     {
         public YandexGame yandexGame;
@@ -13,7 +13,6 @@ namespace YG
         [HideInInspector] public bool auth;
         [HideInInspector] public string playerName;
         [HideInInspector] public string playerId;
-        [HideInInspector] public bool initializedLB;
         [HideInInspector] public string playerPhoto;
         [HideInInspector] public string photoSize;
         [HideInInspector] public string language;
@@ -26,51 +25,35 @@ namespace YG
         [HideInInspector] public string appID;
         [HideInInspector] public string browserLang;
         [HideInInspector] public string payload;
-        [HideInInspector] public bool promptCanShow;
-        [HideInInspector] public bool reviewCanShow;
-        [HideInInspector] public bool isFirstSession;
         [HideInInspector] public string languageSaves;
-        [HideInInspector] public bool promptDone;
 
         private void Awake()
         {
-            if (YandexGame.SDKEnabled)
-                GetData();
-
-            else StartCoroutine(Initialization());
-        }
-
-        IEnumerator Initialization()
-        {
-            yield return YandexGame.SDKEnabled;
-            yield return new WaitForSecondsRealtime(0.1f);
-            GetData();
-        }
-
-        void GetData()
-        {
-            SDKEnabled = YandexGame.SDKEnabled;
-            auth = YandexGame.auth;
-            playerName = YandexGame.playerName;
-            playerId = YandexGame.playerId;
-            playerPhoto = YandexGame.playerPhoto;
-            photoSize = YandexGame.photoSize;
-            language = YandexGame.EnvironmentData.language;
-            domain = YandexGame.EnvironmentData.domain;
-            deviceType = YandexGame.EnvironmentData.deviceType;
-            isMobile = YandexGame.EnvironmentData.isMobile;
-            isDesktop = YandexGame.EnvironmentData.isDesktop;
-            isTablet = YandexGame.EnvironmentData.isTablet;
-            isTV = YandexGame.EnvironmentData.isTV;
-            appID = YandexGame.EnvironmentData.appID;
-            browserLang = YandexGame.EnvironmentData.browserLang;
-            payload = YandexGame.EnvironmentData.payload;
-            promptCanShow = YandexGame.EnvironmentData.promptCanShow;
-            reviewCanShow = YandexGame.EnvironmentData.reviewCanShow;
-            isFirstSession = YandexGame.savesData.isFirstSession;
-            languageSaves = YandexGame.savesData.language;
-            promptDone = YandexGame.savesData.promptDone;
-
+#if PLUGIN_YG_2
+            SDKEnabled = YG2.isSDKEnabled;
+#endif
+#if Authorization_yg
+            auth = YG2.player.auth;
+            playerName = YG2.player.name;
+            playerId = YG2.player.id;
+            playerPhoto = YG2.player.photo;
+            photoSize = YG2.infoYG.Authorization.GetPlayerPhotoSize();
+#endif
+#if EnvirData_yg
+            language = YG2.envir.language;
+            domain = YG2.envir.domain;
+            deviceType = YG2.envir.deviceType;
+            isMobile = YG2.envir.isMobile;
+            isDesktop = YG2.envir.isDesktop;
+            isTablet = YG2.envir.isTablet;
+            isTV = YG2.envir.isTV;
+            appID = YG2.envir.appID;
+            browserLang = YG2.envir.browserLang;
+            payload = YG2.envir.payload;
+#endif
+#if Localization_yg
+            languageSaves = YG2.lang;
+#endif
             GetDataEvent.Invoke();
         }
     }

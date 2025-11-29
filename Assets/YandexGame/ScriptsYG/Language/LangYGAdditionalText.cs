@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
-#if YG_TEXT_MESH_PRO
+#if TMP_YG2
 using TMPro;
 #endif
 
-namespace YG
+namespace YG.LanguageLegacy
 {
     public class LangYGAdditionalText : MonoBehaviour
     {
@@ -43,7 +43,7 @@ namespace YG
             {
                 if (langYG.textLComponent)
                     langYG.textLComponent.text = _additionalText + langYG.textLComponent.text;
-#if YG_TEXT_MESH_PRO
+#if TMP_YG2
                 else if (langYG.textMPComponent)
                     langYG.textMPComponent.text = _additionalText + langYG.textMPComponent.text;
 #endif
@@ -52,7 +52,7 @@ namespace YG
             {
                 if (langYG.textLComponent)
                     langYG.textLComponent.text += _additionalText;
-#if YG_TEXT_MESH_PRO
+#if TMP_YG2
                 else if (langYG.textMPComponent)
                     langYG.textMPComponent.text += _additionalText;
 #endif

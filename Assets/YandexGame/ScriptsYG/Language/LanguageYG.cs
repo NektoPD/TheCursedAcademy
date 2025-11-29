@@ -1,30 +1,25 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
-using YG.Utils.Lang;
-#if YG_NEWTONSOFT_FOR_AUTOLOCALIZATION
-using Newtonsoft.Json.Linq;
 using UnityEngine.Networking;
 using System;
 using System.Net;
-using UnityEngine.UIElements;
-
+#if NJSON_YG2
+using Newtonsoft.Json.Linq;
 #endif
-#if YG_TEXT_MESH_PRO
+#if TMP_YG2
 using TMPro;
 #endif
 
-namespace YG
+namespace YG.LanguageLegacy
 {
-    [DefaultExecutionOrder(-101), HelpURL("https://ash-message-bf4.notion.site/PluginYG-d457b23eee604b7aa6076116aab647ed#00b98bcff9cf45428b137f5565a797a1")]
     public class LanguageYG : MonoBehaviour
     {
-#if YG_TEXT_MESH_PRO
+#if TMP_YG2
         public TMP_Text textMPComponent;
         public TMP_FontAsset uniqueFontTMP;
 #endif
         public Text textLComponent;
-        public InfoYG infoYG;
+        public InfoYG.AutoTranslateLangsSettings info;
         [Space(10)]
         public string text;
         public string ru, en, tr, az, be, he, hy, ka, et, fr, kk, ky, lt, lv, ro, tg, tk, uk, uz, es, pt, ar, id, ja, it, de, hi;
@@ -39,9 +34,11 @@ namespace YG
             // Uncomment the bottom line if you get any errors related to infoYG. In some cases, it may help.
             //Serialize();
 
+            info = YG2.infoYG.AutoTranslateLangs;
+
             if (textLComponent)
                 baseFontSize = textLComponent.fontSize;
-#if YG_TEXT_MESH_PRO
+#if TMP_YG2
             else if (textMPComponent)
                 baseFontSize = Mathf.RoundToInt(textMPComponent.fontSize);
 #endif
@@ -50,62 +47,39 @@ namespace YG
         [ContextMenu("Reserialize")]
         public void Serialize()
         {
+            info = YG2.infoYG.AutoTranslateLangs;
             textLComponent = GetComponent<Text>();
-#if YG_TEXT_MESH_PRO
+#if TMP_YG2
             textMPComponent = GetComponent<TMP_Text>();
 #endif
             additionalText = GetComponent<LangYGAdditionalText>();
-
-            infoYG = GetInfoYG();
-        }
-
-        public InfoYG GetInfoYG() // For editor
-        {
-            YandexGame yg = (YandexGame)GameObject.FindAnyObjectByType<YandexGame>();
-
-            if (yg)
-            {
-                return yg.infoYG;
-            }
-            else
-            {
-#if UNITY_EDITOR
-                InfoYG infoYGFromConfig = Insides.ConfigYG.GetInfoYG();
-                return infoYGFromConfig;
-#else
-                return null;
-#endif
-            }
         }
 
         private void OnEnable()
         {
             SwitchLanguage();
-            YandexGame.SwitchLangEvent += SwitchLanguage;
+            YG2.onSwitchLang += SwitchLanguage;
         }
 
-        private void OnDisable() => YandexGame.SwitchLangEvent -= SwitchLanguage;
+        private void OnDisable() => YG2.onSwitchLang -= SwitchLanguage;
 
         public void SwitchLanguage(string lang)
         {
-            if (!infoYG.LocalizationEnable)
-                return;
-
             for (int i = 0; i < languages.Length; i++)
             {
-                if (lang == LangMethods.LangName(i))
+                if (lang == UtilsLang.LangName(i))
                 {
                     if (!changeOnlyFont)
                         AssignTranslate(languages[i]);
 
                     if (textLComponent)
-                        ChangeFont(LangMethods.GetFont(i, infoYG));
-#if YG_TEXT_MESH_PRO
+                        ChangeFont(UtilsLang.GetFont(i, info));
+#if TMP_YG2
                     else if (textMPComponent)
-                        ChangeFont(LangMethods.GetFontTMP(i, infoYG));
+                        ChangeFont(UtilsLang.GetFontTMP(i, info));
 #endif
 
-                    FontSizeCorrect(LangMethods.GetFontSize(i, infoYG));
+                    FontSizeCorrect(UtilsLang.GetFontSize(i, info));
 
                     if (additionalText != null)
                         additionalText.AssignAdditionalText(this);
@@ -116,15 +90,14 @@ namespace YG
 
         public void SwitchLanguage()
         {
-            if (YandexGame.SDKEnabled && YandexGame.LangEnable())
-                SwitchLanguage(YandexGame.lang);
+            SwitchLanguage(YG2.lang);
         }
 
         void AssignTranslate(string translation)
         {
             if (textLComponent)
                 textLComponent.text = translation;
-#if YG_TEXT_MESH_PRO
+#if TMP_YG2
             else if (textMPComponent)
                 textMPComponent.text = translation;
 #endif
@@ -134,7 +107,7 @@ namespace YG
         {
             for (int i = 0; i < languages.Length; i++)
             {
-                if (YandexGame.savesData.language == LangMethods.LangName(i)) // YandexGame.savesData.language заменить для 2.0
+                if (YG2.lang == UtilsLang.LangName(i))
                 {
                     AssignTranslate(languages[i]);
                     break;
@@ -158,13 +131,13 @@ namespace YG
             }
             else if (font == null)
             {
-                if (infoYG.fonts.defaultFont.Length >= fontNumber + 1 && infoYG.fonts.defaultFont[fontNumber])
+                if (info.fonts.defaultFont.Length >= fontNumber + 1 && info.fonts.defaultFont[fontNumber])
                 {
-                    font = infoYG.fonts.defaultFont[fontNumber];
+                    font = info.fonts.defaultFont[fontNumber];
                 }
-                else if (infoYG.fonts.defaultFont.Length >= 1 && infoYG.fonts.defaultFont[0])
+                else if (info.fonts.defaultFont.Length >= 1 && info.fonts.defaultFont[0])
                 {
-                    font = infoYG.fonts.defaultFont[0];
+                    font = info.fonts.defaultFont[0];
                 }
             }
 
@@ -174,7 +147,7 @@ namespace YG
             }
         }
 
-#if YG_TEXT_MESH_PRO
+#if TMP_YG2
         public void ChangeFont(TMP_FontAsset[] fontArray)
         {
             TMP_FontAsset font;
@@ -191,13 +164,13 @@ namespace YG
             }
             else if (font == null)
             {
-                if (infoYG.fontsTMP.defaultFont.Length >= fontNumber + 1 && infoYG.fontsTMP.defaultFont[fontNumber])
+                if (info.fontsTMP.defaultFont.Length >= fontNumber + 1 && info.fontsTMP.defaultFont[fontNumber])
                 {
-                    font = infoYG.fontsTMP.defaultFont[fontNumber];
+                    font = info.fontsTMP.defaultFont[fontNumber];
                 }
-                else if (infoYG.fontsTMP.defaultFont.Length >= 1 && infoYG.fontsTMP.defaultFont[0])
+                else if (info.fontsTMP.defaultFont.Length >= 1 && info.fontsTMP.defaultFont[0])
                 {
-                    font = infoYG.fontsTMP.defaultFont[0];
+                    font = info.fontsTMP.defaultFont[0];
                 }
             }
 
@@ -212,7 +185,7 @@ namespace YG
         {
             if (textLComponent)
                 textLComponent.fontSize = baseFontSize;
-#if YG_TEXT_MESH_PRO
+#if TMP_YG2
             else if (textMPComponent)
                 textMPComponent.fontSize = baseFontSize;
 #endif
@@ -220,7 +193,7 @@ namespace YG
             {
                 if (textLComponent)
                     textLComponent.fontSize += fontSizeArray[fontNumber];
-#if YG_TEXT_MESH_PRO
+#if TMP_YG2
                 else if (textMPComponent)
                     textMPComponent.fontSize += fontSizeArray[fontNumber];
 #endif
@@ -310,26 +283,18 @@ namespace YG
 
         public void Translate(int countLangAvailable)
         {
-#if YG_NEWTONSOFT_FOR_AUTOLOCALIZATION
-            //if (gameObject.activeInHierarchy)
-            //    StartCoroutine(TranslateEmptyFields(countLangAvailable));
-            //else
             RunTranslateEmptyFields(countLangAvailable);
-#else
-            Debug.LogError("Activate auto localization in the plugin settings (InfoYG)");
-#endif
         }
 
         string TranslateGoogle(string translationTo = "en")
         {
-#if YG_NEWTONSOFT_FOR_AUTOLOCALIZATION
             string text;
 
             if (!componentTextField)
                 text = this.text;
             else if (textLComponent)
                 text = textLComponent.text;
-#if YG_TEXT_MESH_PRO
+#if TMP_YG2
             else if (textMPComponent)
                 text = textMPComponent.text;
 #endif
@@ -338,8 +303,8 @@ namespace YG
                 Debug.LogError("(The text for translation was not found!");
                 return null;
             }
-
-            var url = String.Format("https://translate.google." + infoYG.domainAutoLocalization + "/translate_a/single?client=gtx&dt=t&sl={0}&tl={1}&q={2}",
+#if NJSON_YG2
+            var url = String.Format("https://translate.google." + info.domainAutoLocalization + "/translate_a/single?client=gtx&dt=t&sl={0}&tl={1}&q={2}",
                 "auto", translationTo, WebUtility.UrlEncode(text));
             UnityWebRequest www = UnityWebRequest.Get(url);
             www.SendWebRequest();
@@ -365,8 +330,12 @@ namespace YG
 
             return response;
 #else
-            Debug.LogError("Missing library 'Newtonsoft.Json.Linq'. You need to import it. You need to import 'Newtonsoft Json' for auto-localization.");
-            return null;
+#if RU_YG2
+            Debug.LogError($"Для авто локализации требуется импортировать пакет Newtonsoft JSON. Сделать это можно в настройках {InfoYG.NAME_PLUGIN}.");
+#else
+            Debug.LogError($"For auto localization, you need to import the Newtonsoft JSON package. You can do this in the settings {InfoYG.NAME_PLUGIN}.");
+#endif
+            return text;
 #endif
         }
 
@@ -379,9 +348,9 @@ namespace YG
 
             for (int i = 0; i < languages.Length; i++)
             {
-                if (LangMethods.LangArr(infoYG)[i] && (languages[i] == null || languages[i] == ""))
+                if (UtilsLang.LangIsActive()[i] && (languages[i] == null || languages[i] == ""))
                 {
-                    string translate = TranslateGoogle(LangMethods.LangName(i));
+                    string translate = TranslateGoogle(UtilsLang.LangName(i));
 
                     if (translate == null)
                         return;

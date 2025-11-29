@@ -1,8 +1,10 @@
 using UnityEngine;
-using System.Runtime.InteropServices;
 using UnityEngine.Events;
 using System;
-using UnityEngine.SceneManagement;
+using System.Collections.Generic;
+#if PLUGIN_YG_2
+using YG.Insides;
+#endif
 
 namespace YG
 {
@@ -10,9 +12,9 @@ namespace YG
     [DefaultExecutionOrder(-100)]
     public partial class YandexGame : MonoBehaviour
     {
-        public InfoYG infoYG;
         [Tooltip("Объект YandexGame не будет удаляться при смене сцены. При выборе опции singleton, объект YandexGame необходимо поместить только на одну сцену, которая первая загружается при запуске игры.")]
         public bool singleton;
+
         [Space(10)]
         public UnityEvent ResolvedAuthorization;
         public UnityEvent RejectedAuthorization;
@@ -33,48 +35,154 @@ namespace YG
         public UnityEvent PromptFail;
         public UnityEvent ReviewDo;
 
-        #region Data Fields
-        public static bool auth { get => _auth; }
-        public static bool SDKEnabled { get => _SDKEnabled; }
-
+        public static YandexGame Instance;
+        public static Action GetDataEvent;
+        public static bool SDKEnabled
+        {
+#if PLUGIN_YG_2
+            get => YG2.isSDKEnabled;
+#else
+            get => false;
+#endif
+        }
         public static bool nowAdsShow
+        {
+#if PLUGIN_YG_2
+            get => YG2.nowAdsShow;
+#else
+            get => false;
+#endif
+        }
+        public static bool nowFullAd
+        {
+#if PLUGIN_YG_2
+            get => YG2.nowInterAdv;
+#else
+            get => false;
+#endif
+        }
+        public static bool nowVideoAd
+        {
+#if PLUGIN_YG_2
+            get => YG2.nowRewardAdv;
+#else
+            get => false;
+#endif
+        }
+        public static bool auth
         {
             get
             {
-                if (nowFullAd || nowVideoAd)
-                    return true;
-                else
-                    return false;
+#if Authorization_yg
+                return YG2.player.auth;
+#else
+                return false;
+#endif
+            }
+        }
+        public static string playerName
+        {
+            get
+            {
+#if Authorization_yg
+                return YG2.player.name;
+#else
+                return "unauthorized";
+#endif
+            }
+        }
+        public static string playerId
+        {
+            get
+            {
+#if Authorization_yg
+                return YG2.player.id;
+#else
+                return string.Empty;
+#endif
+            }
+        }
+        public static string playerPhoto
+        {
+            get
+            {
+#if Authorization_yg
+                return YG2.player.photo;
+#else
+                return string.Empty;
+#endif
             }
         }
 
-        private static bool _auth;
-        private static bool _SDKEnabled;
-
-        public static bool nowFullAd;
-        public static bool nowVideoAd;
-        public static YandexGame Instance;
-        public static Action onAdNotification;
-        public static Action GetDataEvent;
-        #endregion Data Fields
-
-        #region Methods
-        private void OnEnable()
+        public class JsonEnvironmentData
         {
-            if (singleton)
-                SceneManager.sceneLoaded += OnSceneLoaded;
-#if UNITY_EDITOR
-            Application.focusChanged += OnVisibilityGameWindow;
-#endif
+            public string language = "ru";
+            public string domain = "ru";
+            public string deviceType = "desktop";
+            public bool isMobile;
+            public bool isDesktop = true;
+            public bool isTablet;
+            public bool isTV;
+            public string appID;
+            public string browserLang;
+            public string payload;
+            public string platform = "Win32";
+            public string browser = "Other";
         }
-        private void OnDisable()
+        public static JsonEnvironmentData EnvironmentData
         {
-            if (singleton)
-                SceneManager.sceneLoaded -= OnSceneLoaded;
-#if UNITY_EDITOR
-            Application.focusChanged -= OnVisibilityGameWindow;
+            get
+            {
+#if EnvirData_yg
+                return new JsonEnvironmentData
+                {
+                    language = YG2.envir.language,
+                    domain = YG2.envir.domain,
+                    deviceType = YG2.envir.deviceType,
+                    isMobile = YG2.envir.isMobile,
+                    isDesktop = YG2.envir.isDesktop,
+                    isTablet = YG2.envir.isTablet,
+                    isTV = YG2.envir.isTV,
+                    appID = YG2.envir.appID,
+                    browserLang = YG2.envir.browserLang,
+                    payload = YG2.envir.payload,
+                    platform = YG2.envir.platform,
+                    browser = YG2.envir.browser
+                };
+#else
+                return new JsonEnvironmentData();
 #endif
+            }
         }
+
+        public static string lang
+        {
+            get
+            {
+#if Localization_yg
+                return YG2.lang;
+#else
+                return "ru";
+#endif
+            }
+        }
+        public static Action<string> SwitchLangEvent;
+
+        public static Action OpenFullAdEvent;
+        public static Action CloseFullAdEvent;
+        public static Action OpenVideoEvent;
+        public static Action CloseVideoEvent;
+        public static Action<int> RewardVideoEvent;
+
+#if Storage_yg
+        public static SavesYG savesData
+        {
+            get => YG2.saves;
+            set => YG2.saves = value;
+        }
+#else
+        public static SavesYG savesData = new SavesYG();
+#endif
 
         private void Awake()
         {
@@ -97,603 +205,407 @@ namespace YG
             {
                 Instance = this;
             }
-
-            if (!_SDKEnabled)
-            {
-                CallInitBaisYG();
-                CallInitYG();
-                GetPayments();
-            }
         }
 
-        [DllImport("__Internal")]
-        private static extern void InitGame_js();
-
-        private void Start()
+        private void OnEnable()
         {
-            if (infoYG.AdWhenLoadingScene)
-                FullscreenShow();
-
-            if (!_SDKEnabled)
-            {
-                CallStartYG();
-                _SDKEnabled = true;
-                GetDataInvoke();
-#if !UNITY_EDITOR
-                InitGame_js();
+#if PLUGIN_YG_2
+            YG2.onGetSDKData += OnGetSDKData;
 #endif
-            }
-        }
-
-        private static void Message(string message)
-        {
-#if UNITY_EDITOR
-            if (Instance.infoYG.debug)
+#if InterstitialAdv_yg
+            YG2.onOpenInterAdv += OnOpenInterAdv;
+            YG2.onCloseInterAdv += OnCloseInterAdv;
+            YG2.onErrorInterAdv += OnErrorInterAdv;
 #endif
-                Debug.Log(message);
-        }
-
-        public static void GetDataInvoke()
-        {
-            if (_SDKEnabled)
-                GetDataEvent?.Invoke();
-        }
-
-        private static bool firstSceneLoad = true;
-        private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-        {
-            if (firstSceneLoad)
-                firstSceneLoad = false;
-            else if (infoYG.AdWhenLoadingScene)
-                _FullscreenShow();
-        }
-
-        #region For ECS
-#if UNITY_EDITOR
-        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-        private static void ResetStatic()
-        {
-            _SDKEnabled = false;
-            _auth = false;
-            playerName = "unauthorized";
-            _playerId = null;
-            playerPhoto = null;
-            photoSize = "medium";
-            nowFullAd = false;
-            nowVideoAd = false;
-            savesData = new SavesYG();
-            Instance = null;
-            timerShowAd = 0;
-            GetDataEvent = null;
-            onResetProgress = null;
-            SwitchLangEvent = null;
-            OpenFullAdEvent = null;
-            CloseFullAdEvent = null;
-            ErrorFullAdEvent = null;
-            OpenVideoEvent = null;
-            CloseVideoEvent = null;
-            RewardVideoEvent = null;
-            ErrorVideoEvent = null;
-            onGetLeaderboard = null;
-            ReviewSentEvent = null;
-            PromptSuccessEvent = null;
-            PromptFailEvent = null;
-            onAdNotification = null;
-        }
+#if RewardedAdv_yg
+            YG2.onOpenRewardedAdv += OnOpenRewardedAdv;
+            YG2.onCloseRewardedAdv += OnCloseRewardedAdv;
+            YG2.onRewardAdv += OnRewardAdv;
+            YG2.onErrorRewardedAdv += OnErrorRewardedAdv;
 #endif
-        #endregion For ECS
+#if Payments_yg
+            YG2.onPurchaseSuccess += OnPurchaseSuccess;
+            YG2.onPurchaseFailed += OnPurchaseFailed;
+#endif
+#if Review_yg
+            YG2.onReviewSent += OnReviewSent;
+#endif
+#if GameLabel_yg
+            YG2.onGameLabelSuccess += OnGameLabelSuccess;
+            YG2.onGameLabelFail += OnGameLabelFail;
+#endif
+#if Localization_yg
+            YG2.onSwitchLang += OnSwitchLang;
+#endif
+        }
 
-        #endregion Methods
+        private void OnDisable()
+        {
+#if PLUGIN_YG_2
+            YG2.onGetSDKData -= OnGetSDKData;
+#endif
+#if InterstitialAdv_yg
+            YG2.onOpenInterAdv -= OnOpenInterAdv;
+            YG2.onCloseInterAdv -= OnCloseInterAdv;
+            YG2.onErrorInterAdv -= OnErrorInterAdv;
+#endif
+#if RewardedAdv_yg
+            YG2.onOpenRewardedAdv -= OnOpenRewardedAdv;
+            YG2.onCloseRewardedAdv -= OnCloseRewardedAdv;
+            YG2.onRewardAdv -= OnRewardAdv;
+            YG2.onErrorRewardedAdv -= OnErrorRewardedAdv;
+#endif
+#if Payments_yg
+            YG2.onPurchaseSuccess -= OnPurchaseSuccess;
+            YG2.onPurchaseFailed -= OnPurchaseFailed;
+#endif
+#if Review_yg
+            YG2.onReviewSent -= OnReviewSent;
+#endif
+#if GameLabel_yg
+            YG2.onGameLabelSuccess -= OnGameLabelSuccess;
+            YG2.onGameLabelFail -= OnGameLabelFail;
+#endif
+#if Localization_yg
+            YG2.onSwitchLang -= OnSwitchLang;
+#endif
+        }
 
+        private void OnGetSDKData()
+        {
+            GetDataEvent?.Invoke();
+#if Authorization_yg
+            if (YG2.player.auth)
+                ResolvedAuthorization?.Invoke();
+            else
+                RejectedAuthorization?.Invoke();
+#endif
+        }
+        public void _GameReadyAPI()
+        {
+#if PLUGIN_YG_2
+            YG2.GameReadyAPI();
+#endif
+        }
+        public void _GameplayStart()
+        {
+#if PLUGIN_YG_2
+            YG2.GameplayStart();
+#endif
+        }
+        public void _GameplayStop()
+        {
+#if PLUGIN_YG_2
+            YG2.GameplayStop();
+#endif
+        }
+        public static void GameReadyAPI()
+        {
+#if PLUGIN_YG_2
+            YG2.GameReadyAPI();
+#endif
+        }
+        public static void GameplayStart()
+        {
+#if PLUGIN_YG_2
+            YG2.GameplayStart();
+#endif
+        }
+        public static void GameplayStop()
+        {
+#if PLUGIN_YG_2
+            YG2.GameplayStop();
+#endif
+        }
 
-        // Sending messages
-
-        #region Fullscren Ad Show
-        [DllImport("__Internal")]
-        private static extern void FullAdShow();
-
+        public static void FullscreenShow()
+        {
+#if InterstitialAdv_yg
+            YG2.InterstitialAdvShow();
+#endif
+        }
         public void _FullscreenShow()
         {
-            if (!nowAdsShow && timerShowAd >= infoYG.fullscreenAdInterval)
-            {
-                timerShowAd = 0;
-                onAdNotification?.Invoke();
-#if !UNITY_EDITOR
-                FullAdShow();
-#else
-                Message("Fullscren Ad");
-                FullAdInEditor();
+#if InterstitialAdv_yg
+            YG2.InterstitialAdvShow();
 #endif
-            }
-            else
-            {
-                if (nowAdsShow)
-                    Message($"Реклама не может быть открыта во время показа другой рекламы!");
-                else
-                    Message($"До запроса к показу рекламы в середине игры {(infoYG.fullscreenAdInterval - timerShowAd).ToString("00.0")} сек.");
-            }
         }
 
-        public static void FullscreenShow() => Instance._FullscreenShow();
-
-#if UNITY_EDITOR
-        private void FullAdInEditor()
+#if InterstitialAdv_yg
+        private void OnOpenInterAdv()
         {
-            GameObject obj = new GameObject { name = "TestFullAd" };
-            DontDestroyOnLoad(obj);
-            Insides.CallingAnEvent call = obj.AddComponent(typeof(Insides.CallingAnEvent)) as Insides.CallingAnEvent;
-            call.StartCoroutine(call.CallingAd(infoYG.durationOfAdSimulation));
+            OpenFullscreenAd?.Invoke();
+            OpenFullAdEvent?.Invoke();
         }
+        private void OnCloseInterAdv()
+        {
+            CloseFullscreenAd?.Invoke();
+            CloseFullAdEvent?.Invoke();
+        }
+        private void OnErrorInterAdv() => ErrorFullscreenAd?.Invoke();
 #endif
-        #endregion Fullscren Ad Show
-
-        #region Rewarded Video Show
-        [DllImport("__Internal")]
-        private static extern void RewardedShow(int id);
-
+        public static void RewVideoShow(int id)
+        {
+#if RewardedAdv_yg
+            YG2.RewardedAdvShow(id.ToString());
+#endif
+        }
         public void _RewardedShow(int id)
         {
-            Message("Rewarded Ad Show");
-
-            if (!nowFullAd && !nowVideoAd)
-            {
-                onAdNotification?.Invoke();
-#if !UNITY_EDITOR
-                RewardedShow(id);
-#else
-                AdRewardInEditor(id);
-#endif
-            }
-        }
-
-        public static void RewVideoShow(int id) => Instance._RewardedShow(id);
-
-#if UNITY_EDITOR
-        private void AdRewardInEditor(int id)
-        {
-            GameObject obj = new GameObject { name = "TestVideoAd" };
-            DontDestroyOnLoad(obj);
-            Insides.CallingAnEvent call = obj.AddComponent(typeof(Insides.CallingAnEvent)) as Insides.CallingAnEvent;
-            call.StartCoroutine(call.CallingAd(infoYG.durationOfAdSimulation, id));
-        }
-#endif
-        #endregion Rewarded Video Show
-
-        #region URL
-        [DllImport("__Internal")]
-        private static extern void OpenURL(string url);
-
-        public static void OnURL(string url)
-        {
-            try
-            {
-                OpenURL(url);
-            }
-            catch (Exception error)
-            {
-                Debug.LogError("The first method of following the link failed! Error:\n" + error + "\nInstead of the first method, let's try to call the second method 'Application.OpenURL'");
-                Application.OpenURL(url);
-            }
-        }
-
-        public void _OnURL_Yandex_DefineDomain(string url)
-        {
-            url = "https://yandex." + EnvironmentData.domain + "/games/" + url;
-            Message("URL Transition (yandexGames.DefineDomain) url: " + url);
-#if !UNITY_EDITOR
-            if (EnvironmentData.domain != null && EnvironmentData.domain != "")
-            {
-                OnURL(url);
-            }
-            else Debug.LogError("OnURL_Yandex_DefineDomain: Domain not defined!");
-#else
-            Application.OpenURL(url);
+#if RewardedAdv_yg
+            YG2.RewardedAdvShow(id.ToString());
 #endif
         }
-
-        public void _OnAnyURL(string url)
+#if RewardedAdv_yg
+        private void OnOpenRewardedAdv()
         {
-            Message("Any URL Transition. url: " + url);
-#if !UNITY_EDITOR
-            OnURL(url);
-#else
-            Application.OpenURL(url);
+            OpenVideoAd?.Invoke();
+            OpenVideoEvent?.Invoke();
+        }
+        private void OnCloseRewardedAdv()
+        {
+            CloseVideoAd?.Invoke();
+            CloseVideoEvent?.Invoke();
+        }
+        private void OnRewardAdv(string id)
+        {
+            RewardVideoAd?.Invoke();
+            RewardVideoEvent?.Invoke(int.Parse(id));
+        }
+        private void OnErrorRewardedAdv() => ErrorVideoAd?.Invoke();
 #endif
-        }
-        #endregion URL
-
-        #region Review Show
-        [DllImport("__Internal")]
-        private static extern void ReviewInternal();
-
-        public void _ReviewShow(bool authDialog)
-        {
-            Message("Review");
-#if !UNITY_EDITOR
-            if (authDialog)
-            {
-                if (_auth) ReviewInternal();
-                else _OpenAuthDialog();
-            }
-            else ReviewInternal();
-#else
-            ReviewSent("true");
-#endif
-        }
-
-        public static void ReviewShow(bool authDialog)
-        {
-            Instance._ReviewShow(authDialog);
-        }
-        #endregion Review Show
-
-        #region Prompt
-        [DllImport("__Internal")]
-        private static extern void PromptShowInternal();
-
-        public static void PromptShow()
-        {
-#if !UNITY_EDITOR
-            if (EnvironmentData.promptCanShow)
-                PromptShowInternal();
-#else
-            savesData.promptDone = true;
-            SaveProgress();
-
-            Instance.PromptDo?.Invoke();
-            PromptSuccessEvent?.Invoke();
-#endif
-        }
-        public void _PromptShow() => PromptShow();
-        #endregion Prompt
-
-        #region Sticky Ad
-        [DllImport("__Internal")]
-        private static extern void StickyAdActivityInternal(bool activity);
-
         public static void StickyAdActivity(bool activity)
         {
-            if (activity) Message("Sticky Ad Show");
-            else Message("Sticky Ad Hide");
-#if !UNITY_EDITOR
-            StickyAdActivityInternal(activity);
+#if StickyAdv_yg
+            YG2.StickyAdActivity(activity);
 #endif
         }
-
-        public void _StickyAdActivity(bool activity) => StickyAdActivity(activity);
-        #endregion Sticky Ad
-
-        #region Gameplay Start/Stop
-        private static bool gamePlaying;
-        public static bool isGamePlaying { get { return gamePlaying; } }
-        private static bool saveGameplayState;
-
-        [DllImport("__Internal")]
-        private static extern void GameplayStart_js();
-
-        public static void GameplayStart(bool useSaveGameplayState = false)
+        public void _StickyAdActivity(bool activity)
         {
-            if (useSaveGameplayState && (!saveGameplayState || nowAdsShow || !isVisibilityWindowGame))
-                return;
-
-            if (!gamePlaying)
-            {
-                gamePlaying = true;
-                Message("Gameplay Start");
-#if !UNITY_EDITOR
-                GameplayStart_js();
+#if StickyAdv_yg
+            YG2.StickyAdActivity(activity);
 #endif
-            }
         }
-        public void _GameplayStart() => GameplayStart();
-
-        [DllImport("__Internal")]
-        private static extern void GameplayStop_js();
-
-        public static void GameplayStop(bool useSaveGameplayState = false)
+        public static void OpenAuthDialog()
         {
-            if (useSaveGameplayState && !nowAdsShow && isVisibilityWindowGame)
-                saveGameplayState = gamePlaying;
-
-            if (gamePlaying)
-            {
-                gamePlaying = false;
-                Message("Gameplay Stop");
-#if !UNITY_EDITOR
-                GameplayStop_js();
+#if Authorization_yg
+            YG2.OpenAuthDialog();
 #endif
-            }
         }
-        public void _GameplayStop() => GameplayStop();
-        #endregion Gameplay Start/Stop
-
-        #region Visibility Window Game
-        public static bool isVisibilityWindowGame { get { return visibilityWindowGame; } }
-        private static bool visibilityWindowGame = true;
-
-        public static Action<bool> onVisibilityWindowGame;
-        public static Action onShowWindowGame, onHideWindowGame;
-
-        public void OnVisibilityGameWindow(string visible)
+        public void _RequestAuth()
         {
-            if (visible == "true")
-            {
-                visibilityWindowGame = true;
-                GameplayStart(true);
-
-                onVisibilityWindowGame?.Invoke(true);
-                onShowWindowGame?.Invoke();
-            }
-            else
-            {
-                onVisibilityWindowGame?.Invoke(false);
-                onHideWindowGame?.Invoke();
-
-                GameplayStop(true);
-                visibilityWindowGame = false;
-            }
+#if Authorization_yg
+            YG2.GetAuth();
+#endif
         }
-        public void OnVisibilityGameWindow(bool visible) => OnVisibilityGameWindow(visible ? "true" : "false");
-        #endregion Visibility Window Game
-
-        #region Server Time
-
-        [DllImport("__Internal")]
-        private static extern IntPtr ServerTime_js();
-
-        public static long ServerTime()
+        public void _OpenAuthDialog()
         {
-#if UNITY_EDITOR
-            return Instance.infoYG.playerInfoSimulation.serverTime;
-#else
-            IntPtr serverTimePtr = ServerTime_js();
-            string serverTimeStr = Marshal.PtrToStringAuto(serverTimePtr);
-            if (long.TryParse(serverTimeStr, out long serverTime))
-            {
-                return serverTime;
-            }
-            return 0;
+#if Authorization_yg
+            YG2.OpenAuthDialog();
 #endif
         }
-        #endregion Server Time
-
-        #region Fullscreen
-#if UNITY_EDITOR
-        private static bool isFullscreenEditor;
+        public void _RequesEnvirData()
+        {
+#if EnvirData_yg
+            YG2.GetEnvirData();
 #endif
-        [DllImport("__Internal")]
-        private static extern long SetFullscreen_js(bool fullscreen);
+        }
+        public static void SwitchLanguage(string language)
+        {
+#if Localization_yg
+            YG2.SwitchLanguage(language);
+#endif
+        }
+        public void _LanguageRequest()
+        {
+#if Localization_yg
+            YG2.GetLanguage();
+#endif
+        }
+        public void _SwitchLanguage(string language)
+        {
+#if Localization_yg
+            YG2.SwitchLanguage(language);
+#endif
+        }
+
+#if Localization_yg
+        private void OnSwitchLang(string lang) => SwitchLangEvent?.Invoke(lang);
+#endif
+        public static void NewLeaderboardScores(string nameLB, int score)
+        {
+#if Leaderboards_yg
+            YG2.SetLeaderboard(nameLB, score);
+#endif
+        }
+        public static void NewLBScoreTimeConvert(string nameLB, float secondsScore)
+        {
+#if Leaderboards_yg
+            YG2.SetLBTimeConvert(nameLB, secondsScore);
+#endif
+        }
+        public static void BuyPayments(string id)
+        {
+#if Payments_yg
+            YG2.BuyPayments(id);
+#endif
+        }
+        public static void ConsumePurchases()
+        {
+#if Payments_yg
+            YG2.ConsumePurchases();
+#endif
+        }
+        public void _BuyPayments(string id)
+        {
+#if Payments_yg
+            YG2.BuyPayments(id);
+#endif
+        }
+        public void _ConsumePurchases()
+        {
+#if Payments_yg
+            YG2.ConsumePurchases();
+#endif
+        }
+
+#if Payments_yg
+        private void OnPurchaseSuccess(string id) => PurchaseSuccess?.Invoke();
+        private void OnPurchaseFailed(string id) => PurchaseFailed?.Invoke();
+#endif
+        public static void ResetSaveProgress()
+        {
+#if Storage_yg
+            YG2.SetDefaultSaves();
+#endif
+        }
+        public static void SaveProgress()
+        {
+#if Storage_yg
+            YG2.SaveProgress();
+#endif
+        }
+        public static void LoadProgress()
+        {
+#if Storage_yg
+            YGInsides.LoadProgress();
+#endif
+        }
+        public void _ResetSaveProgress()
+        {
+#if Storage_yg
+            YG2.SetDefaultSaves();
+#endif
+        }
+        public void _SaveProgress()
+        {
+#if Storage_yg
+            YG2.SaveProgress();
+#endif
+        }
+        public void _LoadProgress()
+        {
+#if Storage_yg
+            YGInsides.LoadProgress();
+#endif
+        }
         public static void SetFullscreen(bool fullscreen)
         {
-            if (isFullscreen != fullscreen)
-            {
-                Message("Set Fullscreen: " + fullscreen);
-#if UNITY_EDITOR
-                isFullscreenEditor = fullscreen;
+#if Fullscreen_yg
+            YG2.SetFullscreen(fullscreen);
+#endif
+        }
+        public void _SetFullscreen(bool fullscreen)
+        {
+#if Fullscreen_yg
+            YG2.SetFullscreen(fullscreen);
+#endif
+        }
+        public static void OnURL_Yandex_DefineDomain(string url)
+        {
+#if OpenURL_yg
+            YG2.OnURLDefineDomain(url);
+#endif
+        }
+        public static void OnAnyURL(string url)
+        {
+#if OpenURL_yg
+            YG2.OnURL(url);
+#endif
+        }
+        public void _OnURL_Yandex_DefineDomain(string url)
+        {
+#if OpenURL_yg
+            YG2.OnURLDefineDomain(url);
+#endif
+        }
+        public void _OnAnyURL(string url)
+        {
+#if OpenURL_yg
+            YG2.OnURL(url);
+#endif
+        }
+        public void _ReviewShow(bool authDialog)
+        {
+#if Review_yg
+            YG2.ReviewShow();
+#endif
+        }
+#if Review_yg
+        private void OnReviewSent(bool b) => ReviewDo?.Invoke();
+#endif
+        public void _PromptShow()
+        {
+#if GameLabel_yg
+            YG2.GameLabelShowDialog();
+#endif
+        }
+#if GameLabel_yg
+        private void OnGameLabelSuccess() => PromptDo?.Invoke();
+        private void OnGameLabelFail() => PromptFail?.Invoke();
+#endif
+    }
+    public static class YandexMetrica
+    {
+        public static void Send(string eventName)
+        {
+#if Metrica_yg
+            YG2.MetricaSend(eventName);
+#endif
+        }
+        public static void Send(string eventName, Dictionary<string, string> eventParams)
+        {
+#if Metrica_yg
+            YG2.MetricaSend(eventName, eventParams);
+#endif
+        }
+    }
+
+#if !Storage_yg
+    public partial class SavesYG { public int idSave; }
+#endif
+    public partial class SavesYG
+    {
+        public string language
+        {
+#if Localization_yg
+            get => YG2.lang;
 #else
-                SetFullscreen_js(fullscreen);
-#endif
-            }
-        }
-        public void _SetFullscreen(bool fullscreen) => SetFullscreen(fullscreen);
-
-        [DllImport("__Internal")]
-        private static extern bool IsFullscreen_js();
-        public static bool isFullscreen
-        {
-            get
-            {
-#if UNITY_EDITOR
-                return isFullscreenEditor;
-#else
-                return IsFullscreen_js();
-#endif
-            }
-        }
-
-        #endregion Fullscreen
-
-
-        // Receiving messages
-
-        #region Fullscren Ad
-        public static Action OpenFullAdEvent;
-        public void OpenFullAd()
-        {
-            GameplayStop(true);
-            OpenFullscreenAd.Invoke();
-            OpenFullAdEvent?.Invoke();
-            nowFullAd = true;
-        }
-
-        public static Action CloseFullAdEvent;
-        public void CloseFullAd(string wasShown)
-        {
-            nowFullAd = false;
-            CloseFullscreenAd.Invoke();
-            CloseFullAdEvent?.Invoke();
-            timerShowAd = 0;
-#if !UNITY_EDITOR
-            if (wasShown == "true")
-            {
-                Message("Closed Ad Interstitial");
-            }
-            else
-            {
-                if (infoYG.adDisplayCalls == InfoYG.AdCallsMode.until)
-                {
-                    Message("Реклама не была показана. Ждём следующего запроса.");
-                    ResetTimerFullAd();
-                }
-                else Message("Реклама не была показана. Следующий запрос через: " + infoYG.fullscreenAdInterval);
-            }
-#endif
-            GameplayStart(true);
-        }
-        public void CloseFullAd() => CloseFullAd("true");
-
-        public void ResetTimerFullAd()
-        {
-            timerShowAd = infoYG.fullscreenAdInterval;
-        }
-
-        public static Action ErrorFullAdEvent;
-        public void ErrorFullAd()
-        {
-            ErrorFullscreenAd.Invoke();
-            ErrorFullAdEvent?.Invoke();
-        }
-        #endregion Fullscren Ad
-
-        #region Rewarded Video
-        private float timeOnOpenRewardedAds;
-
-        public static Action OpenVideoEvent;
-        public void OpenVideo()
-        {
-            GameplayStop(true);
-            OpenVideoEvent?.Invoke();
-            OpenVideoAd.Invoke();
-            nowVideoAd = true;
-            timeOnOpenRewardedAds = Time.realtimeSinceStartup;
-        }
-
-        public static Action CloseVideoEvent;
-        public void CloseVideo()
-        {
-            nowVideoAd = false;
-            CloseVideoAd.Invoke();
-            CloseVideoEvent?.Invoke();
-
-            if (rewardAdResult == RewardAdResult.Success)
-            {
-                RewardVideoAd.Invoke();
-                RewardVideoEvent?.Invoke(lastRewardAdID);
-            }
-            else if (rewardAdResult == RewardAdResult.Error)
-            {
-                ErrorVideo();
-            }
-
-            rewardAdResult = RewardAdResult.None;
-            GameplayStart(true);
-        }
-
-        public static Action<int> RewardVideoEvent;
-        private enum RewardAdResult { None, Success, Error };
-        private static RewardAdResult rewardAdResult = RewardAdResult.None;
-        private static int lastRewardAdID;
-
-        public void RewardVideo(int id)
-        {
-            lastRewardAdID = id;
-#if UNITY_EDITOR
-            if (Instance.infoYG.testErrorOfRewardedAdsInEditor)
-                timeOnOpenRewardedAds += Time.realtimeSinceStartup + 1;
-            else
-                timeOnOpenRewardedAds = 0;
-#endif
-            rewardAdResult = RewardAdResult.None;
-
-            if (Time.realtimeSinceStartup > timeOnOpenRewardedAds + 0.5f)
-            {
-                if (Instance.infoYG.rewardedAfterClosing)
-                {
-                    rewardAdResult = RewardAdResult.Success;
-                }
-                else
-                {
-                    RewardVideoAd.Invoke();
-                    RewardVideoEvent?.Invoke(id);
-                }
-            }
-            else
-            {
-                if (Instance.infoYG.rewardedAfterClosing)
-                    rewardAdResult = RewardAdResult.Error;
-                else
-                    ErrorVideo();
-            }
-        }
-
-        public static Action ErrorVideoEvent;
-        public void ErrorVideo()
-        {
-            ErrorVideoAd.Invoke();
-            ErrorVideoEvent?.Invoke();
-        }
-        #endregion Rewarded Video
-
-        #region Review
-        public static Action<bool> ReviewSentEvent;
-        public void ReviewSent(string feedbackSent)
-        {
-            EnvironmentData.reviewCanShow = false;
-
-            bool sent = feedbackSent == "true" ? true : false;
-            ReviewSentEvent?.Invoke(sent);
-            if (sent) ReviewDo?.Invoke();
-        }
-        #endregion Review
-
-        #region Prompt
-        public static Action PromptSuccessEvent;
-        public static Action PromptFailEvent;
-        public void OnPromptSuccess()
-        {
-            savesData.promptDone = true;
-            SaveProgress();
-
-            PromptDo?.Invoke();
-            PromptSuccessEvent?.Invoke();
-            EnvironmentData.promptCanShow = false;
-        }
-
-        public void OnPromptFail()
-        {
-            PromptFail?.Invoke();
-            PromptFailEvent?.Invoke();
-            EnvironmentData.promptCanShow = false;
-        }
-        #endregion Prompt
-
-
-        // The rest
-
-        #region Update
-        public static float timerShowAd;
-#if !UNITY_EDITOR
-        static float timerSaveCloud = 62;
-#endif
-
-        private void Update()
-        {
-            // Таймер для обработки показа Fillscreen рекламы
-            timerShowAd += Time.unscaledDeltaTime;
-
-            // Таймер для облачных сохранений
-#if !UNITY_EDITOR
-            if (infoYG.saveCloud)
-                timerSaveCloud += Time.unscaledDeltaTime;
+            get => "ru";
 #endif
         }
-        #endregion Update
-
-        #region Json
-        public class JsonLB
-        {
-            public string technoName;
-            public bool isDefault;
-            public bool isInvertSortOrder;
-            public int decimalOffset;
-            public string type;
-            public string entries;
-            public int[] ranks;
-            public string[] photos;
-            public string[] names;
-            public int[] scores;
-            public string[] uniqueIDs;
-        }
-        #endregion Json
     }
 }
+
+#if !Leaderboards_yg
+namespace YG.Utils.LB
+{
+    public static class LBMethods
+    {
+        public static string TimeTypeConvertStatic(int value)
+        {
+            return string.Empty;
+        }
+    }
+}
+#endif

@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 using YG;
+using YG.LanguageLegacy;
 
 namespace UI
 {

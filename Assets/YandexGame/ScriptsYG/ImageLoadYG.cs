@@ -3,18 +3,25 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
 using UnityEngine.Networking;
+using System;
 
 namespace YG
 {
+    [DefaultExecutionOrder(-1)]
     public class ImageLoadYG : MonoBehaviour
     {
-        public bool startLoad = true;
+        public bool startLoad;
+#if PLUGIN_YG_2
+        [NestedYG("startLoad")]
+#endif
+        public string urlImage;
+
         public RawImage rawImage;
         public Image spriteImage;
-        public string urlImage;
         public GameObject loadAnimObj;
-        [Tooltip("Вы можете выключить запись лога в консоль.")]
-        [SerializeField] bool debug;
+        [SerializeField] bool log;
+
+        public Action onTextureLoad;
 
         private struct LoadTextures { public string link; public Texture2D texture; }
         private static List<LoadTextures> saveTextures = new List<LoadTextures>();
@@ -34,14 +41,14 @@ namespace YG
 
         public void Load(string url)
         {
-            if (url != "null" && url != null && url != string.Empty)
-            {
-                Texture2D existingTexture = ExistingTexture(url);
-                if (existingTexture)
-                    SetTexture(existingTexture);
-                else
-                    StartCoroutine(SwapPlayerPhoto(url));
-            }
+            if (url == "null" && url == null && url == string.Empty)
+                return;
+
+            Texture2D existingTexture = ExistingTexture(url);
+            if (existingTexture)
+                SetTexture(existingTexture);
+            else
+                StartCoroutine(LoadTexture(url));
         }
         public void Load() => Load(urlImage);
 
@@ -58,7 +65,7 @@ namespace YG
             return null;
         }
 
-        public void ClearImage()
+        public void ClearTexture()
         {
             if (rawImage)
             {
@@ -76,25 +83,7 @@ namespace YG
                 loadAnimObj.SetActive(false);
         }
 
-        public void PutSprite(Sprite sprite)
-        {
-            if (rawImage)
-            {
-                rawImage.texture = sprite.texture;
-                rawImage.enabled = true;
-            }
-
-            if (spriteImage)
-            {
-                spriteImage.sprite = sprite;
-                spriteImage.enabled = true;
-            }
-
-            if (loadAnimObj)
-                loadAnimObj.SetActive(false);
-        }
-
-        IEnumerator SwapPlayerPhoto(string url)
+        IEnumerator LoadTexture(string url)
         {
             if (loadAnimObj)
                 loadAnimObj.SetActive(true);
@@ -106,8 +95,8 @@ namespace YG
                 if (webRequest.result == UnityWebRequest.Result.ConnectionError ||
                     webRequest.result == UnityWebRequest.Result.DataProcessingError)
                 {
-                    if (debug)
-                        Debug.LogError("Error: " + webRequest.error);
+                    if (log)
+                        Debug.LogError("ImageLoadYG Error: " + webRequest.error);
                 }
                 else
                 {
@@ -134,7 +123,7 @@ namespace YG
             }
         }
 
-        private void SetTexture(Texture2D texture)
+        public void SetTexture(Texture2D texture)
         {
             if (rawImage)
             {
@@ -150,7 +139,10 @@ namespace YG
             }
 
             if (loadAnimObj)
+            {
                 loadAnimObj.SetActive(false);
+                onTextureLoad?.Invoke();
+            }
         }
     }
 }

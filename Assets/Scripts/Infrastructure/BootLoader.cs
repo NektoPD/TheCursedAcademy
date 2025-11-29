@@ -32,10 +32,8 @@ namespace Infrastructure
             PlayerPrefs.SetInt(Key, (int)_type);
             ResolutionMonitor.EnsureInstance();
 
-            if (YandexGame.savesData.isFirstSession == false)
+            if (YG2.isFirstGameSession == false)
                 SceneManager.LoadScene(_menuIdSecene);
-
-            YandexGame.savesData.isFirstSession = false;
 
             YandexGame.SaveProgress();
 
