@@ -32,12 +32,9 @@ namespace Infrastructure
             PlayerPrefs.SetInt(Key, (int)_type);
             ResolutionMonitor.EnsureInstance();
 
-            if (YG2.isFirstGameSession == false)
-                SceneManager.LoadScene(_menuIdSecene);
+            SceneManager.LoadScene(!YG2.isFirstGameSession ? _menuIdSecene : _tutorialIdSecene);
 
             YandexGame.SaveProgress();
-
-            SceneManager.LoadScene(_tutorialIdSecene);
             
             _perkController.Initialize();
             _wallet.Initialize();

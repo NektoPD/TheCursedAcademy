@@ -49,9 +49,15 @@ namespace UI.Animation
             _currentTween = suquence.OnComplete(() => gameObject.SetActive(false)).Play();
         }
 
-        public void StopTime() => Time.timeScale = 0f;
+        public void StopTime()
+        {
+            //Time.timeScale = 0f;
+        }
 
-        public void StartTime() => Time.timeScale = 1f;
+        public void StartTime()
+        {
+            //Time.timeScale = 1f;
+        }
 
         private Tween DoFadeBackground(float alfa, float duration)
         {

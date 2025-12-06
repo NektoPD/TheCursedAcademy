@@ -1,0 +1,32 @@
+{
+  "intExample": 5,
+  "strExample": "Hello!",
+  "boolExample": [
+    false,
+    false,
+    false,
+    false
+  ],
+  "idSave": 23,
+  "money": 1,
+  "newPlayerName": "Hello!",
+  "openLevels": [
+    false,
+    true,
+    false
+  ],
+  "PerkDataWrapper": {
+    "PerkLevels": {
+      "Power": 2,
+      "Armor": 0,
+      "MaxHp": 0,
+      "HpRegeneration": 0,
+      "AttackCooldown": 0,
+      "Speed": 0
+    }
+  },
+  "WalletWrapper": {
+    "Money": 356
+  },
+  "language": "ru"
+}
