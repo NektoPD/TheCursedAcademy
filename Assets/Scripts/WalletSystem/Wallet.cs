@@ -40,6 +40,6 @@ namespace WalletSystem
     [Serializable]
     public class WalletWrapper
     {
-        public int Money = 500;
+        public int Money = 0;
     }
 }

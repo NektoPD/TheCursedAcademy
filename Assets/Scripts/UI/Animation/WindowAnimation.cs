@@ -51,12 +51,12 @@ namespace UI.Animation
 
         public void StopTime()
         {
-            //Time.timeScale = 0f;
+            Time.timeScale = 0f;
         }
 
         public void StartTime()
         {
-            //Time.timeScale = 1f;
+            Time.timeScale = 1f;
         }
 
         private Tween DoFadeBackground(float alfa, float duration)

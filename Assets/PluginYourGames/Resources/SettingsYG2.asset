@@ -153,7 +153,7 @@ MonoBehaviour:
   Basic:
     platform: {fileID: 11400000, guid: fabe82a4ab034324eb452cc7109f6d19, type: 2}
     autoApplySettings: 1
-    autoPauseGame: 1
+    autoPauseGame: 0
     editEventSystem: 1
     autoGRA: 1
     logInEditor: 1
@@ -162,7 +162,7 @@ MonoBehaviour:
     loadSceneIfSDKLate: 0
     loadSceneIndex: 0
     initDelaySimulation: 0
-    buildNumber: 1
+    buildNumber: 2
   Simulation:
     device: 0
     language: ru

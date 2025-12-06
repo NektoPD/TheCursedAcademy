@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using DG.Tweening;
 
 namespace EnemyLogic
 {
@@ -8,9 +9,18 @@ namespace EnemyLogic
     {
         [SerializeField] private Color DamageColor = new(1f, 0.5f, 0.5f);
 
+        [Header("Shake Settings")]
+        private float shakeDuration = 0.15f;
+         private float shakeStrength = 0.15f;
+         private int shakeVibrato = 15;
+         private float shakeRandomness = 90f;
+
         private SpriteRenderer _spriteRenderer;
         private Color _originalColor;
         private Coroutine _coroutine;
+
+        private Vector3 _originalPosition;
+        private Tween _shakeTween;
 
         private void Awake()
         {
@@ -20,14 +30,18 @@ namespace EnemyLogic
         private void Start()
         {
             _originalColor = _spriteRenderer.color;
+            _originalPosition = transform.localPosition;
         }
 
         private void OnDisable()
         {
-            if(_coroutine != null)
+            if (_coroutine != null)
                 StopCoroutine(_coroutine);
 
             _spriteRenderer.color = _originalColor;
+
+            _shakeTween?.Kill();
+            transform.localPosition = _originalPosition;
         }
 
         public void StartFlash(float duration)
@@ -36,6 +50,25 @@ namespace EnemyLogic
                 StopCoroutine(_coroutine);
 
             _coroutine = StartCoroutine(FlashCoroutine(duration));
+
+            PlayShake();
+        }
+
+        private void PlayShake()
+        {
+            _shakeTween?.Kill();
+
+            _shakeTween = transform.DOShakePosition(
+                shakeDuration,
+                shakeStrength,
+                shakeVibrato,
+                shakeRandomness,
+                snapping: false,
+                fadeOut: false
+            )/*.OnComplete(() =>
+            {
+                transform.localPosition = _originalPosition;
+            })*/;
         }
 
         private IEnumerator FlashCoroutine(float duration)
