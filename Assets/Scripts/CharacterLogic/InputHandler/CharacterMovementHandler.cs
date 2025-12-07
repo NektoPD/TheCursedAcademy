@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using YG;
 
 namespace CharacterLogic.InputHandler
 {
@@ -29,11 +30,7 @@ namespace CharacterLogic.InputHandler
             _playerInput = new PlayerInput();
             _transform = transform;
 
-#if UNITY_EDITOR
-            _useJoystick = _forceUseJoystickInEditor;
-#else
             _useJoystick = !YandexGame.EnvironmentData.isDesktop;
-#endif
 
             if (_joystickRoot != null)
                 _joystickRoot.SetActive(_useJoystick);
