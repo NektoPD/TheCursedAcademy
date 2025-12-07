@@ -1,3 +1,4 @@
+using Data;
 using Zenject;
 using PlayerPerksController;
 using WalletSystem;

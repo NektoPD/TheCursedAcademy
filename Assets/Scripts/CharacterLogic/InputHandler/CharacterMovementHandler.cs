@@ -10,6 +10,14 @@ namespace CharacterLogic.InputHandler
         private PlayerInput _playerInput;
         private Transform _transform;
 
+        [Header("Mobile Joystick")]
+        [SerializeField] private VirtualJoystick _joystick;
+
+        [SerializeField] private GameObject _joystickRoot;
+        [SerializeField] private bool _forceUseJoystickInEditor;
+
+        private bool _useJoystick;
+
         public event Action MovingLeft;
         public event Action MovingRight;
         public event Action MovingUp;
@@ -20,6 +28,15 @@ namespace CharacterLogic.InputHandler
         {
             _playerInput = new PlayerInput();
             _transform = transform;
+
+#if UNITY_EDITOR
+            _useJoystick = _forceUseJoystickInEditor;
+#else
+            _useJoystick = Application.isMobilePlatform;
+#endif
+
+            if (_joystickRoot != null)
+                _joystickRoot.SetActive(_useJoystick);
         }
 
         private void OnEnable()
@@ -34,7 +51,15 @@ namespace CharacterLogic.InputHandler
 
         private void Update()
         {
-            _moveDirection = _playerInput.Player.Move.ReadValue<Vector2>();
+            if (_useJoystick && _joystick != null)
+            {
+                _moveDirection = _joystick.Direction;
+            }
+            else
+            {
+                _moveDirection = _playerInput.Player.Move.ReadValue<Vector2>();
+            }
+
             Move();
             CheckMovementEvents();
         }
@@ -60,9 +85,9 @@ namespace CharacterLogic.InputHandler
                 return;
 
             float scaledSpeed = _moveSpeed * Time.deltaTime;
-            Vector2 offset = new Vector2(_moveDirection.x, _moveDirection.y) * scaledSpeed;
 
-            _transform.Translate(offset);
+            Vector2 offset2D = _moveDirection * scaledSpeed;
+            _transform.Translate(offset2D);
         }
 
         private void CheckMovementEvents()
@@ -81,40 +106,15 @@ namespace CharacterLogic.InputHandler
                 MovingDiagonally?.Invoke();
         }
 
-        public bool IsMoving()
-        {
-            return _moveDirection.sqrMagnitude > 0.1f;
-        }
-
-        public bool IsMovingLeft()
-        {
-            return _moveDirection.x < 0;
-        }
-
-        public bool IsMovingRight()
-        {
-            return _moveDirection.x > 0;
-        }
-
-        public bool IsMovingUp()
-        {
-            return _moveDirection.y > 0;
-        }
-
-        public bool IsMovingDown()
-        {
-            return _moveDirection.y < 0;
-        }
-
+        public bool IsMoving() => _moveDirection.sqrMagnitude > 0.1f;
+        public bool IsMovingLeft() => _moveDirection.x < 0;
+        public bool IsMovingRight() => _moveDirection.x > 0;
+        public bool IsMovingUp() => _moveDirection.y > 0;
+        public bool IsMovingDown() => _moveDirection.y < 0;
         public bool IsMovingDiagonally()
-        {
-            return Mathf.Abs(_moveDirection.x) > 0.1f && Mathf.Abs(_moveDirection.y) > 0.1f;
-        }
+            => Mathf.Abs(_moveDirection.x) > 0.1f && Mathf.Abs(_moveDirection.y) > 0.1f;
 
-        public Vector2 GetMoveDirection()
-        {
-            return _moveDirection.normalized;
-        }
+        public Vector2 GetMoveDirection() => _moveDirection.normalized;
 
         public float GetMoveAngle()
         {

@@ -5,6 +5,7 @@ using Zenject;
 using UnityEngine.SceneManagement;
 using WalletSystem;
 using CharacterLogic.Data;
+using Data;
 using YG;
 
 namespace Infrastructure
@@ -12,6 +13,7 @@ namespace Infrastructure
     public class BootLoader : MonoBehaviour
     {
         private const string Key = "CharacterId";
+        private const string NewPlayerKey = "NewPlayerKey";
 
         [SerializeField] private int _menuIdSecene;
         [SerializeField] private int _tutorialIdSecene;
@@ -19,7 +21,7 @@ namespace Infrastructure
 
         private PerkController _perkController;
         private Wallet _wallet;
-
+        
         [Inject]
         public void Construct(PerkController controller, Wallet wallet)
         {
@@ -32,7 +34,7 @@ namespace Infrastructure
             PlayerPrefs.SetInt(Key, (int)_type);
             ResolutionMonitor.EnsureInstance();
 
-            SceneManager.LoadScene(!YG2.isFirstGameSession ? _menuIdSecene : _tutorialIdSecene);
+            SceneManager.LoadScene(YandexGame.savesData.IsTutorialCompleted ? _menuIdSecene : _tutorialIdSecene);
 
             YandexGame.SaveProgress();
             

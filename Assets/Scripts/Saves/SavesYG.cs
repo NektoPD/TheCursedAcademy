@@ -1,4 +1,5 @@
-﻿using PlayerPerksController;
+﻿using Data;
+using PlayerPerksController;
 using WalletSystem;
 
 namespace YG
@@ -15,6 +16,7 @@ namespace YG
 
         public PerkDataWrapper PerkDataWrapper = new PerkDataWrapper();
         public WalletWrapper WalletWrapper = new WalletWrapper();
+        public bool IsTutorialCompleted;
 
         // Поля (сохранения) можно удалять и создавать новые. При обновлении игры сохранения ломаться не должны
 

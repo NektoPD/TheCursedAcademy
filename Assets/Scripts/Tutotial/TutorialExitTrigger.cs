@@ -1,6 +1,7 @@
 using CharacterLogic;
 using UnityEngine;
 using Utils;
+using YG;
 
 namespace Tutorial
 {
@@ -9,10 +10,16 @@ namespace Tutorial
         [SerializeField] private int _menuIdScene;
         [SerializeField] private SceneChanger _changer;
 
+        
+        
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            if(collision.TryGetComponent(out Character _))
+            if (collision.TryGetComponent(out Character _))
+            {
                 _changer.ChangeScene(_menuIdScene);
+                YandexGame.savesData.IsTutorialCompleted = true;
+                YandexGame.SaveProgress();
+            }
         }
 
         public void On() => gameObject.SetActive(true);

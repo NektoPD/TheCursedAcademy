@@ -7,7 +7,7 @@
     false,
     false
   ],
-  "idSave": 53,
+  "idSave": 67,
   "money": 1,
   "newPlayerName": "Hello!",
   "openLevels": [
@@ -28,5 +28,6 @@
   "WalletWrapper": {
     "Money": 361
   },
+  "IsTutorialCompleted": true,
   "language": "ru"
 }
