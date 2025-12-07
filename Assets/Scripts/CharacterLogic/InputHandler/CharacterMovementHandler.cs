@@ -32,7 +32,7 @@ namespace CharacterLogic.InputHandler
 #if UNITY_EDITOR
             _useJoystick = _forceUseJoystickInEditor;
 #else
-            _useJoystick = Application.isMobilePlatform;
+            _useJoystick = !YandexGame.EnvironmentData.isDesktop;
 #endif
 
             if (_joystickRoot != null)
