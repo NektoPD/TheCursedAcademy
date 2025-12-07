@@ -31,6 +31,7 @@ namespace CharacterLogic
 
         [SerializeField] private CharacterInventoryUI _inventoryUI;
         [SerializeField] private bool _cameraOnCharacter;
+        [SerializeField] private Canvas _characterCanvas;
 
         private CharacterData _characterData;
         private CharacterAnimationController _animationController;
@@ -237,6 +238,9 @@ namespace CharacterLogic
             _movementHandler.SetSpeed(_moveSpeed);
             _attacker.EnableAttack();
             CameraShake.Instance.SetTarget(_transform);
+            
+            if(_characterCanvas != null)
+                _characterCanvas.gameObject.SetActive(true);
         }
 
         public void DisableCharacter()
@@ -244,12 +248,18 @@ namespace CharacterLogic
             _attacker.DisableAttack();
             _movementHandler.DisableMovement();
             _movementHandler.SetSpeed(0);
+            
+            if(_characterCanvas != null)
+                _characterCanvas.gameObject.SetActive(false);
         }
 
         public void EnableMovement()
         {
             _movementHandler.EnableMovement();
             _movementHandler.SetSpeed(_moveSpeed);
+            
+            if(_characterCanvas != null)
+                _characterCanvas.gameObject.SetActive(true);
         }
 
         public void TakeDamage(float damage)

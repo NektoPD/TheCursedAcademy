@@ -16,7 +16,7 @@ namespace UI
 
         [SerializeField] private List<ItemView> _itemsVisual;
         [SerializeField] private ItemApplicator _applicator;
-
+        
         private ItemsHolder _itemsHolder;
         private CharacterInventory _inventory;
 
