@@ -188,7 +188,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _joystick: {fileID: 6599631940950479798}
   _joystickRoot: {fileID: 6321872111819139502}
-  _forceUseJoystickInEditor: 1
+  _forceUseJoystickInEditor: 0
 --- !u!95 &18610927022999243
 Animator:
   serializedVersion: 5
@@ -826,7 +826,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 0
-  m_Spacing: 16
+  m_Spacing: 11.25
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
@@ -1068,7 +1068,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 0
-  m_Spacing: 16
+  m_Spacing: 11.25
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
