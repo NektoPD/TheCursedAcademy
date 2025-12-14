@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using CameraExtensions;
@@ -32,6 +33,9 @@ namespace CharacterLogic
         [SerializeField] private CharacterInventoryUI _inventoryUI;
         [SerializeField] private bool _cameraOnCharacter;
         [SerializeField] private Canvas _characterCanvas;
+        
+        [SerializeField] private float _reviveInvincibilityDuration = 3f;
+        private Coroutine _reviveInvincibilityCoroutine;
 
         private CharacterData _characterData;
         private CharacterAnimationController _animationController;
@@ -283,11 +287,35 @@ namespace CharacterLogic
 
         public void Revive()
         {
+            _isDied = false;
+
             _health.TakeHeal(_hp);
-            _characterSoundController.EnableSoundByType(SoundType.Heal);
             UpdateHealthView(_hp);
+
+            _characterSoundController.EnableSoundByType(SoundType.Heal);
+
+            if (_reviveInvincibilityCoroutine != null)
+                StopCoroutine(_reviveInvincibilityCoroutine);
+
+            _reviveInvincibilityCoroutine = StartCoroutine(ReviveInvincibilityRoutine());
         }
 
+        private IEnumerator ReviveInvincibilityRoutine()
+        {
+            _isInvincible = true;
+
+            _attacker.DisableAttack();
+            _spriteHolder.SetInvincibleVisual(true);
+
+            yield return new WaitForSeconds(_reviveInvincibilityDuration);
+
+            _isInvincible = false;
+
+            _attacker.EnableAttack();
+            _spriteHolder.SetInvincibleVisual(false);
+        }
+
+        
         private void OnInvincibilityEnabled()
         {
             _isInvincible = true;

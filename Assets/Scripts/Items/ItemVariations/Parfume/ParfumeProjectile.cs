@@ -102,10 +102,7 @@ namespace Items.ItemVariations
         {
             if (!_reachedTarget) return;
 
-            if (collision.TryGetComponent(out IDamageable damageable) && HitEnemies.Add(damageable))
-            {
-                damageable?.TakeDamage(Damage);
-            }
+            base.OnTriggerEnter2D(collision);
         }
     }
 }

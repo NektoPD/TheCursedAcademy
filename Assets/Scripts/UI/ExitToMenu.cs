@@ -51,6 +51,7 @@ namespace UI
 
         private void Exit()
         {
+            _wallet.AddMoney(_coins);
             _changer.ChangeScene(_menuIdScene);
         }
 

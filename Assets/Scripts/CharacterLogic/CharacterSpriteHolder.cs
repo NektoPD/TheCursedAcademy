@@ -9,6 +9,7 @@ namespace CharacterLogic
         [SerializeField] private float _pulseSpeed = 1f;
         [SerializeField] private float _pulseIntensity = 1f;
         [SerializeField] private Color _targetColor;
+        [SerializeField] private float _invincibleAlpha = 0.4f;
 
         private MaterialPropertyBlock _materialPropertyBlock;
         private Coroutine _colorChangeCoroutine;
@@ -47,15 +48,20 @@ namespace CharacterLogic
             ApplyColor(_originalColor);
         }
 
+        public void SetInvincibleVisual(bool enabled)
+        {
+            Color color = _originalColor;
+            color.a = enabled ? _invincibleAlpha : 1f;
+            ApplyColor(color);
+        }
+
         private IEnumerator PulseColorRoutine()
         {
             while (_isPulsating)
             {
                 float t = Mathf.PingPong(Time.time * _pulseSpeed, 1f) * _pulseIntensity;
-
                 Color lerpedColor = Color.Lerp(_originalColor, _targetColor, t);
                 ApplyColor(lerpedColor);
-
                 yield return null;
             }
         }
