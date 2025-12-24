@@ -9,18 +9,17 @@ namespace EnemyLogic
     {
         [SerializeField] private Color DamageColor = new(1f, 0.5f, 0.5f);
 
-        [Header("Shake Settings")]
-        private float shakeDuration = 0.15f;
-         private float shakeStrength = 0.15f;
-         private int shakeVibrato = 15;
-         private float shakeRandomness = 90f;
+        [Header("Hit Impulse (Jump + Knockback)")]
+        [SerializeField] private float impulseDuration = 0.12f;
+        [SerializeField] private float knockbackDistance = 0.25f;
+        [SerializeField] private float jumpHeight = 0.12f;
+        [SerializeField] private Ease impulseEase = Ease.OutQuad;
 
         private SpriteRenderer _spriteRenderer;
         private Color _originalColor;
         private Coroutine _coroutine;
 
-        private Vector3 _originalPosition;
-        private Tween _shakeTween;
+        private Tween _impulseTween;
 
         private void Awake()
         {
@@ -30,7 +29,6 @@ namespace EnemyLogic
         private void Start()
         {
             _originalColor = _spriteRenderer.color;
-            _originalPosition = transform.localPosition;
         }
 
         private void OnDisable()
@@ -40,10 +38,13 @@ namespace EnemyLogic
 
             _spriteRenderer.color = _originalColor;
 
-            _shakeTween?.Kill();
-            transform.localPosition = _originalPosition;
+            // ВАЖНО: не возвращаем позицию — просто стопаем твины
+            _impulseTween?.Kill();
         }
 
+        /// <summary>
+        /// Просто флэш + небольшой импульс (если направление не важно).
+        /// </summary>
         public void StartFlash(float duration)
         {
             if (_coroutine != null)
@@ -51,24 +52,45 @@ namespace EnemyLogic
 
             _coroutine = StartCoroutine(FlashCoroutine(duration));
 
-            PlayShake();
+            // Импульс "в случайную сторону" (например, вправо) — лучше использовать перегрузку ниже
+            ApplyHitImpulse(transform.position + Vector3.left);
         }
 
-        private void PlayShake()
+        /// <summary>
+        /// Флэш + подпрыгивание и отталкивание ОТ источника урона.
+        /// hitFromWorldPos — позиция атакующего/точки удара в мире.
+        /// </summary>
+        public void StartFlash(float duration, Vector2 hitFromWorldPos)
         {
-            _shakeTween?.Kill();
+            if (_coroutine != null)
+                StopCoroutine(_coroutine);
 
-            _shakeTween = transform.DOShakePosition(
-                shakeDuration,
-                shakeStrength,
-                shakeVibrato,
-                shakeRandomness,
-                snapping: false,
-                fadeOut: false
-            )/*.OnComplete(() =>
-            {
-                transform.localPosition = _originalPosition;
-            })*/;
+            _coroutine = StartCoroutine(FlashCoroutine(duration));
+
+            ApplyHitImpulse(hitFromWorldPos);
+        }
+
+        private void ApplyHitImpulse(Vector2 hitFromWorldPos)
+        {
+            _impulseTween?.Kill();
+
+            // направление: от источника к врагу
+            Vector2 dir = ((Vector2)transform.position - hitFromWorldPos);
+            if (dir.sqrMagnitude < 0.0001f)
+                dir = Vector2.right; // fallback
+
+            dir.Normalize();
+
+            // Отталкивание — по X (в 2D обычно так), подпрыгивание — по Y
+            float x = dir.x * knockbackDistance;
+            float y = jumpHeight;
+
+            Vector3 target = transform.position + new Vector3(x, y, 0f);
+
+            _impulseTween = transform
+                .DOMove(target, impulseDuration)
+                .SetEase(impulseEase);
+            // Никаких OnComplete с возвратом — остаёмся в target
         }
 
         private IEnumerator FlashCoroutine(float duration)
