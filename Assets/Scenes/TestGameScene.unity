@@ -3255,10 +3255,8 @@ MonoBehaviour:
   _reviver: {fileID: 483261450}
   _postProcessVolume: {fileID: 1236031861}
   _lowHealthMaxIntensity: 0.45
-  _lowHealthColorInfluence: 0.75
   _flashMaxAddIntensity: 0.5
   _flashDuration: 0.3
-  _baseColor: {r: 0, g: 0, b: 0, a: 1}
   _damageColor: {r: 1, g: 0, b: 0, a: 1}
   _healColor: {r: 0, g: 1, b: 0, a: 1}
 --- !u!4 &433544583

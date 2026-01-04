@@ -35,6 +35,12 @@ namespace CharacterLogic
         [SerializeField] private Canvas _characterCanvas;
         
         [SerializeField] private float _reviveInvincibilityDuration = 3f;
+        
+        [SerializeField] private float _deathZoomResetDuration = 0.15f;
+        [SerializeField] private float _deathFadeDuration = 0.7f;
+
+        private Coroutine _deathSequenceCoroutine;
+        
         private Coroutine _reviveInvincibilityCoroutine;
 
         private CharacterData _characterData;
@@ -66,8 +72,8 @@ namespace CharacterLogic
         private DateTime _gameStart;
         private bool _isTutorial;
         
-        public event Action<float, float> HealthChanged; // current, max
-        public event Action<float, float> Damaged;       // current, max
+        public event Action<float, float> HealthChanged;
+        public event Action<float, float> Damaged;
         public event Action<float, float> Healed;  
 
         public event Action<Statistics> StatisticCollected;
@@ -99,7 +105,7 @@ namespace CharacterLogic
             _health.Changed += UpdateHealthView;
             _health.LowHealth += _spriteHolder.StartPulsing;
             _health.Died += _spriteHolder.StopPulsing;
-            _health.Died += OnPlayerDied;
+            _health.Died += OnHealthDied;
             _health.HealthRegainedToNormal += _spriteHolder.StopPulsing;
 
             _collisionHandler.GotExpPoint += OnExperienceGained;
@@ -140,7 +146,7 @@ namespace CharacterLogic
             _health.Changed -= UpdateHealthView;
             _health.LowHealth -= _spriteHolder.StartPulsing;
             _health.Died -= _spriteHolder.StopPulsing;
-            _health.Died -= OnPlayerDied;
+            _health.Died -= OnHealthDied;
             _health.HealthRegainedToNormal -= _spriteHolder.StopPulsing;
 
             if (_collisionHandler != null)
@@ -168,6 +174,45 @@ namespace CharacterLogic
             UpdateExperienceView(_characterLevelController.CurrentExp);
         }
 
+        private void OnHealthDied()
+        {
+            if (_deathSequenceCoroutine != null)
+                return;
+
+            _deathSequenceCoroutine = StartCoroutine(DeathSequenceRoutine());
+        }
+
+        private IEnumerator DeathSequenceRoutine()
+        {
+            _isDied = true;
+
+            DisableCharacter();
+
+            CameraShake.Instance?.StopShake();
+
+            _isInvincible = true;
+
+            float previousTimeScale = Time.timeScale;
+            Time.timeScale = 0f;
+
+            if (CameraDeathZoom.Instance != null)
+            {
+                CameraDeathZoom.Instance.SetTarget(_transform);
+                CameraDeathZoom.Instance.PlayDeathZoom();
+            }
+
+            Coroutine fade = _spriteHolder.PlayDeathFade(this);
+            yield return fade;
+
+            CameraDeathZoom.Instance?.ResetZoom(_deathZoomResetDuration);
+
+            Time.timeScale = previousTimeScale;
+
+            OnPlayerDied();
+
+            _deathSequenceCoroutine = null;
+        }
+        
         private void OnPlayerDied()
         {
             _isDied = true;
@@ -303,6 +348,8 @@ namespace CharacterLogic
         {
             _isDied = false;
 
+            Time.timeScale = 1f;
+
             _health.TakeHeal(_hp);
             UpdateHealthView(_hp);
 
@@ -311,12 +358,16 @@ namespace CharacterLogic
             Healed?.Invoke(_health.CurrentHealth, _hp);
             HealthChanged?.Invoke(_health.CurrentHealth, _hp);
 
+            ActivateCharacter();
+
+            _spriteHolder.ResetVisual();
+
             if (_reviveInvincibilityCoroutine != null)
                 StopCoroutine(_reviveInvincibilityCoroutine);
 
             _reviveInvincibilityCoroutine = StartCoroutine(ReviveInvincibilityRoutine());
         }
-
+        
         private IEnumerator ReviveInvincibilityRoutine()
         {
             _isInvincible = true;
@@ -364,14 +415,14 @@ namespace CharacterLogic
 
         private void InitializeCharacterData(CharacterData characterData, Dictionary<PerkType, float> perkBonuses)
         {
-            _attackPower = characterData.AttackPower + GetPerkBonus(perkBonuses, PerkType.Power);
-            _armor = characterData.Armor + GetPerkBonus(perkBonuses, PerkType.Armor);
-            _hp = characterData.Hp + GetPerkBonus(perkBonuses, PerkType.MaxHp);
+            _attackPower = characterData.AttackPower * GetPerkBonus(perkBonuses, PerkType.Power);
+            _armor = characterData.Armor * GetPerkBonus(perkBonuses, PerkType.Armor);
+            _hp = characterData.Hp * GetPerkBonus(perkBonuses, PerkType.MaxHp);
             _hpRegenerationSpeed =
-                characterData.HpRegenerationSpeed + GetPerkBonus(perkBonuses, PerkType.HpRegeneration);
-            _attackCooldown = characterData.AttackRegenerationSpeed -
+                characterData.HpRegenerationSpeed * GetPerkBonus(perkBonuses, PerkType.HpRegeneration);
+            _attackCooldown = characterData.AttackRegenerationSpeed *
                               GetPerkBonus(perkBonuses, PerkType.AttackCooldown);
-            _moveSpeed = characterData.MoveSpeed + GetPerkBonus(perkBonuses, PerkType.Speed);
+            _moveSpeed = characterData.MoveSpeed * GetPerkBonus(perkBonuses, PerkType.Speed);
 
             Debug.Log(characterData.AttackPower);
             Debug.Log(GetPerkBonus(perkBonuses, PerkType.Power));
