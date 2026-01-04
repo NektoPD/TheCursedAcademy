@@ -1,4 +1,5 @@
 ﻿using System;
+using CharacterLogic;
 using HealthSystem;
 using UnityEngine;
 
@@ -49,7 +50,8 @@ namespace Items.ItemVariations.Gum
 
         protected override void OnTriggerEnter2D(Collider2D collision)
         {
-            if (collision.TryGetComponent(out IDamageable damageable))
+            if (collision.TryGetComponent(out IDamageable damageable) &&
+                !collision.TryGetComponent(out Character character))
             {
                 if (HitEnemies.Add(damageable))
                 {

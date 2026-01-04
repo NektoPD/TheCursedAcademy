@@ -52,15 +52,7 @@ namespace Items.ItemVariations
         {
             transform.position += (Vector3)_targetDirection * _speed * Time.deltaTime;
         }
-
-        protected override void OnTriggerEnter2D(Collider2D collision)
-        {
-            if (collision.TryGetComponent(out IDamageable damageable) &&
-                !collision.TryGetComponent(out CharacterLogic.Character character))
-            {
-                damageable?.TakeDamage(Damage);
-            }
-        }
+        
 
         private IEnumerator ReturnToPoolAfterTime(float lifetime)
         {

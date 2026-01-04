@@ -44,14 +44,5 @@ namespace Items.ItemVariations.MagicRuller
             if (_currentTimer >= _diactivationTimer)
                 Hit?.Invoke(this);
         }
-
-        protected override void OnTriggerEnter2D(Collider2D collision)
-        {
-            if (collision.TryGetComponent(out IDamageable damageable))
-            {
-                damageable.TakeDamage(Damage);
-                Hit?.Invoke(this);
-            }
-        }
     }
 }

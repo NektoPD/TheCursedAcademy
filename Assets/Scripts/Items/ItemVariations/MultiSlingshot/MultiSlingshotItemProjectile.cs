@@ -52,15 +52,6 @@ namespace Items.ItemVariations.MultiSlingshot
             Transform.position += (Vector3)_direction * _speed * Time.deltaTime;
         }
 
-        protected override void OnTriggerEnter2D(Collider2D collision)
-        {
-            if (collision.TryGetComponent(out IDamageable damageable) &&
-                !collision.TryGetComponent(out CharacterLogic.Character character))
-            {
-                damageable?.TakeDamage(Damage);
-            }
-        }
-
         private IEnumerator ReturnToPoolAfterTime(float lifetime)
         {
             yield return new WaitForSeconds(lifetime);

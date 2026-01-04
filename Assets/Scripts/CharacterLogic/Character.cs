@@ -65,6 +65,10 @@ namespace CharacterLogic
         private bool _isDied;
         private DateTime _gameStart;
         private bool _isTutorial;
+        
+        public event Action<float, float> HealthChanged; // current, max
+        public event Action<float, float> Damaged;       // current, max
+        public event Action<float, float> Healed;  
 
         public event Action<Statistics> StatisticCollected;
         public event Action LevelUp;
@@ -274,9 +278,14 @@ namespace CharacterLogic
                 return;
 
             CameraShake.Instance.ShakeCamera(2, 5, 0.3f);
+
             _health.TakeDamage(damage);
             _characterSoundController.EnableSoundByType(SoundType.Hit);
+
+            Damaged?.Invoke(_health.CurrentHealth, _hp);
+            HealthChanged?.Invoke(_health.CurrentHealth, _hp);
         }
+
 
         private void TakeHeal(int value)
         {
@@ -285,6 +294,9 @@ namespace CharacterLogic
 
             _health.TakeHeal(value);
             _characterSoundController.EnableSoundByType(SoundType.Heal);
+
+            Healed?.Invoke(_health.CurrentHealth, _hp);
+            HealthChanged?.Invoke(_health.CurrentHealth, _hp);
         }
 
         public void Revive()
@@ -295,6 +307,9 @@ namespace CharacterLogic
             UpdateHealthView(_hp);
 
             _characterSoundController.EnableSoundByType(SoundType.Heal);
+
+            Healed?.Invoke(_health.CurrentHealth, _hp);
+            HealthChanged?.Invoke(_health.CurrentHealth, _hp);
 
             if (_reviveInvincibilityCoroutine != null)
                 StopCoroutine(_reviveInvincibilityCoroutine);

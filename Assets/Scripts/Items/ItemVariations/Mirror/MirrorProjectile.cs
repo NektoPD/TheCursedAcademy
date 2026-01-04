@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using CharacterLogic;
 using HealthSystem;
 using Items.BaseClass;
 using UnityEngine;
@@ -51,7 +52,8 @@ namespace Items.ItemVariations
 
         protected override void OnTriggerEnter2D(Collider2D collision)
         {
-            if (collision.TryGetComponent(out IDamageable damageable) && HitEnemies.Add(damageable))
+            if (collision.TryGetComponent(out IDamageable damageable) && HitEnemies.Add(damageable) &&
+                !collision.TryGetComponent(out Character character))
             {
                 damageable.TakeDamage(Damage);
                 Hit?.Invoke(this);

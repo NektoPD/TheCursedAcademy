@@ -19,6 +19,7 @@ namespace HealthSystem
         public event Action<float> Changed;
 
         public float MaxHealth { get; private set; }
+        public float CurrentHealth => _currentHealth;
 
         public void SetMaxHealth(float maxHealth)
         {

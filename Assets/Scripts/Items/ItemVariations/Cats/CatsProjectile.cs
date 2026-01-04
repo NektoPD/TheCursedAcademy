@@ -306,16 +306,6 @@ namespace Items.ItemVariations.Cats
             }
         }
 
-        protected override void OnTriggerEnter2D(Collider2D collision)
-        {
-            if (collision.TryGetComponent(out IDamageable damageable) &&
-                !collision.TryGetComponent(out CharacterLogic.Character character))
-            {
-                HitEnemies.Add(damageable);
-                damageable.TakeDamage(Damage);
-            }
-        }
-
         private IEnumerator AttackCooldown()
         {
             yield return new WaitForSeconds(_attackCooldown);

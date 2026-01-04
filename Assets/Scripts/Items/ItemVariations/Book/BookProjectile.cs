@@ -49,17 +49,6 @@ namespace Items.ItemVariations.Book
             if (!_isInitialized) return;
             
             base.OnTriggerEnter2D(collision);
-            
-            /*if (collision.TryGetComponent(out Rigidbody2D enemyRb))
-            {
-                Vector2 knockbackDirection = (collision.transform.position - transform.position).normalized;
-                enemyRb.AddForce(knockbackDirection * _knockbackForce, ForceMode2D.Impulse);
-            }*/
-            
-            /*if (_hitEffect != null)
-            {
-                Instantiate(_hitEffect, collision.ClosestPoint(transform.position), Quaternion.identity);
-            }*/
         }
     }
 }

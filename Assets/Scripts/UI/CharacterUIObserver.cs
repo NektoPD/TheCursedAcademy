@@ -1,7 +1,9 @@
+using DG.Tweening;
 using CharacterLogic;
 using CharacterLogic.Initializer;
 using StatistiscSystem;
 using UnityEngine;
+using UnityEngine.Rendering.PostProcessing;
 
 namespace UI
 {
@@ -13,26 +15,94 @@ namespace UI
         [SerializeField] private ExitToMenu _exit;
         [SerializeField] private Reviver _reviver;
 
+        [Header("Post Processing")]
+        [SerializeField] private PostProcessVolume _postProcessVolume;
+
+        [Header("Vignette: Low HP")]
+        [SerializeField, Range(0f, 1f)]
+        private float _lowHealthMaxIntensity = 0.45f;
+
+        [Header("Vignette: Flash")]
+        [SerializeField, Range(0f, 1f)]
+        private float _flashMaxAddIntensity = 0.35f;
+
+        [SerializeField]
+        private float _flashDuration = 0.30f;
+
+        [Header("Vignette Colors (HDR allowed)")]
+        [ColorUsage(false, true)]
+        [SerializeField] private Color _damageColor = Color.red;
+
+        [ColorUsage(false, true)]
+        [SerializeField] private Color _healColor = Color.green;
+
         private Character _character;
+        private Vignette _vignette;
+
+        // persistent intensity from low HP
+        private float _baseIntensity;
+
+        // additive flash intensity
+        private float _flashIntensityAdd;
+
+        private Tween _flashTween;
+        private Tween _colorTween;
 
         private void OnEnable()
         {
             _initializer.CharacterCreated += Inizialize;
+            CacheVignette();
         }
 
         private void OnDisable()
         {
             _initializer.CharacterCreated -= Inizialize;
 
+            KillTweens();
+
             if (_character == null)
                 return;
 
             _character.StatisticCollected -= StatisticApplicate;
             _character.LevelUp -= LevelUp;
+            _character.Damaged -= OnDamaged;
+            _character.Healed -= OnHealed;
+            _character.HealthChanged -= OnHealthChanged;
+
+            _character = null;
+        }
+
+        private void CacheVignette()
+        {
+            _vignette = null;
+
+            if (_postProcessVolume == null || _postProcessVolume.profile == null)
+                return;
+
+            if (_postProcessVolume.profile.TryGetSettings(out Vignette v))
+            {
+                _vignette = v;
+
+                _vignette.enabled.value = false;
+                _vignette.intensity.value = 0f;
+                _vignette.color.value = _damageColor;
+
+                _baseIntensity = 0f;
+                _flashIntensityAdd = 0f;
+            }
         }
 
         private void Inizialize(Character character)
         {
+            if (_character != null)
+            {
+                _character.StatisticCollected -= StatisticApplicate;
+                _character.LevelUp -= LevelUp;
+                _character.Damaged -= OnDamaged;
+                _character.Healed -= OnHealed;
+                _character.HealthChanged -= OnHealthChanged;
+            }
+
             _character = character;
 
             if (_reviver != null)
@@ -43,6 +113,12 @@ namespace UI
 
             _character.StatisticCollected += StatisticApplicate;
             _character.LevelUp += LevelUp;
+            _character.Damaged += OnDamaged;
+            _character.Healed += OnHealed;
+            _character.HealthChanged += OnHealthChanged;
+
+            if (_vignette == null)
+                CacheVignette();
         }
 
         private void LevelUp() => _levelUpWindow.OpenWindow();
@@ -55,5 +131,89 @@ namespace UI
             if (_exit != null)
                 _exit.SetCoins(statistics.Coins);
         }
+
+        // ---------------- VIGNETTE ----------------
+
+        private void OnHealthChanged(float current, float max)
+        {
+            if (_vignette == null || max <= 0f)
+                return;
+
+            float hp01 = Mathf.Clamp01(current / max);
+            float severity = 1f - hp01;
+
+            _baseIntensity = Mathf.Lerp(0f, _lowHealthMaxIntensity, severity);
+
+            UpdateVignette();
+        }
+
+        private void OnDamaged(float current, float max)
+        {
+            PlayFlash(_damageColor);
+        }
+
+        private void OnHealed(float current, float max)
+        {
+            PlayFlash(_healColor);
+        }
+
+        private void PlayFlash(Color flashColor)
+        {
+            if (_vignette == null)
+                return;
+
+            _flashTween?.Kill();
+            _colorTween?.Kill();
+
+            _vignette.color.value = flashColor;
+
+            _flashTween = DOTween.Sequence()
+                .Append(DOTween.To(
+                    () => _flashIntensityAdd,
+                    x => { _flashIntensityAdd = x; UpdateVignette(); },
+                    _flashMaxAddIntensity,
+                    _flashDuration * 0.5f).SetEase(Ease.OutSine))
+                .Append(DOTween.To(
+                    () => _flashIntensityAdd,
+                    x => { _flashIntensityAdd = x; UpdateVignette(); },
+                    0f,
+                    _flashDuration * 0.5f).SetEase(Ease.InSine))
+                .OnComplete(ReturnToDamageColor);
+        }
+
+        private void ReturnToDamageColor()
+        {
+            if (_vignette == null)
+                return;
+
+            // если HP > 0 Ч возвращаемс€ к красному (persistent)
+            _colorTween = DOTween.To(
+                    () => _vignette.color.value,
+                    c => _vignette.color.value = c,
+                    _damageColor,
+                    0.15f)
+                .SetEase(Ease.OutSine);
+        }
+
+        private void UpdateVignette()
+        {
+            if (_vignette == null)
+                return;
+
+            float total = Mathf.Clamp01(_baseIntensity + _flashIntensityAdd);
+
+            _vignette.intensity.value = total;
+            _vignette.enabled.value = total > 0.001f;
+        }
+
+        private void KillTweens()
+        {
+            _flashTween?.Kill();
+            _flashTween = null;
+
+            _colorTween?.Kill();
+            _colorTween = null;
+        }
     }
 }
+ 
