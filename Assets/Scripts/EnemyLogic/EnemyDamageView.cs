@@ -38,7 +38,6 @@ namespace EnemyLogic
 
             _spriteRenderer.color = _originalColor;
 
-            // ВАЖНО: не возвращаем позицию — просто стопаем твины
             _impulseTween?.Kill();
         }
 
@@ -52,7 +51,6 @@ namespace EnemyLogic
 
             _coroutine = StartCoroutine(FlashCoroutine(duration));
 
-            // Импульс "в случайную сторону" (например, вправо) — лучше использовать перегрузку ниже
             ApplyHitImpulse(transform.position + Vector3.left);
         }
 
@@ -74,14 +72,12 @@ namespace EnemyLogic
         {
             _impulseTween?.Kill();
 
-            // направление: от источника к врагу
             Vector2 dir = ((Vector2)transform.position - hitFromWorldPos);
             if (dir.sqrMagnitude < 0.0001f)
-                dir = Vector2.right; // fallback
+                dir = Vector2.right;
 
             dir.Normalize();
 
-            // Отталкивание — по X (в 2D обычно так), подпрыгивание — по Y
             float x = dir.x * knockbackDistance;
             float y = jumpHeight;
 
@@ -90,7 +86,6 @@ namespace EnemyLogic
             _impulseTween = transform
                 .DOMove(target, impulseDuration)
                 .SetEase(impulseEase);
-            // Никаких OnComplete с возвратом — остаёмся в target
         }
 
         private IEnumerator FlashCoroutine(float duration)

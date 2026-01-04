@@ -9,7 +9,6 @@ using Items.ItemHolder;
 using PlayerPerksController;
 using UI.Applicators;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using Zenject;
 
 namespace CharacterLogic.Initializer
@@ -30,6 +29,8 @@ namespace CharacterLogic.Initializer
 
         private bool _isTutorial;
 
+        public bool WasRevivedThisSession { get; private set; }
+
         public event Action<Character> CharacterCreated;
 
         public Transform PlayerTransform { get; private set; }
@@ -47,7 +48,14 @@ namespace CharacterLogic.Initializer
 
         private void Start()
         {
+            WasRevivedThisSession = false;
+
             CreateCharacter((CharacterData.CharacterType)PlayerPrefs.GetInt(Key));
+        }
+
+        public void MarkRevived()
+        {
+            WasRevivedThisSession = true;
         }
 
         public void CreateCharacter(CharacterData.CharacterType type)
@@ -58,23 +66,18 @@ namespace CharacterLogic.Initializer
                 throw new NullReferenceException(nameof(chosenData));
 
             Dictionary<PerkType, float> finalPerkBonuses = _perkController.GetFinalPerkValues();
-            
-            foreach (var keyValuePair in _perkController.PerkDataWrapper.PerkLevels)
-            {
-                Debug.Log(keyValuePair.Key);
-                Debug.Log(keyValuePair.Value);
-            }
 
             Character characterToSpawn = _fabric.Create();
-            
-            if(_isTutorial)
+
+            if (_isTutorial)
                 characterToSpawn.DisableCharacter();
-            
+
             characterToSpawn.Construct(chosenData, finalPerkBonuses, _itemsHolder, _itemApplicator,
                 _killedEnemyCounter, _characterSoundController);
+
             _characterSpawner.Spawn(characterToSpawn);
             PlayerTransform = characterToSpawn.transform;
-            
+
             CharacterCreated?.Invoke(characterToSpawn);
         }
     }

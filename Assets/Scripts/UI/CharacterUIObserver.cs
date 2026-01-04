@@ -35,10 +35,10 @@ namespace UI
         {
             _character = character;
 
-            if(_reviver != null)
-                _reviver.Inizialize(character);
+            if (_reviver != null)
+                _reviver.Inizialize(character, _initializer);
 
-            if(_levelUpWindow != null)
+            if (_levelUpWindow != null)
                 _levelUpWindow.Initialize(character.Inventory);
 
             _character.StatisticCollected += StatisticApplicate;

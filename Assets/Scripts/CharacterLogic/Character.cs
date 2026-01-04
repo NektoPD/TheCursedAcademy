@@ -109,6 +109,8 @@ namespace CharacterLogic
             _itemApplicator.ItemSelected += OnItemSelected;
 
             _killedEnemyCounter.ResetCounter();
+            
+            _gameStart = DateTime.Now;
         }
 
         private void Awake()
