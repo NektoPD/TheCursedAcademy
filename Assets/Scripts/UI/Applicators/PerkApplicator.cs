@@ -51,7 +51,7 @@ namespace UI.Applicators
         protected override void Applicate(PerkVisualData data)
         {
             _name.text = data.Name;
-            _description.text = data.Description;
+            _description.text = data.Description + " (5%)";
             _image.sprite = data.Sprite;
             _cost.text = (data.DefaultPrice * (_perkController.GetPerkLevel(data.Type) + 1)).ToString();
         }

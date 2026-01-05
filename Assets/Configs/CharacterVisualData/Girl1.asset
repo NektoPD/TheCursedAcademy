@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6cf944aa5a62ec243866640ed66104e2, type: 3}
   m_Name: Girl1
   m_EditorClassIdentifier: 
-  _nameRu: "\u0414\u0435\u0432\u043E\u0447\u043A\u0430 1 "
-  _nameEn: Girl 1
-  _nameTr: "K\u0131z 1"
-  _descriptionRu: "\u0414\u0435\u0432\u043E\u0447\u043A\u0430 1 "
-  _descriptionEn: Girl 1
-  _descriptionTr: "K\u0131z 1"
+  _nameRu: "\u042D\u0448\u043B\u0438"
+  _nameEn: Ashley
+  _nameTr: Ashley
+  _descriptionRu: "\u0421\u0442\u0430\u0440\u0442\u043E\u0432\u044B\u0439 \u043F\u0440\u0435\u0434\u043C\u0435\u0442"
+  _descriptionEn: Starting item
+  _descriptionTr: "Ba\u015Flang\u0131\xE7 \u200B\u200B\xF6\u011Fesi"
   <Sprite>k__BackingField: {fileID: 21300000, guid: 8bdb4be6a3889da44b7de69ece01e529, type: 3}
   <Data>k__BackingField: {fileID: 11400000, guid: 523d941acc4762c47ba15b5b18cb3c62, type: 2}

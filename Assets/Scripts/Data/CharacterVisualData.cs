@@ -20,5 +20,6 @@ namespace Data
         public string Name => Translator.Translate(_nameRu, _nameEn, _nameTr);
 
         public string Description => Translator.Translate(_descriptionRu, _descriptionEn, _descriptionTr);
+        public string StartItem => Data.StartItem.VisualData.Name;
     }
 }

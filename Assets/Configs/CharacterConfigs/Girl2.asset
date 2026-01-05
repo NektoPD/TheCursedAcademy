@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Girl2
   m_EditorClassIdentifier: 
   <AttackPower>k__BackingField: 20
-  <Armor>k__BackingField: 40
+  <Armor>k__BackingField: 35
   <Hp>k__BackingField: 70
   <HpRegenerationSpeed>k__BackingField: 0.05
-  <AttackRegenerationSpeed>k__BackingField: 0.6
+  <AttackRegenerationSpeed>k__BackingField: 0.7
   <MoveSpeed>k__BackingField: 3
   <Type>k__BackingField: 1
   <AnimatorController>k__BackingField: {fileID: 22100000, guid: 5df0656150b4e3d4db40c66245fac019, type: 2}

@@ -18,6 +18,13 @@ namespace UI.Applicators
         [SerializeField] private int _gameIdScene;
         [SerializeField] private SceneChanger _changer;
 
+        [SerializeField] private TextMeshProUGUI _attackPower;
+        [SerializeField] private TextMeshProUGUI _armor;
+        [SerializeField] private TextMeshProUGUI _hp;
+        [SerializeField] private TextMeshProUGUI _hpRegen;
+        [SerializeField] private TextMeshProUGUI _attackCooldown;
+        [SerializeField] private TextMeshProUGUI _speed;
+        
         protected override void OnEnable()
         {
             base.OnEnable();
@@ -33,9 +40,16 @@ namespace UI.Applicators
         protected override void Applicate(CharacterVisualData data)
         {
             _name.text = data.Name;
-            _description.text = data.Description;
+            _description.text = $"{data.Description}\n{data.StartItem}";
             _image.sprite = data.Sprite;
             _item.sprite = data.Data.StartItem.Data.ItemIcon;
+
+            _attackPower.text = data.Data.AttackPower.ToString();
+            _armor.text = data.Data.Armor.ToString();
+            _hp.text = data.Data.Hp.ToString();
+            _hpRegen.text = data.Data.HpRegenerationSpeed.ToString();
+            _attackCooldown.text = data.Data.AttackRegenerationSpeed.ToString();
+            _speed.text = data.Data.MoveSpeed.ToString();
         }
 
         private void OnPlayClick()
