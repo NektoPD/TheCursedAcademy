@@ -62,7 +62,7 @@ namespace CharacterLogic
         private bool _isInvincible = false;
         private Transform _transform;
         private bool _isDied;
-        private DateTime _gameStart;
+        private float _gameStartTime;
         private bool _isTutorial;
         public event Action<float, float> HealthChanged;
         public event Action<float, float> Damaged;
@@ -85,10 +85,10 @@ namespace CharacterLogic
             _animationController.SetAnimatorOverride(characterData.AnimatorController);
             _movementHandler.MovingLeft += OnMovingLeft;
             _movementHandler.MovingRight += OnMovingRight;
-            //_health.Changed += UpdateHealthView;
-            //_health.LowHealth += _spriteHolder.StartPulsing;
-            // _health.Died += _spriteHolder.StopPulsing;
-            //_health.Died += OnHealthDied;
+            _health.Changed += UpdateHealthView;
+            _health.LowHealth += _spriteHolder.StartPulsing;
+            _health.Died += _spriteHolder.StopPulsing;
+            _health.Died += OnHealthDied;
             _health.HealthRegainedToNormal += _spriteHolder.StopPulsing;
             _collisionHandler.GotExpPoint += OnExperienceGained;
             _collisionHandler.GotHeal += TakeHeal;
@@ -97,7 +97,7 @@ namespace CharacterLogic
             _killedEnemyCounter = killedEnemyCounter;
             _itemApplicator.ItemSelected += OnItemSelected;
             _killedEnemyCounter.ResetCounter();
-            _gameStart = DateTime.Now;
+            _gameStartTime = Time.timeSinceLevelLoad;
         }
 
         private void Awake()
@@ -175,8 +175,12 @@ namespace CharacterLogic
         {
             _isDied = true;
             _characterSoundController.EnableSoundByType(SoundType.GameOver);
-            DateTime endGameTime = DateTime.Now;
-            TimeSpan gameSession = endGameTime - _gameStart;
+
+            float liveSeconds = Time.timeSinceLevelLoad - _gameStartTime;
+            if (liveSeconds < 0f) liveSeconds = 0f;
+
+            TimeSpan gameSession = TimeSpan.FromSeconds(liveSeconds);
+
             Statistics statistics = new Statistics(_characterLevelController.CurrentExp,
                 _characterLevelController.CurrentLevel, _killedEnemyCounter.KilledCounter,
                 _characterSessionWallet.CollectedMoney, gameSession, _inventory.GetItemStatisticsList());

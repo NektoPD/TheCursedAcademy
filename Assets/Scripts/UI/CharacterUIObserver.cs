@@ -35,10 +35,8 @@ namespace UI
         private Character _character;
         private Vignette _vignette;
 
-        // persistent intensity from low HP
         private float _baseIntensity;
 
-        // additive flash intensity
         private float _flashIntensityAdd;
 
         private Tween _flashTween;
@@ -128,8 +126,6 @@ namespace UI
                 _exit.SetCoins(statistics.Coins);
         }
 
-        // ---------------- VIGNETTE ----------------
-
         private void OnHealthChanged(float current, float max)
         {
             if (_vignette == null || max <= 0f)
@@ -190,7 +186,6 @@ namespace UI
             if (_vignette == null)
                 return;
 
-            // если HP > 0 Ч возвращаемс€ к красному (persistent)
             _colorTween = DOTween.To(
                     () => _vignette.color.value,
                     c => _vignette.color.value = c,

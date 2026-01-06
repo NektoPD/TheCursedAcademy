@@ -21,6 +21,7 @@ namespace Installers
             Container.BindInstance(_deathSound).AsSingle();
             Container.BindInstance(_initializer).WhenInjectedInto<RangeAttacker>();
             Container.BindInstance(_initializer).WhenInjectedInto<EnemyMover>();
+            Container.BindInstance(_initializer).WhenInjectedInto<EnemyDamageTaker>();
             Container.BindInstance(_healthBarsContainer).WhenInjectedInto<BossHealthBar>();
         }
     }

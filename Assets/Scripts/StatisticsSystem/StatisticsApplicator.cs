@@ -32,7 +32,7 @@ namespace StatistiscSystem
             _level.text = statistics.Level.ToString();
             _coins.text = statistics.Coins.ToString();
             _enemyKilled.text = statistics.EnemysKills.ToString();
-            _time.text = statistics.LiveTime.ToString(@"hh\:mm\:ss");
+            _time.text = TimeFormatUtil.FormatLikeTimeView(statistics.LiveTime);
             
             foreach (var item in statistics.Items)
             {

@@ -25,10 +25,7 @@ namespace Pools
         public T Get(IData<T> data)
         {
             if (TryGetInPool(data, out T entity))
-            {
-                EntityPool.Remove(entity);
                 return Initialize(data, entity);
-            }
 
             _count++;
             var newEntity = Create(data);

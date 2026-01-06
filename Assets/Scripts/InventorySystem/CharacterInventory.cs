@@ -11,81 +11,117 @@ namespace InventorySystem
 {
     public class CharacterInventory
     {
-        private List<Item> _collectedItems = new();
-        private Dictionary<ItemVariations, DateTime> _itemAddTimes = new();
+        private readonly List<Item> _collectedItems = new();
+
+        private readonly Dictionary<ItemVariations, float> _itemAddTimesSec = new();
+
+        private readonly Dictionary<ItemVariations, float> _totalDamageByVariation = new();
 
         public event Action<Item> ItemAdded;
         public event Action<Item> ItemRemoved;
 
         public IReadOnlyCollection<Item> Items => _collectedItems;
-
+        
         public void AddItem(Item item)
         {
-            if (item == null)
-                throw new ArgumentNullException(nameof(item));
-
-            if (_collectedItems.Contains(item))
-                return;
+            if (item == null) throw new ArgumentNullException(nameof(item));
+            if (_collectedItems.Contains(item)) return;
 
             _collectedItems.Add(item);
-            
-            if (!_itemAddTimes.ContainsKey(item.Data.ItemVariation))
-            {
-                _itemAddTimes[item.Data.ItemVariation] = DateTime.Now;
-            }
 
+            var variation = item.Data.ItemVariation;
+
+            if (!_itemAddTimesSec.ContainsKey(variation))
+                _itemAddTimesSec[variation] = Time.timeSinceLevelLoad;
+
+            if (!_totalDamageByVariation.ContainsKey(variation))
+                _totalDamageByVariation[variation] = 0f;
+
+            item.DamageDealt += OnItemDamageDealt;
+            
             ItemAdded?.Invoke(item);
         }
 
         public void RemoveItem(Item item)
         {
-            if (item == null)
-                throw new ArgumentNullException(nameof(item));
+            if (item == null) throw new ArgumentNullException(nameof(item));
 
             if (_collectedItems.Contains(item))
                 _collectedItems.Remove(item);
-            
-            if (_collectedItems.All(i => i.Data.ItemVariation != item.Data.ItemVariation))
-            {
-                _itemAddTimes.Remove(item.Data.ItemVariation);
-            }
 
+            var variation = item.Data.ItemVariation;
+
+            if (_collectedItems.All(i => i.Data.ItemVariation != variation))
+                _itemAddTimesSec.Remove(variation);
+
+            item.DamageDealt -= OnItemDamageDealt;
+            
             ItemRemoved?.Invoke(item);
+        }
+
+        public void RegisterDamage(ItemVariations variation, float damage)
+        {
+            if (damage <= 0f) return;
+
+            if (_totalDamageByVariation.ContainsKey(variation))
+                _totalDamageByVariation[variation] += damage;
+            else
+                _totalDamageByVariation[variation] = damage;
         }
 
         public List<ItemStatistics> GetItemStatisticsList()
         {
             if (_collectedItems.Count <= 0)
             {
-                Debug.Log("no items");
                 return null;
             }
-            
+
+            var currentTime = Time.timeSinceLevelLoad;
+
+            var byVariation = _collectedItems
+                .GroupBy(i => i.Data.ItemVariation)
+                .ToList();
+
             List<ItemStatistics> itemStatisticsList = new();
-            DateTime currentTime = DateTime.Now;
-            
-            foreach (Item collectedItem in _collectedItems)
+
+            foreach (var group in byVariation)
             {
-                TimeSpan timeInInventory = TimeSpan.Zero;
-                if (_itemAddTimes.TryGetValue(collectedItem.Data.ItemVariation, out DateTime addTime))
-                {
-                    timeInInventory = currentTime - addTime;
-                }
-                
-                float dps = collectedItem.Data.Damage / collectedItem.Data.Cooldown;
-                
+                var item = group.First();
+                var variation = group.Key;
+
+                float addSec = _itemAddTimesSec.TryGetValue(variation, out var t) ? t : currentTime;
+                float timeInInvSec = Mathf.Max(0f, currentTime - addSec);
+
+                var timeInInventory = TimeSpan.FromSeconds(timeInInvSec);
+
+                float totalDamage = _totalDamageByVariation.TryGetValue(variation, out var dmg) ? dmg : 0f;
+
+                float dps = 0f;
+                if (item.Data.Cooldown > 0f)
+                    dps = item.Data.Damage / item.Data.Cooldown;
+
                 var statisticsData = new ItemStatistics(
-                    collectedItem.Data, 
-                    collectedItem.Data.Damage, 
-                    collectedItem.CurrentLevel, 
-                    dps, 
+                    item.Data,
+                    totalDamage,
+                    item.CurrentLevel,
+                    dps,
                     timeInInventory
                 );
-                
+
                 itemStatisticsList.Add(statisticsData);
             }
-            
+
             return itemStatisticsList;
+        }
+        
+        private void OnItemDamageDealt(ItemVariations variation, float damage)
+        {
+            if (damage <= 0f) return;
+
+            if (_totalDamageByVariation.ContainsKey(variation))
+                _totalDamageByVariation[variation] += damage;
+            else
+                _totalDamageByVariation[variation] = damage;
         }
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,6 +29,8 @@ namespace Items.BaseClass
         [field: SerializeField] public ItemVisualData VisualData { get; private set; }
 
         public int CurrentLevel => Level;
+        public event Action<Enums.ItemVariations, float> DamageDealt; // variation, damage
+
 
         public void Initialize(CharacterMovementHandler movementHandler,
             CharacterSoundController characterSoundController)
@@ -45,6 +48,11 @@ namespace Items.BaseClass
             if (!_canAttack) return;
             PerformAttack();
             StartCoroutine(AttackCooldown());
+        }
+
+        public void RaiseDamageDealt(float damage)
+        {
+            DamageDealt?.Invoke(Data.ItemVariation, damage);
         }
 
         public virtual void LevelUp()

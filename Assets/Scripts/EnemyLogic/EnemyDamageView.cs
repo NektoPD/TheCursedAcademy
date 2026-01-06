@@ -14,7 +14,7 @@ namespace EnemyLogic
         [SerializeField] private float knockbackDistance = 0.25f;
         [SerializeField] private float jumpHeight = 0.12f;
         [SerializeField] private Ease impulseEase = Ease.OutQuad;
-
+        
         private SpriteRenderer _spriteRenderer;
         private Color _originalColor;
         private Coroutine _coroutine;
@@ -41,23 +41,14 @@ namespace EnemyLogic
             _impulseTween?.Kill();
         }
 
-        /// <summary>
-        /// Просто флэш + небольшой импульс (если направление не важно).
-        /// </summary>
         public void StartFlash(float duration)
         {
             if (_coroutine != null)
                 StopCoroutine(_coroutine);
 
             _coroutine = StartCoroutine(FlashCoroutine(duration));
-
-            ApplyHitImpulse(transform.position + Vector3.left);
         }
 
-        /// <summary>
-        /// Флэш + подпрыгивание и отталкивание ОТ источника урона.
-        /// hitFromWorldPos — позиция атакующего/точки удара в мире.
-        /// </summary>
         public void StartFlash(float duration, Vector2 hitFromWorldPos)
         {
             if (_coroutine != null)

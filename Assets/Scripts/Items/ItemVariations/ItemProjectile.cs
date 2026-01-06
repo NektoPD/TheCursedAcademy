@@ -40,6 +40,9 @@ namespace Items.ItemVariations
                 !collision.TryGetComponent(out Character character))
             {
                 damageable?.TakeDamage(Damage);
+                
+                if (Owner != null)
+                    Owner.RaiseDamageDealt(Damage);
             }
         }
     }

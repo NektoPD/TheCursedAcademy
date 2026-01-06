@@ -1,6 +1,7 @@
 using EnemyLogic.HealthBars;
 using HealthSystem;
 using System.Collections;
+using CharacterLogic.Initializer;
 using UnityEngine;
 using Zenject;
 
@@ -20,20 +21,22 @@ namespace EnemyLogic
         private Coroutine _coroutine;
         private AudioSource _deathSound;
         private float _immuneTime;
-
+        
         private bool _isDied = false;
         private bool _inImmune = false;
+        private CharacterInitializer _initializer;
 
         public Health Health => _health;
 
         public bool IsDied => _isDied;
 
         [Inject]
-        public void Construct(AudioSource deathSound)
+        public void Construct(AudioSource deathSound, CharacterInitializer initializer)
         {
             _deathSound = deathSound;
+            _initializer = initializer;
         }
-
+        
         private void Awake()
         {
             _healthBar = GetComponent<HealthBar>();
@@ -77,7 +80,10 @@ namespace EnemyLogic
                 _enemyAnimator.SetHurtTigger();
             }
 
-            _damageView.StartFlash(_duration);
+            if (_initializer != null && _initializer.PlayerTransform != null)
+                _damageView.StartFlash(_duration, _initializer.PlayerTransform.position);
+            else
+                _damageView.StartFlash(_duration);
         }
 
         private void Die()
