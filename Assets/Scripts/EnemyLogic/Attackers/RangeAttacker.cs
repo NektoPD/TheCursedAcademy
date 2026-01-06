@@ -26,10 +26,12 @@ namespace EnemyLogic.Attackers
                 {
                     Projectile projectile = _pool.Get(rangeData.ProjectileData);
 
-                    projectile.transform.position = EnemyAttacker.ProjectileSpawnPoints[i].position;
+                    var sp = EnemyAttacker.ProjectileSpawnPoints[i % EnemyAttacker.ProjectileSpawnPoints.Count];
+                    
+                    projectile.transform.position = sp.position;
 
-                    projectile.SetDirection((_initializer.PlayerTransform.position - EnemyAttacker.ProjectileSpawnPoints[i].position).normalized);
                     projectile.SetDamage(rangeData.Damage);
+                    projectile.SetDirection((_initializer.PlayerTransform.position - EnemyAttacker.ProjectileSpawnPoints[i].position).normalized);
                 }
             }
         }

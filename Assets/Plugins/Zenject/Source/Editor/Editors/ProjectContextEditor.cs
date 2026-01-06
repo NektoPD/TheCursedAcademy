@@ -18,8 +18,10 @@ namespace Zenject
             base.OnEnable();
 
             _settingsProperty = serializedObject.FindProperty("_settings");
-            _editorReflectionBakingCoverageModeProperty = serializedObject.FindProperty("_editorReflectionBakingCoverageMode");
-            _buildsReflectionBakingCoverageModeProperty = serializedObject.FindProperty("_buildsReflectionBakingCoverageMode");
+            _editorReflectionBakingCoverageModeProperty =
+                serializedObject.FindProperty("_editorReflectionBakingCoverageMode");
+            _buildsReflectionBakingCoverageModeProperty =
+                serializedObject.FindProperty("_buildsReflectionBakingCoverageMode");
             _parentNewObjectsUnderContextProperty = serializedObject.FindProperty("_parentNewObjectsUnderContext");
         }
 

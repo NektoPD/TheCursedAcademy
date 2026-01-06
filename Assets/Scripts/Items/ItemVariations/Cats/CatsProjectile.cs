@@ -232,7 +232,8 @@ namespace Items.ItemVariations.Cats
             {
                 Vector2 directionToPlayer =
                     ((Vector2)_playerTransform.position - (Vector2)Transform.position).normalized;
-                Transform.position += (Vector3)directionToPlayer * (_speed * _returnToPlayerSpeedMultiplier * Time.deltaTime);
+                Transform.position += (Vector3)directionToPlayer *
+                                      (_speed * _returnToPlayerSpeedMultiplier * Time.deltaTime);
                 FlipBasedOnDirection(directionToPlayer.x);
             }
             else
@@ -290,13 +291,15 @@ namespace Items.ItemVariations.Cats
             if (distanceToEnemy < _optimalAttackDistance - _attackDistanceThreshold)
             {
                 Vector2 directionFromEnemy = ((Vector2)Transform.position - (Vector2)_targetEnemy.position).normalized;
-                Transform.position += (Vector3)directionFromEnemy * (_speed * _positionMaintenanceSpeedMultiplier * Time.deltaTime);
+                Transform.position += (Vector3)directionFromEnemy *
+                                      (_speed * _positionMaintenanceSpeedMultiplier * Time.deltaTime);
                 FlipBasedOnDirection(-directionFromEnemy.x);
             }
             else if (distanceToEnemy > _optimalAttackDistance + _attackDistanceThreshold)
             {
                 Vector2 directionToEnemy = ((Vector2)_targetEnemy.position - (Vector2)Transform.position).normalized;
-                Transform.position += (Vector3)directionToEnemy * (_speed * _positionMaintenanceSpeedMultiplier * Time.deltaTime);
+                Transform.position += (Vector3)directionToEnemy *
+                                      (_speed * _positionMaintenanceSpeedMultiplier * Time.deltaTime);
                 FlipBasedOnDirection(directionToEnemy.x);
             }
             else

@@ -62,7 +62,7 @@ MonoBehaviour:
   _parfumeProjectilePrefab: {fileID: 4132972598041474757, guid: 9d7fe9b725aeec741bf37368311bbba9, type: 3}
   _projectileLifetime: 6
   _damageZoneDuration: 5
-  _initialPoolSize: 3
+  _initialPoolSize: 15
   _minScreenOffset: 0.1
   _maxScreenOffset: 0.3
   _projectileSpeed: 6

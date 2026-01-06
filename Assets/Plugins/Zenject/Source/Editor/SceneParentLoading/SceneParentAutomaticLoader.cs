@@ -146,7 +146,7 @@ namespace Zenject.Internal
             {
                 throw Assert.CreateException(
                     "Could not fill contract '{0}' for scene '{1}'.  No scenes with that contract name are loaded, and could not find a match in any default scene contract configs to auto load one either."
-                    .Fmt(contractName, sceneInfo.Scene.name));
+                        .Fmt(contractName, sceneInfo.Scene.name));
             }
 
             Scene scene;
@@ -189,7 +189,8 @@ namespace Zenject.Internal
             var activeIndex = GetSceneIndex(EditorSceneManager.GetActiveScene());
 
             Assert.That(parentIndex < childIndex,
-                "Parent scene '{0}' must be loaded before child scene '{1}'.  Please drag it to be placed above its child in the scene hierarchy.", parentSceneInfo.Scene.name, sceneInfo.Scene.name);
+                "Parent scene '{0}' must be loaded before child scene '{1}'.  Please drag it to be placed above its child in the scene hierarchy.",
+                parentSceneInfo.Scene.name, sceneInfo.Scene.name);
 
             if (activeIndex > parentIndex)
             {
@@ -222,12 +223,14 @@ namespace Zenject.Internal
                 {
                     if (info.ContractName.Trim().IsEmpty())
                     {
-                        Log.Warn("Found empty contract name in default scene contract config at path '{0}'", AssetDatabase.GetAssetPath(config));
+                        Log.Warn("Found empty contract name in default scene contract config at path '{0}'",
+                            AssetDatabase.GetAssetPath(config));
                         continue;
                     }
 
                     Assert.That(!map.ContainsKey(info.ContractName),
-                        "Found duplicate contract '{0}' in default scene contract config at '{1}'!  Default contract already specified", info.ContractName, AssetDatabase.GetAssetPath(config));
+                        "Found duplicate contract '{0}' in default scene contract config at '{1}'!  Default contract already specified",
+                        info.ContractName, AssetDatabase.GetAssetPath(config));
 
                     map.Add(info.ContractName, AssetDatabase.GetAssetPath(info.Scene));
                 }
@@ -261,7 +264,7 @@ namespace Zenject.Internal
             if (sceneContext != null)
             {
                 Assert.IsNull(decoratorContext,
-                "Found both SceneContext and SceneDecoratorContext in scene '{0}'", scene.name);
+                    "Found both SceneContext and SceneDecoratorContext in scene '{0}'", scene.name);
 
                 info.SceneContext = sceneContext;
             }

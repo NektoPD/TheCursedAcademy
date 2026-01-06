@@ -33,7 +33,6 @@ namespace Items.ItemVariations
                 defaultCapacity: 10,
                 maxSize: 100
             );
-
         }
 
         private ChalkProjectile CreateProjectile()
@@ -128,7 +127,8 @@ namespace Items.ItemVariations
 
             ItemStats.SetStatNextValue(Enums.StatVariations.Damage, Data.Damage * _damageMultiplier);
             ItemStats.SetStatNextValue(Enums.StatVariations.AttackSpeed, Data.Cooldown * _cooldownMultiplier);
-            ItemStats.SetStatNextValue(Enums.StatVariations.ProjectilesSpeed, _projectileSpeed * _projectileSpeedMultiplier);
+            ItemStats.SetStatNextValue(Enums.StatVariations.ProjectilesSpeed,
+                _projectileSpeed * _projectileSpeedMultiplier);
             ItemStats.SetStatNextValue(Enums.StatVariations.ProjectilesCount,
                 _projectilesPerAttack + _projectileCountIncreasePerLevel);
         }

@@ -52,7 +52,7 @@ namespace Items.ItemVariations
         {
             transform.position += (Vector3)_targetDirection * _speed * Time.deltaTime;
         }
-        
+
 
         private IEnumerator ReturnToPoolAfterTime(float lifetime)
         {

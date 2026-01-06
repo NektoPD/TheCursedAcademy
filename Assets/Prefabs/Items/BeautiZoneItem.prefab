@@ -62,7 +62,7 @@ MonoBehaviour:
   _beautyZoneProjectilePrefab: {fileID: 2338013965513972884, guid: 6175b5469932dc84e87d99f3bb30af3d, type: 3}
   _zoneRadius: 1.3
   _zoneDuration: 2
-  _initialPoolSize: 2
+  _initialPoolSize: 10
   _spawnYOffset: 0.6
   _damageMultiplier: 1
   _radiusMultiplier: 1

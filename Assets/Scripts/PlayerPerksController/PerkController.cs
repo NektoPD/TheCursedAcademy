@@ -20,7 +20,6 @@ namespace PlayerPerksController
 
         public int GetPerkLevel(PerkType type)
         {
-            Debug.Log(type);
             if (PerkDataWrapper.PerkLevels.ContainsKey(type) == false) throw new NullReferenceException(nameof(type));
             return PerkDataWrapper.PerkLevels[type];
         }
@@ -31,7 +30,6 @@ namespace PlayerPerksController
                 PerkDataWrapper.PerkLevels[perkType] < MaxUpgradeCount)
             {
                 PerkDataWrapper.PerkLevels[perkType]++;
-                Debug.Log(PerkDataWrapper.PerkLevels[perkType]);
                 YandexGame.SaveProgress();
                 return true;
             }

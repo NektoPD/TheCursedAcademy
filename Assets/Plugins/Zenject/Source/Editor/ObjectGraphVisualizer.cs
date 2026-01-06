@@ -45,7 +45,8 @@ namespace Zenject
                         continue;
                     }
 
-                    resultStr += GetFormattedTypeName(entry.Key) + " -> " + GetFormattedTypeName(dependencyType) + "; \n";
+                    resultStr += GetFormattedTypeName(entry.Key) + " -> " + GetFormattedTypeName(dependencyType) +
+                                 "; \n";
                 }
             }
 
@@ -122,4 +123,3 @@ namespace Zenject
         }
     }
 }
-

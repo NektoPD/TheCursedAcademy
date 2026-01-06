@@ -54,5 +54,5 @@ MonoBehaviour:
   _spreadAngle: 30
   _baseProjectileSpeed: 8
   _movementThreshold: 0.1
-  _poolDefaultCapacity: 10
+  _poolDefaultCapacity: 40
   _poolMaxSize: 100

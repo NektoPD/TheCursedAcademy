@@ -11,8 +11,8 @@ namespace CharacterLogic.InputHandler
         private PlayerInput _playerInput;
         private Transform _transform;
 
-        [Header("Mobile Joystick")]
-        [SerializeField] private VirtualJoystick _joystick;
+        [Header("Mobile Joystick")] [SerializeField]
+        private VirtualJoystick _joystick;
 
         [SerializeField] private GameObject _joystickRoot;
         [SerializeField] private bool _forceUseJoystickInEditor;
@@ -112,6 +112,7 @@ namespace CharacterLogic.InputHandler
         public bool IsMovingRight() => _moveDirection.x > 0;
         public bool IsMovingUp() => _moveDirection.y > 0;
         public bool IsMovingDown() => _moveDirection.y < 0;
+
         public bool IsMovingDiagonally()
             => Mathf.Abs(_moveDirection.x) > 0.1f && Mathf.Abs(_moveDirection.y) > 0.1f;
 

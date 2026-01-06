@@ -30,7 +30,8 @@ namespace UI.Animation
             gameObject.SetActive(true);
 
             _currentTween = DoFadeBackground(0, 0);
-            _currentTween =_rectTransform.DOAnchorPos(_targetPosition, _duration).OnComplete(() => DoFadeBackground(_alfa, _duration / 2)).SetUpdate(true);
+            _currentTween = _rectTransform.DOAnchorPos(_targetPosition, _duration)
+                .OnComplete(() => DoFadeBackground(_alfa, _duration / 2)).SetUpdate(true);
         }
 
         public void Close()
@@ -63,7 +64,7 @@ namespace UI.Animation
         {
             if (_background == null)
                 return DOTween.To(() => 0, x => { }, 0, 0);
-            
+
             return _background.DOFade(alfa, duration).SetUpdate(true);
         }
     }

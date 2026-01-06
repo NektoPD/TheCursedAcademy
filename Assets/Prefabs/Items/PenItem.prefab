@@ -50,7 +50,7 @@ MonoBehaviour:
   _penProjectilePrefab: {fileID: 5145289430692580087, guid: 6c9b3009a705f7a4999777cf88c476ed, type: 3}
   _projectileLifetime: 0.6
   _attackWidth: 1
-  _initialPoolSize: 3
+  _initialPoolSize: 15
   _spawnOffset: 1
   _projectileScale: {x: 1, y: 2, z: 2}
   _damageMultiplier: 1

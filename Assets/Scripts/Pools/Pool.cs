@@ -26,17 +26,13 @@ namespace Pools
         {
             if (TryGetInPool(data, out T entity))
             {
-                entity = Initialize(data, entity);
                 EntityPool.Remove(entity);
-
-                return entity;
+                return Initialize(data, entity);
             }
 
             _count++;
-
             var newEntity = Create(data);
-            newEntity = Initialize(data, newEntity);
-            return newEntity;
+            return Initialize(data, newEntity);
         }
 
         public virtual void ReturnEntity(T entity)

@@ -10,6 +10,5 @@ namespace CharacterLogic.Spawner
         {
             character.transform.position = _spawnPoint.position;
         }
-    
     }
 }

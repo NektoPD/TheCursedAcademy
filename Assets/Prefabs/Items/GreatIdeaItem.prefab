@@ -61,7 +61,7 @@ MonoBehaviour:
   <VisualData>k__BackingField: {fileID: 11400000, guid: 387d86c65d3c82c479e371073f0bd875, type: 2}
   _ideaProjectilePrefab: {fileID: 1100439077644873250, guid: fb15e9f6165154046a636740acab1c05, type: 3}
   _projectileLifetime: 1
-  _initialPoolSize: 5
+  _initialPoolSize: 20
   _detectionRadius: 2
   _enemyLayerMask:
     serializedVersion: 2

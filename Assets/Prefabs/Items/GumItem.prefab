@@ -49,7 +49,7 @@ MonoBehaviour:
   <VisualData>k__BackingField: {fileID: 11400000, guid: 7e31eb9c1615f1d4abe3cd87af7ac47f, type: 2}
   _projectilePrefab: {fileID: 298469901198760834, guid: 3568523530930ff4d97bb251b38c91cb, type: 3}
   _projectileSpeed: 7
-  _initialPoolSize: 15
+  _initialPoolSize: 20
 --- !u!114 &7551907674219449153
 MonoBehaviour:
   m_ObjectHideFlags: 0

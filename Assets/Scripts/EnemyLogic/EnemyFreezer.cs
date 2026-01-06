@@ -37,7 +37,9 @@ namespace EnemyLogic
         public void Freeze()
         {
             if (_animator.IsDeadAnimationStarted || _inImmune)
+            {
                 return;
+            }
 
             _animator.SetHurtTigger();
             _animator.SetAnimatorSpeed(0f);

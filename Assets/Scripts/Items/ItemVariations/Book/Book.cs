@@ -23,7 +23,7 @@ namespace Items.ItemVariations.Book
 
         private ItemProjectilePool _projectilePool;
         private Transform _transform;
-        private float _damageIncreasePerLevel = 1.25f;
+        private float _damageIncreasePerLevel = 1.15f;
         private float _projectileSpeedIncreasePerLevel = 1.1f;
         private float _projectileLifetimeIncreasePerLevel = 1.1f;
         private int _projectileCountIncreasePerLevel = 1;
@@ -101,7 +101,10 @@ namespace Items.ItemVariations.Book
             _damageMultiplier *= _damageIncreasePerLevel;
             _projectileSpeed *= _projectileSpeedIncreasePerLevel;
             _projectileLifetime *= _projectileLifetimeIncreasePerLevel;
-            _projectileCount += _projectileCountIncreasePerLevel;
+
+            if (Level <= 2)
+                _projectileCount += _projectileCountIncreasePerLevel;
+            
             Data.Cooldown *= _cooldownReductionPerLevel;
 
             UpdateStatsValues();

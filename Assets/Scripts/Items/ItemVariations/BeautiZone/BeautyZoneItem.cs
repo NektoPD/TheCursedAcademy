@@ -64,7 +64,7 @@ namespace Items.ItemVariations.BeautiZone
         private IEnumerator EnableProjectile(ItemProjectile projectile, float lifetime)
         {
             projectile.gameObject.SetActive(true);
-           
+
             yield return new WaitForSeconds(lifetime + _projectileReturnDelay);
 
             if (projectile && projectile.gameObject.activeSelf)

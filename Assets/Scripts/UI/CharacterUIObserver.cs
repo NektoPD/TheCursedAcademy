@@ -15,26 +15,22 @@ namespace UI
         [SerializeField] private ExitToMenu _exit;
         [SerializeField] private Reviver _reviver;
 
-        [Header("Post Processing")]
-        [SerializeField] private PostProcessVolume _postProcessVolume;
+        [Header("Post Processing")] [SerializeField]
+        private PostProcessVolume _postProcessVolume;
 
-        [Header("Vignette: Low HP")]
-        [SerializeField, Range(0f, 1f)]
+        [Header("Vignette: Low HP")] [SerializeField, Range(0f, 1f)]
         private float _lowHealthMaxIntensity = 0.45f;
 
-        [Header("Vignette: Flash")]
-        [SerializeField, Range(0f, 1f)]
+        [Header("Vignette: Flash")] [SerializeField, Range(0f, 1f)]
         private float _flashMaxAddIntensity = 0.35f;
 
-        [SerializeField]
-        private float _flashDuration = 0.30f;
+        [SerializeField] private float _flashDuration = 0.30f;
 
-        [Header("Vignette Colors (HDR allowed)")]
-        [ColorUsage(false, true)]
-        [SerializeField] private Color _damageColor = Color.red;
+        [Header("Vignette Colors (HDR allowed)")] [ColorUsage(false, true)] [SerializeField]
+        private Color _damageColor = Color.red;
 
-        [ColorUsage(false, true)]
-        [SerializeField] private Color _healColor = Color.green;
+        [ColorUsage(false, true)] [SerializeField]
+        private Color _healColor = Color.green;
 
         private Character _character;
         private Vignette _vignette;
@@ -170,12 +166,20 @@ namespace UI
             _flashTween = DOTween.Sequence()
                 .Append(DOTween.To(
                     () => _flashIntensityAdd,
-                    x => { _flashIntensityAdd = x; UpdateVignette(); },
+                    x =>
+                    {
+                        _flashIntensityAdd = x;
+                        UpdateVignette();
+                    },
                     _flashMaxAddIntensity,
                     _flashDuration * 0.5f).SetEase(Ease.OutSine))
                 .Append(DOTween.To(
                     () => _flashIntensityAdd,
-                    x => { _flashIntensityAdd = x; UpdateVignette(); },
+                    x =>
+                    {
+                        _flashIntensityAdd = x;
+                        UpdateVignette();
+                    },
                     0f,
                     _flashDuration * 0.5f).SetEase(Ease.InSine))
                 .OnComplete(ReturnToDamageColor);
@@ -216,4 +220,3 @@ namespace UI
         }
     }
 }
- 

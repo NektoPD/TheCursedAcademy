@@ -49,7 +49,7 @@ namespace Zenject.Internal
             Application.LogCallback logCallback = (condition, stackTrace, type) =>
             {
                 if (type == LogType.Error || type == LogType.Assert
-                    || type == LogType.Exception)
+                                          || type == LogType.Exception)
                 {
                     encounteredError = true;
                 }
@@ -195,7 +195,8 @@ namespace Zenject.Internal
                 if (sceneContext != null)
                 {
                     Assert.That(decoratorContext == null,
-                        "Found both SceneDecoratorContext and SceneContext in the same scene '{0}'.  This is not allowed", scene.name);
+                        "Found both SceneDecoratorContext and SceneContext in the same scene '{0}'.  This is not allowed",
+                        scene.name);
 
                     decoratedSceneNames.RemoveAll(x => sceneContext.ContractNames.Contains(x));
 
@@ -211,7 +212,8 @@ namespace Zenject.Internal
             }
 
             Assert.That(decoratedSceneNames.IsEmpty(),
-                "Found decorator scenes without a corresponding scene to decorator.  Missing scene contracts: {0}", decoratedSceneNames.Join(", "));
+                "Found decorator scenes without a corresponding scene to decorator.  Missing scene contracts: {0}",
+                decoratedSceneNames.Join(", "));
         }
 
         public static string ConvertAssetPathToAbsolutePath(string assetPath)

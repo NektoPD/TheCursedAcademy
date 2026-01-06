@@ -85,10 +85,10 @@ namespace CharacterLogic
             _animationController.SetAnimatorOverride(characterData.AnimatorController);
             _movementHandler.MovingLeft += OnMovingLeft;
             _movementHandler.MovingRight += OnMovingRight;
-            _health.Changed += UpdateHealthView;
-            _health.LowHealth += _spriteHolder.StartPulsing;
-            _health.Died += _spriteHolder.StopPulsing;
-            _health.Died += OnHealthDied;
+            //_health.Changed += UpdateHealthView;
+            //_health.LowHealth += _spriteHolder.StartPulsing;
+            // _health.Died += _spriteHolder.StopPulsing;
+            //_health.Died += OnHealthDied;
             _health.HealthRegainedToNormal += _spriteHolder.StopPulsing;
             _collisionHandler.GotExpPoint += OnExperienceGained;
             _collisionHandler.GotHeal += TakeHeal;
@@ -221,7 +221,6 @@ namespace CharacterLogic
                         multiSlingshot.SetMovementHandler(_movementHandler);
                     }
 
-                    Debug.Log(_characterSoundController);
                     newItem.transform.position = _transform.position;
                     newItem.Initialize(_movementHandler, _characterSoundController);
                     _inventory.AddItem(newItem);
@@ -339,18 +338,6 @@ namespace CharacterLogic
             _attackCooldown = characterData.AttackRegenerationSpeed *
                               GetPerkBonus(perkBonuses, PerkType.AttackCooldown);
             _moveSpeed = characterData.MoveSpeed * GetPerkBonus(perkBonuses, PerkType.Speed);
-            Debug.Log(characterData.AttackPower);
-            Debug.Log(GetPerkBonus(perkBonuses, PerkType.Power));
-            Debug.Log(characterData.Armor);
-            Debug.Log(GetPerkBonus(perkBonuses, PerkType.Armor));
-            Debug.Log(characterData.Hp);
-            Debug.Log(GetPerkBonus(perkBonuses, PerkType.MaxHp));
-            Debug.Log(characterData.HpRegenerationSpeed);
-            Debug.Log(GetPerkBonus(perkBonuses, PerkType.HpRegeneration));
-            Debug.Log(characterData.AttackRegenerationSpeed);
-            Debug.Log(GetPerkBonus(perkBonuses, PerkType.AttackCooldown));
-            Debug.Log(characterData.MoveSpeed);
-            Debug.Log(GetPerkBonus(perkBonuses, PerkType.Speed));
             OnItemSelected(characterData.StartItem.Data.ItemVariation);
             _health.SetMaxHealth(_hp);
             UpdateHealthView(_hp);

@@ -140,7 +140,8 @@ namespace Items.ItemVariations.BeautiZone
 
             _activeParticle = GetParticleFromPool();
             _activeParticle.transform.position = transform.position;
-            _activeParticle.transform.localScale = new Vector2(_circleCollider.radius + _particleScaleOffset, _circleCollider.radius + _particleScaleOffset);
+            _activeParticle.transform.localScale = new Vector2(_circleCollider.radius + _particleScaleOffset,
+                _circleCollider.radius + _particleScaleOffset);
 
             _activeParticle.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
 

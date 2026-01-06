@@ -65,9 +65,6 @@ MonoBehaviour:
   _projectileLifetime: 5
   _projectileCount: 2
   _spreadAngle: 30
-  _initialPoolSize: 6
-  _level: 1
+  _initialPoolSize: 20
   _damageMultiplier: 1
-  _projectileSpeedMultiplier: 1
-  _projectileLifetimeMultiplier: 1
   _projectileSpawnInterval: 0.1

@@ -49,10 +49,10 @@ namespace EnemyLogic
             if (_coroutine != null)
                 StopCoroutine(_coroutine);
 
-            if(componentEnabled == true)
-                _coroutine = StartCoroutine(ChangeColor(_defaultColor, _color));
-            else
+            if (componentEnabled == true)
                 _coroutine = StartCoroutine(ChangeColor(_color, _defaultColor));
+            else
+                _coroutine = StartCoroutine(ChangeColor(_defaultColor, _color));
         }
 
         private IEnumerator ChangeColor(Color startColor, Color endColor)

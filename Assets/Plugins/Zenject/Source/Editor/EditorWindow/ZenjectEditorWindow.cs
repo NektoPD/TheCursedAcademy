@@ -7,22 +7,15 @@ namespace Zenject
 {
     public abstract class ZenjectEditorWindow : EditorWindow
     {
-        [Inject]
-        [NonSerialized]
-        Kernel _kernel;
+        [Inject] [NonSerialized] Kernel _kernel;
 
-        [Inject]
-        [NonSerialized]
-        GuiRenderableManager _guiRenderableManager;
+        [Inject] [NonSerialized] GuiRenderableManager _guiRenderableManager;
 
-        [NonSerialized]
-        DiContainer _container;
+        [NonSerialized] DiContainer _container;
 
-        [NonSerialized]
-        Exception _fatalError;
+        [NonSerialized] Exception _fatalError;
 
-        [NonSerialized]
-        GUIStyle _errorTextStyle;
+        [NonSerialized] GUIStyle _errorTextStyle;
 
         GUIStyle ErrorTextStyle
         {
@@ -117,13 +110,17 @@ namespace Zenject
                 var labelWidth = 600;
                 var labelHeight = 200;
 
-                GUI.Label(new Rect(Screen.width / 2 - labelWidth / 2, Screen.height / 3 - labelHeight / 2, labelWidth, labelHeight), "Unrecoverable error occurred!  \nSee log for details.", ErrorTextStyle);
+                GUI.Label(
+                    new Rect(Screen.width / 2 - labelWidth / 2, Screen.height / 3 - labelHeight / 2, labelWidth,
+                        labelHeight), "Unrecoverable error occurred!  \nSee log for details.", ErrorTextStyle);
 
                 var buttonWidth = 100;
                 var buttonHeight = 50;
                 var offset = new Vector2(0, 100);
 
-                if (GUI.Button(new Rect(Screen.width / 2 - buttonWidth / 2 + offset.x, Screen.height / 3 - buttonHeight / 2 + offset.y, buttonWidth, buttonHeight), "Reload"))
+                if (GUI.Button(
+                        new Rect(Screen.width / 2 - buttonWidth / 2 + offset.x,
+                            Screen.height / 3 - buttonHeight / 2 + offset.y, buttonWidth, buttonHeight), "Reload"))
                 {
                     ExecuteFullReload();
                 }

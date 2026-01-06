@@ -31,7 +31,6 @@ namespace Items.ItemVariations
         {
             _projectilePool = GetComponent<ItemProjectilePool>();
             _projectilePool.Initialize(_mirrorProjectilePrefab, _initialPoolSize);
-            
         }
 
         protected override void PerformAttack()
@@ -76,7 +75,7 @@ namespace Items.ItemVariations
             _projectileSpeed *= _projectileSpeedIncreasePerLevel;
             _detectionRadius *= _detectionRadiusIncreasePerLevel;
             Data.Cooldown *= _cooldownReductionPerLevel;
-            
+
             UpdateStatsValues();
         }
 
@@ -88,7 +87,8 @@ namespace Items.ItemVariations
             ItemStats.SetStatCurrentValue(Enums.StatVariations.Radius, _detectionRadius);
 
             ItemStats.SetStatNextValue(Enums.StatVariations.Damage, _damageMultiplier * _damageIncreasePerLevel);
-            ItemStats.SetStatNextValue(Enums.StatVariations.Radius, _detectionRadius * _detectionRadiusIncreasePerLevel);
+            ItemStats.SetStatNextValue(Enums.StatVariations.Radius,
+                _detectionRadius * _detectionRadiusIncreasePerLevel);
             ItemStats.SetStatNextValue(Enums.StatVariations.AttackSpeed, Data.Cooldown * _cooldownReductionPerLevel);
             ItemStats.SetStatNextValue(Enums.StatVariations.ProjectilesSpeed,
                 _projectileSpeed * _projectileSpeedIncreasePerLevel);

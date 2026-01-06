@@ -60,5 +60,5 @@ MonoBehaviour:
   _baseDetectionRadius: 5
   _detectionRadiusPerLevel: 0.5
   _maxDetectionRadius: 10
-  _poolDefaultCapacity: 10
-  _poolMaxSize: 50
+  _poolDefaultCapacity: 30
+  _poolMaxSize: 60

@@ -162,7 +162,8 @@ namespace Items.ItemVariations.Toys
             ItemStats.SetStatNextValue(Enums.StatVariations.Damage, _damageMultiplier + _damageIncreasePerLevel);
             ItemStats.SetStatNextValue(Enums.StatVariations.Radius, _radiusMultiplier + _radiusIncreasePerLevel);
             ItemStats.SetStatNextValue(Enums.StatVariations.AttackSpeed, Data.Cooldown * _cooldownReductionPerLevel);
-            ItemStats.SetStatNextValue(Enums.StatVariations.RotationSpeed, _rotationSpeedMultiplier + _rotationSpeedIncreasePerLevel / _rotationSpeed);
+            ItemStats.SetStatNextValue(Enums.StatVariations.RotationSpeed,
+                _rotationSpeedMultiplier + _rotationSpeedIncreasePerLevel / _rotationSpeed);
 
             if ((Level + 1) % 2 != 0 || _currentProjectileCount >= _maxProjectileCount) return;
             ItemStats.SetStatNextValue(Enums.StatVariations.ProjectilesCount, _currentProjectileCount++);

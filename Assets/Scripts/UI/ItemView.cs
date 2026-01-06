@@ -29,7 +29,7 @@ namespace UI
             _image.sprite = visualData.Sprite;
             _textLevel.text = $"{level + 1}";
 
-             _new.gameObject.SetActive(isNew);
+            _new.gameObject.SetActive(isNew);
 
             _clickHandler.SetData(visualData);
         }

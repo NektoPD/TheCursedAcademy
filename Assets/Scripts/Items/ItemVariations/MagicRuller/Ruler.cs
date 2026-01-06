@@ -30,7 +30,6 @@ namespace Items.ItemVariations.MagicRuller
             _projectilePool = GetComponent<ItemProjectilePool>();
             _projectilePool.Initialize(_projectilePrefab, _initialPoolSize);
             _transform = transform;
-
         }
 
         private void Start()

@@ -92,6 +92,8 @@ namespace Items.ItemVariations.SchoolBell
 
         private IEnumerator FreezeEnemy(EnemyFreezer freezable)
         {
+            Debug.Log($"Freeze call: {freezable.name}", freezable);
+
             freezable.Freeze();
 
             yield return new WaitForSeconds(_freezeDuration);

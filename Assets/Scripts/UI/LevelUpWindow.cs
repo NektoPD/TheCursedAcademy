@@ -8,7 +8,7 @@ using UI.Applicators;
 using UnityEngine;
 using Zenject;
 
-namespace UI 
+namespace UI
 {
     public class LevelUpWindow : Window
     {
@@ -16,7 +16,7 @@ namespace UI
 
         [SerializeField] private List<ItemView> _itemsVisual;
         [SerializeField] private ItemApplicator _applicator;
-        
+
         private ItemsHolder _itemsHolder;
         private CharacterInventory _inventory;
 
@@ -38,7 +38,7 @@ namespace UI
 
             base.OpenWindow();
 
-            for (int i = 0; i < CountItems; i++) 
+            for (int i = 0; i < CountItems; i++)
             {
                 bool isNew = !visualDatasInInventory.Contains(datas[i]);
                 Item item = _inventory.Items.Where(item => item.VisualData == datas[i]).FirstOrDefault();

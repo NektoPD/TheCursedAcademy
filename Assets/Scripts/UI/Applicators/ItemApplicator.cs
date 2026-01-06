@@ -12,7 +12,7 @@ namespace UI.Applicators
 {
     public class ItemApplicator : BaseApplicator<ItemVisualData>
     {
-        private readonly List<StatView> _currentStats = new ();
+        private readonly List<StatView> _currentStats = new();
 
         [SerializeField] private StatView _statPrefab;
         [SerializeField] private Transform _statContainer;
@@ -34,22 +34,23 @@ namespace UI.Applicators
             _ok.onClick.RemoveListener(AddItem);
         }
 
-        public void Inizialize(IEnumerable<ItemVisualData> visualDatasInInventory) => _visualDatasInInventory = visualDatasInInventory;
+        public void Inizialize(IEnumerable<ItemVisualData> visualDatasInInventory) =>
+            _visualDatasInInventory = visualDatasInInventory;
 
         protected override void Applicate(ItemVisualData data)
         {
-            if(data == null)
+            if (data == null)
                 return;
 
             RemoveAllStat();
-            
+
             foreach (var stat in data.Stats)
                 if (_visualDatasInInventory.Contains(data))
                     AddStat(stat.Name, $"{stat.CurrentValue} -> {stat.NextValue}");
                 else
                     AddStat(stat.Name, $"0 -> {stat.CurrentValue}");
         }
-        
+
         private void AddStat(string name, string value)
         {
             StatView stat = Instantiate(_statPrefab, _statContainer);

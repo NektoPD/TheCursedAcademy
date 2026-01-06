@@ -92,7 +92,8 @@ namespace Items.ItemVariations
 
             ItemStats.SetStatNextValue(Enums.StatVariations.Damage, _damageMultiplier * _damageIncreasePerLevel);
             ItemStats.SetStatNextValue(Enums.StatVariations.AttackSpeed, Data.Cooldown * _cooldownReductionPerLevel);
-            ItemStats.SetStatNextValue(Enums.StatVariations.Radius, _detectionRadius * _detectionRadiusIncreasePerLevel);
+            ItemStats.SetStatNextValue(Enums.StatVariations.Radius,
+                _detectionRadius * _detectionRadiusIncreasePerLevel);
         }
 
         private IEnumerator EnableProjectile(ItemProjectile projectile, float lifetime)
