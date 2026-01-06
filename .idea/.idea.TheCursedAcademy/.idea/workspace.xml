@@ -6,13 +6,13 @@
   <component name="ChangeListManager">
     <list default="true" id="2352e6f7-7a00-4256-b434-98f90d0b0896" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.TheCursedAcademy/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TheCursedAcademy/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Configs/CharacterConfigs/Girl2.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Configs/CharacterConfigs/Girl2.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Configs/CharacterVisualData/Girl1.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Configs/CharacterVisualData/Girl1.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Configs/CharacterVisualData/Girl2.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Configs/CharacterVisualData/Girl2.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Configs/CharacterVisualData/Girl3.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Configs/CharacterVisualData/Girl3.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Configs/PerkModifiers/PerkModifier.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Configs/PerkModifiers/PerkModifier.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/PluginYourGames/Editor/SavesEditorYG2.json" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/PluginYourGames/Editor/SavesEditorYG2.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/Menu.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Menu.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Data/CharacterVisualData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Data/CharacterVisualData.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CharacterLogic/Character.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CharacterLogic/Character.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CharacterLogic/Initializer/CharacterInitializer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CharacterLogic/Initializer/CharacterInitializer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PlayerPerksController/PerkController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/PlayerPerksController/PerkController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PlayerPerksController/PerkModifiers.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/PlayerPerksController/PerkModifiers.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/Applicators/CharacterApplicator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/Applicators/CharacterApplicator.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/Applicators/PerkApplicator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/Applicators/PerkApplicator.cs" afterDir="false" />
     </list>
@@ -27,7 +27,9 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/37cc348edc804f4cb176b63962c716e7177200/c5/cfed219f/Time.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/82a2fd073ee449928e161903460426d72ae00/c8/504927e5/ShortcutExtensions.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/d44b17e136d09081da1e8fd0e8c83fde60e11818b9f2442d7ed8cb733fae895e/System.Collections.Generic.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Animations/EnemyAnimations/Satyr_3/Spawn.anim" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Animations/PlayerAnimations/Girl1/CharacterAnimationController.controller" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Particles/Epic Toon FX/Prefabs/Combat/Blood/Yellow/YellowBloodPoolGrowing.prefab" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/PluginYourGames/Scripts/Basic/YG2.cs.meta" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/CameraExtensions/CameraDeathZoom.cs" root0="FORCE_HIGHLIGHTING" />
@@ -224,7 +226,8 @@
       <workItem from="1766503108301" duration="1604000" />
       <workItem from="1767529283034" duration="15324000" />
       <workItem from="1767593847817" duration="4122000" />
-      <workItem from="1767610155042" duration="1208000" />
+      <workItem from="1767610155042" duration="16754000" />
+      <workItem from="1767680833721" duration="320000" />
     </task>
     <servers />
   </component>

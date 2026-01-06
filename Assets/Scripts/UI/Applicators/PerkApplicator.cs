@@ -1,6 +1,7 @@
 using Data;
 using PlayerPerksController;
 using System;
+using System.Linq;
 using TMPro;
 using UI.Applicators.ClickHandlers;
 using UnityEngine;
@@ -32,8 +33,6 @@ namespace UI.Applicators
         {
             _perkController = perkController;
             _wallet = wallet;
-            
-            Debug.Log(_perkController.PerkDataWrapper.PerkLevels[PerkType.Armor]);
         }
 
         protected override void OnEnable()
@@ -50,8 +49,23 @@ namespace UI.Applicators
 
         protected override void Applicate(PerkVisualData data)
         {
+            UpdatePerkText(data);
+        }
+
+        private void UpdatePerkText(PerkVisualData data)
+        {
             _name.text = data.Name;
-            _description.text = data.Description + " (5%)";
+
+            if (_perkController.GetPerkLevel(data.Type) < _perkController.MaxUpgradeCount)
+            {
+                _description.text =
+                    $"{data.Description} ({_perkController.GetPerkLevel(data.Type) * 5}% => {(_perkController.GetPerkLevel(data.Type) + 1) * 5}%)";
+            }
+            else
+            {
+                _description.text = $"{data.Description} ({_perkController.GetPerkLevel(data.Type) * 5}%)";
+            }
+
             _image.sprite = data.Sprite;
             _cost.text = (data.DefaultPrice * (_perkController.GetPerkLevel(data.Type) + 1)).ToString();
         }
@@ -65,12 +79,13 @@ namespace UI.Applicators
                 _error.SetActive(true);
                 return;
             }
-            
-            if(_perkController.TryUpgradePerk(CurrentItem.Type) == false)
+
+            if (_perkController.TryUpgradePerk(CurrentItem.Type) == false)
                 return;
 
             _wallet.RemoveMoney(perkPrice);
             Buyed?.Invoke(CurrentItem);
+            UpdatePerkText(CurrentItem);
         }
     }
 }

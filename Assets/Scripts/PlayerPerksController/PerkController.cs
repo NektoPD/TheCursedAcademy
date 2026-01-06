@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using YG;
 
@@ -7,10 +8,9 @@ namespace PlayerPerksController
 {
     public class PerkController
     {
-        private const int MaxUpgradeCount = 4;
-
+        public int MaxUpgradeCount { get; private set; } = 4;
         private readonly PerkModifiers _perkModifiers = ScriptableObject.CreateInstance<PerkModifiers>();
-        
+
         public void Initialize()
         {
             PerkDataWrapper = YandexGame.savesData.PerkDataWrapper;
@@ -21,10 +21,7 @@ namespace PlayerPerksController
         public int GetPerkLevel(PerkType type)
         {
             Debug.Log(type);
-
-            if (PerkDataWrapper.PerkLevels.ContainsKey(type) == false)
-                throw new NullReferenceException(nameof(type));
-
+            if (PerkDataWrapper.PerkLevels.ContainsKey(type) == false) throw new NullReferenceException(nameof(type));
             return PerkDataWrapper.PerkLevels[type];
         }
 
@@ -44,18 +41,20 @@ namespace PlayerPerksController
 
         public Dictionary<PerkType, float> GetFinalPerkValues()
         {
-            Dictionary<PerkType, float> finalValues = new();
-            Dictionary<PerkType, float> modifiers = _perkModifiers.GetModifiers();
-
-            foreach (var perk in PerkDataWrapper.PerkLevels)
+            var result = new Dictionary<PerkType, float>();
+            var steps = _perkModifiers.GetModifiers();
+            
+            foreach (var kv in PerkDataWrapper.PerkLevels)
             {
-                if (modifiers.TryGetValue(perk.Key, out float modifier))
-                {
-                    finalValues[perk.Key] = modifier * perk.Value;
-                }
+                float step = steps.FirstOrDefault(v => v.Key == kv.Key).Value;
+                int level = kv.Value;
+                
+                float multiplier = 1f + step * level;
+                
+                result[kv.Key] = multiplier;
             }
 
-            return finalValues;
+            return result;
         }
     }
 
@@ -64,12 +63,8 @@ namespace PlayerPerksController
     {
         public Dictionary<PerkType, int> PerkLevels = new()
         {
-            { PerkType.Power, 0 },
-            { PerkType.Armor, 0 },
-            { PerkType.MaxHp, 0 },
-            { PerkType.HpRegeneration, 0 },
-            { PerkType.AttackCooldown, 0 },
-            { PerkType.Speed, 0 }
+            { PerkType.Power, 0 }, { PerkType.Armor, 0 }, { PerkType.MaxHp, 0 }, { PerkType.HpRegeneration, 0 },
+            { PerkType.AttackCooldown, 0 }, { PerkType.Speed, 0 }
         };
     }
 }

@@ -7,7 +7,7 @@
     false,
     false
   ],
-  "idSave": 154,
+  "idSave": 188,
   "money": 1,
   "newPlayerName": "Hello!",
   "openLevels": [
@@ -17,16 +17,16 @@
   ],
   "PerkDataWrapper": {
     "PerkLevels": {
-      "Power": 2,
-      "Armor": 0,
+      "Power": 4,
+      "Armor": 2,
       "MaxHp": 0,
       "HpRegeneration": 0,
-      "AttackCooldown": 0,
+      "AttackCooldown": 1,
       "Speed": 0
     }
   },
   "WalletWrapper": {
-    "Money": 381
+    "Money": 163
   },
   "IsTutorialCompleted": true,
   "language": "ru"
