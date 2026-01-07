@@ -10,6 +10,8 @@ namespace Items.ItemVariations
 {
     public class Chalk : Item
     {
+        private const int MaxProjectiles = 2;
+        
         [SerializeField] private ChalkProjectile _projectilePrefab;
         [SerializeField] private Transform _spawnPoint;
         [SerializeField] private float _projectileLifetime = 5f;
@@ -67,7 +69,9 @@ namespace Items.ItemVariations
 
         private IEnumerator LaunchProjectiles()
         {
-            for (int i = 0; i < _projectilesPerAttack; i++)
+            int count = Mathf.Min(_projectilesPerAttack, MaxProjectiles);
+
+            for (int i = 0; i < count; i++)
             {
                 ChalkProjectile projectile = _projectilePool.Get();
                 projectile.Initialize(Data.Damage, this);
@@ -110,7 +114,10 @@ namespace Items.ItemVariations
         {
             Level++;
 
-            _projectilesPerAttack += _projectileCountIncreasePerLevel;
+            _projectilesPerAttack = Mathf.Min(
+                _projectilesPerAttack + _projectileCountIncreasePerLevel,
+                MaxProjectiles
+            );
 
             Data.Damage *= _damageMultiplier;
             _projectileSpeed *= _projectileSpeedMultiplier;

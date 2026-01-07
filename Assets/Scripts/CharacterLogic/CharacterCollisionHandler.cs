@@ -53,18 +53,36 @@ namespace CharacterLogic
             }
         }
 
+        private void AddItemToAttract(IPickable pickable, Transform tr)
+        {
+            if (pickable == null || tr == null) return;
+
+            _itemsToAttract[pickable] = tr;
+
+            if (!_startPositions.ContainsKey(pickable))
+                _startPositions[pickable] = tr.position;
+
+            if (!_itemTimers.ContainsKey(pickable))
+                _itemTimers[pickable] = 0f;
+        }
+        
         private void OnTriggerEnter2D(Collider2D collision)
         {
             if (collision.gameObject.TryGetComponent(out IPickable pickable))
             {
-                _itemsToAttract[pickable] = collision.transform;
-                _startPositions[pickable] = collision.transform.position;
+                AddItemToAttract(pickable, collision.transform);
             }
         }
 
         private void MoveItemAlongArc(IPickable pickable, Transform item, float progress)
         {
-            Vector2 startPos = _startPositions[pickable];
+            if (!_startPositions.TryGetValue(pickable, out var startPos))
+            {
+                // страховка: если вдруг добавили без старта Ч берЄм текущую позицию
+                startPos = item.position;
+                _startPositions[pickable] = startPos;
+            }
+
             Vector2 targetPos = transform.position;
 
             float pushProgress = Mathf.Clamp01(progress * 2f);
@@ -100,7 +118,8 @@ namespace CharacterLogic
                     break;
 
                 case Magnet magnet:
-                    _itemsToAttract.AddRange(magnet.GetAllActivePickableItems());
+                    foreach (var kv in magnet.GetAllActivePickableItems())
+                        AddItemToAttract(kv.Key, kv.Value);
                     break;
             }
         }

@@ -19,7 +19,7 @@ namespace Utils
 
         public void Resize()
         {
-            var size = new Vector3(_renderer.sprite.bounds.size.x - _offset, _renderer.sprite.bounds.size.y - _offset, _renderer.sprite.bounds.size.z - _offset);
+            var size = new Vector3(_renderer.sprite.bounds.size.x, _renderer.sprite.bounds.size.y, _renderer.sprite.bounds.size.z);
             _collider.size = size;
         }
     }

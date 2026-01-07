@@ -18,21 +18,34 @@ namespace Difficulties
         private const string CooldownKey = "DifficultyCooldown";
         private const string MaxEnemyKey = "DifficultyMaxEnemy";
 
+        // IMPORTANT: боссы у теб€ 1000+, поэтому порог должен быть 1000 (а не 100)
+        private const int BossMinId = 1000;
+
+        [Header("Spawn")]
         [SerializeField] private float _offset = 0.1f;
+
+        [Header("Tuning")]
         [SerializeField] private float _cooldownChangeForWave = 0.1f;
+
+        [Header("Fallback defaults (if PlayerPrefs empty)")]
+        [SerializeField] private float _defaultCooldown = 1f;
+        [SerializeField] private int _defaultMaxEnemy = 100;
 
         private EnemyPool _enemyPool;
         private TimeTracker<DifficultyData> _timeTracker;
         private List<EnemyData> _enemyDataList;
-        private List<int> _enemyIds;
-        private Coroutine _coroutine;
+
+        // ids текущей волны
+        private readonly List<int> _regularIds = new();
+        private readonly Queue<int> _bossSpawnQueue = new();
+
+        private Coroutine _cooldownRoutine;
+        private Coroutine _bossRoutine;
+
         private float _cooldown;
         private int _maxEnemy;
 
         private bool _canSpawn = true;
-        private bool _isLastTime = false;
-
-        private readonly int _minIdBoses = 100;
 
         [Inject]
         public void Construct(EnemyPool enemyPool, List<EnemyData> enemyDataList)
@@ -45,11 +58,18 @@ namespace Difficulties
         {
             _timeTracker = new TimeTracker<DifficultyData>(DataKey);
 
-            if(PlayerPrefs.HasKey(CooldownKey))
-                _cooldown = PlayerPrefs.GetFloat(CooldownKey);
+            _cooldown = PlayerPrefs.HasKey(CooldownKey)
+                ? PlayerPrefs.GetFloat(CooldownKey)
+                : _defaultCooldown;
 
-            if(PlayerPrefs.HasKey(MaxEnemyKey))
-                _maxEnemy = PlayerPrefs.GetInt(MaxEnemyKey);
+            _maxEnemy = PlayerPrefs.HasKey(MaxEnemyKey)
+                ? PlayerPrefs.GetInt(MaxEnemyKey)
+                : _defaultMaxEnemy;
+        }
+
+        private void OnEnable()
+        {
+            _timeTracker.TimeComed += OnWaveChanged;
         }
 
         private void Start()
@@ -57,65 +77,123 @@ namespace Difficulties
             _timeTracker.Start();
         }
 
-        private void OnEnable()
-        {
-            _timeTracker.TimeComed += NewWaveEnemysConfig;
-            _timeTracker.LastTimeComed += SetLastTime;
-        }
-
         private void OnDisable()
         {
-            _timeTracker.TimeComed -= NewWaveEnemysConfig;
-            _timeTracker.LastTimeComed -= SetLastTime;
+            _timeTracker.TimeComed -= OnWaveChanged;
 
-            if (_coroutine != null)
-                StopCoroutine(_coroutine);
+            if (_cooldownRoutine != null)
+                StopCoroutine(_cooldownRoutine);
+
+            if (_bossRoutine != null)
+                StopCoroutine(_bossRoutine);
         }
 
         private void Update()
         {
-            if (_canSpawn && _enemyPool.Active < _maxEnemy)
+            // обычный спавн (не босс)
+            if (!_canSpawn)
+                return;
+
+            if (_enemyPool.Active >= _maxEnemy)
+                return;
+
+            var enemy = GetRandomRegularEnemy();
+            if (enemy == null)
             {
+                // Ќ» ј ќ√ќ "залипани€": если никого не нашли, просто уйдЄм в кулдаун
                 _canSpawn = false;
-
-                Enemy enemy = GetRandomEnemy();
-
-                if (enemy == null)
-                    return;
-
-                enemy.transform.position = OffscreenPositionGenerator.GetRandomPositionOutsideCamera(_offset);
-
-                _coroutine = StartCoroutine(Cooldown());
+                _cooldownRoutine = StartCoroutine(Cooldown());
+                return;
             }
+
+            _canSpawn = false;
+
+            enemy.transform.position =
+                OffscreenPositionGenerator.GetRandomPositionOutsideCamera(_offset);
+
+            _cooldownRoutine = StartCoroutine(Cooldown());
         }
 
-        private void NewWaveEnemysConfig(DifficultyData data)
+        private void OnWaveChanged(DifficultyData data)
         {
-            _enemyIds = data.EnemyIds.ToList();
-            _cooldown = Mathf.Clamp01(_cooldown -= _cooldownChangeForWave);
+            // 1) обновл€ем списки волны
+            _regularIds.Clear();
+            _bossSpawnQueue.Clear();
+
+            // делим ids на обычных и боссов
+            foreach (var id in data.EnemyIds)
+            {
+                if (id >= BossMinId)
+                    _bossSpawnQueue.Enqueue(id);
+                else
+                    _regularIds.Add(id);
+            }
+
+            // 2) кулдаун усложнени€
+            _cooldown = Mathf.Clamp01(_cooldown - _cooldownChangeForWave);
+
+            // 3) гарантированно запускаем спавн боссов этой волны
+            if (_bossRoutine != null)
+                StopCoroutine(_bossRoutine);
+
+            if (_bossSpawnQueue.Count > 0)
+                _bossRoutine = StartCoroutine(SpawnBossesGuaranteed());
         }
 
-        private void SetLastTime() => _isLastTime = true;
-
-        private Enemy GetRandomEnemy()
+        private Enemy GetRandomRegularEnemy()
         {
-            if (_enemyIds == null || _enemyIds.Count == 0)
+            if (_regularIds.Count == 0)
                 return null;
 
-            int id = _enemyIds[Random.Range(0, _enemyIds.Count)];
+            int id = _regularIds[Random.Range(0, _regularIds.Count)];
 
-            if (id >= _minIdBoses && _isLastTime == false)
-                _enemyIds.Remove(id);
-
-            var data = _enemyDataList.First(enemy => enemy.Id == id);
+            var data = _enemyDataList.FirstOrDefault(e => e.Id == id);
+            if (data == null)
+            {
+                // если данных нет Ч убираем плохой id, чтобы не упиратьс€ в него посто€нно
+                _regularIds.Remove(id);
+                return null;
+            }
 
             return _enemyPool.Get(data);
+        }
+
+        private IEnumerator SpawnBossesGuaranteed()
+        {
+            while (_bossSpawnQueue.Count > 0)
+            {
+                // ждЄм, пока будет место под врага (учитываем общий лимит)
+                while (_enemyPool.Active >= _maxEnemy)
+                    yield return null;
+
+                int bossId = _bossSpawnQueue.Dequeue();
+
+                var data = _enemyDataList.FirstOrDefault(e => e.Id == bossId);
+                if (data == null)
+                {
+                    Debug.LogWarning($"[Difficulty] Boss id {bossId} not found in EnemyDataList");
+                    continue;
+                }
+
+                var enemy = _enemyPool.Get(data);
+                if (enemy == null)
+                {
+                    Debug.LogWarning($"[Difficulty] EnemyPool returned null for boss id {bossId}");
+                    continue;
+                }
+
+                enemy.transform.position =
+                    OffscreenPositionGenerator.GetRandomPositionOutsideCamera(_offset);
+
+                // чтобы боссы не спавнились "в одну точку/в один кадр", можно дать микро-паузу
+                // (можешь убрать или поставить 0)
+                yield return new WaitForSeconds(0.05f);
+            }
         }
 
         private IEnumerator Cooldown()
         {
             yield return new WaitForSeconds(_cooldown);
-
             _canSpawn = true;
         }
     }
