@@ -13,6 +13,7 @@ namespace CharacterLogic.Data
             Girl3
         }
 
+        [field:SerializeField] public Sprite HeroSprite { get; private set; }
         [field: SerializeField] public float AttackPower { get; private set; }
         [field: SerializeField] public float Armor { get; private set; }
         [field: SerializeField] public float Hp { get; private set; }

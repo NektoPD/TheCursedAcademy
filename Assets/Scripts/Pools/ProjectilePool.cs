@@ -21,7 +21,11 @@ namespace Pools
         protected override bool TryGetInPool(IData<Projectile> data, out Projectile entity)
         {
             entity = EntityPool.FirstOrDefault(e => e.Prefab == data.Prefab);
-            return entity != null;
+            if (entity == null)
+                return false;
+
+            EntityPool.Remove(entity);
+            return true;
         }
     }
 }

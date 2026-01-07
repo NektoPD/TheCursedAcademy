@@ -37,17 +37,18 @@ namespace PickableItems
         {
             _pickables = new();
 
-            foreach (var item in _moneyPool.Entites.Where(money => money.isActiveAndEnabled))
-                _pickables.Add(item, item.transform);
+            foreach (var item in _moneyPool.SpawnedEntities.Where(money => money.isActiveAndEnabled))
+                _pickables[item] = item.transform;
 
-            foreach (var item in _expPointPool.Entites.Where(expPoint => expPoint.isActiveAndEnabled))
-                _pickables.Add(item, item.transform);
+            foreach (var item in _expPointPool.SpawnedEntities.Where(expPoint => expPoint.isActiveAndEnabled))
+                _pickables[item] = item.transform;
 
-            foreach (var item in _healPool.Entites.Where(heal => heal.isActiveAndEnabled))
-                _pickables.Add(item, item.transform);
+            foreach (var item in _healPool.SpawnedEntities.Where(heal => heal.isActiveAndEnabled))
+                _pickables[item] = item.transform;
 
             return _pickables;
         }
+
 
         public void Despawn()
         {

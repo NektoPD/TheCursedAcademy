@@ -344,6 +344,7 @@ namespace CharacterLogic
             _moveSpeed = characterData.MoveSpeed * GetPerkBonus(perkBonuses, PerkType.Speed);
             OnItemSelected(characterData.StartItem.Data.ItemVariation);
             _health.SetMaxHealth(_hp);
+            _view.SetHeroImage(characterData.HeroSprite);
             UpdateHealthView(_hp);
         }
 

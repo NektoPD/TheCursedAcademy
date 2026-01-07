@@ -23,7 +23,9 @@ namespace DeadZones
                     return;
 
             if (other.TryGetComponent(out IPoolEntity entity))
+            {
                 entity.Despawn();
+            }
         }
 
         public void SetupZone(Vector2 size, Vector3 position)

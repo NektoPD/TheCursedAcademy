@@ -65,9 +65,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: ca94fc23f9ee5a4488e2ff1bd3930a25, type: 3}
   m_Type: 0
-  m_PreserveAspect: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -299,6 +299,8 @@ MonoBehaviour:
   _pulseIntensity: 1
   _targetColor: {r: 1, g: 0, b: 0, a: 0.7137255}
   _invincibleAlpha: 0.4
+  _deathToRedDelay: 0.05
+  _deathFadeDuration: 0.7
 --- !u!114 &3662220516798141517
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -315,6 +317,8 @@ MonoBehaviour:
   _cameraOnCharacter: 1
   _characterCanvas: {fileID: 0}
   _reviveInvincibilityDuration: 3
+  _deathZoomResetDuration: 0.15
+  _deathFadeDuration: 0.7
 --- !u!114 &4663065833553167498
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -829,7 +833,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 0
-  m_Spacing: 11.25
+  m_Spacing: 13.375
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
@@ -1071,7 +1075,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 0
-  m_Spacing: 11.25
+  m_Spacing: 13.375
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
@@ -2815,42 +2819,6 @@ PrefabInstance:
     - target: {fileID: 602232843166050422, guid: 456dea22eeb0b5742b40826da146c8bf, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 969429293050211734, guid: 456dea22eeb0b5742b40826da146c8bf, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0.8506701
-      objectReference: {fileID: 0}
-    - target: {fileID: 969429293050211734, guid: 456dea22eeb0b5742b40826da146c8bf, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0.83074754
-      objectReference: {fileID: 0}
-    - target: {fileID: 969429293050211734, guid: 456dea22eeb0b5742b40826da146c8bf, type: 3}
-      propertyPath: m_AnchorMin.x
-      value: 0.14932989
-      objectReference: {fileID: 0}
-    - target: {fileID: 969429293050211734, guid: 456dea22eeb0b5742b40826da146c8bf, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0.16925246
-      objectReference: {fileID: 0}
-    - target: {fileID: 969429293050211734, guid: 456dea22eeb0b5742b40826da146c8bf, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 969429293050211734, guid: 456dea22eeb0b5742b40826da146c8bf, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 969429293050211734, guid: 456dea22eeb0b5742b40826da146c8bf, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 969429293050211734, guid: 456dea22eeb0b5742b40826da146c8bf, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1298191490083677315, guid: 456dea22eeb0b5742b40826da146c8bf, type: 3}
-      propertyPath: m_PreserveAspect
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3951096156504573659, guid: 456dea22eeb0b5742b40826da146c8bf, type: 3}
       propertyPath: m_Name

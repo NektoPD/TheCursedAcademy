@@ -56,7 +56,8 @@ namespace Items.ItemVariations
 
         private void OnDestroyPoolObject(ChalkProjectile projectile)
         {
-            Destroy(projectile.gameObject);
+            if (projectile != null)
+                Destroy(projectile.gameObject);
         }
 
         protected override void PerformAttack()

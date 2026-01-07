@@ -20,20 +20,12 @@ namespace Pools
 
         protected override bool TryGetInPool(IData<ExpPoint> data, out ExpPoint entity)
         {
-            entity = null;
+            entity = EntityPool.FirstOrDefault(e => e.Prefab == data.Prefab);
+            if (entity == null)
+                return false;
 
-            var currentEntity = EntityPool.Where(entity => entity.Prefab == data.Prefab);
-
-            if (currentEntity.Count() > 0)
-            {
-                entity = currentEntity.First();
-                entity = Initialize(data, entity);
-                EntityPool.Remove(entity);
-
-                return true;
-            }
-
-            return false;
+            EntityPool.Remove(entity);
+            return true;
         }
     }
 }
