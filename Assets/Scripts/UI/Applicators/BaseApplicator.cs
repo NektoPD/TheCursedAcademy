@@ -18,6 +18,7 @@ namespace UI.Applicators
 
         protected virtual void OnEnable()
         {
+            CurrentItem = _defaultItem;
             Applicate(_defaultItem);
 
             foreach (var item in _items)

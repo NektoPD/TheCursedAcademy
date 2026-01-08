@@ -68,7 +68,7 @@ namespace Items.ItemVariations
                 spriteRenderer.flipX = isMovingLeft;
             }
 
-            penProjectile.Initialize(Data.Damage * _damageMultiplier, this);
+            penProjectile.Initialize(RuntimeDamage, this);
             penProjectile.ClearHitEnemies();
 
             StartCoroutine(EnableProjectile(penProjectile, _projectileLifetime));
@@ -78,20 +78,28 @@ namespace Items.ItemVariations
         {
             Level++;
 
-            Data.Cooldown *= _cooldownReductionPerLevel;
-            _damageMultiplier += _damageIncreasePerLevel;
+            Mods.Multiply(Enums.StatVariations.AttackSpeed, _cooldownReductionPerLevel);
+            Mods.Multiply(Enums.StatVariations.Damage, _damageIncreasePerLevel); // было +=, станет *=
+
+            RuntimeCooldown = GetBaseStat(Enums.StatVariations.AttackSpeed) * Mods.GetMult(Enums.StatVariations.AttackSpeed);
+            RuntimeDamage   = GetBaseStat(Enums.StatVariations.Damage) * Mods.GetMult(Enums.StatVariations.Damage);
 
             UpdateStatsValues();
         }
 
+
         protected override void UpdateStatsValues()
         {
-            ItemStats.SetStatCurrentValue(Enums.StatVariations.Damage, _damageMultiplier);
-            ItemStats.SetStatCurrentValue(Enums.StatVariations.AttackSpeed, Data.Cooldown);
+            ItemStats.SetStatCurrentValue(Enums.StatVariations.Damage, RuntimeDamage);
+            ItemStats.SetStatCurrentValue(Enums.StatVariations.AttackSpeed, RuntimeCooldown);
 
-            ItemStats.SetStatNextValue(Enums.StatVariations.Damage, _damageMultiplier + _damageIncreasePerLevel);
-            ItemStats.SetStatNextValue(Enums.StatVariations.AttackSpeed, Data.Cooldown * _cooldownReductionPerLevel);
+            ItemStats.SetStatNextValue(Enums.StatVariations.Damage,
+                GetBaseStat(Enums.StatVariations.Damage) * (Mods.GetMult(Enums.StatVariations.Damage) * _damageIncreasePerLevel));
+
+            ItemStats.SetStatNextValue(Enums.StatVariations.AttackSpeed,
+                GetBaseStat(Enums.StatVariations.AttackSpeed) * (Mods.GetMult(Enums.StatVariations.AttackSpeed) * _cooldownReductionPerLevel));
         }
+
 
         private IEnumerator EnableProjectile(ItemProjectile projectile, float lifetime)
         {

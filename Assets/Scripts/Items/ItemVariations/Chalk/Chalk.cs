@@ -74,7 +74,7 @@ namespace Items.ItemVariations
             for (int i = 0; i < count; i++)
             {
                 ChalkProjectile projectile = _projectilePool.Get();
-                projectile.Initialize(Data.Damage, this);
+                projectile.Initialize(RuntimeDamage, this);
                 projectile.Launch(FindNearestTarget(), _projectileSpeed, _projectileLifetime);
 
                 yield return new WaitForSeconds(0.2f);
@@ -114,31 +114,39 @@ namespace Items.ItemVariations
         {
             Level++;
 
-            _projectilesPerAttack = Mathf.Min(
-                _projectilesPerAttack + _projectileCountIncreasePerLevel,
-                MaxProjectiles
-            );
+            _projectilesPerAttack = Mathf.Min(_projectilesPerAttack + _projectileCountIncreasePerLevel, MaxProjectiles);
 
-            Data.Damage *= _damageMultiplier;
+            Mods.Multiply(Enums.StatVariations.Damage, _damageMultiplier);
+            Mods.Multiply(Enums.StatVariations.AttackSpeed, _cooldownMultiplier);
+
             _projectileSpeed *= _projectileSpeedMultiplier;
-            Data.Cooldown *= _cooldownMultiplier;
+
+            RuntimeDamage   = GetBaseStat(Enums.StatVariations.Damage) * Mods.GetMult(Enums.StatVariations.Damage);
+            RuntimeCooldown = GetBaseStat(Enums.StatVariations.AttackSpeed) * Mods.GetMult(Enums.StatVariations.AttackSpeed);
 
             UpdateStatsValues();
         }
 
+
         protected override void UpdateStatsValues()
         {
-            ItemStats.SetStatCurrentValue(Enums.StatVariations.Damage, Data.Damage);
-            ItemStats.SetStatCurrentValue(Enums.StatVariations.AttackSpeed, Data.Cooldown);
+            ItemStats.SetStatCurrentValue(Enums.StatVariations.Damage, RuntimeDamage);
+            ItemStats.SetStatCurrentValue(Enums.StatVariations.AttackSpeed, RuntimeCooldown);
             ItemStats.SetStatCurrentValue(Enums.StatVariations.ProjectilesSpeed, _projectileSpeed);
             ItemStats.SetStatCurrentValue(Enums.StatVariations.ProjectilesCount, _projectilesPerAttack);
 
-            ItemStats.SetStatNextValue(Enums.StatVariations.Damage, Data.Damage * _damageMultiplier);
-            ItemStats.SetStatNextValue(Enums.StatVariations.AttackSpeed, Data.Cooldown * _cooldownMultiplier);
+            ItemStats.SetStatNextValue(Enums.StatVariations.Damage,
+                GetBaseStat(Enums.StatVariations.Damage) * (Mods.GetMult(Enums.StatVariations.Damage) * _damageMultiplier));
+
+            ItemStats.SetStatNextValue(Enums.StatVariations.AttackSpeed,
+                GetBaseStat(Enums.StatVariations.AttackSpeed) * (Mods.GetMult(Enums.StatVariations.AttackSpeed) * _cooldownMultiplier));
+
             ItemStats.SetStatNextValue(Enums.StatVariations.ProjectilesSpeed,
                 _projectileSpeed * _projectileSpeedMultiplier);
+
             ItemStats.SetStatNextValue(Enums.StatVariations.ProjectilesCount,
-                _projectilesPerAttack + _projectileCountIncreasePerLevel);
+                Mathf.Min(_projectilesPerAttack + _projectileCountIncreasePerLevel, MaxProjectiles));
         }
+
     }
 }

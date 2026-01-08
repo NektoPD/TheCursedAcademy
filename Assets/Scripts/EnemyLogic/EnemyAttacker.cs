@@ -21,11 +21,14 @@ namespace EnemyLogic
         private List<AttackData> _attacksData;
         private AttackData _currentAttack;
         private AttackData _lastAttack;
+        private bool _blocked;
 
         public IReadOnlyList<Transform> ProjectileSpawnPoints => _projectileSpawnPoints;
 
         public IReadOnlyList<Transform> EnemySpawnPoints => _enemySpawnPoints;
-
+        
+        public void SetBlocked(bool blocked) => _blocked = blocked;
+        
         [Inject]
         private void Construct(AttackerManager attackerManager)
         {
@@ -63,6 +66,7 @@ namespace EnemyLogic
 
         private void TryAttack(Transform target)
         {
+            if (_blocked) return;
             _target = target;
 
             if (_currentAttack != null)
@@ -80,6 +84,7 @@ namespace EnemyLogic
 
         private void AttackToggle()
         {
+            if (_blocked) return;
             _attackerManager.ExecuteAttack(_lastAttack, this);
         }
 

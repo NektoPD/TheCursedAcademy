@@ -62,8 +62,7 @@ namespace Items.ItemVariations
         {
             GreatIdeaProjectile projectile =
                 _projectilePool.GetFromPool<GreatIdeaProjectile>(transform.position, Quaternion.identity);
-
-
+            
             projectile.transform.position = target.position;
 
             projectile.Initialize(Data.Damage * _damageMultiplier, this);
@@ -77,24 +76,80 @@ namespace Items.ItemVariations
         {
             Level++;
 
-            _damageMultiplier *= _damageIncreasePerLevel;
-            _detectionRadius *= _detectionRadiusIncreasePerLevel;
-            Data.Cooldown *= _cooldownReductionPerLevel;
+            Mods.Multiply(Enums.StatVariations.Damage, _damageIncreasePerLevel);
+            Mods.Multiply(Enums.StatVariations.Radius, _detectionRadiusIncreasePerLevel);
+            Mods.Multiply(Enums.StatVariations.AttackSpeed, _cooldownReductionPerLevel);
+
+            // обновим runtime значени€, которые реально используютс€ в бою
+            RuntimeDamage = GetCurrentStat(Enums.StatVariations.Damage);
+            RuntimeCooldown = GetCurrentStat(Enums.StatVariations.AttackSpeed);
+            _detectionRadius = GetCurrentStat(Enums.StatVariations.Radius); // если хочешь чтобы поле всегда было актуальным
 
             UpdateStatsValues();
         }
 
         protected override void UpdateStatsValues()
         {
-            ItemStats.SetStatCurrentValue(Enums.StatVariations.Damage, _damageMultiplier);
-            ItemStats.SetStatCurrentValue(Enums.StatVariations.AttackSpeed, Data.Cooldown);
-            ItemStats.SetStatCurrentValue(Enums.StatVariations.Radius, _detectionRadius);
+            var dmgMultNow = Mods.GetMult(Enums.StatVariations.Damage);
+            var radMultNow = Mods.GetMult(Enums.StatVariations.Radius);
+            var cdMultNow  = Mods.GetMult(Enums.StatVariations.AttackSpeed);
 
-            ItemStats.SetStatNextValue(Enums.StatVariations.Damage, _damageMultiplier * _damageIncreasePerLevel);
-            ItemStats.SetStatNextValue(Enums.StatVariations.AttackSpeed, Data.Cooldown * _cooldownReductionPerLevel);
-            ItemStats.SetStatNextValue(Enums.StatVariations.Radius,
-                _detectionRadius * _detectionRadiusIncreasePerLevel);
+            UpdateUiStat(
+                Enums.StatVariations.Damage,
+                Data.Damage * dmgMultNow,
+                Data.Damage * (dmgMultNow * _damageIncreasePerLevel)
+            );
+
+            UpdateUiStat(
+                Enums.StatVariations.AttackSpeed,
+                Data.Cooldown * cdMultNow,
+                Data.Cooldown * (cdMultNow * _cooldownReductionPerLevel)
+            );
+
+            UpdateUiStat(
+                Enums.StatVariations.Radius,
+                _detectionRadius * radMultNow, // если _detectionRadius это база Ч лучше вынести baseRadius
+                _detectionRadius * (radMultNow * _detectionRadiusIncreasePerLevel)
+            );
         }
+
+        
+        /*protected override void UpdateStatsValues()
+        {
+            var dmgMultNow = Mods.GetMult(StatVariations.Damage);
+            var radMultNow = Mods.GetMult(StatVariations.Radius);
+            var cdMultNow  = Mods.GetMult(StatVariations.AttackSpeed);
+
+            UpdateUiStat(
+                StatVariations.Damage,
+                Data.Damage * dmgMultNow,
+                Data.Damage * (dmgMultNow * _damageIncreasePerLevel)
+            );
+
+            UpdateUiStat(
+                StatVariations.AttackSpeed,
+                Data.Cooldown * cdMultNow,
+                Data.Cooldown * (cdMultNow * _cooldownReductionPerLevel)
+            );
+
+            UpdateUiStat(
+                StatVariations.Radius,
+                _detectionRadius * radMultNow, // если _detectionRadius это база Ч лучше вынести baseRadius
+                _detectionRadius * (radMultNow * _detectionRadiusIncreasePerLevel)
+            );
+        }*/
+        
+        // protected override void UpdateStatsValues()
+        // {
+        //     ItemStats.SetStatCurrentValue(Enums.StatVariations.Damage, _damageMultiplier);
+        //     ItemStats.SetStatCurrentValue(Enums.StatVariations.AttackSpeed, Data.Cooldown);
+        //     ItemStats.SetStatCurrentValue(Enums.StatVariations.Radius, _detectionRadius);
+        //
+        //     ItemStats.SetStatNextValue(Enums.StatVariations.Damage, _damageMultiplier * _damageIncreasePerLevel);
+        //     ItemStats.SetStatNextValue(Enums.StatVariations.AttackSpeed, Data.Cooldown * _cooldownReductionPerLevel);
+        //     ItemStats.SetStatNextValue(Enums.StatVariations.Radius,
+        //         _detectionRadius * _detectionRadiusIncreasePerLevel);
+        // }
 
         private IEnumerator EnableProjectile(ItemProjectile projectile, float lifetime)
         {

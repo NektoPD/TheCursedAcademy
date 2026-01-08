@@ -15,7 +15,6 @@ namespace Items.ItemVariations.MagicRuller
 
         private Transform _transform;
         private ItemProjectilePool _projectilePool;
-        private float _damage;
         private float _damageMultiplier = 1f;
         private int _projectileCount = 1;
         private float _projectileSpread = 0f;
@@ -31,12 +30,7 @@ namespace Items.ItemVariations.MagicRuller
             _projectilePool.Initialize(_projectilePrefab, _initialPoolSize);
             _transform = transform;
         }
-
-        private void Start()
-        {
-            _damage = Data.Damage;
-        }
-
+        
         protected override void PerformAttack()
         {
             if (MovementHandler == null)
@@ -72,7 +66,7 @@ namespace Items.ItemVariations.MagicRuller
                 {
                     projectile.SetDirection(direction);
                     projectile.SetSpeed(_projectileSpeed);
-                    projectile.Initialize(_damage * _damageMultiplier, this);
+                    projectile.Initialize(RuntimeDamage, this);
                     projectile.Hit += OnProjectileHit;
                 }
             }
@@ -100,27 +94,37 @@ namespace Items.ItemVariations.MagicRuller
         {
             Level++;
 
-            _damageMultiplier *= _damageMultiplierPerLevel;
+            Mods.Multiply(Enums.StatVariations.Damage, _damageMultiplierPerLevel);
+            Mods.Multiply(Enums.StatVariations.AttackSpeed, _cooldownReductionPerLevel);
+
             _projectileSpeed *= _projectileSpeedIncreasePerLevel;
-            Data.Cooldown *= _cooldownReductionPerLevel;
             _projectileCount += _projectileCountIncreasePerLevel;
+
+            RuntimeDamage   = Data.Damage * Mods.GetMult(Enums.StatVariations.Damage);
+            RuntimeCooldown = Data.Cooldown * Mods.GetMult(Enums.StatVariations.AttackSpeed);
 
             UpdateStatsValues();
         }
 
         protected override void UpdateStatsValues()
         {
-            ItemStats.SetStatCurrentValue(Enums.StatVariations.AttackSpeed, Data.Cooldown);
-            ItemStats.SetStatCurrentValue(Enums.StatVariations.Damage, _damageMultiplier);
+            ItemStats.SetStatCurrentValue(Enums.StatVariations.AttackSpeed, RuntimeCooldown);
+            ItemStats.SetStatCurrentValue(Enums.StatVariations.Damage, RuntimeDamage);
             ItemStats.SetStatCurrentValue(Enums.StatVariations.ProjectilesCount, _projectileCount);
             ItemStats.SetStatCurrentValue(Enums.StatVariations.ProjectilesSpeed, _projectileSpeed);
 
-            ItemStats.SetStatNextValue(Enums.StatVariations.AttackSpeed, Data.Cooldown * _cooldownReductionPerLevel);
+            ItemStats.SetStatNextValue(Enums.StatVariations.AttackSpeed,
+                Data.Cooldown * (Mods.GetMult(Enums.StatVariations.AttackSpeed) * _cooldownReductionPerLevel));
+
+            ItemStats.SetStatNextValue(Enums.StatVariations.Damage,
+                Data.Damage * (Mods.GetMult(Enums.StatVariations.Damage) * _damageMultiplierPerLevel));
+
             ItemStats.SetStatNextValue(Enums.StatVariations.ProjectilesSpeed,
                 _projectileSpeed * _projectileSpeedIncreasePerLevel);
+
             ItemStats.SetStatNextValue(Enums.StatVariations.ProjectilesCount,
                 _projectileCount + _projectileCountIncreasePerLevel);
-            ItemStats.SetStatNextValue(Enums.StatVariations.Damage, _damageMultiplier * _damageMultiplierPerLevel);
         }
+
     }
 }

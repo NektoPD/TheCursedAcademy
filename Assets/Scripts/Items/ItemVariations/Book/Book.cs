@@ -20,6 +20,14 @@ namespace Items.ItemVariations.Book
         [SerializeField] private int _initialPoolSize = 6;
         [SerializeField] private float _damageMultiplier = 1f;
         [SerializeField] private float _projectileSpawnInterval = 0.1f;
+        
+        [SerializeField] private float _baseProjectileSpeed = 5f;
+        [SerializeField] private float _baseProjectileLifetime = 5f;
+        [SerializeField] private int _baseProjectileCount = 2;
+
+        private float _currentProjectileSpeed;
+        private float _currentProjectileLifetime;
+        private int _currentProjectileCount;
 
         private ItemProjectilePool _projectilePool;
         private Transform _transform;
@@ -34,6 +42,10 @@ namespace Items.ItemVariations.Book
             _projectilePool = GetComponent<ItemProjectilePool>();
             _projectilePool.Initialize(_bookProjectilePrefab, _initialPoolSize);
             _transform = transform;
+            
+            _currentProjectileSpeed = _baseProjectileSpeed;
+            _currentProjectileLifetime = _baseProjectileLifetime;
+            _currentProjectileCount = _baseProjectileCount;
         }
 
         protected override void PerformAttack()
@@ -62,10 +74,10 @@ namespace Items.ItemVariations.Book
                 Vector2 direction = Quaternion.Euler(0, 0, currentAngle) * Vector2.up;
                 if (projectile.Rigidbody2D != null)
                 {
-                    projectile.Rigidbody2D.velocity = direction * (_projectileSpeed);
+                    projectile.Rigidbody2D.velocity = direction * _currentProjectileSpeed;
                 }
 
-                StartCoroutine(EnableProjectile(projectile, _projectileLifetime));
+                StartCoroutine(EnableProjectile(projectile, _currentProjectileLifetime));
 
                 yield return interval;
             }
@@ -98,34 +110,45 @@ namespace Items.ItemVariations.Book
         {
             Level++;
 
-            _damageMultiplier *= _damageIncreasePerLevel;
-            _projectileSpeed *= _projectileSpeedIncreasePerLevel;
-            _projectileLifetime *= _projectileLifetimeIncreasePerLevel;
+            Mods.Multiply(Enums.StatVariations.Damage, _damageIncreasePerLevel);
+            Mods.Multiply(Enums.StatVariations.AttackSpeed, _cooldownReductionPerLevel);
+
+            _currentProjectileSpeed *= _projectileSpeedIncreasePerLevel;
+            _currentProjectileLifetime *= _projectileLifetimeIncreasePerLevel;
 
             if (Level <= 2)
-                _projectileCount += _projectileCountIncreasePerLevel;
-            
-            Data.Cooldown *= _cooldownReductionPerLevel;
+                _currentProjectileCount += _projectileCountIncreasePerLevel;
+
+            RuntimeDamage   = GetBaseStat(Enums.StatVariations.Damage) * Mods.GetMult(Enums.StatVariations.Damage);
+            RuntimeCooldown = GetBaseStat(Enums.StatVariations.AttackSpeed) * Mods.GetMult(Enums.StatVariations.AttackSpeed);
 
             UpdateStatsValues();
         }
 
+
         protected override void UpdateStatsValues()
         {
-            ItemStats.SetStatCurrentValue(Enums.StatVariations.Damage, _damageMultiplier);
-            ItemStats.SetStatCurrentValue(Enums.StatVariations.AttackSpeed, Data.Cooldown);
-            ItemStats.SetStatCurrentValue(Enums.StatVariations.ProjectilesSpeed, _projectileSpeed);
-            ItemStats.SetStatCurrentValue(Enums.StatVariations.ProjectileLifetime, _projectileLifetime);
-            ItemStats.SetStatCurrentValue(Enums.StatVariations.ProjectilesCount, _projectileCount);
+            ItemStats.SetStatCurrentValue(Enums.StatVariations.Damage, RuntimeDamage);
+            ItemStats.SetStatCurrentValue(Enums.StatVariations.AttackSpeed, RuntimeCooldown);
+            ItemStats.SetStatCurrentValue(Enums.StatVariations.ProjectilesSpeed, _currentProjectileSpeed);
+            ItemStats.SetStatCurrentValue(Enums.StatVariations.ProjectileLifetime, _currentProjectileLifetime);
+            ItemStats.SetStatCurrentValue(Enums.StatVariations.ProjectilesCount, _currentProjectileCount);
 
-            ItemStats.SetStatNextValue(Enums.StatVariations.Damage, _damageMultiplier * _damageIncreasePerLevel);
-            ItemStats.SetStatNextValue(Enums.StatVariations.AttackSpeed, Data.Cooldown * _cooldownReductionPerLevel);
+            ItemStats.SetStatNextValue(Enums.StatVariations.Damage,
+                GetBaseStat(Enums.StatVariations.Damage) * (Mods.GetMult(Enums.StatVariations.Damage) * _damageIncreasePerLevel));
+
+            ItemStats.SetStatNextValue(Enums.StatVariations.AttackSpeed,
+                GetBaseStat(Enums.StatVariations.AttackSpeed) * (Mods.GetMult(Enums.StatVariations.AttackSpeed) * _cooldownReductionPerLevel));
+
             ItemStats.SetStatNextValue(Enums.StatVariations.ProjectilesSpeed,
-                _projectileSpeed * _projectileSpeedIncreasePerLevel);
+                _currentProjectileSpeed * _projectileSpeedIncreasePerLevel);
+
             ItemStats.SetStatNextValue(Enums.StatVariations.ProjectileLifetime,
-                _projectileLifetime * _projectileLifetimeIncreasePerLevel);
+                _currentProjectileLifetime * _projectileLifetimeIncreasePerLevel);
+
             ItemStats.SetStatNextValue(Enums.StatVariations.ProjectilesCount,
-                _projectileCount + _projectileCountIncreasePerLevel);
+                (Level <= 2) ? _currentProjectileCount + _projectileCountIncreasePerLevel : _currentProjectileCount);
         }
+
     }
 }

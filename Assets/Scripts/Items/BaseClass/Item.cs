@@ -24,25 +24,33 @@ namespace Items.BaseClass
         private IEnumerator _attackCoroutine;
 
         protected int Level = 1;
+        protected float RuntimeCooldown;
+        protected float RuntimeDamage;
+        
+        protected StatModifiers Mods = new();
+        public IReadOnlyList<Stat> UiStats => ItemStats.Stats;
 
         [field: SerializeField] public ItemDataConfig Data { get; private set; }
         [field: SerializeField] public ItemVisualData VisualData { get; private set; }
 
         public int CurrentLevel => Level;
-        public event Action<Enums.ItemVariations, float> DamageDealt; // variation, damage
-
+        public event Action<Enums.ItemVariations, float> DamageDealt;
 
         public void Initialize(CharacterMovementHandler movementHandler,
             CharacterSoundController characterSoundController)
         {
             MovementHandler = movementHandler;
-            ItemStats = new ItemStats(VisualData);
+            ItemStats = new ItemStats(VisualData.Stats);
             StatVariations = VisualData.Stats.Select(stat => stat.Variation);
             CharacterSoundController = characterSoundController;
+            RuntimeCooldown = Data.Cooldown;
+            RuntimeDamage = Data.Damage;
 
             UpdateStatsValues();
         }
-
+        
+        public IReadOnlyList<Stat> GetUiStats() => VisualData.Stats;
+        
         public void Attack()
         {
             if (!_canAttack) return;
@@ -60,16 +68,34 @@ namespace Items.BaseClass
             if (Level <= 3)
                 ItemStats.UpgradeStats(StatVariations);
         }
+        
+        protected void UpdateUiStat(StatVariations v, float current, float next)
+        {
+            ItemStats.SetStatCurrentValue(v, current);
+            ItemStats.SetStatNextValue(v, next);
+        }
 
+        protected virtual float GetBaseStat(StatVariations v)
+        {
+            return v switch
+            {
+                Enums.StatVariations.Damage => Data.Damage,
+                Enums.StatVariations.AttackSpeed => Data.Cooldown, // если у тебя AttackSpeed=Cooldown, ок
+                _ => 0f
+            };
+        }
+
+        protected float GetCurrentStat(StatVariations v) => GetBaseStat(v) * Mods.GetMult(v);
+        protected float GetNextStat(StatVariations v, float nextMult) => GetBaseStat(v) * nextMult;
+        
         protected abstract void UpdateStatsValues();
 
         protected abstract void PerformAttack();
 
         private IEnumerator AttackCooldown()
         {
-            var coolDown = new WaitForSeconds(Data.Cooldown);
             _canAttack = false;
-            yield return coolDown;
+            yield return new WaitForSeconds(RuntimeCooldown);
             _canAttack = true;
         }
     }

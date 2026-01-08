@@ -80,7 +80,8 @@ namespace Items.ItemVariations.MultiSlingshot
 
         private void OnDestroyPoolObject(MultiSlingshotItemProjectile projectile)
         {
-            Destroy(projectile.gameObject);
+            if (projectile != null)
+                Destroy(projectile.gameObject);
         }
 
         private void SubscribeToMovementEvents()
@@ -146,7 +147,7 @@ namespace Items.ItemVariations.MultiSlingshot
                 Vector2 direction = RotateVector(baseDirection, currentAngle);
 
                 MultiSlingshotItemProjectile projectile = _projectilePool.Get();
-                projectile.Initialize(Data.Damage * _damageMultiplier, this);
+                projectile.Initialize(RuntimeDamage, this);
                 projectile.Launch(direction, _projectileSpeed, _projectileLifetime);
                 CharacterSoundController.EnableSoundByType(SoundType.Slingshot);
             }
@@ -186,9 +187,14 @@ namespace Items.ItemVariations.MultiSlingshot
             Level++;
 
             _projectilesPerShot++;
-            _damageMultiplier *= _damageIncreasePerLevel;
-            Data.Cooldown *= _cooldownReductionPerLevel;
+
+            Mods.Multiply(Enums.StatVariations.Damage, _damageIncreasePerLevel);
+            Mods.Multiply(Enums.StatVariations.AttackSpeed, _cooldownReductionPerLevel);
+
             _projectileSpeed *= _projectileSpeedIncreasePerLevel;
+
+            RuntimeDamage = Data.Damage * Mods.GetMult(Enums.StatVariations.Damage);
+            RuntimeCooldown = Data.Cooldown * Mods.GetMult(Enums.StatVariations.AttackSpeed);
 
             UpdateStatsValues();
         }

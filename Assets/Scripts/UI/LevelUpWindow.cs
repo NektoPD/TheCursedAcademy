@@ -35,6 +35,7 @@ namespace UI
 
             _applicator.SetDefaultItem(datas.First());
             _applicator.Inizialize(visualDatasInInventory);
+            _applicator.Initialize(_inventory.Items);
 
             base.OpenWindow();
 

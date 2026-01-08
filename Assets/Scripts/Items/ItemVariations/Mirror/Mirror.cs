@@ -18,7 +18,9 @@ namespace Items.ItemVariations
         [SerializeField] private float _detectionRadius = 10f;
         [SerializeField] private LayerMask _enemyLayer;
         [SerializeField] private bool _enableTargeting = true;
-
+        [SerializeField] private float _baseDetectionRadius = 10f;
+        private float _currentDetectionRadius;
+        
         private float _damageMultiplier = 1f;
         private ItemProjectilePool _projectilePool;
         private int _projectileCount = 1;
@@ -31,6 +33,7 @@ namespace Items.ItemVariations
         {
             _projectilePool = GetComponent<ItemProjectilePool>();
             _projectilePool.Initialize(_mirrorProjectilePrefab, _initialPoolSize);
+            _currentDetectionRadius = _baseDetectionRadius;
         }
 
         protected override void PerformAttack()
@@ -52,7 +55,7 @@ namespace Items.ItemVariations
 
                 Vector2 direction = (target.position - transform.position).normalized;
 
-                mirrorProjectile.Initialize(Data.Damage * _damageMultiplier, this);
+                mirrorProjectile.Initialize(RuntimeDamage, this);
                 mirrorProjectile.SetDirection(direction);
                 mirrorProjectile.SetSpeed(_projectileSpeed);
 
@@ -71,32 +74,44 @@ namespace Items.ItemVariations
         {
             Level++;
 
-            _damageMultiplier *= _damageIncreasePerLevel;
+            Mods.Multiply(Enums.StatVariations.Damage, _damageIncreasePerLevel);
+            Mods.Multiply(Enums.StatVariations.AttackSpeed, _cooldownReductionPerLevel);
+            Mods.Multiply(Enums.StatVariations.Radius, _detectionRadiusIncreasePerLevel);
+
             _projectileSpeed *= _projectileSpeedIncreasePerLevel;
-            _detectionRadius *= _detectionRadiusIncreasePerLevel;
-            Data.Cooldown *= _cooldownReductionPerLevel;
+
+            RuntimeDamage   = Data.Damage * Mods.GetMult(Enums.StatVariations.Damage);
+            RuntimeCooldown = Data.Cooldown * Mods.GetMult(Enums.StatVariations.AttackSpeed);
+            _currentDetectionRadius = _baseDetectionRadius * Mods.GetMult(Enums.StatVariations.Radius);
 
             UpdateStatsValues();
         }
 
+
         protected override void UpdateStatsValues()
         {
-            ItemStats.SetStatCurrentValue(Enums.StatVariations.Damage, _damageMultiplier);
-            ItemStats.SetStatCurrentValue(Enums.StatVariations.AttackSpeed, Data.Cooldown);
+            ItemStats.SetStatCurrentValue(Enums.StatVariations.Damage, RuntimeDamage);
+            ItemStats.SetStatCurrentValue(Enums.StatVariations.AttackSpeed, RuntimeCooldown);
             ItemStats.SetStatCurrentValue(Enums.StatVariations.ProjectilesSpeed, _projectileSpeed);
-            ItemStats.SetStatCurrentValue(Enums.StatVariations.Radius, _detectionRadius);
+            ItemStats.SetStatCurrentValue(Enums.StatVariations.Radius, _currentDetectionRadius);
 
-            ItemStats.SetStatNextValue(Enums.StatVariations.Damage, _damageMultiplier * _damageIncreasePerLevel);
-            ItemStats.SetStatNextValue(Enums.StatVariations.Radius,
-                _detectionRadius * _detectionRadiusIncreasePerLevel);
-            ItemStats.SetStatNextValue(Enums.StatVariations.AttackSpeed, Data.Cooldown * _cooldownReductionPerLevel);
+            ItemStats.SetStatNextValue(Enums.StatVariations.Damage,
+                Data.Damage * (Mods.GetMult(Enums.StatVariations.Damage) * _damageIncreasePerLevel));
+
+            ItemStats.SetStatNextValue(Enums.StatVariations.AttackSpeed,
+                Data.Cooldown * (Mods.GetMult(Enums.StatVariations.AttackSpeed) * _cooldownReductionPerLevel));
+
             ItemStats.SetStatNextValue(Enums.StatVariations.ProjectilesSpeed,
                 _projectileSpeed * _projectileSpeedIncreasePerLevel);
+
+            ItemStats.SetStatNextValue(Enums.StatVariations.Radius,
+                _baseDetectionRadius * (Mods.GetMult(Enums.StatVariations.Radius) * _detectionRadiusIncreasePerLevel));
         }
+
 
         private Transform[] FindNearestEnemies(int count)
         {
-            Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, _detectionRadius, _enemyLayer);
+            Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, _currentDetectionRadius, _enemyLayer);
 
             return colliders
                 .Where(c => c.TryGetComponent(out IDamageable _))

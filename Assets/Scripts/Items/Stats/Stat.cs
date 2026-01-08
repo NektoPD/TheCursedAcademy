@@ -14,6 +14,21 @@ namespace Items.Stats
         [SerializeField] private float _value;
         [SerializeField] private float _step;
         [SerializeField] private StatVariations _variation;
+        
+        public Stat() { } // оставь для Unity/serialization
+
+        public Stat(Stat other)
+        {
+            _nameRu = other._nameRu;
+            _nameEn = other._nameEn;
+            _nameTr = other._nameTr;
+
+            _value = other._value;
+            _step = other._step;
+            _variation = other._variation;
+
+            NextValue = other.NextValue;
+        }
 
         public string Name => Translator.Translate(_nameRu, _nameEn, _nameTr);
 

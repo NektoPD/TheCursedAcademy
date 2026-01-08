@@ -61,9 +61,8 @@ namespace Items.ItemVariations
 
                 if (parfumeProjectile != null)
                 {
-                    parfumeProjectile.Initialize(Data.Damage * _damageMultiplier, this);
-                    parfumeProjectile.SetupMovement(targetPosition, _projectileSpeed,
-                        _damageZoneDuration * _durationMultiplier);
+                    parfumeProjectile.Initialize(RuntimeDamage, this);
+                    parfumeProjectile.SetupMovement(targetPosition, _projectileSpeed, _damageZoneDuration * _durationMultiplier);
                     parfumeProjectile.ClearHitEnemies();
 
                     StartCoroutine(DisableProjectileAfterLifetime(parfumeProjectile, _projectileLifetime));
@@ -75,29 +74,38 @@ namespace Items.ItemVariations
         {
             Level++;
 
-            _damageMultiplier *= _damageIncreasePerLevel;
-            _projectileCount++;
-            Data.Cooldown *= _cooldownReductionPerLevel;
-            _durationMultiplier = 1f + _durationMultiplierIncreasePerLevel;
+            Mods.Multiply(Enums.StatVariations.Damage, _damageIncreasePerLevel);
+            Mods.Multiply(Enums.StatVariations.AttackSpeed, _cooldownReductionPerLevel);
 
-            //base.LevelUp();
+            _projectileCount += 1;
+            _durationMultiplier += _durationMultiplierIncreasePerLevel;
+
+            RuntimeDamage   = Data.Damage * Mods.GetMult(Enums.StatVariations.Damage);
+            RuntimeCooldown = Data.Cooldown * Mods.GetMult(Enums.StatVariations.AttackSpeed);
 
             UpdateStatsValues();
         }
-
+        
         protected override void UpdateStatsValues()
         {
-            ItemStats.SetStatCurrentValue(Enums.StatVariations.Damage, _damageMultiplier);
-            ItemStats.SetStatCurrentValue(Enums.StatVariations.AttackSpeed, Data.Cooldown);
+            ItemStats.SetStatCurrentValue(Enums.StatVariations.Damage, RuntimeDamage);
+            ItemStats.SetStatCurrentValue(Enums.StatVariations.AttackSpeed, RuntimeCooldown);
             ItemStats.SetStatCurrentValue(Enums.StatVariations.Duration, _durationMultiplier);
             ItemStats.SetStatCurrentValue(Enums.StatVariations.ProjectilesCount, _projectileCount);
 
-            ItemStats.SetStatNextValue(Enums.StatVariations.Damage, _damageMultiplier * _damageIncreasePerLevel);
-            ItemStats.SetStatNextValue(Enums.StatVariations.ProjectilesCount, _projectileCount++);
-            ItemStats.SetStatNextValue(Enums.StatVariations.AttackSpeed, Data.Cooldown * _cooldownReductionPerLevel);
+            ItemStats.SetStatNextValue(Enums.StatVariations.Damage,
+                Data.Damage * (Mods.GetMult(Enums.StatVariations.Damage) * _damageIncreasePerLevel));
+
+            ItemStats.SetStatNextValue(Enums.StatVariations.ProjectilesCount,
+                _projectileCount + 1);
+
+            ItemStats.SetStatNextValue(Enums.StatVariations.AttackSpeed,
+                Data.Cooldown * (Mods.GetMult(Enums.StatVariations.AttackSpeed) * _cooldownReductionPerLevel));
+
             ItemStats.SetStatNextValue(Enums.StatVariations.Duration,
-                1f + _durationMultiplierIncreasePerLevel);
+                _durationMultiplier + _durationMultiplierIncreasePerLevel);
         }
+
 
         private Vector2 GetRandomPositionOutsideScreen()
         {

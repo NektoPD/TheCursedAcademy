@@ -43,20 +43,21 @@ namespace Items.ItemVariations.BeautiZone
 
         private IEnumerator ActivateZone()
         {
-            Vector3 spawnPosition = new Vector3(_transform.position.x, _transform.position.y - _spawnYOffset,
-                _transform.position.z);
+            Vector3 spawnPosition = new Vector3(_transform.position.x, _transform.position.y - _spawnYOffset, _transform.position.z);
 
-            BeautyZoneItemProjectile zoneProjectile =
-                _projectilePool.GetFromPool<BeautyZoneItemProjectile>(spawnPosition, Quaternion.identity);
+            var zoneProjectile = _projectilePool.GetFromPool<BeautyZoneItemProjectile>(spawnPosition, Quaternion.identity);
 
-            zoneProjectile.Initialize(Data.Damage * _damageMultiplier, this);
+            float radius   = _zoneRadius   * Mods.GetMult(Enums.StatVariations.Radius);
+            float duration = _zoneDuration * Mods.GetMult(Enums.StatVariations.Duration);
+
+            zoneProjectile.Initialize(RuntimeDamage, this);
             zoneProjectile.ClearHitEnemies();
-            zoneProjectile.SetRadius(_zoneRadius * _radiusMultiplier);
-            zoneProjectile.SetDuration(_zoneDuration * _durationMultiplier);
+            zoneProjectile.SetRadius(radius);
+            zoneProjectile.SetDuration(duration);
             zoneProjectile.Activate();
 
             CharacterSoundController.EnableSoundByType(SoundType.Zone);
-            StartCoroutine(EnableProjectile(zoneProjectile, _zoneDuration * _durationMultiplier));
+            StartCoroutine(EnableProjectile(zoneProjectile, duration));
 
             yield return null;
         }
@@ -77,26 +78,37 @@ namespace Items.ItemVariations.BeautiZone
         {
             Level++;
 
-            _damageMultiplier *= _damageMultiplierPerLevel;
-            _radiusMultiplier *= _radiusMultiplierPerLevel;
-            _durationMultiplier *= _durationMultiplierPerLevel;
-            Data.Cooldown *= _cooldownReductionPerLevel;
+            Mods.Multiply(Enums.StatVariations.Damage, _damageMultiplierPerLevel);
+            Mods.Multiply(Enums.StatVariations.Radius, _radiusMultiplierPerLevel);
+            Mods.Multiply(Enums.StatVariations.Duration, _durationMultiplierPerLevel);
+            Mods.Multiply(Enums.StatVariations.AttackSpeed, _cooldownReductionPerLevel);
+
+            RuntimeDamage   = GetBaseStat(Enums.StatVariations.Damage) * Mods.GetMult(Enums.StatVariations.Damage);
+            RuntimeCooldown = GetBaseStat(Enums.StatVariations.AttackSpeed) * Mods.GetMult(Enums.StatVariations.AttackSpeed);
 
             UpdateStatsValues();
         }
 
         protected override void UpdateStatsValues()
         {
-            ItemStats.SetStatCurrentValue(Enums.StatVariations.AttackSpeed, Data.Cooldown);
-            ItemStats.SetStatCurrentValue(Enums.StatVariations.Duration, _durationMultiplier);
-            ItemStats.SetStatCurrentValue(Enums.StatVariations.Radius, _radiusMultiplier);
-            ItemStats.SetStatCurrentValue(Enums.StatVariations.Damage, _damageMultiplier);
+            // Current
+            ItemStats.SetStatCurrentValue(Enums.StatVariations.AttackSpeed, RuntimeCooldown);
+            ItemStats.SetStatCurrentValue(Enums.StatVariations.Damage, RuntimeDamage);
+            ItemStats.SetStatCurrentValue(Enums.StatVariations.Radius, _zoneRadius * Mods.GetMult(Enums.StatVariations.Radius));
+            ItemStats.SetStatCurrentValue(Enums.StatVariations.Duration, _zoneDuration * Mods.GetMult(Enums.StatVariations.Duration));
 
-            ItemStats.SetStatNextValue(Enums.StatVariations.AttackSpeed, Data.Cooldown * _cooldownReductionPerLevel);
+            // Next
+            ItemStats.SetStatNextValue(Enums.StatVariations.AttackSpeed,
+                GetBaseStat(Enums.StatVariations.AttackSpeed) * (Mods.GetMult(Enums.StatVariations.AttackSpeed) * _cooldownReductionPerLevel));
+
+            ItemStats.SetStatNextValue(Enums.StatVariations.Damage,
+                GetBaseStat(Enums.StatVariations.Damage) * (Mods.GetMult(Enums.StatVariations.Damage) * _damageMultiplierPerLevel));
+
+            ItemStats.SetStatNextValue(Enums.StatVariations.Radius,
+                _zoneRadius * (Mods.GetMult(Enums.StatVariations.Radius) * _radiusMultiplierPerLevel));
+
             ItemStats.SetStatNextValue(Enums.StatVariations.Duration,
-                _durationMultiplier * _durationMultiplierPerLevel);
-            ItemStats.SetStatNextValue(Enums.StatVariations.Radius, _radiusMultiplier * _radiusMultiplierPerLevel);
-            ItemStats.SetStatNextValue(Enums.StatVariations.Damage, _damageMultiplier * _damageMultiplierPerLevel);
+                _zoneDuration * (Mods.GetMult(Enums.StatVariations.Duration) * _durationMultiplierPerLevel));
         }
     }
 }

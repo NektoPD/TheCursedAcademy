@@ -79,7 +79,7 @@ namespace Items.ItemVariations.Toys
 
             DeactivateAllProjectiles();
 
-            yield return new WaitForSeconds(Data.Cooldown);
+            yield return new WaitForSeconds(RuntimeCooldown);
 
             _isAttackReady = true;
         }
@@ -127,26 +127,19 @@ namespace Items.ItemVariations.Toys
             Level++;
 
             _damageMultiplier += _damageIncreasePerLevel;
-
             _radiusMultiplier += _radiusIncreasePerLevel;
 
             _rotationSpeedMultiplier += _rotationSpeedIncreasePerLevel / _rotationSpeed;
             _rotationSpeed = 180f * _rotationSpeedMultiplier;
 
-            Data.Cooldown *= _cooldownReductionPerLevel;
+            Mods.Multiply(Enums.StatVariations.AttackSpeed, _cooldownReductionPerLevel);
+            RuntimeCooldown = Data.Cooldown * Mods.GetMult(Enums.StatVariations.AttackSpeed);
 
             if (Level % 2 == 0 && _currentProjectileCount < _maxProjectileCount)
             {
                 _currentProjectileCount++;
                 UpdateAngleStep();
             }
-
-            //base.LevelUp();
-
-            // ≈сли хочешь, чтобы на каждом уровне мен€лись разные статы, то после base.LevelUp()(применение значений в View) нужно указать следующие шаги лвлов. “огда при следующем проходе они корректо будут отображатьс€.
-            // Ћибо, что проще -> изменить Stat так, чтобы NextValue и CurrentValue записывались вручную без _step. “огда нужно сразу записывать оба значени€. “екущее и новое при следующем обновлении.
-            // ¬ ItemStats раскоментируй методы и используй их, а тут убери base.LevelUp(); и можешь обратно сделать метод абстрактным
-            //  ак тебе будет проще.
 
             UpdateStatsValues();
         }

@@ -1,6 +1,7 @@
 using Items.Enums;
 using Items.Stats;
 using System.Collections.Generic;
+using Items.ItemData;
 using UnityEngine;
 using Utils;
 
@@ -23,5 +24,19 @@ namespace Data
         public string Name => Translator.Translate(_nameRu, _nameEn, _nameTr);
 
         public string Description => Translator.Translate(_descriptionRu, _descriptionEn, _descriptionTr);
+        
+        public void SyncFrom(ItemDataConfig data)
+        {
+            if (data == null || Stats == null) return;
+
+            foreach (var stat in Stats)
+            {
+                if (!data.TryGetStatValue(stat.Variation, out var value))
+                    continue;
+
+                stat.SetCurrentValue(value);
+                stat.SetNextValue(value);
+            }
+        }
     }
 }

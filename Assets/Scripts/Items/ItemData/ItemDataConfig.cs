@@ -1,3 +1,4 @@
+using Items.Enums;
 using UnityEngine;
 
 namespace Items.ItemData
@@ -11,5 +12,24 @@ namespace Items.ItemData
         public float Rarity;
         public Sprite ItemIcon;
         public Enums.ItemVariations ItemVariation;
+
+        public bool TryGetStatValue(StatVariations variation, out float value)
+        {
+            value = 0f;
+
+            switch (variation)
+            {
+                case StatVariations.Damage:
+                    value = Damage;
+                    return true;
+
+                case StatVariations.AttackSpeed:
+                    value = Cooldown > 0 ? 1f / Cooldown : 0f;
+                    return true;
+
+                default:
+                    return false;
+            }
+        }
     }
 }

@@ -5,6 +5,7 @@ using Items.Stats;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Items.BaseClass;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -20,6 +21,9 @@ namespace UI.Applicators
 
         private IEnumerable<ItemVisualData> _visualDatasInInventory;
 
+        public void Inizialize(IEnumerable<ItemVisualData> visualDatasInInventory) =>
+            _visualDatasInInventory = visualDatasInInventory;
+
         public event Action<ItemVariations> ItemSelected;
 
         protected override void OnEnable()
@@ -33,22 +37,53 @@ namespace UI.Applicators
             base.OnDisable();
             _ok.onClick.RemoveListener(AddItem);
         }
+        
+        private IReadOnlyDictionary<ItemVisualData, Items.BaseClass.Item> _itemsByVisual;
 
-        public void Inizialize(IEnumerable<ItemVisualData> visualDatasInInventory) =>
-            _visualDatasInInventory = visualDatasInInventory;
+        public void Initialize(IEnumerable<Items.BaseClass.Item> itemsInInventory)
+        {
+            _itemsByVisual = itemsInInventory.ToDictionary(i => i.VisualData, i => i);
+        }
 
         protected override void Applicate(ItemVisualData data)
         {
-            if (data == null)
-                return;
+            if (data == null) return;
 
             RemoveAllStat();
+            
+            Item item = null;
+            bool owned = _itemsByVisual != null && _itemsByVisual.TryGetValue(data, out item);
 
-            foreach (var stat in data.Stats)
-                if (_visualDatasInInventory.Contains(data))
-                    AddStat(stat.Name, $"{stat.CurrentValue} -> {stat.NextValue}");
+            var stats = owned
+                ? item.UiStats
+                : data.Stats;
+            
+            foreach (var stat in stats)
+            {
+                float current = Round2(stat.CurrentValue);
+                float next = Round2(stat.NextValue);
+
+                if (owned)
+                {
+                    AddStat(
+                        stat.Name,
+                        $"{current:F2} -> {next:F2}"
+                    );
+                }
                 else
-                    AddStat(stat.Name, $"0 -> {stat.CurrentValue}");
+                {
+                    AddStat(
+                        stat.Name,
+                        $"0.00 -> {current:F2}"
+                    );
+                }
+            }
+
+        }
+
+        private static float Round2(float value)
+        {
+            return (float)Math.Round(value, 2, MidpointRounding.AwayFromZero);
         }
 
         private void AddStat(string name, string value)

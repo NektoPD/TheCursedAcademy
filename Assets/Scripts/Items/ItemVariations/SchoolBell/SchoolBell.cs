@@ -25,6 +25,9 @@ namespace Items.ItemVariations.SchoolBell
         private float _radiusMultiplier = 1f;
         private ItemProjectilePool _projectilePool;
         private Transform _transform;
+        
+        private float _currentEffectDurationMult = 1f;
+        private float _currentRadiusMult = 1f;
 
         private void Awake()
         {
@@ -34,6 +37,9 @@ namespace Items.ItemVariations.SchoolBell
 
             _effectDurationMultiplier = 1f;
             _radiusMultiplier = 1f;
+            
+            _currentEffectDurationMult = 1f;
+            _currentRadiusMult = 1f;
         }
 
         protected override void PerformAttack()
@@ -42,12 +48,13 @@ namespace Items.ItemVariations.SchoolBell
                 _projectilePool.GetFromPool<SchoolBellProjectile>(
                     new Vector2(_transform.position.x, _transform.position.y + _ySpawnOffset), Quaternion.identity);
 
-            projectile.SetFreezeDuration(_freezeDuration * _effectDurationMultiplier);
-            projectile.SetFreezeRadius(_bellEffectRadius * _radiusMultiplier);
+            projectile.SetFreezeDuration(_freezeDuration * _currentEffectDurationMult);
+            projectile.SetFreezeRadius(_bellEffectRadius * _currentRadiusMult);
+            StartCoroutine(EnableProjectile(projectile, _freezeDuration * _currentEffectDurationMult));
+
             projectile.SetEnemyLayerMask(_enemyLayerMask);
             projectile.ClearHitEnemies();
 
-            StartCoroutine(EnableProjectile(projectile, _freezeDuration * _effectDurationMultiplier));
             projectile.FreezeSurroundingEnemies();
         }
 
@@ -55,26 +62,30 @@ namespace Items.ItemVariations.SchoolBell
         {
             Level++;
 
-            _effectDurationMultiplier += _effectDurationIncreasePerLevel;
+            _currentEffectDurationMult += _effectDurationIncreasePerLevel;
+            _currentRadiusMult += _radiusIncreasePerLevel;
 
-            _radiusMultiplier += _radiusIncreasePerLevel;
-
-            Data.Cooldown *= _cooldownReductionPerLevel;
+            Mods.Multiply(Enums.StatVariations.AttackSpeed, _cooldownReductionPerLevel);
+            RuntimeCooldown = Data.Cooldown * Mods.GetMult(Enums.StatVariations.AttackSpeed);
 
             UpdateStatsValues();
         }
 
         protected override void UpdateStatsValues()
         {
-            ItemStats.SetStatCurrentValue(Enums.StatVariations.Radius, _radiusMultiplier);
-            ItemStats.SetStatCurrentValue(Enums.StatVariations.AttackSpeed, Data.Cooldown);
-            ItemStats.SetStatCurrentValue(Enums.StatVariations.Duration, _effectDurationMultiplier);
+            ItemStats.SetStatCurrentValue(Enums.StatVariations.Radius, _currentRadiusMult);
+            ItemStats.SetStatCurrentValue(Enums.StatVariations.AttackSpeed, RuntimeCooldown);
+            ItemStats.SetStatCurrentValue(Enums.StatVariations.Duration, _currentEffectDurationMult);
 
-            ItemStats.SetStatNextValue(Enums.StatVariations.Radius, _radiusMultiplier + _radiusIncreasePerLevel);
-            ItemStats.SetStatNextValue(Enums.StatVariations.AttackSpeed, Data.Cooldown * _cooldownReductionPerLevel);
+            ItemStats.SetStatNextValue(Enums.StatVariations.Radius, _currentRadiusMult + _radiusIncreasePerLevel);
+
+            ItemStats.SetStatNextValue(Enums.StatVariations.AttackSpeed,
+                Data.Cooldown * (Mods.GetMult(Enums.StatVariations.AttackSpeed) * _cooldownReductionPerLevel));
+
             ItemStats.SetStatNextValue(Enums.StatVariations.Duration,
-                _effectDurationMultiplier + _effectDurationIncreasePerLevel);
+                _currentEffectDurationMult + _effectDurationIncreasePerLevel);
         }
+
 
         private IEnumerator EnableProjectile(ItemProjectile projectile, float lifetime)
         {
