@@ -398,8 +398,8 @@ MonoBehaviour:
   m_VerticalScrollbar: {fileID: 0}
   m_HorizontalScrollbarVisibility: 0
   m_VerticalScrollbarVisibility: 0
-  m_HorizontalScrollbarSpacing: -0.81875
-  m_VerticalScrollbarSpacing: -0.81875
+  m_HorizontalScrollbarSpacing: -2.00625
+  m_VerticalScrollbarSpacing: -2.00625
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -529,7 +529,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6205488765304099925
 RectTransform:
   m_ObjectHideFlags: 0
@@ -537,7 +537,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4738160433392288115}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -856,6 +856,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1822965575148906436}
     m_Modifications:
+    - target: {fileID: 427125380090051075, guid: f40a236569a66c344b68a9feb3f86a18, type: 3}
+      propertyPath: timeTypeConvert
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1705290334077199572, guid: f40a236569a66c344b68a9feb3f86a18, type: 3}
       propertyPath: m_Name
       value: LB Example
@@ -950,7 +954,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2137777155903776772, guid: f40a236569a66c344b68a9feb3f86a18, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: -712
       objectReference: {fileID: 0}
     - target: {fileID: 2137777155903776772, guid: f40a236569a66c344b68a9feb3f86a18, type: 3}
       propertyPath: m_AnchoredPosition.y

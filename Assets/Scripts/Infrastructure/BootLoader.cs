@@ -40,6 +40,8 @@ namespace Infrastructure
             
             _perkController.Initialize();
             _wallet.Initialize();
+            
+            YG2.ReviewShow();
         }
     }
 }

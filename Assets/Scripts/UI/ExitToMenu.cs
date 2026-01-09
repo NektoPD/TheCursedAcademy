@@ -1,4 +1,5 @@
 using CharacterLogic;
+using TMPro;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,7 +17,8 @@ namespace UI
         [SerializeField] private int _menuIdScene;
         [SerializeField] private Ads _ads;
         [SerializeField] private SceneChanger _changer;
-
+        [SerializeField] private RecordSaver _recordSaver;
+ 
         private int _coins;
         private bool _isShowing = false;
         private Wallet _wallet;
@@ -51,6 +53,7 @@ namespace UI
 
         private void Exit()
         {
+            _recordSaver.SaveRecordNow();
             _wallet.AddMoney(_coins);
             _changer.ChangeScene(_menuIdScene);
         }
