@@ -6,31 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="2352e6f7-7a00-4256-b434-98f90d0b0896" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.TheCursedAcademy/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TheCursedAcademy/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/PluginYourGames/Editor/SavesEditorYG2.json" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/PluginYourGames/Editor/SavesEditorYG2.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Data/ItemVisualData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Data/ItemVisualData.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/EnemyLogic/EnemyAttacker.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/EnemyLogic/EnemyAttacker.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/EnemyLogic/EnemyFreezer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/EnemyLogic/EnemyFreezer.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/BaseClass/Item.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Items/BaseClass/Item.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/ItemData/ItemDataConfig.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Items/ItemData/ItemDataConfig.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/BeautiZone/BeautyZoneItem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/BeautiZone/BeautyZoneItem.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/Book/Book.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/Book/Book.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/Cats/CatsItem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/Cats/CatsItem.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/Chalk/Chalk.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/Chalk/Chalk.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/GiantPen/GiantPen.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/GiantPen/GiantPen.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/GreatIdea/GreatIdea.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/GreatIdea/GreatIdea.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/Gum/Gum.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/Gum/Gum.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/MagicRuller/Ruler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/MagicRuller/Ruler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/Mirror/Mirror.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/Mirror/Mirror.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/MultiSlingshot/MultiSlingshot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/MultiSlingshot/MultiSlingshot.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/Parfume/Parfume.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/Parfume/Parfume.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/SchoolBell/SchoolBell.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/SchoolBell/SchoolBell.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/Toys/Toys.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/Toys/Toys.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/Stats/ItemStats.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Items/Stats/ItemStats.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/Stats/Stat.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Items/Stats/Stat.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/Applicators/BaseApplicator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/Applicators/BaseApplicator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/Applicators/ItemApplicator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/Applicators/ItemApplicator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/LevelUpWindow.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/LevelUpWindow.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -262,7 +237,7 @@
       <workItem from="1767714544677" duration="5742000" />
       <workItem from="1767766633676" duration="7865000" />
       <workItem from="1767788675500" duration="10466000" />
-      <workItem from="1767847061352" duration="24770000" />
+      <workItem from="1767847061352" duration="25809000" />
     </task>
     <servers />
   </component>
