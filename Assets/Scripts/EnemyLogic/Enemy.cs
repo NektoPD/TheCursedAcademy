@@ -13,11 +13,13 @@ namespace EnemyLogic
         private EnemyMover _mover;
         private EnemyAnimator _animator;
         private EnemyDamageTaker _damageTaker;
+        
         private EnemyAttacker _attacker;
         private EnemyPool _pool;
         private EnemyEjector _ejector;
         private string _name;
         private Enemy _prefab;
+        private EnemyDamageView _damageView;
 
         public Enemy Prefab => _prefab;
 
@@ -30,6 +32,7 @@ namespace EnemyLogic
             _damageTaker = GetComponent<EnemyDamageTaker>();
             _attacker = GetComponent<EnemyAttacker>();
             _ejector = GetComponent<EnemyEjector>();
+            _damageView = GetComponent<EnemyDamageView>();
         }
 
         public void Initialize(IData<Enemy> data, EnemyPool pool)
@@ -43,6 +46,7 @@ namespace EnemyLogic
             _mover.Initialize(enemyData.Speed);
             _attacker.Initialize(enemyData.Attacks);
             _ejector.Initialize(enemyData.ExpPointData, enemyData.Money, enemyData.MoneyDropChancePerProcent);
+            _damageView.Initialize(enemyData.Id);
 
             _pool = pool;
         }

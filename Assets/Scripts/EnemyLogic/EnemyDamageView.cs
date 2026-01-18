@@ -1,26 +1,31 @@
 ﻿using System.Collections;
 using UnityEngine;
 using DG.Tweening;
+using UnityEngine.Serialization;
 
 namespace EnemyLogic
 {
     [RequireComponent(typeof(SpriteRenderer))]
     public class EnemyDamageView : MonoBehaviour
     {
-        [SerializeField] private Color DamageColor = new(1f, 0.5f, 0.5f);
-
+        [SerializeField] private Color _damageColor = new(1f, 0.5f, 0.5f);
+        
         [Header("Hit Impulse (Jump + Knockback)")]
-        [SerializeField] private float impulseDuration = 0.12f;
-        [SerializeField] private float knockbackDistance = 0.25f;
-        [SerializeField] private float jumpHeight = 0.12f;
-        [SerializeField] private Ease impulseEase = Ease.OutQuad;
+        [SerializeField] private float _impulseDuration = 0.12f;
+        [SerializeField] private float _knockbackDistance = 0.25f;
+        [SerializeField] private float _jumpHeight = 0.12f;
+        [SerializeField] private Ease _impulseEase = Ease.OutQuad;
 
         [Header("Impulse Limits")]
-        [SerializeField] private float impulseCooldown = 0.35f;          // не чаще, чем раз в N сек
-        [SerializeField] private float minDistanceForFullKnockback = 0.8f; // если ближе — отталкивание режем
-        [SerializeField] private float minKnockbackMultiplier = 0.15f;     // минимум (чтобы было хоть что-то)
-        [SerializeField] private bool disableHorizontalKnockbackWhenVeryClose = true;
-        [SerializeField] private float veryCloseDistance = 0.25f;
+        [SerializeField] private float _impulseCooldown = 0.35f;
+
+        [SerializeField] private float _minDistanceForFullKnockback = 0.8f;
+        [SerializeField] private float _minKnockbackMultiplier = 0.15f;
+        [SerializeField] private bool _disableHorizontalKnockbackWhenVeryClose = true;
+        [SerializeField] private float _veryCloseDistance = 0.25f;
+
+        [SerializeField] private float _impulseCooldownNormal = 0.35f;
+        [SerializeField] private float _impulseCooldownBoss = 0.7f;
 
         private SpriteRenderer _spriteRenderer;
         private Color _originalColor;
@@ -28,7 +33,10 @@ namespace EnemyLogic
 
         private Tween _impulseTween;
 
-        private float _nextImpulseTime; // кулдаун
+        private float _nextImpulseTime;
+        private int _bossEnemyId = 1000;
+        
+        public int EnemyId { get; private set; }
 
         private void Awake()
         {
@@ -48,6 +56,13 @@ namespace EnemyLogic
             _spriteRenderer.color = _originalColor;
 
             _impulseTween?.Kill();
+        }
+
+        public void Initialize(int enemyId)
+        {
+            EnemyId = enemyId;
+
+            _impulseCooldown = EnemyId >= _bossEnemyId ? _impulseCooldownBoss : _impulseCooldownNormal;
         }
 
         public void StartFlash(float duration)
@@ -70,11 +85,10 @@ namespace EnemyLogic
 
         private void ApplyHitImpulse(Vector2 hitFromWorldPos)
         {
-            // 1) КУЛДАУН: флеш можем показывать всегда, но импульс — не всегда
             if (Time.time < _nextImpulseTime)
                 return;
 
-            _nextImpulseTime = Time.time + impulseCooldown;
+            _nextImpulseTime = Time.time + _impulseCooldown;
 
             _impulseTween?.Kill();
 
@@ -87,36 +101,32 @@ namespace EnemyLogic
             float dist = dir.magnitude;
             dir.Normalize();
 
-            // 2) РЕЖЕМ ОТТАЛКИВАНИЕ, если враг близко к источнику удара (обычно игрок)
             float knockbackMul = 1f;
-            if (minDistanceForFullKnockback > 0.0001f)
+            if (_minDistanceForFullKnockback > 0.0001f)
             {
-                // dist=0 -> mul=minKnockbackMultiplier, dist>=minDistanceForFullKnockback -> mul=1
-                knockbackMul = Mathf.Lerp(minKnockbackMultiplier, 1f, dist / minDistanceForFullKnockback);
+                knockbackMul = Mathf.Lerp(_minKnockbackMultiplier, 1f, dist / _minDistanceForFullKnockback);
                 knockbackMul = Mathf.Clamp01(knockbackMul);
-                knockbackMul = Mathf.Max(knockbackMul, minKnockbackMultiplier);
+                knockbackMul = Mathf.Max(knockbackMul, _minKnockbackMultiplier);
             }
 
-            float x = dir.x * knockbackDistance * knockbackMul;
-            float y = jumpHeight;
+            float x = dir.x * _knockbackDistance * knockbackMul;
+            float y = _jumpHeight;
 
-            // 3) Если совсем "в упоре" — можно вообще отключить горизонтальное отталкивание,
-            // оставив только "подпрыгивание", чтобы не ломать милишников.
-            if (disableHorizontalKnockbackWhenVeryClose && dist <= veryCloseDistance)
+            if (_disableHorizontalKnockbackWhenVeryClose && dist <= _veryCloseDistance)
                 x = 0f;
 
             Vector3 target = transform.position + new Vector3(x, y, 0f);
 
             _impulseTween = transform
-                .DOMove(target, impulseDuration)
-                .SetEase(impulseEase)
+                .DOMove(target, _impulseDuration)
+                .SetEase(_impulseEase)
                 .SetUpdate(false);
         }
 
         private IEnumerator FlashCoroutine(float duration)
         {
             float halfDuration = duration / 2f;
-            Color flashColor = DamageColor;
+            Color flashColor = _damageColor;
 
             float elapsed = 0f;
             while (elapsed < halfDuration)
