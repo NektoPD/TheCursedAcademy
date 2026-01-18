@@ -321,7 +321,7 @@ namespace CharacterLogic
         private void InitializeCharacterComponents()
         {
             _health = new Health(_hp);
-            _inventory = new CharacterInventory();
+            _inventory = new CharacterInventory(_characterData.InventoryLimit);
             _attacker.Initialize(_inventory, _attackCooldown);
             _inventoryUI.DisableAllSlots();
             _inventoryUI.Initialize(_inventory);

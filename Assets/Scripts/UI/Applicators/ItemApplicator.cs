@@ -40,7 +40,7 @@ namespace UI.Applicators
         
         private IReadOnlyDictionary<ItemVisualData, Items.BaseClass.Item> _itemsByVisual;
 
-        public void Initialize(IEnumerable<Items.BaseClass.Item> itemsInInventory)
+        public void Initialize(IEnumerable<Item> itemsInInventory)
         {
             _itemsByVisual = itemsInInventory.ToDictionary(i => i.VisualData, i => i);
         }

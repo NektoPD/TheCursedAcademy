@@ -17,8 +17,16 @@ namespace InventorySystem
 
         private readonly Dictionary<ItemVariations, float> _totalDamageByVariation = new();
 
+        public int InventoryLimit { get; private set; }
+        
+        public CharacterInventory(int inventoryLimit)
+        {
+            InventoryLimit = inventoryLimit;
+        }
+
         public event Action<Item> ItemAdded;
         public event Action<Item> ItemRemoved;
+        public event Action ItemLimitReached;
 
         public IReadOnlyCollection<Item> Items => _collectedItems;
         
@@ -26,6 +34,12 @@ namespace InventorySystem
         {
             if (item == null) throw new ArgumentNullException(nameof(item));
             if (_collectedItems.Contains(item)) return;
+
+            if (_collectedItems.Count + 1 > InventoryLimit)
+            {
+                ItemLimitReached.Invoke();
+                return;
+            }
 
             _collectedItems.Add(item);
 
@@ -40,6 +54,15 @@ namespace InventorySystem
             item.DamageDealt += OnItemDamageDealt;
             
             ItemAdded?.Invoke(item);
+        }
+
+        public void ExchangeItem(Item from, Item to)
+        {
+            if(!_collectedItems.Contains(from) || _collectedItems.Contains(to))
+                return;
+            
+            RemoveItem(from);
+            AddItem(to);
         }
 
         public void RemoveItem(Item item)
@@ -57,16 +80,6 @@ namespace InventorySystem
             item.DamageDealt -= OnItemDamageDealt;
             
             ItemRemoved?.Invoke(item);
-        }
-
-        public void RegisterDamage(ItemVariations variation, float damage)
-        {
-            if (damage <= 0f) return;
-
-            if (_totalDamageByVariation.ContainsKey(variation))
-                _totalDamageByVariation[variation] += damage;
-            else
-                _totalDamageByVariation[variation] = damage;
         }
 
         public List<ItemStatistics> GetItemStatisticsList()

@@ -10,6 +10,7 @@ namespace UI
     public class CharacterUIObserver : MonoBehaviour
     {
         [SerializeField] private LevelUpWindow _levelUpWindow;
+        [SerializeField] private InventoryFullWindow _inventoryFullWindow;
         [SerializeField] private StatisticsApplicator _statisticApplicator;
         [SerializeField] private CharacterInitializer _initializer;
         [SerializeField] private ExitToMenu _exit;
@@ -104,6 +105,9 @@ namespace UI
 
             if (_levelUpWindow != null)
                 _levelUpWindow.Initialize(character.Inventory);
+
+            if (_inventoryFullWindow != null)
+                _inventoryFullWindow.Initialize(character.Inventory);
 
             _character.StatisticCollected += StatisticApplicate;
             _character.LevelUp += LevelUp;

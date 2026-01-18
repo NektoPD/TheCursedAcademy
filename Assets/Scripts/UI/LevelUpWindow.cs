@@ -4,8 +4,10 @@ using Items.BaseClass;
 using Items.ItemHolder;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UI.Applicators;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Zenject;
 
 namespace UI
