@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using Items;
 using Items.BaseClass;
+using TheraBytes.BetterUi;
 using UnityEngine;
 
 namespace InventorySystem
