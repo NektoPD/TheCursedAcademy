@@ -1,3 +1,4 @@
+using Items.Enums;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,7 +7,8 @@ namespace InventorySystem
     public class InventoryUISlot : MonoBehaviour
     {
         [SerializeField] private Image _slotImageHolder;
-
+        
+        public ItemVariations ItemVariation { get; private set; }
         public bool IsActive { get; private set; }
 
         public void Enable()
@@ -21,10 +23,11 @@ namespace InventorySystem
             gameObject.SetActive(IsActive);
         }
 
-        public void SetItemSprite(Sprite sprite)
+        public void SetItem(Sprite sprite, ItemVariations itemVariations)
         {
             _slotImageHolder.enabled = true;
             _slotImageHolder.sprite = sprite;
+            ItemVariation = itemVariations;
         }
 
         public void ResetSlot()

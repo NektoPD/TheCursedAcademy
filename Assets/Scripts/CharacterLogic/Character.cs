@@ -14,6 +14,7 @@ using Items.ItemHolder;
 using Items.ItemVariations;
 using Items.ItemVariations.MultiSlingshot;
 using StatistiscSystem;
+using UI;
 using UI.Applicators;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -49,7 +50,8 @@ namespace CharacterLogic
         private ItemsHolder _itemsHolder;
         private CharacterLevelController _characterLevelController;
         private CharacterSessionWallet _characterSessionWallet;
-        private ItemApplicator _itemApplicator;
+        private ItemApplicator _levelUpItemApplicator;
+        private ItemApplicator _fullInventoryItemApplicator;
         private KilledEnemyCounter _killedEnemyCounter;
         private CharacterSoundController _characterSoundController;
         private float _attackPower;
@@ -64,18 +66,23 @@ namespace CharacterLogic
         private bool _isDied;
         private float _gameStartTime;
         private bool _isTutorial;
+        private ItemVariations _stashedItemForChange;
         public event Action<float, float> HealthChanged;
         public event Action<float, float> Damaged;
         public event Action<float, float> Healed;
         public event Action<Statistics> StatisticCollected;
         public event Action LevelUp;
+        public event Action InventoryLimitReached;
+        public event Action NewItemAdded;
+        public event Action ItemSwapped;
         public CharacterInventory Inventory => _inventory;
         public bool IsDied => _isDied;
 
         public void Construct(CharacterData characterData, Dictionary<PerkType, float> perkBonuses,
-            ItemsHolder itemsHolder, ItemApplicator itemApplicator, KilledEnemyCounter killedEnemyCounter,
-            CharacterSoundController characterSoundController)
+            ItemsHolder itemsHolder, ItemApplicator levelUpItemApplicator, KilledEnemyCounter killedEnemyCounter,
+            CharacterSoundController characterSoundController, ItemApplicator fullInventoryItemApplicator = null)
         {
+            _characterData = characterData;
             _itemsHolder = itemsHolder;
             _characterSoundController = characterSoundController;
             _collisionHandler = GetComponent<CharacterCollisionHandler>();
@@ -85,17 +92,32 @@ namespace CharacterLogic
             _animationController.SetAnimatorOverride(characterData.AnimatorController);
             _movementHandler.MovingLeft += OnMovingLeft;
             _movementHandler.MovingRight += OnMovingRight;
-            _health.Changed += UpdateHealthView;
+            //_health.Changed += UpdateHealthView;
             _health.LowHealth += _spriteHolder.StartPulsing;
-            _health.Died += _spriteHolder.StopPulsing;
-            _health.Died += OnHealthDied;
+            //_health.Died += _spriteHolder.StopPulsing;
+            //_health.Died += OnHealthDied;
             _health.HealthRegainedToNormal += _spriteHolder.StopPulsing;
             _collisionHandler.GotExpPoint += OnExperienceGained;
             _collisionHandler.GotHeal += TakeHeal;
             UpdateExperienceView(_characterLevelController.CurrentExp);
-            _itemApplicator = itemApplicator;
+            _levelUpItemApplicator = levelUpItemApplicator;
+
+            if (fullInventoryItemApplicator != null)
+                _fullInventoryItemApplicator = fullInventoryItemApplicator;
+
             _killedEnemyCounter = killedEnemyCounter;
-            _itemApplicator.ItemSelected += OnItemSelected;
+            _levelUpItemApplicator.ItemSelected += OnLevelUpItemSelected;
+
+            if (_fullInventoryItemApplicator != null)
+            {
+                Debug.LogError("not null");
+                _fullInventoryItemApplicator.ItemSelected += OnChangeItemSelected;
+            }
+            else
+            {
+                Debug.LogError("null");
+            }
+
             _killedEnemyCounter.ResetCounter();
             _gameStartTime = Time.timeSinceLevelLoad;
         }
@@ -130,7 +152,10 @@ namespace CharacterLogic
             if (_characterLevelController != null) _characterLevelController.LeveledUp -= OnLeveledUp;
             _characterLevelController?.Dispose();
             _characterSessionWallet?.Dispose();
-            _itemApplicator.ItemSelected -= OnItemSelected;
+            _levelUpItemApplicator.ItemSelected -= OnLevelUpItemSelected;
+
+            if (_fullInventoryItemApplicator != null)
+                _fullInventoryItemApplicator.ItemSelected -= OnChangeItemSelected;
         }
 
         private void Update()
@@ -187,8 +212,9 @@ namespace CharacterLogic
             StatisticCollected?.Invoke(statistics);
         }
 
-        private void OnItemSelected(ItemVariations selectedItemVariation)
+        private void OnLevelUpItemSelected(ItemVariations selectedItemVariation)
         {
+            Debug.LogError("selected item");
             Item existingItem = null;
             foreach (var item in _inventory.Items)
             {
@@ -203,33 +229,60 @@ namespace CharacterLogic
             }
             else
             {
-                Item newItem = _itemsHolder.GetItemByType(selectedItemVariation);
-                if (newItem != null)
+                if (!_inventory.CanFitOneMoreItem())
                 {
-                    newItem.gameObject.SetActive(true);
-                    if (newItem.Data.ItemVariation != ItemVariations.Parfume)
-                    {
-                        newItem.transform.SetParent(_transform);
-                    }
-
-                    if (newItem.Data.ItemVariation == ItemVariations.Backpack)
-                    {
-                        BackpackItem backpackItem = (BackpackItem)newItem;
-                        backpackItem.InvincibilityEnabled += OnInvincibilityEnabled;
-                        backpackItem.InvincibilityDisabled += OnInvincibilityDisabled;
-                    }
-
-                    if (newItem.Data.ItemVariation == ItemVariations.MultiSlingshot)
-                    {
-                        MultiSlingshot multiSlingshot = (MultiSlingshot)newItem;
-                        multiSlingshot.SetMovementHandler(_movementHandler);
-                    }
-
-                    newItem.transform.position = _transform.position;
-                    newItem.Initialize(_movementHandler, _characterSoundController);
-                    _inventory.AddItem(newItem);
+                    _stashedItemForChange = selectedItemVariation;
+                    InventoryLimitReached?.Invoke();
+                    return;
                 }
+
+                SetupNewItem(selectedItemVariation);
+                NewItemAdded?.Invoke();
+                Debug.LogError("Added");
             }
+        }
+
+        private void OnChangeItemSelected(ItemVariations selectedItemForChangeVariation)
+        {
+            _inventory.RemoveItem(selectedItemForChangeVariation);
+            SetupNewItem(_stashedItemForChange);
+            ItemSwapped?.Invoke();
+            Debug.LogError("Swapped");
+        }
+
+        private void SetupNewItem(ItemVariations selectedItemVariation)
+        {
+            Debug.Log("settting " + selectedItemVariation);
+
+            Item newItem = _itemsHolder.GetItemByType(selectedItemVariation);
+            if (newItem == null)
+            {
+                Debug.LogError("New item " + newItem);
+                return;
+            }
+
+            newItem.gameObject.SetActive(true);
+            if (newItem.Data.ItemVariation != ItemVariations.Parfume)
+            {
+                newItem.transform.SetParent(_transform);
+            }
+
+            if (newItem.Data.ItemVariation == ItemVariations.Backpack)
+            {
+                BackpackItem backpackItem = (BackpackItem)newItem;
+                backpackItem.InvincibilityEnabled += OnInvincibilityEnabled;
+                backpackItem.InvincibilityDisabled += OnInvincibilityDisabled;
+            }
+
+            if (newItem.Data.ItemVariation == ItemVariations.MultiSlingshot)
+            {
+                MultiSlingshot multiSlingshot = (MultiSlingshot)newItem;
+                multiSlingshot.SetMovementHandler(_movementHandler);
+            }
+
+            newItem.transform.position = _transform.position;
+            newItem.Initialize(_movementHandler, _characterSoundController);
+            _inventory.AddItem(newItem);
         }
 
         private void OnLeveledUp()
@@ -342,7 +395,7 @@ namespace CharacterLogic
             _attackCooldown = characterData.AttackRegenerationSpeed *
                               GetPerkBonus(perkBonuses, PerkType.AttackCooldown);
             _moveSpeed = characterData.MoveSpeed * GetPerkBonus(perkBonuses, PerkType.Speed);
-            OnItemSelected(characterData.StartItem.Data.ItemVariation);
+            SetupNewItem(characterData.StartItem.Data.ItemVariation);
             _health.SetMaxHealth(_hp);
             _view.SetHeroImage(characterData.HeroSprite);
             UpdateHealthView(_hp);

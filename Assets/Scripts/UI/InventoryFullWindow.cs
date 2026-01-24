@@ -30,7 +30,7 @@ namespace UI
             _inventory = inventory;
 
             _countItems = _inventory.InventoryLimit;
-            
+
             for (var i = 0; i < _itemsVisual.Count; i++)
             {
                 bool gameObjectStatus = i + 1 <= _countItems;
@@ -40,20 +40,28 @@ namespace UI
 
         public override void OpenWindow()
         {
-            IEnumerable<ItemVisualData> visualDatasInInventory = _inventory.Items.Select(item => item.VisualData);
+            List<ItemVisualData> visualDatasInInventory = _inventory.Items.Select(item => item.VisualData).ToList();
 
-            var datasInInventory = visualDatasInInventory as ItemVisualData[] ?? visualDatasInInventory.ToArray();
-            _applicator.SetDefaultItem(datasInInventory.First());
-            _applicator.Inizialize(datasInInventory);
+            _applicator.SetDefaultItem(visualDatasInInventory.First());
+            _applicator.Inizialize(visualDatasInInventory);
             _applicator.Initialize(_inventory.Items);
 
             base.OpenWindow();
 
-            for (int i = 0; i < _countItems; i++)
+            for (int i = 0; i < _itemsVisual.Count; i++)
             {
-                Item item = _inventory.Items.FirstOrDefault(item => item.VisualData == visualDatasInInventory);
-                int level = item == null ? 0 : item.CurrentLevel;
-                _itemsVisual[i].Initialize(datasInInventory[i], false, level);
+                if (_inventory.Items.Count - 1 >= i)
+                {
+                    if (_inventory.Items[i] == null)
+                        continue;
+
+                    int level = _inventory.Items[i] ? 0 : _inventory.Items[i].CurrentLevel;
+                    _itemsVisual[i].gameObject.SetActive(true);
+                    _itemsVisual[i].Initialize(_inventory.Items[i].VisualData, false, level);
+                    continue;
+                }
+
+                _itemsVisual[i].gameObject.SetActive(false);
             }
         }
     }

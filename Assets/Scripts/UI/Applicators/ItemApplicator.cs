@@ -37,7 +37,7 @@ namespace UI.Applicators
             base.OnDisable();
             _ok.onClick.RemoveListener(AddItem);
         }
-        
+
         private IReadOnlyDictionary<ItemVisualData, Items.BaseClass.Item> _itemsByVisual;
 
         public void Initialize(IEnumerable<Item> itemsInInventory)
@@ -50,14 +50,14 @@ namespace UI.Applicators
             if (data == null) return;
 
             RemoveAllStat();
-            
+
             Item item = null;
             bool owned = _itemsByVisual != null && _itemsByVisual.TryGetValue(data, out item);
 
             var stats = owned
                 ? item.UiStats
                 : data.Stats;
-            
+
             foreach (var stat in stats)
             {
                 float current = Round2(stat.CurrentValue);
@@ -78,7 +78,6 @@ namespace UI.Applicators
                     );
                 }
             }
-
         }
 
         private static float Round2(float value)

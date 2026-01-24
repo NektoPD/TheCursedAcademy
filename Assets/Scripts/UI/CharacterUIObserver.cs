@@ -63,8 +63,19 @@ namespace UI
             _character.Damaged -= OnDamaged;
             _character.Healed -= OnHealed;
             _character.HealthChanged -= OnHealthChanged;
+            _character.InventoryLimitReached -= InventoryLimitReached;
+            _character.NewItemAdded -= OnNewItemAdded;
+            _character.ItemSwapped -= OnItemSwapped;
 
             _character = null;
+        }
+
+        private void OnNewItemAdded() => _levelUpWindow.CloseWindow();
+
+        private void OnItemSwapped()
+        {
+            _levelUpWindow.CloseWindow();
+            _inventoryFullWindow.CloseWindow();
         }
 
         private void CacheVignette()
@@ -96,6 +107,9 @@ namespace UI
                 _character.Damaged -= OnDamaged;
                 _character.Healed -= OnHealed;
                 _character.HealthChanged -= OnHealthChanged;
+                _character.InventoryLimitReached -= InventoryLimitReached;
+                _character.NewItemAdded -= OnNewItemAdded;
+                _character.ItemSwapped -= OnItemSwapped;
             }
 
             _character = character;
@@ -114,12 +128,17 @@ namespace UI
             _character.Damaged += OnDamaged;
             _character.Healed += OnHealed;
             _character.HealthChanged += OnHealthChanged;
+            _character.InventoryLimitReached += InventoryLimitReached;
+            _character.NewItemAdded += OnNewItemAdded;
+            _character.ItemSwapped += OnItemSwapped;
 
             if (_vignette == null)
                 CacheVignette();
         }
 
         private void LevelUp() => _levelUpWindow.OpenWindow();
+
+        private void InventoryLimitReached() => _inventoryFullWindow.OpenWindow();
 
         private void StatisticApplicate(Statistics statistics)
         {

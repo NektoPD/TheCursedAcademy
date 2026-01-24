@@ -18,28 +18,22 @@ namespace InventorySystem
         private readonly Dictionary<ItemVariations, float> _totalDamageByVariation = new();
 
         public int InventoryLimit { get; private set; }
-        
+
         public CharacterInventory(int inventoryLimit)
         {
+            Debug.Log(inventoryLimit);
             InventoryLimit = inventoryLimit;
         }
 
         public event Action<Item> ItemAdded;
         public event Action<Item> ItemRemoved;
-        public event Action ItemLimitReached;
 
-        public IReadOnlyCollection<Item> Items => _collectedItems;
-        
+        public IReadOnlyList<Item> Items => _collectedItems;
+
         public void AddItem(Item item)
         {
             if (item == null) throw new ArgumentNullException(nameof(item));
             if (_collectedItems.Contains(item)) return;
-
-            if (_collectedItems.Count + 1 > InventoryLimit)
-            {
-                ItemLimitReached.Invoke();
-                return;
-            }
 
             _collectedItems.Add(item);
 
@@ -52,34 +46,37 @@ namespace InventorySystem
                 _totalDamageByVariation[variation] = 0f;
 
             item.DamageDealt += OnItemDamageDealt;
-            
+
             ItemAdded?.Invoke(item);
         }
 
-        public void ExchangeItem(Item from, Item to)
+        public void RemoveItem(ItemVariations itemVariations)
         {
-            if(!_collectedItems.Contains(from) || _collectedItems.Contains(to))
+            if (itemVariations == null) throw new ArgumentNullException(nameof(itemVariations));
+
+            Item itemToRemove = _collectedItems.FirstOrDefault(item => item.VisualData.Variation == itemVariations);
+
+            if (itemToRemove == null)
+            {
+                Debug.LogError("Item to remove is null");
                 return;
-            
-            RemoveItem(from);
-            AddItem(to);
-        }
+            }
 
-        public void RemoveItem(Item item)
-        {
-            if (item == null) throw new ArgumentNullException(nameof(item));
+            _collectedItems.Remove(itemToRemove);
 
-            if (_collectedItems.Contains(item))
-                _collectedItems.Remove(item);
-
-            var variation = item.Data.ItemVariation;
+            var variation = itemToRemove.Data.ItemVariation;
 
             if (_collectedItems.All(i => i.Data.ItemVariation != variation))
                 _itemAddTimesSec.Remove(variation);
 
-            item.DamageDealt -= OnItemDamageDealt;
-            
-            ItemRemoved?.Invoke(item);
+            itemToRemove.DamageDealt -= OnItemDamageDealt;
+
+            ItemRemoved?.Invoke(itemToRemove);
+        }
+
+        public bool CanFitOneMoreItem()
+        {
+            return _collectedItems.Count + 1 <= InventoryLimit;
         }
 
         public List<ItemStatistics> GetItemStatisticsList()
@@ -126,7 +123,7 @@ namespace InventorySystem
 
             return itemStatisticsList;
         }
-        
+
         private void OnItemDamageDealt(ItemVariations variation, float damage)
         {
             if (damage <= 0f) return;
