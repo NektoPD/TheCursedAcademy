@@ -46,6 +46,8 @@ namespace Items.BaseClass
             CharacterSoundController = characterSoundController;
             RuntimeCooldown = Data.Cooldown;
             RuntimeDamage = Data.Damage;
+            
+            Debug.LogError(Level);
 
             UpdateStatsValues();
         }
@@ -66,11 +68,7 @@ namespace Items.BaseClass
 
         public virtual void LevelUp()
         {
-            if (Level >= Data.MaxLevel)
-            {
-                RaiseMaxLevelReached();
-                return;
-            }
+            Debug.LogError(Level);
         }
         
         protected void UpdateUiStat(StatVariations v, float current, float next)

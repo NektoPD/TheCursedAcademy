@@ -51,7 +51,7 @@ namespace CharacterLogic
         private CharacterLevelController _characterLevelController;
         private CharacterSessionWallet _characterSessionWallet;
         private ItemApplicator _levelUpItemApplicator;
-        private ItemApplicator _fullInventoryItemApplicator;
+        private ItemApplicatorCurrentOnly _fullInventoryItemApplicator;
         private KilledEnemyCounter _killedEnemyCounter;
         private CharacterSoundController _characterSoundController;
         private float _attackPower;
@@ -75,12 +75,13 @@ namespace CharacterLogic
         public event Action InventoryLimitReached;
         public event Action NewItemAdded;
         public event Action ItemSwapped;
+        public event Action MaxLevelReached;
         public CharacterInventory Inventory => _inventory;
         public bool IsDied => _isDied;
 
         public void Construct(CharacterData characterData, Dictionary<PerkType, float> perkBonuses,
             ItemsHolder itemsHolder, ItemApplicator levelUpItemApplicator, KilledEnemyCounter killedEnemyCounter,
-            CharacterSoundController characterSoundController, ItemApplicator fullInventoryItemApplicator = null)
+            CharacterSoundController characterSoundController, ItemApplicatorCurrentOnly fullInventoryItemApplicator = null)
         {
             _characterData = characterData;
             _itemsHolder = itemsHolder;
@@ -92,10 +93,7 @@ namespace CharacterLogic
             _animationController.SetAnimatorOverride(characterData.AnimatorController);
             _movementHandler.MovingLeft += OnMovingLeft;
             _movementHandler.MovingRight += OnMovingRight;
-            //_health.Changed += UpdateHealthView;
             _health.LowHealth += _spriteHolder.StartPulsing;
-            //_health.Died += _spriteHolder.StopPulsing;
-            //_health.Died += OnHealthDied;
             _health.HealthRegainedToNormal += _spriteHolder.StopPulsing;
             _collisionHandler.GotExpPoint += OnExperienceGained;
             _collisionHandler.GotHeal += TakeHeal;
@@ -113,8 +111,6 @@ namespace CharacterLogic
 
             _killedEnemyCounter.ResetCounter();
             _gameStartTime = Time.timeSinceLevelLoad;
-            
-            _levelUpItemApplicator.ItemSelected += OnLevelUpItemSelected;
         }
 
         private void Awake()
@@ -209,16 +205,16 @@ namespace CharacterLogic
 
         private void OnLevelUpItemSelected(ItemVariations selectedItemVariation)
         {
-            Item existingItem = null;
-            foreach (var item in _inventory.Items)
-            {
-                if (item.Data.ItemVariation != selectedItemVariation) continue;
-                existingItem = item;
-                break;
-            }
+            Item existingItem = _inventory.Items.FirstOrDefault(i => i.Data.ItemVariation == selectedItemVariation);
 
             if (existingItem != null)
             {
+                if (existingItem.CurrentLevel >= existingItem.Data.MaxLevel)
+                {
+                    MaxLevelReached?.Invoke();
+                    return;
+                }
+
                 existingItem.LevelUp();
                 NewItemAdded?.Invoke();
             }
@@ -235,6 +231,7 @@ namespace CharacterLogic
                 NewItemAdded?.Invoke();
             }
         }
+
 
         private void OnChangeItemSelected(ItemVariations selectedItemForChangeVariation)
         {

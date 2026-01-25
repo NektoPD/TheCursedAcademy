@@ -1,4 +1,4 @@
-using Data;
+﻿using Data;
 using InventorySystem;
 using Items.Enums;
 using Items.Stats;
@@ -11,7 +11,7 @@ using UnityEngine.UI;
 
 namespace UI.Applicators
 {
-    public class ItemApplicator : BaseApplicator<ItemVisualData>
+    public class ItemApplicatorCurrentOnly : BaseApplicator<ItemVisualData>
     {
         private readonly List<StatView> _currentStats = new();
 
@@ -30,8 +30,6 @@ namespace UI.Applicators
         {
             base.OnEnable();
             _ok.onClick.AddListener(AddItem);
-
-            _ok.interactable = true;
         }
 
         protected override void OnDisable()
@@ -63,22 +61,11 @@ namespace UI.Applicators
             foreach (var stat in stats)
             {
                 float current = Round2(stat.CurrentValue);
-                float next = Round2(stat.NextValue);
 
-                if (owned)
-                {
-                    AddStat(
-                        stat.Name,
-                        $"{current:F2} -> {next:F2}"
-                    );
-                }
-                else
-                {
-                    AddStat(
-                        stat.Name,
-                        $"0.00 -> {current:F2}"
-                    );
-                }
+                AddStat(
+                    stat.Name,
+                    $"{current:F2}"
+                );
             }
         }
 
@@ -90,7 +77,7 @@ namespace UI.Applicators
         private void AddStat(string name, string value)
         {
             StatView stat = Instantiate(_statPrefab, _statContainer);
-            stat.Applicate(name, value.ToString());
+            stat.Applicate(name, value);
             _currentStats.Add(stat);
         }
 
@@ -102,14 +89,6 @@ namespace UI.Applicators
             _currentStats.Clear();
         }
 
-        private void AddItem()
-        {
-            if (_ok.interactable == false) return;
-
-            _ok.interactable = false;
-
-            ItemSelected?.Invoke(CurrentItem.Variation);
-        }
-
+        private void AddItem() => ItemSelected?.Invoke(CurrentItem.Variation);
     }
 }

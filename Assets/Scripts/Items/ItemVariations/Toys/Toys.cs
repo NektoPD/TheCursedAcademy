@@ -124,11 +124,15 @@ namespace Items.ItemVariations.Toys
 
         public override void LevelUp()
         {
-            if (Level >= Data.MaxLevel)
+            base.LevelUp();
+                
+            if (Level > Data.MaxLevel)
             {
                 RaiseMaxLevelReached();
                 return;
             }
+            
+            Debug.LogError("Next level");
             
             Level++;
 

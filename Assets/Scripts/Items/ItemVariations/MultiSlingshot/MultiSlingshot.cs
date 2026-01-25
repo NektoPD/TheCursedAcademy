@@ -184,7 +184,9 @@ namespace Items.ItemVariations.MultiSlingshot
 
         public override void LevelUp()
         {
-            if (Level >= Data.MaxLevel)
+            base.LevelUp();
+                
+            if (Level > Data.MaxLevel)
             {
                 RaiseMaxLevelReached();
                 return;

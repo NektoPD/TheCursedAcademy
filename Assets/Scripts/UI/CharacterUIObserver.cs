@@ -67,12 +67,9 @@ namespace UI
             _character.InventoryLimitReached -= InventoryLimitReached;
             _character.NewItemAdded -= OnNewItemAdded;
             _character.ItemSwapped -= OnItemSwapped;
-            _character.Inventory.MaxLevelReached -= OnItemMaxLevelReached;
+            _character.MaxLevelReached -= OnItemMaxLevelReached;
 
             _character = null;
-
-            if (_character != null)
-                _character.Inventory.MaxLevelReached -= OnItemMaxLevelReached;
         }
 
         private void OnNewItemAdded() => _levelUpWindow.CloseWindow();
@@ -120,7 +117,7 @@ namespace UI
                 _character.InventoryLimitReached -= InventoryLimitReached;
                 _character.NewItemAdded -= OnNewItemAdded;
                 _character.ItemSwapped -= OnItemSwapped;
-                _character.Inventory.MaxLevelReached -= OnItemMaxLevelReached;
+                _character.MaxLevelReached -= OnItemMaxLevelReached;
             }
 
             _character = character;
@@ -134,7 +131,7 @@ namespace UI
             if (_inventoryFullWindow != null)
                 _inventoryFullWindow.Initialize(character.Inventory);
 
-            _character.Inventory.MaxLevelReached += OnItemMaxLevelReached;
+            _character.MaxLevelReached += OnItemMaxLevelReached;
             _character.StatisticCollected += StatisticApplicate;
             _character.LevelUp += LevelUp;
             _character.Damaged += OnDamaged;

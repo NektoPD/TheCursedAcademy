@@ -15,7 +15,7 @@ namespace UI
     public class InventoryFullWindow : Window
     {
         [SerializeField] private List<ItemView> _itemsVisual;
-        [SerializeField] private ItemApplicator _applicator;
+        [SerializeField] private ItemApplicatorCurrentOnly _applicator;
         [SerializeField] private BetterScrollRect _betterScrollRect;
         
         [SerializeField] private UnityEngine.UI.Button _leftButton;

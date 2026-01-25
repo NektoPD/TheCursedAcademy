@@ -67,7 +67,15 @@ namespace Items.ItemVariations
 
         public override void LevelUp()
         {
-            _level++;
+            base.LevelUp();
+                
+            if (Level > Data.MaxLevel)
+            {
+                RaiseMaxLevelReached();
+                return;
+            }
+            
+            Level++;
 
             _durationMultiplier += _durationIncreasePerLevel;
             Data.Cooldown *= _cooldownReductionPerLevel;

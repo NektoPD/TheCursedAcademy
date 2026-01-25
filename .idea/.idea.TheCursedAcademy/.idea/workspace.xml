@@ -6,21 +6,12 @@
   <component name="ChangeListManager">
     <list default="true" id="2352e6f7-7a00-4256-b434-98f90d0b0896" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.TheCursedAcademy/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TheCursedAcademy/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Configs/AttacksData/Ninja_Peasant/B_MA_Ninja_Peasant.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Configs/AttacksData/Ninja_Peasant/B_MA_Ninja_Peasant.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Configs/AttacksData/Ninja_Peasant/B_RA_Ninja_Peasant.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Configs/AttacksData/Ninja_Peasant/B_RA_Ninja_Peasant.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Configs/AttacksData/Samurai_Archer/B_MA_Samurai_Archer.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Configs/AttacksData/Samurai_Archer/B_MA_Samurai_Archer.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Configs/AttacksData/Samurai_Archer/B_RA_Samurai_Archer.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Configs/AttacksData/Samurai_Archer/B_RA_Samurai_Archer.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Configs/AttacksData/Satyr_1/B_RA_Satyr_1.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Configs/AttacksData/Satyr_1/B_RA_Satyr_1.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Configs/AttacksData/Satyr_1/RA_Satyr_1.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Configs/AttacksData/Satyr_1/RA_Satyr_1.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Configs/CharacterConfigs/Girl1.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Configs/CharacterConfigs/Girl1.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Configs/CharacterConfigs/Girl2.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Configs/CharacterConfigs/Girl2.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Configs/CharacterConfigs/Girl3.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Configs/CharacterConfigs/Girl3.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Configs/ItemConfigs/MagicRuler.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Configs/ItemConfigs/MagicRuler.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/PluginYourGames/Editor/SavesEditorYG2.json" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/PluginYourGames/Editor/SavesEditorYG2.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/TestGameScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/TestGameScene.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/CharacterLogic/Character.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CharacterLogic/Character.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CharacterLogic/CharacterCollisionHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CharacterLogic/CharacterCollisionHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/EnemyLogic/EnemyMover.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/EnemyLogic/EnemyMover.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/InventorySystem/CharacterInventory.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/InventorySystem/CharacterInventory.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CharacterLogic/Initializer/CharacterInitializer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CharacterLogic/Initializer/CharacterInitializer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/Backpack/BackpackItem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Items/Backpack/BackpackItem.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/BaseClass/Item.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Items/BaseClass/Item.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/BeautiZone/BeautyZoneItem.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/BeautiZone/BeautyZoneItem.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/Book/Book.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/Book/Book.cs" afterDir="false" />
@@ -35,9 +26,11 @@
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/Parfume/Parfume.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/Parfume/Parfume.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/SchoolBell/SchoolBell.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/SchoolBell/SchoolBell.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/Toys/Toys.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/Toys/Toys.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/Applicators/ItemApplicator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/Applicators/ItemApplicator.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/CharacterUIObserver.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/CharacterUIObserver.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/InventoryFullWindow.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/InventoryFullWindow.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/Window.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/Window.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/LevelUpWindow.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/LevelUpWindow.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/MaxLevelReachedWindow.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/MaxLevelReachedWindow.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -75,6 +68,7 @@
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/CharacterLogic/CharacterAttacker.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/EnemyLogic/EnemyDamageView.cs.meta" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Infrastructure/BootLoader.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Installers/ItemApplicatorInstaller.cs.meta" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Installers/TutorialEnemyInstaller.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/InventorySystem/CharacterInventoryUI.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/InventorySystem/InventoryUISlot.cs" root0="FORCE_HIGHLIGHTING" />
@@ -85,6 +79,7 @@
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/Book/BookProjectile.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/Cats/CatsProjectile.cs.meta" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/Chalk/Chalk.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/Chalk/Chalk.cs.meta" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/Chalk/ChalkProjectile.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/GreatIdea/GreatIdea.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/GreatIdea/GreatIdeaProjectile.cs" root0="FORCE_HIGHLIGHTING" />
@@ -98,6 +93,8 @@
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/PlayerPerksController/PerkController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/PlayerPerksController/PerkModifiers.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/PlayerPerksController/PerkType.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/StatisticsSystem/ItemStatisticsApplicator.cs.meta" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/UI/Applicators/ItemApplicatorCurrentOnly.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/UI/CharacterMenuNameHolder.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/UI/CharacterUIObserver.cs.meta" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/UI/InventoryFullWindow.cs" root0="FORCE_HIGHLIGHTING" />
@@ -284,7 +281,7 @@
       <workItem from="1768751916592" duration="8413000" />
       <workItem from="1769248855245" duration="4831000" />
       <workItem from="1769267929027" duration="14835000" />
-      <workItem from="1769323965590" duration="9439000" />
+      <workItem from="1769323965590" duration="14129000" />
     </task>
     <servers />
   </component>

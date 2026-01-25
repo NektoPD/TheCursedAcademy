@@ -19,7 +19,7 @@ namespace CharacterLogic.Initializer
         [SerializeField] private CharacterData[] _characterDatas;
         [SerializeField] private CharacterSpawner _characterSpawner;
         [SerializeField] private CharacterSoundController _characterSoundController;
-        [SerializeField] private ItemApplicator _fullInventoryItemApplicator;
+        [SerializeField] private ItemApplicatorCurrentOnly _fullInventoryItemApplicator;
         private PerkController _perkController;
         private CharacterFabric _fabric;
         private ItemsHolder _itemsHolder;

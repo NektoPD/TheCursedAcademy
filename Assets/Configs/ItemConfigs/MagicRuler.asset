@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7fc2b3813dc710448f98a412d5c29db, type: 3}
   m_Name: MagicRuler
   m_EditorClassIdentifier: 
-  Damage: 15
+  Damage: 7
   Cooldown: 2
   MaxLevel: 3
   Rarity: 2
