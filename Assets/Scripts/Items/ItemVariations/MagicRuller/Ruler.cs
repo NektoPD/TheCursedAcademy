@@ -92,6 +92,12 @@ namespace Items.ItemVariations.MagicRuller
 
         public override void LevelUp()
         {
+            if (Level >= Data.MaxLevel)
+            {
+                RaiseMaxLevelReached();
+                return;
+            }
+            
             Level++;
 
             Mods.Multiply(Enums.StatVariations.Damage, _damageMultiplierPerLevel);

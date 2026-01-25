@@ -203,6 +203,12 @@ namespace Items.ItemVariations.Cats
 
         public override void LevelUp()
         {
+            if (Level >= Data.MaxLevel)
+            {
+                RaiseMaxLevelReached();
+                return;
+            }
+            
             Level++;
 
             _catsPerSpawn = _baseCatsPerSpawn + Level / _catsPerLevelDiv;

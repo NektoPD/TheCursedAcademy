@@ -24,7 +24,6 @@ namespace UI
 
         public void CloseWindow()
         {
-            Debug.LogError("Closing");
             _windowAnimation.Close();
             _windowAnimation.StartTime();
         }

@@ -13,6 +13,7 @@ namespace UI
         [SerializeField] private InventoryFullWindow _inventoryFullWindow;
         [SerializeField] private StatisticsApplicator _statisticApplicator;
         [SerializeField] private CharacterInitializer _initializer;
+        [SerializeField] private MaxLevelReachedWindow _itemMaxLevelReachedWindow;
         [SerializeField] private ExitToMenu _exit;
         [SerializeField] private Reviver _reviver;
 
@@ -66,8 +67,12 @@ namespace UI
             _character.InventoryLimitReached -= InventoryLimitReached;
             _character.NewItemAdded -= OnNewItemAdded;
             _character.ItemSwapped -= OnItemSwapped;
+            _character.Inventory.MaxLevelReached -= OnItemMaxLevelReached;
 
             _character = null;
+
+            if (_character != null)
+                _character.Inventory.MaxLevelReached -= OnItemMaxLevelReached;
         }
 
         private void OnNewItemAdded() => _levelUpWindow.CloseWindow();
@@ -76,6 +81,11 @@ namespace UI
         {
             _levelUpWindow.CloseWindow();
             _inventoryFullWindow.CloseWindow();
+        }
+
+        private void OnItemMaxLevelReached()
+        {
+            _itemMaxLevelReachedWindow.OpenWindow();
         }
 
         private void CacheVignette()
@@ -110,6 +120,7 @@ namespace UI
                 _character.InventoryLimitReached -= InventoryLimitReached;
                 _character.NewItemAdded -= OnNewItemAdded;
                 _character.ItemSwapped -= OnItemSwapped;
+                _character.Inventory.MaxLevelReached -= OnItemMaxLevelReached;
             }
 
             _character = character;
@@ -123,6 +134,7 @@ namespace UI
             if (_inventoryFullWindow != null)
                 _inventoryFullWindow.Initialize(character.Inventory);
 
+            _character.Inventory.MaxLevelReached += OnItemMaxLevelReached;
             _character.StatisticCollected += StatisticApplicate;
             _character.LevelUp += LevelUp;
             _character.Damaged += OnDamaged;

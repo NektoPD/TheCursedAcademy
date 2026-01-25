@@ -15,7 +15,7 @@ MonoBehaviour:
   <HeroSprite>k__BackingField: {fileID: 21300000, guid: ba3e2f3447c71144d947554ae808785b, type: 3}
   <AttackPower>k__BackingField: 15
   <Armor>k__BackingField: 30
-  <Hp>k__BackingField: 100
+  <Hp>k__BackingField: 150
   <HpRegenerationSpeed>k__BackingField: 0.1
   <AttackRegenerationSpeed>k__BackingField: 0.5
   <MoveSpeed>k__BackingField: 2

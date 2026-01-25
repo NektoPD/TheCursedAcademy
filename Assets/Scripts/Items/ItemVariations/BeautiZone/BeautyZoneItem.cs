@@ -76,6 +76,12 @@ namespace Items.ItemVariations.BeautiZone
 
         public override void LevelUp()
         {
+            if (Level >= Data.MaxLevel)
+            {
+                RaiseMaxLevelReached();
+                return;
+            }
+            
             Level++;
 
             Mods.Multiply(Enums.StatVariations.Damage, _damageMultiplierPerLevel);
@@ -91,13 +97,11 @@ namespace Items.ItemVariations.BeautiZone
 
         protected override void UpdateStatsValues()
         {
-            // Current
             ItemStats.SetStatCurrentValue(Enums.StatVariations.AttackSpeed, RuntimeCooldown);
             ItemStats.SetStatCurrentValue(Enums.StatVariations.Damage, RuntimeDamage);
             ItemStats.SetStatCurrentValue(Enums.StatVariations.Radius, _zoneRadius * Mods.GetMult(Enums.StatVariations.Radius));
             ItemStats.SetStatCurrentValue(Enums.StatVariations.Duration, _zoneDuration * Mods.GetMult(Enums.StatVariations.Duration));
 
-            // Next
             ItemStats.SetStatNextValue(Enums.StatVariations.AttackSpeed,
                 GetBaseStat(Enums.StatVariations.AttackSpeed) * (Mods.GetMult(Enums.StatVariations.AttackSpeed) * _cooldownReductionPerLevel));
 

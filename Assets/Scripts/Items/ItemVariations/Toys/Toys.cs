@@ -124,6 +124,12 @@ namespace Items.ItemVariations.Toys
 
         public override void LevelUp()
         {
+            if (Level >= Data.MaxLevel)
+            {
+                RaiseMaxLevelReached();
+                return;
+            }
+            
             Level++;
 
             _damageMultiplier += _damageIncreasePerLevel;

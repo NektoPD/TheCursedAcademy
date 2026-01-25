@@ -76,10 +76,16 @@ namespace Items.ItemVariations
 
         public override void LevelUp()
         {
+            if (Level >= Data.MaxLevel)
+            {
+                RaiseMaxLevelReached();
+                return;
+            }
+            
             Level++;
 
             Mods.Multiply(Enums.StatVariations.AttackSpeed, _cooldownReductionPerLevel);
-            Mods.Multiply(Enums.StatVariations.Damage, _damageIncreasePerLevel); // было +=, станет *=
+            Mods.Multiply(Enums.StatVariations.Damage, _damageIncreasePerLevel);
 
             RuntimeCooldown = GetBaseStat(Enums.StatVariations.AttackSpeed) * Mods.GetMult(Enums.StatVariations.AttackSpeed);
             RuntimeDamage   = GetBaseStat(Enums.StatVariations.Damage) * Mods.GetMult(Enums.StatVariations.Damage);

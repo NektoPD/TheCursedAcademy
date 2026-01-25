@@ -18,7 +18,12 @@ namespace EnemyLogic
         private float _speed;
         private float _attackRange;
         private EnemyAnimator _enemyView;
-
+        private float _attackRangeSqr;
+        private float _lastSpeed;
+        
+        private Vector2 _targetPosition;
+        private bool _targetInRange;
+        
         private bool _canMove = true;
 
         public event Action<Transform> TargetInRange;
@@ -34,30 +39,37 @@ namespace EnemyLogic
             _transform = transform;
             _enemyView = GetComponent<EnemyAnimator>();
         }
-
-        private void FixedUpdate()
+        
+        private void Update()
         {
-            if (_initializer == null)
+            if (!_canMove || _initializer == null)
                 return;
-
-            if (_canMove == false)
-            {
-                _enemyView.SetFloatSpeed(0);
-                return;
-            }
 
             SetRotation(_initializer.PlayerTransform);
 
-            if (Vector2.Distance(GetCurrentPosition(), _initializer.PlayerTransform.position) > _attackRange)
-            {
-                _transform.position = Vector2.MoveTowards(_transform.position, _initializer.PlayerTransform.position, _speed * Time.fixedDeltaTime);
-                _enemyView.SetFloatSpeed(_speed);
-            }
-            else
+            Vector2 delta = GetCurrentPosition() - _initializer.PlayerTransform.position;
+            _targetInRange = delta.sqrMagnitude <= _attackRangeSqr;
+        }
+
+        private void FixedUpdate()
+        {
+            if (!_canMove || _initializer == null)
+                return;
+
+            if (_targetInRange)
             {
                 TargetInRange?.Invoke(_initializer.PlayerTransform);
                 _enemyView.SetFloatSpeed(0);
+                return;
             }
+
+            _transform.position = Vector2.MoveTowards(
+                _transform.position,
+                _initializer.PlayerTransform.position,
+                _speed * Time.fixedDeltaTime
+            );
+
+            _enemyView.SetFloatSpeed(_speed);
         }
 
         public void Initialize(float speed)
@@ -66,18 +78,31 @@ namespace EnemyLogic
             _speed = speed;
         }
 
-        public void SetAttackRange(float range) => _attackRange = range;
+        public void SetAttackRange(float range)
+        {
+            _attackRange = range;
+            _attackRangeSqr = range * range;
+        }
 
         private void Disable() => _canMove = false;
 
         private void Enable() => _canMove = true;
+        
+        private void SetAnimatorSpeed(float speed)
+        {
+            if (Mathf.Approximately(_lastSpeed, speed))
+                return;
+
+            _lastSpeed = speed;
+            _enemyView.SetFloatSpeed(speed);
+        }
 
         private void SetRotation(Transform target)
         {
             if (target.position.x <= transform.position.x)
-                transform.localRotation = Quaternion.Euler(0, _rotationAngle, 0);
+                _transform.localRotation = Quaternion.Euler(0, _rotationAngle, 0);
             else
-                transform.localRotation = Quaternion.Euler(0, 0, 0);
+                _transform.localRotation = Quaternion.Euler(0, 0, 0);
         }
 
         private Vector3 GetCurrentPosition()

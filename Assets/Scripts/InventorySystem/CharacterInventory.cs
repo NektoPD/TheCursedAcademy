@@ -27,6 +27,7 @@ namespace InventorySystem
 
         public event Action<Item> ItemAdded;
         public event Action<Item> ItemRemoved;
+        public event Action MaxLevelReached;
 
         public IReadOnlyList<Item> Items => _collectedItems;
 
@@ -46,8 +47,14 @@ namespace InventorySystem
                 _totalDamageByVariation[variation] = 0f;
 
             item.DamageDealt += OnItemDamageDealt;
+            item.MaxLevelReached += OnItemMaxLevelReached;
 
             ItemAdded?.Invoke(item);
+        }
+
+        private void OnItemMaxLevelReached()
+        {
+            MaxLevelReached?.Invoke();
         }
 
         public void RemoveItem(ItemVariations itemVariations)

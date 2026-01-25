@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: B_RA_Samurai_Archer
   m_EditorClassIdentifier: 
   <NameInAnimator>k__BackingField: Attack
-  <Cooldown>k__BackingField: 6
+  <Cooldown>k__BackingField: 7
   <AttackRange>k__BackingField: 4
   <Damage>k__BackingField: 22.5
   <CountProjectiles>k__BackingField: 1

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: RA_Satyr_1
   m_EditorClassIdentifier: 
   <NameInAnimator>k__BackingField: Attack
-  <Cooldown>k__BackingField: 2
+  <Cooldown>k__BackingField: 4
   <AttackRange>k__BackingField: 3
   <Damage>k__BackingField: 5
   <CountProjectiles>k__BackingField: 1

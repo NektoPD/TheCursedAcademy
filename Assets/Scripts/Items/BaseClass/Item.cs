@@ -35,6 +35,7 @@ namespace Items.BaseClass
 
         public int CurrentLevel => Level;
         public event Action<Enums.ItemVariations, float> DamageDealt;
+        public event Action MaxLevelReached;
 
         public void Initialize(CharacterMovementHandler movementHandler,
             CharacterSoundController characterSoundController)
@@ -65,8 +66,11 @@ namespace Items.BaseClass
 
         public virtual void LevelUp()
         {
-            if (Level <= 3)
-                ItemStats.UpgradeStats(StatVariations);
+            if (Level >= Data.MaxLevel)
+            {
+                RaiseMaxLevelReached();
+                return;
+            }
         }
         
         protected void UpdateUiStat(StatVariations v, float current, float next)
@@ -80,9 +84,14 @@ namespace Items.BaseClass
             return v switch
             {
                 Enums.StatVariations.Damage => Data.Damage,
-                Enums.StatVariations.AttackSpeed => Data.Cooldown, // если у тебя AttackSpeed=Cooldown, ок
+                Enums.StatVariations.AttackSpeed => Data.Cooldown,
                 _ => 0f
             };
+        }
+        
+        protected void RaiseMaxLevelReached()
+        {
+            MaxLevelReached?.Invoke();
         }
 
         protected float GetCurrentStat(StatVariations v) => GetBaseStat(v) * Mods.GetMult(v);

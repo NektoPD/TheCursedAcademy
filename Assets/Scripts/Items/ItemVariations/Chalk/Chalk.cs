@@ -112,6 +112,12 @@ namespace Items.ItemVariations
 
         public override void LevelUp()
         {
+            if (Level >= Data.MaxLevel)
+            {
+                RaiseMaxLevelReached();
+                return;
+            }
+            
             Level++;
 
             _projectilesPerAttack = Mathf.Min(_projectilesPerAttack + _projectileCountIncreasePerLevel, MaxProjectiles);

@@ -69,6 +69,12 @@ namespace Items.ItemVariations.Gum
 
         public override void LevelUp()
         {
+            if (Level >= Data.MaxLevel)
+            {
+                RaiseMaxLevelReached();
+                return;
+            }
+            
             Level++;
 
             Mods.Multiply(Enums.StatVariations.Damage, _damageIncreasePerLevel);

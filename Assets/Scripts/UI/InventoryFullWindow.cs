@@ -36,7 +36,7 @@ namespace UI
 
         private void Start()
         {
-            _betterScrollRect.horizontalNormalizedPosition = 1f;
+            _betterScrollRect.horizontalNormalizedPosition = 0f;
 
             _leftButton.onClick.AddListener(ScrollLeft);
             _rightButton.onClick.AddListener(ScrollRight);

@@ -109,17 +109,12 @@ namespace CharacterLogic
             _levelUpItemApplicator.ItemSelected += OnLevelUpItemSelected;
 
             if (_fullInventoryItemApplicator != null)
-            {
-                Debug.LogError("not null");
                 _fullInventoryItemApplicator.ItemSelected += OnChangeItemSelected;
-            }
-            else
-            {
-                Debug.LogError("null");
-            }
 
             _killedEnemyCounter.ResetCounter();
             _gameStartTime = Time.timeSinceLevelLoad;
+            
+            _levelUpItemApplicator.ItemSelected += OnLevelUpItemSelected;
         }
 
         private void Awake()
@@ -173,7 +168,7 @@ namespace CharacterLogic
             if (_deathSequenceCoroutine != null) return;
             _deathSequenceCoroutine = StartCoroutine(DeathSequenceRoutine());
         }
-
+        
         private IEnumerator DeathSequenceRoutine()
         {
             _isDied = true;
@@ -214,7 +209,6 @@ namespace CharacterLogic
 
         private void OnLevelUpItemSelected(ItemVariations selectedItemVariation)
         {
-            Debug.LogError("selected item");
             Item existingItem = null;
             foreach (var item in _inventory.Items)
             {
@@ -226,6 +220,7 @@ namespace CharacterLogic
             if (existingItem != null)
             {
                 existingItem.LevelUp();
+                NewItemAdded?.Invoke();
             }
             else
             {
@@ -238,7 +233,6 @@ namespace CharacterLogic
 
                 SetupNewItem(selectedItemVariation);
                 NewItemAdded?.Invoke();
-                Debug.LogError("Added");
             }
         }
 
@@ -247,19 +241,14 @@ namespace CharacterLogic
             _inventory.RemoveItem(selectedItemForChangeVariation);
             SetupNewItem(_stashedItemForChange);
             ItemSwapped?.Invoke();
-            Debug.LogError("Swapped");
         }
 
         private void SetupNewItem(ItemVariations selectedItemVariation)
         {
-            Debug.Log("settting " + selectedItemVariation);
-
             Item newItem = _itemsHolder.GetItemByType(selectedItemVariation);
+            
             if (newItem == null)
-            {
-                Debug.LogError("New item " + newItem);
                 return;
-            }
 
             newItem.gameObject.SetActive(true);
             if (newItem.Data.ItemVariation != ItemVariations.Parfume)
