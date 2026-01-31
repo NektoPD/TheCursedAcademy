@@ -102,6 +102,9 @@ namespace CharacterLogic
             _health.HealthRegainedToNormal += _spriteHolder.StopPulsing;
             _collisionHandler.GotExpPoint += OnExperienceGained;
             _collisionHandler.GotHeal += TakeHeal;
+            _collisionHandler.GotMoney += _ => OnCoinGet();
+            _collisionHandler.GotMagnet += OnXpBoostGet;
+            _collisionHandler.GotExpPoint += _ => OnXpGet();
             UpdateExperienceView(_characterLevelController.CurrentExp);
             _levelUpItemApplicator = levelUpItemApplicator;
 
@@ -145,6 +148,7 @@ namespace CharacterLogic
             {
                 _collisionHandler.GotExpPoint -= OnExperienceGained;
                 _collisionHandler.GotHeal -= TakeHeal;
+                _collisionHandler.GotMagnet -= OnXpBoostGet;
             }
 
             if (_characterLevelController != null) _characterLevelController.LeveledUp -= OnLeveledUp;
@@ -164,6 +168,21 @@ namespace CharacterLogic
         private void OnExperienceGained(int value)
         {
             UpdateExperienceView(_characterLevelController.CurrentExp);
+        }
+
+        private void OnCoinGet()
+        {
+            _characterSoundController.EnableSoundByType(SoundType.Coin);
+        }
+
+        private void OnXpGet()
+        {
+            _characterSoundController.EnableSoundByType(SoundType.XpPoint);
+        }
+
+        private void OnXpBoostGet()
+        {
+            _characterSoundController.EnableSoundByType(SoundType.XpBooster);
         }
 
         private void OnHealthDied()
@@ -330,6 +349,7 @@ namespace CharacterLogic
 
         private void AddMaxLevelReward()
         {
+            _characterSoundController.EnableSoundByType(SoundType.MaxLevel);
             _characterSessionWallet.AddMoney(MaxLevelCoinReward);
         }
 

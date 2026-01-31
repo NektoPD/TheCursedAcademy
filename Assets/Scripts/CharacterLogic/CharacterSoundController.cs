@@ -38,6 +38,8 @@ namespace CharacterLogic
         GameOver,
         Coin,
         MaxLevel,
-        FullInventory
+        FullInventory,
+        XpBooster,
+        XpPoint
     }
 }

@@ -25,6 +25,7 @@ namespace CharacterLogic
         public event Action<int> GotMoney;
         public event Action<int> GotExpPoint;
         public event Action<int> GotHeal;
+        public event Action GotMagnet;
 
         private void Update()
         {
@@ -117,6 +118,7 @@ namespace CharacterLogic
                     break;
 
                 case Magnet magnet:
+                    GotMagnet?.Invoke();
                     foreach (var kv in magnet.GetAllActivePickableItems())
                     {
                         if (_items.ContainsKey(kv.Key))
