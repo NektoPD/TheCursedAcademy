@@ -22,12 +22,13 @@ namespace UI
             _clickHandler = GetComponent<ItemClickHandler>();
         }
 
-        public void Initialize(ItemVisualData visualData, bool isNew, int level)
+        public void Initialize(ItemVisualData visualData, bool isNew, int level, bool isMaxLevelReached)
         {
             _textName.text = visualData.Name;
             _textDescription.text = visualData.Description;
             _image.sprite = visualData.Sprite;
-            _textLevel.text = $"{level + 1}";
+
+            _textLevel.text = isMaxLevelReached ? $"{level}" : $"{level + 1}";
 
             _new.gameObject.SetActive(isNew);
 

@@ -82,6 +82,7 @@ namespace UI
 
         private void OnItemMaxLevelReached()
         {
+            _levelUpWindow.CloseUnscaledTime();
             _itemMaxLevelReachedWindow.OpenWindow();
         }
 
@@ -147,7 +148,10 @@ namespace UI
 
         private void LevelUp() => _levelUpWindow.OpenWindow();
 
-        private void InventoryLimitReached() => _inventoryFullWindow.OpenWindow();
+        private void InventoryLimitReached()
+        {
+            _inventoryFullWindow.OpenUnscaledTime();
+        }
 
         private void StatisticApplicate(Statistics statistics)
         {

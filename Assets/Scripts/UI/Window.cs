@@ -32,5 +32,11 @@ namespace UI
         {
             _windowAnimation.Close();
         }
+
+        public virtual void OpenUnscaledTime()
+        {
+            gameObject.SetActive(true);
+            _windowAnimation.Open();
+        }
     }
 }

@@ -46,7 +46,7 @@ namespace UI
                 bool isNew = !visualDatasInInventory.Contains(datas[i]);
                 Item item = _inventory.Items.Where(item => item.VisualData == datas[i]).FirstOrDefault();
                 int level = item == null ? 0 : item.CurrentLevel;
-                _itemsVisual[i].Initialize(datas[i], isNew, level);
+                _itemsVisual[i].Initialize(datas[i], isNew, level, item != null && item.IsMaxLevelReached());
             }
         }
     }

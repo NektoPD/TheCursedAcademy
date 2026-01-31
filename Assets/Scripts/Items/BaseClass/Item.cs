@@ -47,8 +47,6 @@ namespace Items.BaseClass
             RuntimeCooldown = Data.Cooldown;
             RuntimeDamage = Data.Damage;
             
-            Debug.LogError(Level);
-
             UpdateStatsValues();
         }
         
@@ -68,7 +66,11 @@ namespace Items.BaseClass
 
         public virtual void LevelUp()
         {
-            Debug.LogError(Level);
+        }
+
+        public bool IsMaxLevelReached()
+        {
+            return CurrentLevel >= Data.MaxLevel;
         }
         
         protected void UpdateUiStat(StatVariations v, float current, float next)

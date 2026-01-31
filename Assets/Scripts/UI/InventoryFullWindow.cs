@@ -17,12 +17,11 @@ namespace UI
         [SerializeField] private List<ItemView> _itemsVisual;
         [SerializeField] private ItemApplicatorCurrentOnly _applicator;
         [SerializeField] private BetterScrollRect _betterScrollRect;
-        
+
         [SerializeField] private UnityEngine.UI.Button _leftButton;
         [SerializeField] private UnityEngine.UI.Button _rightButton;
 
-        [SerializeField, Range(0.05f, 0.5f)]
-        private float _scrollStep = 0.2f;
+        [SerializeField, Range(0.05f, 0.5f)] private float _scrollStep = 0.2f;
 
         private ItemsHolder _itemsHolder;
         private CharacterInventory _inventory;
@@ -41,7 +40,7 @@ namespace UI
             _leftButton.onClick.AddListener(ScrollLeft);
             _rightButton.onClick.AddListener(ScrollRight);
         }
-        
+
         private void Update()
         {
             _leftButton.interactable = _betterScrollRect.horizontalNormalizedPosition > 0f;
@@ -74,7 +73,7 @@ namespace UI
             }
         }
 
-        public override void OpenWindow()
+        public override void OpenUnscaledTime()
         {
             List<ItemVisualData> visualDatasInInventory = _inventory.Items.Select(item => item.VisualData).ToList();
 
@@ -89,11 +88,17 @@ namespace UI
                 if (_inventory.Items.Count - 1 >= i)
                 {
                     if (_inventory.Items[i] == null)
+                    {
+                        Debug.Log(_inventory.Items[i]);
                         continue;
+                    }
 
                     int level = _inventory.Items[i] ? 0 : _inventory.Items[i].CurrentLevel;
                     _itemsVisual[i].gameObject.SetActive(true);
-                    _itemsVisual[i].Initialize(_inventory.Items[i].VisualData, false, level);
+                    _itemsVisual[i].Initialize(_inventory.Items[i].VisualData, false, level,
+                        _inventory.Items[i].IsMaxLevelReached());
+                    
+                    Debug.Log(_inventory.Items[i].VisualData);
                     continue;
                 }
 

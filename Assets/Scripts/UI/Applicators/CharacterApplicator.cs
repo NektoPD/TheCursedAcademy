@@ -40,6 +40,7 @@ namespace UI.Applicators
         {
             base.OnEnable();
             _play.onClick.AddListener(OnPlayClick);
+            _play.interactable = true;
         }
 
         protected override void OnDisable()
@@ -71,6 +72,8 @@ namespace UI.Applicators
 
         private void OnPlayClick()
         {
+            _play.interactable = false;
+            
             PlayerPrefs.SetInt(Key, (int)CurrentItem.Data.Type);
             _changer.ChangeScene(_gameIdScene);
         }

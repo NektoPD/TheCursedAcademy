@@ -35,6 +35,9 @@ namespace CharacterLogic
         Slingshot,
         Zone,
         Heal,
-        GameOver
+        GameOver,
+        Coin,
+        MaxLevel,
+        FullInventory
     }
 }

@@ -15,7 +15,7 @@ namespace Items.Stats
         [SerializeField] private float _step;
         [SerializeField] private StatVariations _variation;
         
-        public Stat() { } // оставь для Unity/serialization
+        public Stat() { }
 
         public Stat(Stat other)
         {

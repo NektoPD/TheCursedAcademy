@@ -30,8 +30,6 @@ namespace UI.Applicators
         {
             base.OnEnable();
             _ok.onClick.AddListener(AddItem);
-
-            _ok.interactable = true;
         }
 
         protected override void OnDisable()
@@ -67,6 +65,16 @@ namespace UI.Applicators
 
                 if (owned)
                 {
+                    if (item.IsMaxLevelReached())
+                    {
+                        AddStat(
+                            stat.Name,
+                            $"{current:F2}"
+                        );
+                        
+                        return;
+                    }
+                    
                     AddStat(
                         stat.Name,
                         $"{current:F2} -> {next:F2}"
@@ -76,7 +84,7 @@ namespace UI.Applicators
                 {
                     AddStat(
                         stat.Name,
-                        $"0.00 -> {current:F2}"
+                        $"{current:F2}"
                     );
                 }
             }
@@ -104,10 +112,6 @@ namespace UI.Applicators
 
         private void AddItem()
         {
-            if (_ok.interactable == false) return;
-
-            _ok.interactable = false;
-
             ItemSelected?.Invoke(CurrentItem.Variation);
         }
 

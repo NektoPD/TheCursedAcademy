@@ -12,19 +12,25 @@ namespace UI
         [SerializeField] private Sprite _lockedChest;
         [SerializeField] private Sprite _openChest;
 
-        public void ShowMaxLevelAnimation()
+        public override void OpenWindow()
         {
-            gameObject.SetActive(true);
+            base.OpenWindow();
 
             _image.sprite = _lockedChest;
             _image.transform.localScale = Vector3.one;
 
-            var seq = DOTween.Sequence();
+            var seq = DOTween.Sequence()
+                .SetUpdate(true);
 
-            seq.Append(_image.transform.DOScale(1.2f, 0.5f).SetLoops(2, LoopType.Yoyo).SetUpdate(true))
+            seq.Append(_image.transform
+                    .DOScale(1.2f, 0.5f)
+                    .SetLoops(2, LoopType.Yoyo))
                 .AppendCallback(() => _image.sprite = _openChest)
-                .Append(_image.transform.DOScale(1.3f, 1f).SetLoops(2, LoopType.Yoyo).SetUpdate(true))
-                .AppendCallback(() => CloseWindow());
+                .Append(_image.transform
+                    .DOScale(1.3f, 1f)
+                    .SetLoops(2, LoopType.Yoyo))
+                .AppendCallback(CloseWindow);
         }
+
     }
 }

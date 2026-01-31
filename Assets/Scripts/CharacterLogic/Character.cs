@@ -30,6 +30,8 @@ namespace CharacterLogic
     public class Character : MonoBehaviour, IStatisticsTransmitter, IDamageable
     {
         private const string TutorialSceneName = "Tutorial";
+        private const int MaxLevelCoinReward = 30;
+        
         [SerializeField] private CharacterInventoryUI _inventoryUI;
         [SerializeField] private bool _cameraOnCharacter;
         [SerializeField] private Canvas _characterCanvas;
@@ -93,6 +95,9 @@ namespace CharacterLogic
             _animationController.SetAnimatorOverride(characterData.AnimatorController);
             _movementHandler.MovingLeft += OnMovingLeft;
             _movementHandler.MovingRight += OnMovingRight;
+            //_health.Died += _spriteHolder.StopPulsing;
+            //_health.Died += OnHealthDied;
+            //_health.Changed += UpdateHealthView;
             _health.LowHealth += _spriteHolder.StartPulsing;
             _health.HealthRegainedToNormal += _spriteHolder.StopPulsing;
             _collisionHandler.GotExpPoint += OnExperienceGained;
@@ -134,6 +139,8 @@ namespace CharacterLogic
             _health.Died -= _spriteHolder.StopPulsing;
             _health.Died -= OnHealthDied;
             _health.HealthRegainedToNormal -= _spriteHolder.StopPulsing;
+            _inventory.MaxLevelReached -= AddMaxLevelReward;
+            
             if (_collisionHandler != null)
             {
                 _collisionHandler.GotExpPoint -= OnExperienceGained;
@@ -321,6 +328,11 @@ namespace CharacterLogic
             HealthChanged?.Invoke(_health.CurrentHealth, _hp);
         }
 
+        private void AddMaxLevelReward()
+        {
+            _characterSessionWallet.AddMoney(MaxLevelCoinReward);
+        }
+
         public void Revive()
         {
             _isDied = false;
@@ -364,6 +376,7 @@ namespace CharacterLogic
             _attacker.Initialize(_inventory, _attackCooldown);
             _inventoryUI.DisableAllSlots();
             _inventoryUI.Initialize(_inventory);
+            _inventory.MaxLevelReached += AddMaxLevelReward;
             _characterSessionWallet = new CharacterSessionWallet();
             _characterLevelController = new CharacterLevelController();
             _characterSessionWallet.Initialize(_collisionHandler);
