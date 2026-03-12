@@ -8,56 +8,9 @@
     "modules": [
         {
             "name": "PluginYG2",
-            "version": "2.007",
+            "version": "2.008",
             "download": "https://max-games.ru/public/pluginYG2/other/PluginYG2.unitypackage",
             "doc": "https://max-games.ru/plugin-yg/doc/"
-        },
-        {
-            "name": "YandexGames",
-            "version": "1.007",
-            "download": "https://max-games.ru/public/pluginYG2/platforms/YandexGames.unitypackage",
-            "doc": "https://max-games.ru/plugin-yg/yandexgames/",
-            "platform": true
-        },
-        {
-            "name": "CrazyGames",
-            "version": "1.041",
-            "download": "https://boosty.to/maximalist/posts/75f8b5d7-6d88-4de7-a94d-e27750bc445d?share=post_link",
-            "noLoad": true,
-            "doc": "https://max-games.ru/crazy/",
-            "platform": true
-        },
-        {
-            "name": "Appodeal",
-            "version": "1.0",
-            "download": "https://boosty.to/maximalist/posts/4595721f-59f6-4c0b-a911-544a00ab74ae",
-            "noLoad": true,
-            "doc": "https://max-games.ru/appodeal/",
-            "platform": true
-        },
-        {
-            "name": "GamePix",
-            "version": "1.0",
-            "download": "https://boosty.to/maximalist/posts/9c7554d6-f125-4061-8d9d-0c6b92303516",
-            "noLoad": true,
-            "doc": "https://max-games.ru/gamepix/",
-            "platform": true
-        },
-        {
-            "name": "GameDistribution",
-            "version": "1.0",
-            "download": "https://boosty.to/maximalist/posts/fb6407c1-b9f3-45f2-997c-db05fa36c0c9",
-            "noLoad": true,
-            "doc": "https://max-games.ru/game-distribution/",
-            "platform": true
-        },
-        {
-            "name": "Y8",
-            "version": "1.0",
-            "download": "https://boosty.to/maximalist/posts/9692be38-50e9-4b51-a5ac-5ffd316409ca",
-            "noLoad": true,
-            "doc": "https://max-games.ru/y8/",
-            "platform": true
         },
         {
             "name": "InterstitialAdv",
@@ -112,7 +65,7 @@
         },
         {
             "name": "Localization",
-            "version": "1.01",
+            "version": "1.02",
             "download": "https://max-games.ru/public/pluginYG2/modules/Localization.unitypackage",
             "doc": "https://max-games.ru/plugin-yg/doc/lang/"
         },
@@ -204,10 +157,42 @@
             "doc": "https://max-games.ru/banner/"
         },
         {
-            "name": "WelwiseGames",
+            "name": "YandexGames",
+            "version": "1.008",
+            "download": "https://max-games.ru/public/pluginYG2/platforms/YandexGames.unitypackage",
+            "doc": "https://max-games.ru/plugin-yg/yandexgames/",
+            "platform": true
+        },
+        {
+            "name": "YandexMobileAds",
             "version": "1.0",
-            "download": "https://max-games.ru/public/pluginYG2/platforms/WelwiseGames.unitypackage",
-            "doc": "https://max-games.ru/plugin-yg/welwise/",
+            "download": "https://boosty.to/maximalist/posts/eb519b99-798b-4fcb-8cc6-0445ad171c85",
+            "noLoad": true,
+            "doc": "https://max-games.ru/plugin-yg/doc/Yandex-Mobile-Ads/",
+            "platform": true
+        },
+        {
+            "name": "CrazyGames",
+            "version": "1.041",
+            "download": "https://boosty.to/maximalist/posts/75f8b5d7-6d88-4de7-a94d-e27750bc445d?share=post_link",
+            "noLoad": true,
+            "doc": "https://max-games.ru/crazy/",
+            "platform": true
+        },
+        {
+            "name": "GamePix",
+            "version": "1.0",
+            "download": "https://boosty.to/maximalist/posts/9c7554d6-f125-4061-8d9d-0c6b92303516",
+            "noLoad": true,
+            "doc": "https://max-games.ru/gamepix/",
+            "platform": true
+        },
+        {
+            "name": "GameDistribution",
+            "version": "1.0",
+            "download": "https://boosty.to/maximalist/posts/fb6407c1-b9f3-45f2-997c-db05fa36c0c9",
+            "noLoad": true,
+            "doc": "https://max-games.ru/game-distribution/",
             "platform": true
         },
         {
@@ -217,6 +202,36 @@
             "noLoad": true,
             "doc": "https://max-games.ru/gamemonetize/",
             "platform": true
+        },
+        {
+            "name": "Y8",
+            "version": "1.0",
+            "download": "https://boosty.to/maximalist/posts/9692be38-50e9-4b51-a5ac-5ffd316409ca",
+            "noLoad": true,
+            "doc": "https://max-games.ru/y8/",
+            "platform": true
+        },
+        {
+            "name": "Appodeal",
+            "version": "1.0",
+            "download": "https://boosty.to/maximalist/posts/4595721f-59f6-4c0b-a911-544a00ab74ae",
+            "noLoad": true,
+            "doc": "https://max-games.ru/appodeal/",
+            "platform": true
+        },
+        {
+            "name": "WelwiseGames",
+            "version": "1.0",
+            "download": "https://max-games.ru/public/pluginYG2/platforms/WelwiseGames.unitypackage",
+            "doc": "https://max-games.ru/plugin-yg/welwise/",
+            "platform": true
+        },
+        {
+            "name": "MobileADBConnect",
+            "version": "1.0",
+            "download": "https://max-games.ru/public/pluginYG2/other/MobileADBConnect.unitypackage",
+            "doc": "https://max-games.ru/plugin-yg/doc/adb-connect/",
+            "tool": true
         }
     ]
 }

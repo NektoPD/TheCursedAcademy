@@ -95,9 +95,9 @@ namespace CharacterLogic
             _animationController.SetAnimatorOverride(characterData.AnimatorController);
             _movementHandler.MovingLeft += OnMovingLeft;
             _movementHandler.MovingRight += OnMovingRight;
-            //_health.Died += _spriteHolder.StopPulsing;
-            //_health.Died += OnHealthDied;
-            //_health.Changed += UpdateHealthView;
+            _health.Died += _spriteHolder.StopPulsing;
+            _health.Died += OnHealthDied;
+            _health.Changed += UpdateHealthView;
             _health.LowHealth += _spriteHolder.StartPulsing;
             _health.HealthRegainedToNormal += _spriteHolder.StopPulsing;
             _collisionHandler.GotExpPoint += OnExperienceGained;

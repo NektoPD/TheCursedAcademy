@@ -6,12 +6,39 @@
   <component name="ChangeListManager">
     <list default="true" id="2352e6f7-7a00-4256-b434-98f90d0b0896" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.TheCursedAcademy/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TheCursedAcademy/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Animations/PlayerAnimations/Girl1/CharacterAnimationController.controller" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Animations/PlayerAnimations/Girl1/CharacterAnimationController.controller" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Configs/CharacterConfigs/Girl1.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Configs/CharacterConfigs/Girl1.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Configs/ItemConfigs/Chalk.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Configs/ItemConfigs/Chalk.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/PluginYourGames/Editor/BuildLogYG2.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/PluginYourGames/Editor/BuildLogYG2.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/PluginYourGames/Editor/ModulesListYG2.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/PluginYourGames/Editor/ModulesListYG2.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/PluginYourGames/Editor/SavesEditorYG2.json" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/PluginYourGames/Editor/SavesEditorYG2.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/PlayerSoundController.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/PlayerSoundController.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/PluginYourGames/Editor/ServerInfoYG2.json" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/PluginYourGames/Editor/ServerInfoYG2.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/PluginYourGames/Modules/Localization/Scripts/UtilsLang.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/PluginYourGames/Modules/Localization/Scripts/UtilsLang.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/PluginYourGames/Modules/Localization/Version.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/PluginYourGames/Modules/Localization/Version.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/PluginYourGames/Platforms/YandexGames/Version.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/PluginYourGames/Platforms/YandexGames/Version.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/PluginYourGames/Scripts/Basic/YG2.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/PluginYourGames/Scripts/Basic/YG2.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/PluginYourGames/Scripts/EditorScr/DefineSymbols.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/PluginYourGames/Scripts/EditorScr/DefineSymbols.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/PluginYourGames/Scripts/EditorScr/Module.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/PluginYourGames/Scripts/EditorScr/Module.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/PluginYourGames/Scripts/InfoYG/BasicSettings.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/PluginYourGames/Scripts/InfoYG/BasicSettings.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/PluginYourGames/Scripts/InfoYG/Editor/InfoYGEditorWindow.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/PluginYourGames/Scripts/InfoYG/Editor/InfoYGEditorWindow.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/PluginYourGames/Scripts/InfoYG/InfoYGReferences.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/PluginYourGames/Scripts/InfoYG/InfoYGReferences.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/PluginYourGames/Scripts/InfoYG/InfoYG_lang.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/PluginYourGames/Scripts/InfoYG/InfoYG_lang.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/PluginYourGames/Scripts/Other/PauseGameYG.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/PluginYourGames/Scripts/Other/PauseGameYG.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/PluginYourGames/Scripts/Platform/Editor/PlatformSettingsEditor.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/PluginYourGames/Scripts/Platform/Editor/PlatformSettingsEditor.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/PluginYourGames/Scripts/Server/Editor/NotificationUpdateWindow.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/PluginYourGames/Scripts/Server/Editor/NotificationUpdateWindow.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/PluginYourGames/Scripts/Server/Editor/Utils/ModulesInstaller.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/PluginYourGames/Scripts/Server/Editor/Utils/ModulesInstaller.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/PluginYourGames/Scripts/Server/Editor/Utils/ModulesList.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/PluginYourGames/Scripts/Server/Editor/Utils/ModulesList.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/PluginYourGames/Scripts/Server/Editor/VersionControlWindow.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/PluginYourGames/Scripts/Server/Editor/VersionControlWindow.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/PluginYourGames/Scripts/Server/ModuleJson.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/PluginYourGames/Scripts/Server/ModuleJson.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/PluginYourGames/Version.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/PluginYourGames/Version.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Characters/CharacterPrefab.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Characters/CharacterPrefab.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/BootScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/BootScene.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/TestGameScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/TestGameScene.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/CharacterLogic/Character.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CharacterLogic/Character.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CharacterLogic/CharacterCollisionHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CharacterLogic/CharacterCollisionHandler.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CharacterLogic/CharacterSoundController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CharacterLogic/CharacterSoundController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/TextMesh Pro/Resources/Fonts &amp; Materials/LiberationSans SDF - Fallback.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/TextMesh Pro/Resources/Fonts &amp; Materials/LiberationSans SDF - Fallback.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/WebGLTemplates/YandexGames/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/WebGLTemplates/YandexGames/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/YandexGame/ScriptsYG/ImageLoadYG.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/YandexGame/ScriptsYG/ImageLoadYG.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,6 +73,8 @@
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/CameraExtensions/CameraDeathZoom.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/CameraExtensions/CameraShake.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/CharacterLogic/Character.cs.meta" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/CharacterLogic/CharacterAbylities/AbilityType.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/CharacterLogic/CharacterAbylities/FireblastAbility.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/CharacterLogic/CharacterAttacker.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/EnemyLogic/EnemyDamageTaker.cs.meta" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/EnemyLogic/EnemyDamageView.cs.meta" root0="FORCE_HIGHLIGHTING" />
@@ -267,7 +296,12 @@
       <workItem from="1769267929027" duration="14835000" />
       <workItem from="1769323965590" duration="20804000" />
       <workItem from="1769849784320" duration="5250000" />
-      <workItem from="1769858036042" duration="7460000" />
+      <workItem from="1769858036042" duration="8166000" />
+      <workItem from="1770309291824" duration="3322000" />
+      <workItem from="1770462672948" duration="931000" />
+      <workItem from="1770472209170" duration="846000" />
+      <workItem from="1772218682768" duration="1028000" />
+      <workItem from="1773336446710" duration="2711000" />
     </task>
     <servers />
   </component>
