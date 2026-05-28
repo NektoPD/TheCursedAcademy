@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 2bafe8b393e026f4392f613500f0486e
+guid: 5155f2ed77ca14342889d26f6507ba5c
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -110,13 +110,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Firebolt SpriteSheet_0
+      name: spritesheet_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 50
-        height: 48
+        width: 80
+        height: 80
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -124,20 +124,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: af7c50749d0e994499c1924109e52380
-      internalID: 1844297582
+      spriteID: a0249a85dfacf144b92e9ec4dd209a46
+      internalID: 1066562709
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Firebolt SpriteSheet_1
+      name: spritesheet_1
       rect:
         serializedVersion: 2
-        x: 50
+        x: 80
         y: 0
-        width: 50
-        height: 48
+        width: 80
+        height: 80
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -145,20 +145,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ef355a6a56dbcc540a58dc35de34d06b
-      internalID: -2044052042
+      spriteID: 448cd31c59f37814ba7bb797b01e84d7
+      internalID: -1067299707
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Firebolt SpriteSheet_2
+      name: spritesheet_2
       rect:
         serializedVersion: 2
-        x: 100
+        x: 160
         y: 0
-        width: 50
-        height: 48
+        width: 80
+        height: 80
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -166,20 +166,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: dfb668781a5dca247a333de5967c8e68
-      internalID: 286659034
+      spriteID: a9ac7ae3d714b7b4cb8caf74e2e8ca17
+      internalID: 1305904125
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Firebolt SpriteSheet_3
+      name: spritesheet_3
       rect:
         serializedVersion: 2
-        x: 150
+        x: 240
         y: 0
-        width: 50
-        height: 48
+        width: 80
+        height: 80
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -187,20 +187,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9b3f2436cc4e19541829812c45582540
-      internalID: -1765584816
+      spriteID: a529d3d444268e94a83723e6a423ce6b
+      internalID: 1668575502
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Firebolt SpriteSheet_4
+      name: spritesheet_4
       rect:
         serializedVersion: 2
-        x: 250
+        x: 320
         y: 0
-        width: 50
-        height: 48
+        width: 80
+        height: 80
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -208,62 +208,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bbf0ff0bf2b654949b881f719d4c356a
-      internalID: -1386959796
+      spriteID: 14b0b412ce9cea64ea269fb806237c44
+      internalID: -1717611449
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Firebolt SpriteSheet_5
-      rect:
-        serializedVersion: 2
-        x: 300
-        y: 0
-        width: 50
-        height: 48
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 2d8928fd7eb670a48834413f3450e5fa
-      internalID: -1335967826
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Firebolt SpriteSheet_6
-      rect:
-        serializedVersion: 2
-        x: 350
-        y: 0
-        width: 50
-        height: 48
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: f5d3a1c824bc547489e3e1dc53aa984c
-      internalID: 685935284
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Firebolt SpriteSheet_7
+      name: spritesheet_5
       rect:
         serializedVersion: 2
         x: 400
         y: 0
-        width: 50
-        height: 48
+        width: 80
+        height: 80
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -271,29 +229,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 22a382495a3d02f45994e24e5b102e28
-      internalID: 1742214779
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Firebolt SpriteSheet_8
-      rect:
-        serializedVersion: 2
-        x: 450
-        y: 0
-        width: 50
-        height: 48
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: ec294fd8f4c9a1946afaeb4c4804323e
-      internalID: 1749966051
+      spriteID: 8efe25b45e544274c9fac7575c2df9e8
+      internalID: 913304596
       vertices: []
       indices: 
       edges: []
@@ -309,15 +246,12 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Firebolt SpriteSheet_0: 1844297582
-      Firebolt SpriteSheet_1: -2044052042
-      Firebolt SpriteSheet_2: 286659034
-      Firebolt SpriteSheet_3: -1765584816
-      Firebolt SpriteSheet_4: -1386959796
-      Firebolt SpriteSheet_5: -1335967826
-      Firebolt SpriteSheet_6: 685935284
-      Firebolt SpriteSheet_7: 1742214779
-      Firebolt SpriteSheet_8: 1749966051
+      spritesheet_0: 1066562709
+      spritesheet_1: -1067299707
+      spritesheet_2: 1305904125
+      spritesheet_3: 1668575502
+      spritesheet_4: -1717611449
+      spritesheet_5: 913304596
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

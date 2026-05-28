@@ -1,8 +1,10 @@
 using Data;
 using Data.ExpPointsData;
+using Difficulties;
 using Pools;
 using UnityEngine;
 using Utils;
+using Zenject;
 
 namespace PickableItems
 {
@@ -15,10 +17,17 @@ namespace PickableItems
         private ResizeCollider _resizeCollider;
         private Animator _animator;
         private ExpPoint _prefab;
+        private XpWaveScaler _xpWaveScaler;
 
         public int Value => _point;
 
         public ExpPoint Prefab => _prefab;
+
+        [Inject]
+        private void Construct(XpWaveScaler xpWaveScaler)
+        {
+            _xpWaveScaler = xpWaveScaler;
+        }
 
         private void Awake()
         {
@@ -32,7 +41,8 @@ namespace PickableItems
             ExpPointData expPointData = data as ExpPointData;
 
             _prefab = data.Prefab;
-            _point = expPointData.Point;
+            int basePoint = expPointData.Point;
+            _point = _xpWaveScaler != null ? _xpWaveScaler.Scale(basePoint) : basePoint;
             _pool = pool;
             _spriteRenderer.sprite = expPointData.Sprite;
             _resizeCollider.Resize();

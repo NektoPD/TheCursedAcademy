@@ -18,7 +18,6 @@ namespace Difficulties
         private const string CooldownKey = "DifficultyCooldown";
         private const string MaxEnemyKey = "DifficultyMaxEnemy";
 
-        // IMPORTANT: боссы у теб€ 1000+, поэтому порог должен быть 1000 (а не 100)
         private const int BossMinId = 1000;
 
         [Header("Spawn")]
@@ -27,6 +26,10 @@ namespace Difficulties
         [Header("Tuning")]
         [SerializeField] private float _cooldownChangeForWave = 0.1f;
 
+        [Header("XP tuning (per wave)")]
+        [SerializeField] private float _xpBaseMultiplier = 1f;
+        [SerializeField] private float _xpGrowthPerWave = 1.15f;
+
         [Header("Fallback defaults (if PlayerPrefs empty)")]
         [SerializeField] private float _defaultCooldown = 1f;
         [SerializeField] private int _defaultMaxEnemy = 100;
@@ -34,8 +37,8 @@ namespace Difficulties
         private EnemyPool _enemyPool;
         private TimeTracker<DifficultyData> _timeTracker;
         private List<EnemyData> _enemyDataList;
+        private XpWaveScaler _xpWaveScaler;
 
-        // ids текущей волны
         private readonly List<int> _regularIds = new();
         private readonly Queue<int> _bossSpawnQueue = new();
 
@@ -46,17 +49,26 @@ namespace Difficulties
         private int _maxEnemy;
 
         private bool _canSpawn = true;
+        private int _waveIndex = 0;
 
         [Inject]
-        public void Construct(EnemyPool enemyPool, List<EnemyData> enemyDataList)
+        public void Construct(EnemyPool enemyPool, List<EnemyData> enemyDataList, XpWaveScaler xpWaveScaler)
         {
             _enemyPool = enemyPool;
             _enemyDataList = enemyDataList;
+            _xpWaveScaler = xpWaveScaler;
         }
 
         private void Awake()
         {
             _timeTracker = new TimeTracker<DifficultyData>(DataKey);
+
+            _waveIndex = 0;
+            if (_xpWaveScaler != null)
+            {
+                _xpWaveScaler.Configure(_xpBaseMultiplier, _xpGrowthPerWave);
+                _xpWaveScaler.SetWaveIndex(_waveIndex);
+            }
 
             _cooldown = PlayerPrefs.HasKey(CooldownKey)
                 ? PlayerPrefs.GetFloat(CooldownKey)
@@ -90,7 +102,6 @@ namespace Difficulties
 
         private void Update()
         {
-            // обычный спавн (не босс)
             if (!_canSpawn)
                 return;
 
@@ -100,7 +111,6 @@ namespace Difficulties
             var enemy = GetRandomRegularEnemy();
             if (enemy == null)
             {
-                // Ќ» ј ќ√ќ "залипани€": если никого не нашли, просто уйдЄм в кулдаун
                 _canSpawn = false;
                 _cooldownRoutine = StartCoroutine(Cooldown());
                 return;
@@ -116,11 +126,13 @@ namespace Difficulties
 
         private void OnWaveChanged(DifficultyData data)
         {
-            // 1) обновл€ем списки волны
+            if (_xpWaveScaler != null)
+                _xpWaveScaler.SetWaveIndex(_waveIndex);
+            _waveIndex++;
+
             _regularIds.Clear();
             _bossSpawnQueue.Clear();
 
-            // делим ids на обычных и боссов
             foreach (var id in data.EnemyIds)
             {
                 if (id >= BossMinId)
@@ -129,10 +141,8 @@ namespace Difficulties
                     _regularIds.Add(id);
             }
 
-            // 2) кулдаун усложнени€
             _cooldown = Mathf.Clamp01(_cooldown - _cooldownChangeForWave);
 
-            // 3) гарантированно запускаем спавн боссов этой волны
             if (_bossRoutine != null)
                 StopCoroutine(_bossRoutine);
 
@@ -150,7 +160,6 @@ namespace Difficulties
             var data = _enemyDataList.FirstOrDefault(e => e.Id == id);
             if (data == null)
             {
-                // если данных нет Ч убираем плохой id, чтобы не упиратьс€ в него посто€нно
                 _regularIds.Remove(id);
                 return null;
             }
@@ -162,7 +171,6 @@ namespace Difficulties
         {
             while (_bossSpawnQueue.Count > 0)
             {
-                // ждЄм, пока будет место под врага (учитываем общий лимит)
                 while (_enemyPool.Active >= _maxEnemy)
                     yield return null;
 
@@ -185,8 +193,6 @@ namespace Difficulties
                 enemy.transform.position =
                     OffscreenPositionGenerator.GetRandomPositionOutsideCamera(_offset);
 
-                // чтобы боссы не спавнились "в одну точку/в один кадр", можно дать микро-паузу
-                // (можешь убрать или поставить 0)
                 yield return new WaitForSeconds(0.05f);
             }
         }

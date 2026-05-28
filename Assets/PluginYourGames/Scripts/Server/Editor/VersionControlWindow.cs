@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -13,6 +14,7 @@ namespace YG.EditorScr
     {
         public const string REMOVE_BEFORE_IMPORT_TOGGLE_KEY = "RemoveBeforeImport_YG2";
         public const string SELECT_MODULES_KEY = "SelectModuleToggle_YG2";
+        public const PrefsList.StoreType SELECT_MODULES_STORE = PrefsList.StoreType.PluginPrefs;
         private const string TAB_KEY = "YG2_VersionControl_Tab";
         private enum TabSection { Modules = 0, Platforms = 1, Tools = 2 }
         private static TabSection currentTab = TabSection.Modules;
@@ -85,6 +87,12 @@ namespace YG.EditorScr
             ApplyTabFilterAndBuildVisibleList();
         }
 
+        private void RefreshLocalVersionInfo()
+        {
+            AssetDatabase.Refresh(ImportAssetOptions.ForceSynchronousImport);
+            DefineSymbols.ModulesDefineSymbols();
+        }
+
         private void ApplyTabFilterAndBuildVisibleList()
         {
             IEnumerable<Module> filtered = modulesAll;
@@ -114,7 +122,7 @@ namespace YG.EditorScr
                     nameModule = SELECT_MODULES_KEY,
                     projectVersion = "0",
                     doc = modules[0].doc,
-                    select = PrefsList.Contains(SELECT_MODULES_KEY, SELECT_MODULES_KEY)
+                    select = PrefsList.Contains(SELECT_MODULES_KEY, SELECT_MODULES_KEY, SELECT_MODULES_STORE)
                 };
                 modules.Insert(0, allModule);
             }
@@ -143,6 +151,7 @@ namespace YG.EditorScr
 
             if (FastButton.Stringy(Langs.updateInfo))
             {
+                RefreshLocalVersionInfo();
                 InitData(null);
                 Server.LoadServerInfo();
             }
@@ -189,10 +198,12 @@ namespace YG.EditorScr
             {
                 scrollPosition = scroll.scrollPosition;
 
+                bool hasSelectPanel = modules.Count > 1;
+
                 for (int i = 0; i < modules.Count; i++)
                 {
                     Module module = modules[i];
-                    bool isSelectPanel = i == 0;
+                    bool isSelectPanel = hasSelectPanel && i == 0;
 
                     using (new GUILayout.HorizontalScope(isSelectPanel || !EditorUtils.IsMouseOverWindow(this) ? YGEditorStyles.deselectable : YGEditorStyles.selectable))
                     {
@@ -260,18 +271,18 @@ namespace YG.EditorScr
                                     for (int k = 1; k < modules.Count; k++)
                                     {
                                         modules[k].select = true;
-                                        PrefsList.Add(SELECT_MODULES_KEY, modules[k].nameModule);
+                                        PrefsList.Add(SELECT_MODULES_KEY, modules[k].nameModule, SELECT_MODULES_STORE);
                                     }
-                                    PrefsList.Add(SELECT_MODULES_KEY, SELECT_MODULES_KEY);
+                                    PrefsList.Add(SELECT_MODULES_KEY, SELECT_MODULES_KEY, SELECT_MODULES_STORE);
                                 }
                                 else
                                 {
                                     for (int k = 1; k < modules.Count; k++)
                                         modules[k].select = false;
 
-                                    PrefsList.Remove(SELECT_MODULES_KEY, SELECT_MODULES_KEY);
+                                    PrefsList.Remove(SELECT_MODULES_KEY, SELECT_MODULES_KEY, SELECT_MODULES_STORE);
                                     for (int k = 1; k < modules.Count; k++)
-                                        PrefsList.Remove(SELECT_MODULES_KEY, modules[k].nameModule);
+                                        PrefsList.Remove(SELECT_MODULES_KEY, modules[k].nameModule, SELECT_MODULES_STORE);
                                 }
                             }
                         }
@@ -284,12 +295,12 @@ namespace YG.EditorScr
                             {
                                 if (module.select)
                                 {
-                                    PrefsList.Add(SELECT_MODULES_KEY, module.nameModule);
+                                    PrefsList.Add(SELECT_MODULES_KEY, module.nameModule, SELECT_MODULES_STORE);
                                 }
                                 else
                                 {
-                                    PrefsList.Remove(SELECT_MODULES_KEY, module.nameModule);
-                                    PrefsList.Remove(SELECT_MODULES_KEY, SELECT_MODULES_KEY);
+                                    PrefsList.Remove(SELECT_MODULES_KEY, module.nameModule, SELECT_MODULES_STORE);
+                                    PrefsList.Remove(SELECT_MODULES_KEY, SELECT_MODULES_KEY, SELECT_MODULES_STORE);
                                     modules[0].select = false;
                                 }
                             }
@@ -339,7 +350,7 @@ namespace YG.EditorScr
                             else
                                 drawName = TextStyles.AddSpaces(drawName);
 
-                            // можно добавить визуальную пометку
+                            // Визуальная пометка
 
                             //if (module.platform)
                             //    drawName += " - platform";
@@ -400,7 +411,7 @@ namespace YG.EditorScr
 
                             if (imported)
                             {
-                                if (!ModulesInstaller.IsModuleCurrentVersion(module) && module.critical)
+                                if (!ModulesInstaller.IsModuleCurrentVersion(module) && ModulesInstaller.IsCriticalUpdate(module))
                                     GUI.Label(labelRect, projectVersionStr, TextStyles.Red());
                                 else
                                     GUI.Label(labelRect, projectVersionStr);
@@ -449,10 +460,10 @@ namespace YG.EditorScr
                                                 executeInstall = false;
                                         }
 
-                                        if (executeInstall)
+                                        if (executeInstall && ModulesInstaller.ApprovalDependencies(allowModules))
                                         {
                                             for (int m = 0; m < allowModules.Count; m++)
-                                                ModuleQueue.AddList(allowModules[m].nameModule);
+                                                ModuleQueue.AddList(allowModules[m], true, false);
 
                                             ModuleQueue.ProcessInstallModulesInTurn();
                                         }
@@ -473,8 +484,8 @@ namespace YG.EditorScr
                                 }
                                 else if (imported && !ModulesInstaller.IsModuleCurrentVersion(module))
                                 {
-                                    if (module.critical)
-                                        lastVersionStr += "  critical!";
+                                    if (ModulesInstaller.IsCriticalUpdate(module))
+                                        lastVersionStr += "  important";
 
                                     GUI.Label(labelRect, lastVersionStr, labelStyleGreen);
                                 }
@@ -512,6 +523,8 @@ namespace YG.EditorScr
                                         {
                                             if (ModulesInstaller.ApprovalDownload())
                                             {
+                                                List<Module> allowModules = new List<Module>();
+
                                                 for (int m = 1; m < modules.Count; m++)
                                                 {
                                                     if (modules[m] == null) continue;
@@ -520,11 +533,17 @@ namespace YG.EditorScr
                                                     if (!string.IsNullOrEmpty(modules[m].projectVersion) &&
                                                         !ModulesInstaller.IsModuleCurrentVersion(modules[m]))
                                                     {
-                                                        ModuleQueue.AddList(modules[m].nameModule);
+                                                        allowModules.Add(modules[m]);
                                                     }
                                                 }
 
-                                                ModuleQueue.ProcessInstallModulesInTurn();
+                                                if (ModulesInstaller.ApprovalDependencies(allowModules))
+                                                {
+                                                    for (int m = 0; m < allowModules.Count; m++)
+                                                        ModuleQueue.AddList(allowModules[m], true, false);
+
+                                                    ModuleQueue.ProcessInstallModulesInTurn();
+                                                }
                                             }
                                         }
                                     }
@@ -663,32 +682,31 @@ namespace YG.EditorScr
                             else
                             {
                                 if (massDeletion)
+                                {
                                     allowDeletion = true;
+                                }
                                 else if (GUI.Button(rectForButtons, "Delete", ButtonStyle()))
-                                    allowDeletion = true;
+                                {
+                                    allowDeletion = EditorUtility.DisplayDialog(Langs.deleteModule, $"{Langs.deleteModule} {module.nameModule}?", "Ok", Langs.cancel);
+                                }
 
                                 if (allowDeletion)
                                 {
-                                    if (allowDeletion || EditorUtility.DisplayDialog(Langs.deleteModule, $"{Langs.deleteModule} {module.nameModule}?", "Ok", Langs.cancel))
+                                    if (isModulPlatform)
                                     {
-                                        if (isModulPlatform)
-                                        {
-                                            PlatformSettings.DeletePlatform();
-                                            ModulesInstaller.DeletePlatformWebGLTemplate(module.nameModule);
-                                            DefineSymbols.RemoveDefine(module.nameModule + "Platform_yg");
-                                        }
-                                        else
-                                        {
-                                            DefineSymbols.RemoveDefine(module.nameModule + "_yg");
-                                        }
-
-                                        FileYG.DeleteDirectory(pathDelete);
-                                        DefineSymbols.ModulesDefineSymbols();
-                                        InitData(ServerInfo.saveInfo);
-
-                                        if (!allowDeletion)
-                                            AssetDatabase.Refresh();
+                                        PlatformSettings.DeletePlatform();
+                                        ModulesInstaller.DeletePlatformWebGLTemplate(module.nameModule);
+                                        DefineSymbols.RemoveDefine(module.nameModule + "Platform_yg");
                                     }
+                                    else
+                                    {
+                                        DefineSymbols.RemoveDefine(module.nameModule + "_yg");
+                                    }
+
+                                    DeleteModuleDirectory(pathDelete);
+                                    AssetDatabase.Refresh(ImportAssetOptions.ForceSynchronousImport);
+                                    DefineSymbols.ModulesDefineSymbols();
+                                    InitData(ServerInfo.saveInfo);
                                 }
                             }
                         }
@@ -763,12 +781,10 @@ namespace YG.EditorScr
             }
         }
 
-        // CHANGED: затемняется только фон кнопки, текст остаётся неизменным
         private bool DrawTabButton(string title, bool active, bool highlightGreen)
         {
             GUIStyle style = new GUIStyle(YGEditorStyles.button);
 
-            // Зелёный текст при наличии обновлений — оставляем
             if (highlightGreen)
             {
                 style.normal.textColor =
@@ -782,17 +798,9 @@ namespace YG.EditorScr
 
             Color prevBg = GUI.backgroundColor;
 
-            // Затемняем ТОЛЬКО фон и только если:
-            // - вкладка не активна
-            // - мышь НЕ наведена
             if (!active && !hover)
             {
-                // степень затемнения регулируется этим значением
                 GUI.backgroundColor = new Color(0.5f, 0.5f, 0.5f, 1f);
-
-                // альтернативы:
-                // GUI.backgroundColor = new Color(0.8f, 0.8f, 0.8f, 1f); // лёгкое затемнение
-                // GUI.backgroundColor = new Color(0.6f, 0.6f, 0.6f, 1f); // сильнее
             }
             else
             {
@@ -853,7 +861,7 @@ namespace YG.EditorScr
             return false;
         }
 
-        // NEW: есть ли вообще обновления в списке (включая noLoad)
+        // есть ли вообще обновления в списке (включая noLoad)
         private bool HasAnyUpdatesInList(List<Module> list)
         {
             if (!cloudComplete || list == null || list.Count == 0)
@@ -916,17 +924,7 @@ namespace YG.EditorScr
             EditorPrefs.DeleteKey(REMOVE_BEFORE_IMPORT_TOGGLE_KEY);
             Server.DeletePrefs();
 
-            for (int i = 0; i < modules.Count; i++)
-                DefineSymbols.RemoveDefine(modules[i].nameModule + "_yg");
-
-            if (InfoYG.Inst().Basic.platform)
-                DefineSymbols.RemoveDefine(PlatformSettings.currentPlatformFullName + "_yg");
-
-            DefineSymbols.RemoveDefine(DefineSymbols.YG2_DEFINE);
-            DefineSymbols.RemoveDefine(DefineSymbols.LANG_DEFINE);
-            DefineSymbols.RemoveDefine(DefineSymbols.TMP_DEFINE);
-            DefineSymbols.RemoveDefine(DefineSymbols.NJSON_DEFINE);
-            DefineSymbols.RemoveDefine(DefineSymbols.NJSON_STORAGE_DEFINE);
+            DefineSymbols.RemoveAllPluginDefines();
 
             Close();
 
@@ -934,7 +932,35 @@ namespace YG.EditorScr
             for (int i = 0; i < templateFolders.Length; i++)
                 ModulesInstaller.DeletePlatformWebGLTemplate(Path.GetFileName(templateFolders[i]));
 
-            FileYG.DeleteDirectory(InfoYG.PATCH_PC_YG2);
+            DeleteModuleDirectory(InfoYG.PATCH_PC_YG2);
+            AssetDatabase.Refresh(ImportAssetOptions.ForceSynchronousImport);
+        }
+
+        private static void DeleteModuleDirectory(string pathDelete)
+        {
+            string assetPath = ToAssetPath(pathDelete);
+
+            if (!string.IsNullOrEmpty(assetPath))
+            {
+                if (AssetDatabase.DeleteAsset(assetPath))
+                    return;
+            }
+
+            FileYG.DeleteDirectory(pathDelete);
+        }
+
+        private static string ToAssetPath(string fullPath)
+        {
+            if (string.IsNullOrEmpty(fullPath))
+                return null;
+
+            string dataPath = Path.GetFullPath(Application.dataPath).Replace("\\", "/");
+            string normalizedPath = Path.GetFullPath(fullPath).Replace("\\", "/");
+
+            if (!normalizedPath.StartsWith(dataPath + "/", StringComparison.OrdinalIgnoreCase))
+                return null;
+
+            return "Assets" + normalizedPath.Substring(dataPath.Length);
         }
 
         private void DeleteAndUpdatePlugin(Module module)
