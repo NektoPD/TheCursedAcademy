@@ -4,28 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2352e6f7-7a00-4256-b434-98f90d0b0896" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.TheCursedAcademy/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TheCursedAcademy/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Animations/Abilt/Fire.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Animations/Abilt/Fire/Charge.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Animations/Abilt/Fire/Charge/FireBlast.anim" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Animations/Abilt/Fire/Charge/FireBlast.anim.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Animations/Abilt/Fire/Charge/FireBlast.controller" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Animations/Abilt/Fire/Charge/FireBlast.controller.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Animations/Abilt/Fire/Charge/FireCharge.anim" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Animations/Abilt/Fire/Charge/FireCharge.anim.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Animations/Abilt/Fire/Charge/FireCharge.controller" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Animations/Abilt/Fire/Charge/FireCharge.controller.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/PluginYourGames/Editor/SavesEditorYG2.json" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/PluginYourGames/Editor/SavesEditorYG2.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/TestGameScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/TestGameScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Textures/CharacterAbts/Fire.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Textures/CharacterAbts/Fire/Blast.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Textures/CharacterAbts/Fire/Blast/Explosion 2 SpriteSheet.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Textures/CharacterAbts/Fire/Blast/Explosion 2 SpriteSheet.png.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Textures/CharacterAbts/Fire/Charge.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Textures/CharacterAbts/Fire/Charge/Firebolt SpriteSheet.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Textures/CharacterAbts/Fire/Charge/Firebolt SpriteSheet.png.meta" beforeDir="false" />
-    </list>
+    <list default="true" id="2352e6f7-7a00-4256-b434-98f90d0b0896" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -37,6 +16,18 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "NektoPD"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/NektoPD/TheCursedAcademy.git",
+    "accountId": "df9e5a6c-8799-4a9d-8d65-fcbdb12afc35"
+  }
+}]]></component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/37cc348edc804f4cb176b63962c716e7177200/10/0f0e8680/Component.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/d44b17e136d09081da1e8fd0e8c83fde60e11818b9f2442d7ed8cb733fae895e/System.Collections.Generic.cs" root0="FORCE_HIGHLIGHTING" />
@@ -297,6 +288,7 @@
       <workItem from="1773766234012" duration="1725000" />
       <workItem from="1773943587059" duration="4920000" />
       <workItem from="1774101738804" duration="5640000" />
+      <workItem from="1779948535613" duration="756000" />
     </task>
     <servers />
   </component>
