@@ -45,9 +45,9 @@ namespace EnemyLogic
         
         private void Update()
         {
-            if (!_canMove || _initializer == null)
+            if (!_canMove || _initializer == null || _initializer.PlayerTransform == null)
                 return;
-
+            
             SetRotation(_initializer.PlayerTransform);
 
             Vector2 delta = GetCurrentPosition() - _initializer.PlayerTransform.position;

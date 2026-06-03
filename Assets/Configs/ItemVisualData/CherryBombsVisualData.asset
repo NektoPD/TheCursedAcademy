@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd4d21b6c929c2549a014203567e41ed, type: 3}
+  m_Name: CherryBombsVisualData
+  m_EditorClassIdentifier: 
+  _nameRu: "\u0412\u0438\u0448\u043D\u0435\u0432\u044B\u0435 \u0431\u043E\u043C\u0431\u044B"
+  _nameEn: Cherry Bombs
+  _nameTr: Cherry Bombs
+  _descriptionRu: "\u0411\u0440\u043E\u0441\u0430\u0435\u0442 \u043E\u0442\u0441\u043A\u0430\u043A\u0438\u0432\u0430\u044E\u0449\u0438\u0439 \u0441\u043D\u0430\u0440\u044F\u0434, \u043A\u043E\u0442\u043E\u0440\u044B\u0439 \u0432\u0437\u0440\u044B\u0432\u0430\u0435\u0442\u0441\u044F \u0447\u0435\u0440\u0435\u0437 \u0432\u0440\u0435\u043C\u044F"
+  _descriptionEn: Throws a bouncing projectile that explodes after some time
+  _descriptionTr: Throws a bouncing projectile that explodes after some time
+  <Sprite>k__BackingField: {fileID: 21300000, guid: cef611fa1d6baec44a367a6ce0fd8d8b, type: 3}
+  <Stats>k__BackingField:
+  - _nameRu: "\u0423\u0440\u043E\u043D"
+    _nameEn: Damage
+    _nameTr: Damage
+    _value: 12
+    _step: 1.25
+    _variation: 2
+  - _nameRu: "\u041F\u0435\u0440\u0435\u0437\u0430\u0440\u044F\u0434\u043A\u0430"
+    _nameEn: Cooldown
+    _nameTr: Cooldown
+    _value: 2.5
+    _step: 0.85
+    _variation: 1
+  - _nameRu: "\u0421\u043A\u043E\u0440\u043E\u0441\u0442\u044C"
+    _nameEn: Speed
+    _nameTr: Speed
+    _value: 8
+    _step: 1.1
+    _variation: 6
+  - _nameRu: "\u0424\u0438\u0442\u0438\u043B\u044C"
+    _nameEn: Fuse
+    _nameTr: Fuse
+    _value: 1.5
+    _step: 0.9
+    _variation: 4
+  <Variation>k__BackingField: 14

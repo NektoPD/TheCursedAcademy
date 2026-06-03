@@ -63,6 +63,7 @@ namespace CharacterLogic.Initializer
                 _characterSoundController, _fullInventoryItemApplicator);
             _characterSpawner.Spawn(characterToSpawn);
             PlayerTransform = characterToSpawn.transform;
+            Debug.Log(PlayerTransform);
             CharacterCreated?.Invoke(characterToSpawn);
         }
     }

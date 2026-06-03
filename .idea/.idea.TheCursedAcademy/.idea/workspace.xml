@@ -4,7 +4,27 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2352e6f7-7a00-4256-b434-98f90d0b0896" name="Changes" comment="" />
+    <list default="true" id="2352e6f7-7a00-4256-b434-98f90d0b0896" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.TheCursedAcademy/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TheCursedAcademy/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Configs/AttacksData/Kitsune/MA_Kintsune.asset.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Configs/AttacksData/Kitsune/MA_Kintsune.asset.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Configs/AttacksData/Kitsune/RA_1_Kitsune.asset.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Configs/AttacksData/Kitsune/RA_1_Kitsune.asset.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Configs/CharacterConfigs/Girl1.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Configs/CharacterConfigs/Girl1.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Configs/CharacterConfigs/Girl1.asset.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Configs/CharacterConfigs/Girl1.asset.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Configs/CharacterConfigs/Girl2.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Configs/CharacterConfigs/Girl2.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Configs/CharacterConfigs/Girl2.asset.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Configs/CharacterConfigs/Girl2.asset.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Configs/CharacterConfigs/Girl3.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Configs/CharacterConfigs/Girl3.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Configs/CharacterVisualData/Girl1.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Configs/CharacterVisualData/Girl1.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Configs/CharacterVisualData/Girl2.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Configs/CharacterVisualData/Girl2.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/PluginYourGames/Editor/ModulesListYG2.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/PluginYourGames/Editor/ModulesListYG2.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/PluginYourGames/Editor/SavesEditorYG2.json" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/PluginYourGames/Editor/SavesEditorYG2.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/PluginYourGames/Editor/ServerInfoYG2.json" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/PluginYourGames/Editor/ServerInfoYG2.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/ItemsHolder.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/ItemsHolder.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/TestGameScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/TestGameScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CharacterLogic/Initializer/CharacterInitializer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CharacterLogic/Initializer/CharacterInitializer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/EnemyLogic/EnemyMover.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/EnemyLogic/EnemyMover.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/Enums/ItemVariations.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Items/Enums/ItemVariations.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -16,18 +36,18 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "NektoPD"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;NektoPD&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/NektoPD/TheCursedAcademy.git",
-    "accountId": "df9e5a6c-8799-4a9d-8d65-fcbdb12afc35"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/NektoPD/TheCursedAcademy.git&quot;,
+    &quot;accountId&quot;: &quot;df9e5a6c-8799-4a9d-8d65-fcbdb12afc35&quot;
   }
-}]]></component>
+}</component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/37cc348edc804f4cb176b63962c716e7177200/10/0f0e8680/Component.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/d44b17e136d09081da1e8fd0e8c83fde60e11818b9f2442d7ed8cb733fae895e/System.Collections.Generic.cs" root0="FORCE_HIGHLIGHTING" />
@@ -73,6 +93,8 @@
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/Chalk/Chalk.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/Chalk/Chalk.cs.meta" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/Chalk/ChalkProjectile.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/Cross/CrossItem.cs.meta" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/Cross/CrossProjectile.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/GreatIdea/GreatIdea.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/GreatIdea/GreatIdeaProjectile.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/MultiSlingshot/MultiSlingshotItemProjectile.cs" root0="FORCE_HIGHLIGHTING" />
@@ -112,7 +134,7 @@
     &quot;Attach to Unity Editor.Attach to Unity Editor.executor&quot;: &quot;Debug&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;YGModuleUpdate&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
@@ -289,6 +311,7 @@
       <workItem from="1773943587059" duration="4920000" />
       <workItem from="1774101738804" duration="5640000" />
       <workItem from="1779948535613" duration="756000" />
+      <workItem from="1780510700074" duration="2623000" />
     </task>
     <servers />
   </component>
