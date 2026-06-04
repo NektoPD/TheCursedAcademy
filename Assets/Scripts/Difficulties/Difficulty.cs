@@ -126,8 +126,8 @@ namespace Difficulties
 
         private void OnWaveChanged(DifficultyData data)
         {
-            if (_xpWaveScaler != null)
-                _xpWaveScaler.SetWaveIndex(_waveIndex);
+            _xpWaveScaler?.SetWaveIndex(_waveIndex);
+
             _waveIndex++;
 
             _regularIds.Clear();

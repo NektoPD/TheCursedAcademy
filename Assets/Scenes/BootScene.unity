@@ -453,6 +453,55 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: caf9732433f4dc044845763962493607, type: 3}
+--- !u!1 &1365375385
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1365375387}
+  - component: {fileID: 1365375386}
+  m_Layer: 0
+  m_Name: TestDificultySaver
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1365375386
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1365375385}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf5317f8b7828e74fb873d1d8983ef77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _cooldown: 1
+  _maxEnemy: 100
+  _dataList:
+  - _playTimeInSeconds: 0
+    _enemyIds: e9030000
+--- !u!4 &1365375387
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1365375385}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -11.310964, y: -5.465058, z: -0.18513158}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1605957186
 GameObject:
   m_ObjectHideFlags: 0
@@ -617,7 +666,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1702024013
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -634,36 +683,44 @@ MonoBehaviour:
   _maxEnemy: 1000
   _dataList:
   - _playTimeInSeconds: 0
-    _enemyIds: 01000000
-  - _playTimeInSeconds: 30
-    _enemyIds: 0100000002000000
+    _enemyIds: 03000000
   - _playTimeInSeconds: 60
-    _enemyIds: 01000000020000000300000004000000
+    _enemyIds: 0300000004000000
   - _playTimeInSeconds: 120
-    _enemyIds: 0600000004000000050000006500000066000000
-  - _playTimeInSeconds: 180
-    _enemyIds: 0700000066000000060000006500000008000000
+    _enemyIds: 030000000400000001000000
   - _playTimeInSeconds: 240
-    _enemyIds: 0600000007000000660000000900000065000000670000000a000000
-  - _playTimeInSeconds: 300
-    _enemyIds: 080000000a0000000c0000000d000000680000006a0000006c000000
-  - _playTimeInSeconds: 360
-    _enemyIds: 080000000a0000000c0000000d000000670000006a000000680000006c000000
-  - _playTimeInSeconds: 420
-    _enemyIds: 0c0000000d0000006e0000006f00000070000000e90300006c000000
+    _enemyIds: e9030000
+  - _playTimeInSeconds: 240
+    _enemyIds: 67000000040000000100000006000000
   - _playTimeInSeconds: 480
-    _enemyIds: 6e0000006f000000710000006c0000006a0000006c00000070000000
-  - _playTimeInSeconds: 540
-    _enemyIds: 6e0000006f0000007000000071000000e9030000eb030000
-  - _playTimeInSeconds: 600
-    _enemyIds: e8030000
-  - _playTimeInSeconds: 660
-    _enemyIds: 6e0000006f0000007000000071000000ea030000e9030000e9030000ea030000
+    _enemyIds: 0100000006000000020000006700000068000000
   - _playTimeInSeconds: 720
-    _enemyIds: 6e0000006f0000007000000071000000e8030000e9030000ea030000
-  - _playTimeInSeconds: 780
-    _enemyIds: 6e0000006f0000007000000071000000e8030000e9030000ea030000ea030000e9030000
+    _enemyIds: ea030000
+  - _playTimeInSeconds: 720
+    _enemyIds: 060000000200000008000000670000006800000065000000
   - _playTimeInSeconds: 840
+    _enemyIds: 02000000080000000500000068000000650000006a000000
+  - _playTimeInSeconds: 960
+    _enemyIds: 080000000500000007000000650000006a00000066000000
+  - _playTimeInSeconds: 1080
+    _enemyIds: 05000000070000000a0000006a000000660000006c000000
+  - _playTimeInSeconds: 1200
+    _enemyIds: 070000000a00000009000000660000006c00000069000000
+  - _playTimeInSeconds: 1320
+    _enemyIds: 0a000000090000000b0000006c000000690000006b000000
+  - _playTimeInSeconds: 1440
+    _enemyIds: 090000000b0000000c000000690000006b0000006e000000
+  - _playTimeInSeconds: 1560
+    _enemyIds: 0b0000000c0000000d0000006b0000006e0000006d000000
+  - _playTimeInSeconds: 1680
+    _enemyIds: 0c0000000d0000006e0000006d0000006f000000
+  - _playTimeInSeconds: 1800
+    _enemyIds: 0d0000006d0000006f00000070000000
+  - _playTimeInSeconds: 1920
+    _enemyIds: e8030000
+  - _playTimeInSeconds: 1920
+    _enemyIds: 65000000660000006700000068000000690000006a0000006b0000006c0000006e0000006f0000007000000071000000
+  - _playTimeInSeconds: 2160
     _enemyIds: 0100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d00000065000000660000006700000068000000690000006a0000006b0000006c0000006d0000006e0000006f0000007000000071000000e9030000ea030000e8030000
 --- !u!4 &1702024014
 Transform:
@@ -693,26 +750,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _dataList:
-  - _enemyIds: 010000000200000003000000
+  - _enemyIds: 030000000400000001000000
     _count: 10
-    _playTimeInSeconds: 30
-    _cooldown: 30
+    _playTimeInSeconds: 120
+    _cooldown: 60
   - _enemyIds: 03000000040000000500000006000000070000000800000009000000
     _count: 15
-    _playTimeInSeconds: 60
-    _cooldown: 30
+    _playTimeInSeconds: 960
+    _cooldown: 60
   - _enemyIds: 0a0000000b0000000c0000000d000000
     _count: 15
-    _playTimeInSeconds: 180
-    _cooldown: 30
+    _playTimeInSeconds: 1680
+    _cooldown: 60
   - _enemyIds: 0100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d000000
     _count: 15
-    _playTimeInSeconds: 360
-    _cooldown: 15
+    _playTimeInSeconds: 1920
+    _cooldown: 30
   - _enemyIds: 65000000660000006700000068000000690000006a0000006b0000006c0000006e0000006f0000007000000071000000
     _count: 3
-    _playTimeInSeconds: 520
-    _cooldown: 30
+    _playTimeInSeconds: 2160
+    _cooldown: 60
 --- !u!1 &1798631337
 GameObject:
   m_ObjectHideFlags: 0
@@ -924,3 +981,4 @@ SceneRoots:
   - {fileID: 1798631341}
   - {fileID: 23320266}
   - {fileID: 1605957189}
+  - {fileID: 1365375387}

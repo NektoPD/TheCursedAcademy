@@ -93,7 +93,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.012111187, y: -0.4868846}
+  m_Offset: {x: 0.012111187, y: -0.38715935}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -104,7 +104,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.25770664, y: 0.17520237}
+  m_Size: {x: 0.25770664, y: 0.37465286}
   m_EdgeRadius: 0
 --- !u!255 &2636839241187466110
 FixedJoint2D:
@@ -281,6 +281,7 @@ GameObject:
   - component: {fileID: 5465350112304248545}
   - component: {fileID: 5615465203886490938}
   - component: {fileID: 8074965241382905773}
+  - component: {fileID: 3459352209344829258}
   m_Layer: 8
   m_Name: Enemy
   m_TagString: Untagged
@@ -567,7 +568,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59715aca675b36d47b6ab273ec50c9f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DamageColor: {r: 1, g: 0.5, b: 0.5, a: 1}
+  _damageColor: {r: 1, g: 0.5, b: 0.5, a: 1}
+  _impulseDuration: 0.12
+  _knockbackDistance: 0.25
+  _jumpHeight: 0.12
+  _impulseEase: 6
+  _impulseCooldown: 0.35
+  _minDistanceForFullKnockback: 0.8
+  _minKnockbackMultiplier: 0.15
+  _disableHorizontalKnockbackWhenVeryClose: 1
+  _veryCloseDistance: 0.25
+  _impulseCooldownNormal: 0.35
+  _impulseCooldownBoss: 0.7
 --- !u!114 &8074965241382905773
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -580,8 +592,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb1ac954fd4d8a748a7fb33e8b095dbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _immuneTimeInSecinds: 0
+--- !u!114 &3459352209344829258
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8312350747381259285}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79a47b8165d63b54fa444e0f3b09ab15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   _duration: 2
-  _color: {r: 0.22467959, g: 0.67753106, b: 0.9339623, a: 1}
+  _color: {r: 0, g: 0, b: 1, a: 1}
 --- !u!1001 &190447938358998158
 PrefabInstance:
   m_ObjectHideFlags: 0

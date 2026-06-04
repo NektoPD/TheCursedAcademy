@@ -17,16 +17,10 @@ MonoBehaviour:
   <AttackRange>k__BackingField: 66666
   <EnemyCount>k__BackingField: 4
   <EnemysData>k__BackingField:
-  - {fileID: 11400000, guid: d88f6f16b69eaeb4082af2f72d490579, type: 2}
-  - {fileID: 11400000, guid: 5e609892bebe2d348bfd813bbcc9e7b0, type: 2}
-  - {fileID: 11400000, guid: 8c1e6798637dd6d4983250db8a8d00a6, type: 2}
-  - {fileID: 11400000, guid: 0493d58847a3896469bb19f7e73aec20, type: 2}
-  - {fileID: 11400000, guid: 5544649234310034ba17787bfb62a8dc, type: 2}
-  - {fileID: 11400000, guid: 6fa4a0e2672df484d918b96a0086a78a, type: 2}
-  - {fileID: 11400000, guid: d548a0d1cfc4edd45ae854a688c27ae2, type: 2}
-  - {fileID: 11400000, guid: 1538165a218995e48acc528b2fc89e76, type: 2}
-  - {fileID: 11400000, guid: de5bb8edc481aea4186755d316e08712, type: 2}
-  - {fileID: 11400000, guid: 170ca375f46142b4791fbc15547d3de7, type: 2}
-  - {fileID: 11400000, guid: fcf843ebed070e348a5d966bd22425c1, type: 2}
-  - {fileID: 11400000, guid: 720622d875be3b1469df4a49bc76ecbe, type: 2}
   - {fileID: 11400000, guid: f7d3fd3c7f413f941b90e9525e507a19, type: 2}
+  - {fileID: 11400000, guid: d88f6f16b69eaeb4082af2f72d490579, type: 2}
+  - {fileID: 11400000, guid: fcf843ebed070e348a5d966bd22425c1, type: 2}
+  - {fileID: 11400000, guid: 9c744ea37f7cced4aadf77e1bc182dd9, type: 2}
+  - {fileID: 11400000, guid: b7bf53076db16a944aef03988c82ca28, type: 2}
+  - {fileID: 11400000, guid: fc988b99148f3614e9e351734b96f12b, type: 2}
+  - {fileID: 11400000, guid: 80910cd2f02950d429333a65ff4932ab, type: 2}
