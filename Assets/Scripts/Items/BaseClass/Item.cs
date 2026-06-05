@@ -42,6 +42,7 @@ namespace Items.BaseClass
         {
             MovementHandler = movementHandler;
             ItemStats = new ItemStats(VisualData.Stats);
+            ItemStats.Item = VisualData.Name;
             StatVariations = VisualData.Stats.Select(stat => stat.Variation);
             CharacterSoundController = characterSoundController;
             RuntimeCooldown = Data.Cooldown;

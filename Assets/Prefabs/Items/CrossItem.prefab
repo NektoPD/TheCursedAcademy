@@ -47,7 +47,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Data>k__BackingField: {fileID: 11400000, guid: cb100003000000000000000000000003, type: 2}
   <VisualData>k__BackingField: {fileID: 11400000, guid: cb100006000000000000000000000006, type: 2}
-  _projectilePrefab: {fileID: 8300000000000000004, guid: cb200006000000000000000000000006, type: 3}
+  _projectilePrefab: {fileID: 33356874385277218, guid: cb200006000000000000000000000006, type: 3}
   _projectileSpeed: 9
   _maxTravelDistance: 4
   _detectionRadius: 12

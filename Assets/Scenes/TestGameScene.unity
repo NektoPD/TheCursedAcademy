@@ -17242,7 +17242,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1236031862}
   - component: {fileID: 1236031861}
-  - component: {fileID: 1236031863}
   m_Layer: 3
   m_Name: PostProcessing
   m_TagString: Untagged
@@ -17282,18 +17281,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1236031863
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1236031860}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 31f01c0545f54eb4a306fc61b8341c5d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1255957092
 GameObject:
   m_ObjectHideFlags: 0
@@ -19133,8 +19120,8 @@ MonoBehaviour:
   m_VerticalScrollbar: {fileID: 0}
   m_HorizontalScrollbarVisibility: 2
   m_VerticalScrollbarVisibility: 2
-  m_HorizontalScrollbarSpacing: -2.5233645
-  m_VerticalScrollbarSpacing: -2.5233645
+  m_HorizontalScrollbarSpacing: -1.2383176
+  m_VerticalScrollbarSpacing: -1.2383176
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
