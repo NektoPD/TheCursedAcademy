@@ -60,6 +60,7 @@ namespace Items.ItemVariations.Cross
             if (projectile == null)
                 return;
 
+            projectile.Transform.SetParent(null);
             projectile.Initialize(RuntimeDamage, this);
             projectile.ClearHitEnemies();
             projectile.Launch(direction, _projectileSpeed, _maxTravelDistance, _transform);
@@ -69,8 +70,7 @@ namespace Items.ItemVariations.Cross
         private void OnProjectileFinished(CrossProjectile projectile)
         {
             projectile.Finished -= OnProjectileFinished;
-            
-            
+            projectile.Transform.SetParent(_projectilePool.transform);
             _projectilePool.ReturnToPool(projectile);
         }
 
