@@ -75,6 +75,7 @@ namespace Items.ItemVariations.LaRobba
 
             if (projectile == null) return;
 
+            projectile.Transform.SetParent(null);
             projectile.Initialize(RuntimeDamage, this);
             projectile.ClearHitEnemies();
             projectile.Launch(enemyPos, _projectileSpeed);
@@ -92,6 +93,7 @@ namespace Items.ItemVariations.LaRobba
         private void OnProjectileFinished(LaRobbaProjectile projectile)
         {
             projectile.Finished -= OnProjectileFinished;
+            projectile.Transform.SetParent(_projectilePool.transform);
             _projectilePool.ReturnToPool(projectile);
         }
 
