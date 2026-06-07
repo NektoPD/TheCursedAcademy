@@ -31,10 +31,23 @@ namespace Items.ItemVariations.CherryBombs
 
         protected override void PerformAttack()
         {
+            Vector2 direction = MovementHandler != null && MovementHandler.IsMoving()
+                ? MovementHandler.GetMoveDirection()
+                : Vector2.right;
+
+            float spreadAngle = 15f;
+
             for (int i = 0; i < _projectilesPerAttack; i++)
             {
-                float angle = Random.Range(0f, 360f) * Mathf.Deg2Rad;
-                Vector2 direction = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
+                float offset = 0f;
+                if (_projectilesPerAttack > 1)
+                    offset = Mathf.Lerp(-spreadAngle, spreadAngle, (float)i / (_projectilesPerAttack - 1));
+
+                float rad = offset * Mathf.Deg2Rad;
+                Vector2 dir = new Vector2(
+                    direction.x * Mathf.Cos(rad) - direction.y * Mathf.Sin(rad),
+                    direction.x * Mathf.Sin(rad) + direction.y * Mathf.Cos(rad)
+                ).normalized;
 
                 CherryBombsProjectile projectile =
                     _projectilePool.GetFromPool<CherryBombsProjectile>(_transform.position, Quaternion.identity);
@@ -42,9 +55,10 @@ namespace Items.ItemVariations.CherryBombs
                 if (projectile == null)
                     continue;
 
+                projectile.Transform.SetParent(null);
                 projectile.Initialize(RuntimeDamage, this);
                 projectile.ClearHitEnemies();
-                projectile.Launch(direction, _projectileSpeed, _fuseDuration);
+                projectile.Launch(_transform.position, dir, _projectileSpeed);
                 projectile.Finished += OnProjectileFinished;
             }
         }
@@ -52,6 +66,7 @@ namespace Items.ItemVariations.CherryBombs
         private void OnProjectileFinished(CherryBombsProjectile projectile)
         {
             projectile.Finished -= OnProjectileFinished;
+            projectile.Transform.SetParent(_projectilePool.transform);
             _projectilePool.ReturnToPool(projectile);
         }
 
