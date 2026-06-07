@@ -33,7 +33,10 @@ namespace Items.ItemVariations.LaRobba
             base.Awake();
             _circleCollider = GetComponent<CircleCollider2D>();
             _rb = GetComponent<Rigidbody2D>();
+            _rb.bodyType = RigidbodyType2D.Dynamic;
             _rb.gravityScale = 0f;
+            _rb.freezeRotation = false;
+            _rb.constraints = RigidbodyConstraints2D.None;
             _rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
 
             _defaultSprite = SpriteRenderer.sprite;
