@@ -121,6 +121,11 @@ namespace Items.ItemVariations.CherryBombs
             if (_animator != null)
                 _animator.SetTrigger(ExplosionEffectTrigger);
 
+            _delayedFinish = DOVirtual.DelayedCall(_explosionEffectDuration, () => Finished?.Invoke(this));
+        }
+
+        public void DealExplosionDamage()
+        {
             Collider2D[] hits = Physics2D.OverlapCircleAll(Transform.position, _explosionRadius, _enemyLayer);
             var damaged = new HashSet<IDamageable>();
 
@@ -134,8 +139,6 @@ namespace Items.ItemVariations.CherryBombs
                 damageable.TakeDamage(Damage);
                 Owner?.RaiseDamageDealt(Damage);
             }
-
-            _delayedFinish = DOVirtual.DelayedCall(_explosionEffectDuration, () => Finished?.Invoke(this));
         }
 
         protected override void OnTriggerEnter2D(Collider2D collision)
