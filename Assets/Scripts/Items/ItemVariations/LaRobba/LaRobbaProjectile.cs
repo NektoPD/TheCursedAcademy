@@ -16,13 +16,15 @@ namespace Items.ItemVariations.LaRobba
         }
 
         [SerializeField] private Sprite[] _sprites;
-        [SerializeField] private float _gravity = 15f;
-        [SerializeField] private float _bounceForce = 8f;
+        [SerializeField] private float _gravity = 5f;
+        [SerializeField] private float _bounceForce = 3f;
 
         private float _speed;
         private Phase _phase;
         private CircleCollider2D _circleCollider;
         private Rigidbody2D _rb;
+        private Sprite _defaultSprite;
+        private float _defaultColliderRadius;
 
         public event Action<LaRobbaProjectile> Finished;
 
@@ -33,6 +35,9 @@ namespace Items.ItemVariations.LaRobba
             _rb = GetComponent<Rigidbody2D>();
             _rb.gravityScale = 0f;
             _rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
+
+            _defaultSprite = SpriteRenderer.sprite;
+            _defaultColliderRadius = _circleCollider != null ? _circleCollider.radius : 0.5f;
         }
 
         public void Launch(Vector2 targetPosition, float speed)
@@ -67,11 +72,29 @@ namespace Items.ItemVariations.LaRobba
 
         private void OnDisable()
         {
+            ResetToDefault();
+        }
+
+        private void ResetToDefault()
+        {
             if (_rb != null)
             {
                 _rb.velocity = Vector2.zero;
+                _rb.angularVelocity = 0f;
                 _rb.gravityScale = 0f;
             }
+
+            Transform.rotation = Quaternion.identity;
+
+            if (SpriteRenderer != null && _defaultSprite != null)
+                SpriteRenderer.sprite = _defaultSprite;
+
+            if (_circleCollider != null)
+                _circleCollider.radius = _defaultColliderRadius;
+
+            _phase = Phase.Falling;
+            Damage = 0f;
+            Owner = null;
         }
 
         private void Update()
@@ -105,7 +128,7 @@ namespace Items.ItemVariations.LaRobba
                     ClearHitEnemies();
 
                     Vector2 bounceDir = new Vector2(
-                        UnityEngine.Random.Range(-0.3f, 0.3f),
+                        UnityEngine.Random.Range(-0.2f, 0.2f),
                         1f
                     ).normalized;
                     _rb.velocity = bounceDir * _bounceForce;

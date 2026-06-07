@@ -36,55 +36,49 @@ namespace Items.ItemVariations.LaRobba
         {
             Collider2D[] colliders = Physics2D.OverlapCircleAll(_transform.position, _detectionRadius, _enemyLayer);
 
-            int spawned = 0;
-            int index = 0;
-
-            while (spawned < _projectilesPerAttack && index < colliders.Length)
+            int validCount = 0;
+            for (int i = 0; i < colliders.Length; i++)
             {
-                Collider2D col = colliders[index];
-                index++;
-
-                if (!col.TryGetComponent(out IDamageable _) ||
-                    col.TryGetComponent(out CharacterLogic.Character _))
+                if (!colliders[i].TryGetComponent(out IDamageable _) ||
+                    colliders[i].TryGetComponent(out CharacterLogic.Character _))
                     continue;
 
-                Vector2 enemyPos = col.transform.position;
-                Vector2 spawnPos = GetSpawnPositionAboveScreen(enemyPos.x);
-
-                LaRobbaProjectile projectile =
-                    _projectilePool.GetFromPool<LaRobbaProjectile>(spawnPos, Quaternion.identity);
-
-                if (projectile == null)
-                    continue;
-
-                projectile.Initialize(RuntimeDamage, this);
-                projectile.ClearHitEnemies();
-                projectile.Launch(enemyPos, _projectileSpeed);
-                projectile.Finished += OnProjectileFinished;
-                spawned++;
+                colliders[validCount] = colliders[i];
+                validCount++;
             }
 
-            if (spawned < _projectilesPerAttack && colliders.Length > 0)
+            if (validCount == 0) return;
+
+            Vector2 playerPos = _transform.position;
+            System.Array.Sort(colliders, 0, validCount, new ClosestToPointComparer(playerPos));
+
+            int toSpawn = Mathf.Min(_projectilesPerAttack, validCount);
+
+            for (int i = 0; i < toSpawn; i++)
             {
-                for (int i = spawned; i < _projectilesPerAttack; i++)
-                {
-                    Collider2D col = colliders[Random.Range(0, colliders.Length)];
-                    if (col.TryGetComponent(out CharacterLogic.Character _)) continue;
-
-                    Vector2 enemyPos = col.transform.position;
-                    Vector2 spawnPos = GetSpawnPositionAboveScreen(enemyPos.x);
-
-                    LaRobbaProjectile projectile =
-                        _projectilePool.GetFromPool<LaRobbaProjectile>(spawnPos, Quaternion.identity);
-
-                    if (projectile == null) continue;
-
-                    projectile.Initialize(RuntimeDamage, this);
-                    projectile.ClearHitEnemies();
-                    projectile.Launch(enemyPos, _projectileSpeed);
-                    projectile.Finished += OnProjectileFinished;
-                }
+                SpawnProjectileAt(colliders[i].transform.position);
             }
+
+            for (int i = toSpawn; i < _projectilesPerAttack; i++)
+            {
+                int idx = Random.Range(0, validCount);
+                SpawnProjectileAt(colliders[idx].transform.position);
+            }
+        }
+
+        private void SpawnProjectileAt(Vector2 enemyPos)
+        {
+            Vector2 spawnPos = GetSpawnPositionAboveScreen(enemyPos.x);
+
+            LaRobbaProjectile projectile =
+                _projectilePool.GetFromPool<LaRobbaProjectile>(spawnPos, Quaternion.identity);
+
+            if (projectile == null) return;
+
+            projectile.Initialize(RuntimeDamage, this);
+            projectile.ClearHitEnemies();
+            projectile.Launch(enemyPos, _projectileSpeed);
+            projectile.Finished += OnProjectileFinished;
         }
 
         private Vector2 GetSpawnPositionAboveScreen(float x)
@@ -140,6 +134,23 @@ namespace Items.ItemVariations.LaRobba
                 _projectileSpeed * _speedIncreasePerLevel);
             ItemStats.SetStatNextValue(Enums.StatVariations.ProjectilesCount,
                 Mathf.Min(_projectilesPerAttack + 1, _maxProjectilesPerAttack));
+        }
+
+        private struct ClosestToPointComparer : System.Collections.Generic.IComparer<Collider2D>
+        {
+            private Vector2 _point;
+
+            public ClosestToPointComparer(Vector2 point)
+            {
+                _point = point;
+            }
+
+            public int Compare(Collider2D a, Collider2D b)
+            {
+                float distA = ((Vector2)a.transform.position - _point).sqrMagnitude;
+                float distB = ((Vector2)b.transform.position - _point).sqrMagnitude;
+                return distA.CompareTo(distB);
+            }
         }
     }
 }
