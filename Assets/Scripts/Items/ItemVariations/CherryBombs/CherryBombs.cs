@@ -16,6 +16,7 @@ namespace Items.ItemVariations.CherryBombs
 
         private ItemProjectilePool _projectilePool;
         private Transform _transform;
+        private Vector2 _lastFacingDirection = Vector2.right;
 
         private float _damageIncreasePerLevel = 1.25f;
         private float _cooldownReductionPerLevel = 0.85f;
@@ -29,11 +30,17 @@ namespace Items.ItemVariations.CherryBombs
             _transform = transform;
         }
 
+        private void Update()
+        {
+            if (MovementHandler != null && MovementHandler.IsMoving())
+                _lastFacingDirection = MovementHandler.GetMoveDirection();
+        }
+
         protected override void PerformAttack()
         {
             Vector2 direction = MovementHandler != null && MovementHandler.IsMoving()
                 ? MovementHandler.GetMoveDirection()
-                : Vector2.right;
+                : _lastFacingDirection;
 
             float spreadAngle = 15f;
 
