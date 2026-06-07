@@ -6,6 +6,7 @@ using UnityEngine;
 
 namespace Items.ItemVariations.LaRobba
 {
+    [RequireComponent(typeof(Rigidbody2D))]
     public class LaRobbaProjectile : ItemProjectile
     {
         private enum Phase
@@ -15,13 +16,13 @@ namespace Items.ItemVariations.LaRobba
         }
 
         [SerializeField] private Sprite[] _sprites;
+        [SerializeField] private float _gravity = 15f;
+        [SerializeField] private float _bounceForce = 8f;
 
-        private Vector2 _direction;
         private float _speed;
-        private float _targetY;
         private Phase _phase;
         private CircleCollider2D _circleCollider;
-        private bool _hitTarget;
+        private Rigidbody2D _rb;
 
         public event Action<LaRobbaProjectile> Finished;
 
@@ -29,15 +30,15 @@ namespace Items.ItemVariations.LaRobba
         {
             base.Awake();
             _circleCollider = GetComponent<CircleCollider2D>();
+            _rb = GetComponent<Rigidbody2D>();
+            _rb.gravityScale = 0f;
+            _rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
         }
 
         public void Launch(Vector2 targetPosition, float speed)
         {
             _speed = speed;
-            _targetY = targetPosition.y;
             _phase = Phase.Falling;
-            _direction = Vector2.down;
-            _hitTarget = false;
 
             if (_sprites != null && _sprites.Length > 0)
             {
@@ -47,6 +48,8 @@ namespace Items.ItemVariations.LaRobba
             }
 
             Transform.rotation = Quaternion.identity;
+            _rb.velocity = Vector2.down * _speed;
+            _rb.gravityScale = _gravity / Physics2D.gravity.magnitude;
         }
 
         private void UpdateColliderToSprite(Sprite sprite)
@@ -59,25 +62,21 @@ namespace Items.ItemVariations.LaRobba
         private void OnEnable()
         {
             _phase = Phase.Falling;
-            _hitTarget = false;
             ClearHitEnemies();
+        }
+
+        private void OnDisable()
+        {
+            if (_rb != null)
+            {
+                _rb.velocity = Vector2.zero;
+                _rb.gravityScale = 0f;
+            }
         }
 
         private void Update()
         {
-            Transform.position += (Vector3)(_direction * (_speed * Time.deltaTime));
-
-            if (_phase == Phase.Falling)
-            {
-                if (Transform.position.y <= _targetY && !_hitTarget)
-                {
-                    _hitTarget = true;
-                    _phase = Phase.Bouncing;
-                    _direction = Vector2.down;
-                    ClearHitEnemies();
-                }
-            }
-            else
+            if (_phase == Phase.Bouncing)
             {
                 Camera camera = Camera.main;
                 if (camera != null)
@@ -102,10 +101,14 @@ namespace Items.ItemVariations.LaRobba
 
                 if (_phase == Phase.Falling)
                 {
-                    _hitTarget = true;
                     _phase = Phase.Bouncing;
-                    _direction = Vector2.down;
                     ClearHitEnemies();
+
+                    Vector2 bounceDir = new Vector2(
+                        UnityEngine.Random.Range(-0.3f, 0.3f),
+                        1f
+                    ).normalized;
+                    _rb.velocity = bounceDir * _bounceForce;
                 }
             }
         }

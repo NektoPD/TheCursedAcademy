@@ -10,8 +10,8 @@ namespace Items.ItemVariations.LaRobba
     public class LaRobba : Item
     {
         [SerializeField] private LaRobbaProjectile _projectilePrefab;
-        [SerializeField] private float _projectileSpeed = 7f;
-        [SerializeField] private int _projectilesPerAttack = 3;
+        [SerializeField] private float _projectileSpeed = 4f;
+        [SerializeField] private int _projectilesPerAttack = 1;
         [SerializeField] private int _maxProjectilesPerAttack = 8;
         [SerializeField] private int _initialPoolSize = 16;
         [SerializeField] private LayerMask _enemyLayer;
