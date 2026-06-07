@@ -8,37 +8,87 @@ namespace Items.ItemVariations.LaRobba
 {
     public class LaRobbaProjectile : ItemProjectile
     {
+        private enum Phase
+        {
+            Falling,
+            Bouncing
+        }
+
+        [SerializeField] private Sprite[] _sprites;
+
         private Vector2 _direction;
         private float _speed;
-        private float _lifetime;
-        private float _timer;
+        private float _targetY;
+        private Phase _phase;
+        private CircleCollider2D _circleCollider;
+        private bool _hitTarget;
 
         public event Action<LaRobbaProjectile> Finished;
 
-        public void Launch(Vector2 direction, float speed, float lifetime)
+        protected override void Awake()
         {
-            _direction = direction.sqrMagnitude > 0.01f ? direction.normalized : Vector2.right;
-            _speed = speed;
-            _lifetime = lifetime;
-            _timer = 0f;
+            base.Awake();
+            _circleCollider = GetComponent<CircleCollider2D>();
+        }
 
-            float angle = Mathf.Atan2(_direction.y, _direction.x) * Mathf.Rad2Deg;
-            Transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        public void Launch(Vector2 targetPosition, float speed)
+        {
+            _speed = speed;
+            _targetY = targetPosition.y;
+            _phase = Phase.Falling;
+            _direction = Vector2.down;
+            _hitTarget = false;
+
+            if (_sprites != null && _sprites.Length > 0)
+            {
+                Sprite randomSprite = _sprites[UnityEngine.Random.Range(0, _sprites.Length)];
+                SpriteRenderer.sprite = randomSprite;
+                UpdateColliderToSprite(randomSprite);
+            }
+
+            Transform.rotation = Quaternion.identity;
+        }
+
+        private void UpdateColliderToSprite(Sprite sprite)
+        {
+            if (_circleCollider == null || sprite == null) return;
+            float maxSide = Mathf.Max(sprite.bounds.size.x, sprite.bounds.size.y);
+            _circleCollider.radius = maxSide * 0.5f;
         }
 
         private void OnEnable()
         {
-            _timer = 0f;
+            _phase = Phase.Falling;
+            _hitTarget = false;
             ClearHitEnemies();
         }
 
         private void Update()
         {
-            BouncingProjectileUtility.MoveWithViewportBounce(Transform, ref _direction, _speed);
+            Transform.position += (Vector3)(_direction * (_speed * Time.deltaTime));
 
-            _timer += Time.deltaTime;
-            if (_timer >= _lifetime)
-                Finished?.Invoke(this);
+            if (_phase == Phase.Falling)
+            {
+                if (Transform.position.y <= _targetY && !_hitTarget)
+                {
+                    _hitTarget = true;
+                    _phase = Phase.Bouncing;
+                    _direction = Vector2.down;
+                    ClearHitEnemies();
+                }
+            }
+            else
+            {
+                Camera camera = Camera.main;
+                if (camera != null)
+                {
+                    float bottomEdge = camera.ViewportToWorldPoint(Vector3.zero).y;
+                    if (Transform.position.y < bottomEdge - 1f)
+                    {
+                        Finished?.Invoke(this);
+                    }
+                }
+            }
         }
 
         protected override void OnTriggerEnter2D(Collider2D collision)
@@ -49,6 +99,14 @@ namespace Items.ItemVariations.LaRobba
             {
                 damageable.TakeDamage(Damage);
                 Owner?.RaiseDamageDealt(Damage);
+
+                if (_phase == Phase.Falling)
+                {
+                    _hitTarget = true;
+                    _phase = Phase.Bouncing;
+                    _direction = Vector2.down;
+                    ClearHitEnemies();
+                }
             }
         }
     }

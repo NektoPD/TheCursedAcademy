@@ -1,6 +1,7 @@
 using Items.BaseClass;
 using Items.Enums;
 using Items.Pools;
+using HealthSystem;
 using UnityEngine;
 
 namespace Items.ItemVariations.LaRobba
@@ -10,10 +11,12 @@ namespace Items.ItemVariations.LaRobba
     {
         [SerializeField] private LaRobbaProjectile _projectilePrefab;
         [SerializeField] private float _projectileSpeed = 7f;
-        [SerializeField] private float _projectileLifetime = 2.5f;
         [SerializeField] private int _projectilesPerAttack = 3;
         [SerializeField] private int _maxProjectilesPerAttack = 8;
         [SerializeField] private int _initialPoolSize = 16;
+        [SerializeField] private LayerMask _enemyLayer;
+        [SerializeField] private float _detectionRadius = 20f;
+        [SerializeField] private float _spawnOffsetAboveScreen = 2f;
 
         private ItemProjectilePool _projectilePool;
         private Transform _transform;
@@ -21,7 +24,6 @@ namespace Items.ItemVariations.LaRobba
         private float _damageIncreasePerLevel = 1.25f;
         private float _cooldownReductionPerLevel = 0.85f;
         private float _speedIncreasePerLevel = 1.15f;
-        private float _lifetimeIncreasePerLevel = 1.1f;
 
         private void Awake()
         {
@@ -32,24 +34,65 @@ namespace Items.ItemVariations.LaRobba
 
         protected override void PerformAttack()
         {
-            float angleStep = 360f / _projectilesPerAttack;
+            Collider2D[] colliders = Physics2D.OverlapCircleAll(_transform.position, _detectionRadius, _enemyLayer);
 
-            for (int i = 0; i < _projectilesPerAttack; i++)
+            int spawned = 0;
+            int index = 0;
+
+            while (spawned < _projectilesPerAttack && index < colliders.Length)
             {
-                float angle = (angleStep * i + Random.Range(-10f, 10f)) * Mathf.Deg2Rad;
-                Vector2 direction = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
+                Collider2D col = colliders[index];
+                index++;
+
+                if (!col.TryGetComponent(out IDamageable _) ||
+                    col.TryGetComponent(out CharacterLogic.Character _))
+                    continue;
+
+                Vector2 enemyPos = col.transform.position;
+                Vector2 spawnPos = GetSpawnPositionAboveScreen(enemyPos.x);
 
                 LaRobbaProjectile projectile =
-                    _projectilePool.GetFromPool<LaRobbaProjectile>(_transform.position, Quaternion.identity);
+                    _projectilePool.GetFromPool<LaRobbaProjectile>(spawnPos, Quaternion.identity);
 
                 if (projectile == null)
                     continue;
 
                 projectile.Initialize(RuntimeDamage, this);
                 projectile.ClearHitEnemies();
-                projectile.Launch(direction, _projectileSpeed, _projectileLifetime);
+                projectile.Launch(enemyPos, _projectileSpeed);
                 projectile.Finished += OnProjectileFinished;
+                spawned++;
             }
+
+            if (spawned < _projectilesPerAttack && colliders.Length > 0)
+            {
+                for (int i = spawned; i < _projectilesPerAttack; i++)
+                {
+                    Collider2D col = colliders[Random.Range(0, colliders.Length)];
+                    if (col.TryGetComponent(out CharacterLogic.Character _)) continue;
+
+                    Vector2 enemyPos = col.transform.position;
+                    Vector2 spawnPos = GetSpawnPositionAboveScreen(enemyPos.x);
+
+                    LaRobbaProjectile projectile =
+                        _projectilePool.GetFromPool<LaRobbaProjectile>(spawnPos, Quaternion.identity);
+
+                    if (projectile == null) continue;
+
+                    projectile.Initialize(RuntimeDamage, this);
+                    projectile.ClearHitEnemies();
+                    projectile.Launch(enemyPos, _projectileSpeed);
+                    projectile.Finished += OnProjectileFinished;
+                }
+            }
+        }
+
+        private Vector2 GetSpawnPositionAboveScreen(float x)
+        {
+            Camera camera = Camera.main;
+            if (camera == null) return new Vector2(x, 10f);
+            float topEdge = camera.ViewportToWorldPoint(Vector3.one).y;
+            return new Vector2(x, topEdge + _spawnOffsetAboveScreen);
         }
 
         private void OnProjectileFinished(LaRobbaProjectile projectile)
@@ -74,7 +117,6 @@ namespace Items.ItemVariations.LaRobba
             Mods.Multiply(Enums.StatVariations.AttackSpeed, _cooldownReductionPerLevel);
 
             _projectileSpeed *= _speedIncreasePerLevel;
-            _projectileLifetime *= _lifetimeIncreasePerLevel;
             _projectilesPerAttack = Mathf.Min(_projectilesPerAttack + 1, _maxProjectilesPerAttack);
 
             RuntimeDamage = Data.Damage * Mods.GetMult(Enums.StatVariations.Damage);
@@ -88,7 +130,6 @@ namespace Items.ItemVariations.LaRobba
             ItemStats.SetStatCurrentValue(Enums.StatVariations.Damage, RuntimeDamage);
             ItemStats.SetStatCurrentValue(Enums.StatVariations.AttackSpeed, RuntimeCooldown);
             ItemStats.SetStatCurrentValue(Enums.StatVariations.ProjectilesSpeed, _projectileSpeed);
-            ItemStats.SetStatCurrentValue(Enums.StatVariations.ProjectileLifetime, _projectileLifetime);
             ItemStats.SetStatCurrentValue(Enums.StatVariations.ProjectilesCount, _projectilesPerAttack);
 
             ItemStats.SetStatNextValue(Enums.StatVariations.Damage,
@@ -97,8 +138,6 @@ namespace Items.ItemVariations.LaRobba
                 Data.Cooldown * (Mods.GetMult(Enums.StatVariations.AttackSpeed) * _cooldownReductionPerLevel));
             ItemStats.SetStatNextValue(Enums.StatVariations.ProjectilesSpeed,
                 _projectileSpeed * _speedIncreasePerLevel);
-            ItemStats.SetStatNextValue(Enums.StatVariations.ProjectileLifetime,
-                _projectileLifetime * _lifetimeIncreasePerLevel);
             ItemStats.SetStatNextValue(Enums.StatVariations.ProjectilesCount,
                 Mathf.Min(_projectilesPerAttack + 1, _maxProjectilesPerAttack));
         }
