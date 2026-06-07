@@ -99,7 +99,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2c3d4e5f60718293a4b5c6d7e8f9012, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _explosionRadius: 1.75
+  _explosionRadius: 0.7
   _enemyLayer:
     serializedVersion: 2
     m_Bits: 256
@@ -107,6 +107,7 @@ MonoBehaviour:
   _flightDuration: 1.3
   _arcHeight: 1
   _explosionDelay: 1
+  _explosionEffectDuration: 0.5
   _pulseStrength: 0.15
   _pulseVibrato: 6
 --- !u!58 &8100000000000000005

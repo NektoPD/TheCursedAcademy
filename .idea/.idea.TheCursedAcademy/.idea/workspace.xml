@@ -4,7 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2352e6f7-7a00-4256-b434-98f90d0b0896" name="Changes" comment="" />
+    <list default="true" id="2352e6f7-7a00-4256-b434-98f90d0b0896" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/Assets/Animations/ProjectileAnimations/CherryBomb/CherryBombAnimationExplosionEffect.anim" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Animations/ProjectileAnimations/CherryBomb/CherryBombAnimationExplosionEffect.anim" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Animations/ProjectileAnimations/CherryBomb/CherryBombsProjectile.controller" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Animations/ProjectileAnimations/CherryBomb/CherryBombsProjectile.controller" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/PluginYourGames/Editor/SavesEditorYG2.json" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/PluginYourGames/Editor/SavesEditorYG2.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/ItemsProjectiles/CherryBombsProjectile.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/ItemsProjectiles/CherryBombsProjectile.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Menu.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Menu.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/TestGameScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/TestGameScene.unity" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -293,7 +300,7 @@
       <workItem from="1779948535613" duration="756000" />
       <workItem from="1780510700074" duration="3722000" />
       <workItem from="1780548521100" duration="7977000" />
-      <workItem from="1780834673350" duration="3946000" />
+      <workItem from="1780834673350" duration="4542000" />
     </task>
     <servers />
   </component>
