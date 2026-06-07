@@ -16,16 +16,19 @@ namespace Items.ItemVariations.CherryBombs
         [SerializeField] private float _flightDuration = 0.8f;
         [SerializeField] private float _arcHeight = 3f;
         [SerializeField] private float _explosionDelay = 1f;
+        [SerializeField] private float _explosionEffectDuration = 0.5f;
         [SerializeField] private float _pulseStrength = 0.15f;
         [SerializeField] private int _pulseVibrato = 6;
 
         private static readonly int ExplosionTrigger = Animator.StringToHash("Explosion");
+        private static readonly int ExplosionEffectTrigger = Animator.StringToHash("ExplosionEffect");
 
         private Vector3 _targetScale;
         private bool _hasExploded;
         private Tween _scaleTween;
         private Tween _pulseTween;
         private Tween _flightTween;
+        private Tween _delayedFinish;
 
         public event Action<CherryBombsProjectile> Finished;
 
@@ -103,15 +106,20 @@ namespace Items.ItemVariations.CherryBombs
             _scaleTween?.Kill();
             _pulseTween?.Kill();
             _flightTween?.Kill();
+            _delayedFinish?.Kill();
             _scaleTween = null;
             _pulseTween = null;
             _flightTween = null;
+            _delayedFinish = null;
         }
 
         private void Explode()
         {
             if (_hasExploded) return;
             _hasExploded = true;
+
+            if (_animator != null)
+                _animator.SetTrigger(ExplosionEffectTrigger);
 
             Collider2D[] hits = Physics2D.OverlapCircleAll(Transform.position, _explosionRadius, _enemyLayer);
             var damaged = new HashSet<IDamageable>();
@@ -127,7 +135,7 @@ namespace Items.ItemVariations.CherryBombs
                 Owner?.RaiseDamageDealt(Damage);
             }
 
-            Finished?.Invoke(this);
+            _delayedFinish = DOVirtual.DelayedCall(_explosionEffectDuration, () => Finished?.Invoke(this));
         }
 
         protected override void OnTriggerEnter2D(Collider2D collision)
