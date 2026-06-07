@@ -5,16 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2352e6f7-7a00-4256-b434-98f90d0b0896" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/Assets/Configs/ItemConfigs/CherryBombs.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Configs/ItemConfigs/CherryBombs.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Configs/ItemConfigs/Cross.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Configs/ItemConfigs/Cross.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Configs/ItemConfigs/LaRobba.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Configs/ItemConfigs/LaRobba.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Configs/ItemVisualData/CherryBombsVisualData.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Configs/ItemVisualData/CherryBombsVisualData.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Configs/ItemVisualData/CrossVisualData.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Configs/ItemVisualData/CrossVisualData.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Configs/ItemVisualData/LaRobbaVisualData.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Configs/ItemVisualData/LaRobbaVisualData.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.TheCursedAcademy/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TheCursedAcademy/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/PluginYourGames/Editor/SavesEditorYG2.json" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/PluginYourGames/Editor/SavesEditorYG2.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/ItemsProjectiles/CrossProjectile.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/ItemsProjectiles/CrossProjectile.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/BootScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/BootScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/TestGameScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/TestGameScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Items/LaRobbaItem.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Items/LaRobbaItem.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/ItemsProjectiles/CherryBombsProjectile.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/ItemsProjectiles/CherryBombsProjectile.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/ItemsProjectiles/LaRobbaProjectile.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/ItemsProjectiles/LaRobbaProjectile.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/LaRobba/LaRobbaProjectile.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Items/ItemVariations/LaRobba/LaRobbaProjectile.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/Projectiles/BeutyStormProjectiles.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/Projectiles/BeutyStormProjectiles.png.meta" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -304,7 +301,7 @@
       <workItem from="1779948535613" duration="756000" />
       <workItem from="1780510700074" duration="3722000" />
       <workItem from="1780548521100" duration="7977000" />
-      <workItem from="1780834673350" duration="919000" />
+      <workItem from="1780834673350" duration="3314000" />
     </task>
     <servers />
   </component>

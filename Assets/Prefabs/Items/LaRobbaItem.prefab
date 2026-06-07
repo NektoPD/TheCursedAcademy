@@ -48,11 +48,15 @@ MonoBehaviour:
   <Data>k__BackingField: {fileID: 11400000, guid: cb100002000000000000000000000002, type: 2}
   <VisualData>k__BackingField: {fileID: 11400000, guid: cb100005000000000000000000000005, type: 2}
   _projectilePrefab: {fileID: 8200000000000000004, guid: cb200004000000000000000000000004, type: 3}
-  _projectileSpeed: 7
-  _projectileLifetime: 2.5
-  _projectilesPerAttack: 3
-  _maxProjectilesPerAttack: 8
+  _projectileSpeed: 3.5
+  _projectilesPerAttack: 1
+  _maxProjectilesPerAttack: 3
   _initialPoolSize: 20
+  _enemyLayer:
+    serializedVersion: 2
+    m_Bits: 256
+  _detectionRadius: 20
+  _spawnOffsetAboveScreen: 2
 --- !u!114 &8500000000000000004
 MonoBehaviour:
   m_ObjectHideFlags: 0
