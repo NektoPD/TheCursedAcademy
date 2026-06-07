@@ -5,50 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2352e6f7-7a00-4256-b434-98f90d0b0896" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.TheCursedAcademy/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TheCursedAcademy/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Configs/ItemConfigs/CherryBombs.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Configs/ItemConfigs/CherryBombs.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Configs/ItemConfigs/Cross.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Configs/ItemConfigs/Cross.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Configs/ItemConfigs/LaRobba.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Configs/ItemConfigs/LaRobba.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Configs/ItemVisualData/CherryBombsVisualData.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Configs/ItemVisualData/CherryBombsVisualData.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Configs/ItemVisualData/CrossVisualData.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Configs/ItemVisualData/CrossVisualData.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Configs/ItemVisualData/LaRobbaVisualData.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Configs/ItemVisualData/LaRobbaVisualData.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/PluginYourGames/Editor/SavesEditorYG2.json" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/PluginYourGames/Editor/SavesEditorYG2.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Items/CrossItem.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Items/CrossItem.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Projectiles.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Projectiles/BackpackItemProjectile.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Projectiles/BackpackItemProjectile.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Projectiles/BeautiZoneProjectile.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Projectiles/BeautiZoneProjectile.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Projectiles/BellRingProjectile.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Projectiles/BellRingProjectile.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Projectiles/BookProjectile.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Projectiles/BookProjectile.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Projectiles/CatsProjectile.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Projectiles/CatsProjectile.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Projectiles/ChalkProjectile.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Projectiles/ChalkProjectile.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Projectiles/CherryBombsProjectile.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Projectiles/CherryBombsProjectile.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Projectiles/CrossProjectile.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Projectiles/CrossProjectile.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Projectiles/GreatIdeaProjectile.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Projectiles/GreatIdeaProjectile.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Projectiles/GumProjectile.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Projectiles/GumProjectile.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Projectiles/HeartProjectile.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Projectiles/HeartProjectile.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Projectiles/LaRobbaProjectile.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Projectiles/LaRobbaProjectile.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Projectiles/ParfumeProjectile.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Projectiles/ParfumeProjectile.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Projectiles/PenProjectile.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Projectiles/PenProjectile.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Projectiles/RulerProjectile.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Projectiles/RulerProjectile.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Projectiles/SlingshotProjectile.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Projectiles/SlingshotProjectile.prefab.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Projectiles/ToysProjectile.prefab" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Projectiles/ToysProjectile.prefab.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/ItemsProjectiles/CrossProjectile.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/ItemsProjectiles/CrossProjectile.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/BootScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/BootScene.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/TestGameScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/TestGameScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/BaseClass/Item.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Items/BaseClass/Item.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/Stats/ItemStats.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Items/Stats/ItemStats.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -338,6 +304,7 @@
       <workItem from="1779948535613" duration="756000" />
       <workItem from="1780510700074" duration="3722000" />
       <workItem from="1780548521100" duration="7977000" />
+      <workItem from="1780834673350" duration="919000" />
     </task>
     <servers />
   </component>

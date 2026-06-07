@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd4d21b6c929c2549a014203567e41ed, type: 3}
   m_Name: LaRobbaVisualData
   m_EditorClassIdentifier: 
-  _nameRu: La Robba
-  _nameEn: La Robba
-  _nameTr: La Robba
+  _nameRu: "\u0411\u044C\u044E\u0442\u0438 \u0428\u0442\u043E\u0440\u043C"
+  _nameEn: Beauty Storm
+  _nameTr: "G\xFCzellik F\u0131rt\u0131nas\u0131"
   _descriptionRu: "\u0421\u043E\u0437\u0434\u0430\u0451\u0442 \u043E\u0442\u0441\u043A\u0430\u043A\u0438\u0432\u0430\u044E\u0449\u0438\u0435
     \u0441\u043D\u0430\u0440\u044F\u0434\u044B"
   _descriptionEn: Generates bouncing projectiles
-  _descriptionTr: Generates bouncing projectiles
-  <Sprite>k__BackingField: {fileID: 21300000, guid: 97102ebc8510d1845b92abbf3eff23f9, type: 3}
+  _descriptionTr: "Seken mermiler \xFCretir."
+  <Sprite>k__BackingField: {fileID: 21300000, guid: b7728da0323a87541a865ebe767301b8, type: 3}
   <Stats>k__BackingField:
   - _nameRu: "\u0423\u0440\u043E\u043D"
     _nameEn: Damage

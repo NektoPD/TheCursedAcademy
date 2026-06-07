@@ -12,16 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd4d21b6c929c2549a014203567e41ed, type: 3}
   m_Name: CrossVisualData
   m_EditorClassIdentifier: 
-  _nameRu: "\u041A\u0440\u0435\u0441\u0442"
-  _nameEn: Cross
-  _nameTr: Cross
+  _nameRu: "\u0411\u0443\u043C\u0430\u0436\u043D\u044B\u0439 \u0441\u0430\u043C\u043E\u043B\u0435\u0442\u043A\u0438"
+  _nameEn: Paper airplane
+  _nameTr: "Ka\u011F\u0131t u\xE7ak"
   _descriptionRu: "\u041D\u0430\u0432\u043E\u0434\u0438\u0442\u0441\u044F \u043D\u0430
     \u0431\u043B\u0438\u0436\u0430\u0439\u0448\u0435\u0433\u043E \u0432\u0440\u0430\u0433\u0430
     \u0438 \u0432\u043E\u0437\u0432\u0440\u0430\u0449\u0430\u0435\u0442\u0441\u044F
     \u043A \u0433\u0435\u0440\u043E\u044E"
   _descriptionEn: Aims at the nearest enemy, has a boomerang effect
-  _descriptionTr: Aims at the nearest enemy, has a boomerang effect
-  <Sprite>k__BackingField: {fileID: 21300000, guid: 86d517591e001c044b4f40f82d23e0ea, type: 3}
+  _descriptionTr: "En yak\u0131n d\xFC\u015Fman\u0131 hedef al\u0131r, bumerang etkisi
+    yarat\u0131r."
+  <Sprite>k__BackingField: {fileID: 21300000, guid: a477cd3999164ba4f989395af1c0fe60, type: 3}
   <Stats>k__BackingField:
   - _nameRu: "\u0423\u0440\u043E\u043D"
     _nameEn: Damage
