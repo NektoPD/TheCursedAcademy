@@ -132,6 +132,7 @@ namespace Items.ItemVariations.LaRobba
                         1f
                     ).normalized;
                     _rb.velocity = bounceDir * _bounceForce;
+                    _rb.angularVelocity = UnityEngine.Random.Range(-360f, 360f);
                 }
             }
         }
