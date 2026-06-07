@@ -94,6 +94,15 @@ namespace Items.ItemVariations.CherryBombs
         private void ResetToDefault()
         {
             KillTweens();
+
+            if (_animator != null)
+            {
+                _animator.ResetTrigger(ExplosionTrigger);
+                _animator.ResetTrigger(ExplosionEffectTrigger);
+                _animator.Rebind();
+                _animator.Update(0f);
+            }
+
             Transform.localScale = _targetScale;
             Transform.rotation = Quaternion.identity;
             _hasExploded = false;
