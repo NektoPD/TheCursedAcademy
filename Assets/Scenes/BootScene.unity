@@ -487,6 +487,8 @@ MonoBehaviour:
   _dataList:
   - _playTimeInSeconds: 0
     _enemyIds: e9030000
+  - _playTimeInSeconds: 14
+    _enemyIds: e9030000
 --- !u!4 &1365375387
 Transform:
   m_ObjectHideFlags: 0

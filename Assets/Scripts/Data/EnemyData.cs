@@ -16,6 +16,7 @@ namespace Data.EnemesData
         [field: SerializeField] public float ImmuneTime { get; private set; }
         [field: SerializeField] public int Money { get; private set; }
         [field: SerializeField] public int MoneyDropChancePerProcent { get; private set; }
+        [field: SerializeField] public bool IsBoss { get; private set; }
         [field: SerializeField] public List<AttackData> Attacks { get; private set; }
         [field: SerializeField] public RuntimeAnimatorController AnimatorController { get; private set; }
         [field: SerializeField] public ExpPointData ExpPointData { get; private set; }

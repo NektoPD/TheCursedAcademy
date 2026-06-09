@@ -35,12 +35,17 @@ namespace EnemyLogic.HealthBars
             Health.Died += RemoveBar;
         }
 
+        private void OnEnable()
+        {
+            _healthPanel.gameObject.SetActive(true);
+        }
+
         private void OnDisable()
         {
             if (Health != null)
                 Health.Died -= RemoveBar;
         }
 
-        private void RemoveBar() => Destroy(_healthPanel.gameObject);
+        private void RemoveBar() => _healthPanel.gameObject.SetActive(false);
     }
 }

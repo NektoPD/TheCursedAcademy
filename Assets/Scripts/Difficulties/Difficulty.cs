@@ -3,6 +3,7 @@ using Difficulties.TimeTrackers;
 using Difficulties.TimeTrackers.TimeDatas;
 using EnemyLogic;
 using Pools;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -50,6 +51,8 @@ namespace Difficulties
 
         private bool _canSpawn = true;
         private int _waveIndex = 0;
+
+        public event Action<Enemy> BossSpawned;
 
         [Inject]
         public void Construct(EnemyPool enemyPool, List<EnemyData> enemyDataList, XpWaveScaler xpWaveScaler)
@@ -109,18 +112,11 @@ namespace Difficulties
                 return;
 
             var enemy = GetRandomRegularEnemy();
-            if (enemy == null)
-            {
-                _canSpawn = false;
-                _cooldownRoutine = StartCoroutine(Cooldown());
-                return;
-            }
+
+            if (enemy != null)
+                enemy.transform.position = OffscreenPositionGenerator.GetRandomPositionOutsideCamera(_offset);
 
             _canSpawn = false;
-
-            enemy.transform.position =
-                OffscreenPositionGenerator.GetRandomPositionOutsideCamera(_offset);
-
             _cooldownRoutine = StartCoroutine(Cooldown());
         }
 
@@ -155,7 +151,7 @@ namespace Difficulties
             if (_regularIds.Count == 0)
                 return null;
 
-            int id = _regularIds[Random.Range(0, _regularIds.Count)];
+            int id = _regularIds[UnityEngine.Random.Range(0, _regularIds.Count)];
 
             var data = _enemyDataList.FirstOrDefault(e => e.Id == id);
             if (data == null)
@@ -189,6 +185,9 @@ namespace Difficulties
                     Debug.LogWarning($"[Difficulty] EnemyPool returned null for boss id {bossId}");
                     continue;
                 }
+
+                if (enemy.IsBoss)
+                    BossSpawned?.Invoke(enemy);
 
                 enemy.transform.position =
                     OffscreenPositionGenerator.GetRandomPositionOutsideCamera(_offset);

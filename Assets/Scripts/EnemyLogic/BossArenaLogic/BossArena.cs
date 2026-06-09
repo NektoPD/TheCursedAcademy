@@ -1,77 +1,98 @@
+using Cinemachine;
+using Difficulties;
 using System.Collections;
 using UnityEngine;
 
 namespace EnemyLogic.BossArenaLogic
 {
-    [RequireComponent(typeof(EnemyDamageTaker))]
     public class BossArena : MonoBehaviour
     {
-        [SerializeField] private Vector2 _arenaSize = new(16f, 9f);
         [SerializeField] private float _teleportDistanceFromCenter = 3f;
-        [SerializeField] private float _wallThickness = 0.5f;
-        [SerializeField] private Transform _wallPrefab;
-        [SerializeField] private Camera _bossCamera;
+        [SerializeField] private Transform _walls;
+        [SerializeField] private CinemachineConfiner2D _confinerCamera;
+        [SerializeField] private PolygonCollider2D _cameraBounds;
+        [SerializeField] private Difficulty _difficulty;
 
-        private Transform[] _arenaWalls;
-        private Bounds _arenaBounds;
-        private Camera _mainCamera;
-        private EnemyDamageTaker _enemyDamageTaker;
+        private Enemy _boss = null;
+        private Coroutine _corutine = null;
 
-        private void Awake()
+        private void OnEnable()
         {
-            _mainCamera = Camera.main;
-            _enemyDamageTaker = GetComponent<EnemyDamageTaker>();
+            _difficulty.BossSpawned += Activate;
         }
 
-        void Start()
+        private void OnDisable()
         {
-            TeleportBossToCenter();
-            _mainCamera.gameObject.SetActive(false);
-            _bossCamera.gameObject.SetActive(true);
-            _bossCamera.transform.SetParent(null);
-            CalculateArenaBounds();
-            BuildArena();
-            _enemyDamageTaker.Health.Died += DeactivateArea;
+            _difficulty.BossSpawned -= Activate;
         }
 
-        private void TeleportBossToCenter()
+        private void Activate(Enemy boss)
         {
-            Vector3 teleportPosition = _mainCamera.ScreenToWorldPoint(new Vector3(Screen.width / 2f, Screen.height / 2f, _mainCamera.nearClipPlane)) + Vector3.left * _teleportDistanceFromCenter;
+            if (_corutine != null)
+                StopCoroutine(_corutine);
 
-            transform.position = teleportPosition;
+            Vector3 center = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width / 2, Screen.height / 2, Camera.main.nearClipPlane));
+
+            if (_boss == null)
+                transform.position = center;
+            else
+               _boss.Died -= Deactivate;
+
+            _boss = boss;
+            _boss.Died += Deactivate;
+            _corutine = StartCoroutine(TeleportBoss(boss.gameObject, transform.position));
+
+            SetupCameraBounds();
+
+            _walls.gameObject.SetActive(true);
         }
 
-        private void CalculateArenaBounds()
+        private void Deactivate()
         {
-            Vector3 bossPosition = transform.position;
-            _arenaBounds = new Bounds(bossPosition, _arenaSize);
+            _confinerCamera.m_BoundingShape2D = null;
+            _confinerCamera.InvalidateCache();
+            _cameraBounds.gameObject.SetActive(false);
+            _walls.gameObject.SetActive(false);
+
+            _boss.Died -= Deactivate;
+            _boss = null;
         }
 
-        private void BuildArena()
+        private void SetupCameraBounds()
         {
-            _arenaWalls = new Transform[4];
-            Vector3 center = _arenaBounds.center;
-            Vector3 size = _arenaBounds.size;
+            _cameraBounds.gameObject.SetActive(true);
 
-            _arenaWalls[0] = CreateWall(new Vector3(center.x, center.y + size.y / 2, 0), new Vector3(size.x, _wallThickness, 1));
-            _arenaWalls[1] = CreateWall(new Vector3(center.x, center.y - size.y / 2, 0), new Vector3(size.x, _wallThickness, 1));
-            _arenaWalls[2] = CreateWall(new Vector3(center.x - size.x / 2, center.y, 0), new Vector3(_wallThickness, size.y, 1));
-            _arenaWalls[3] = CreateWall(new Vector3(center.x + size.x / 2, center.y, 0), new Vector3(_wallThickness, size.y, 1));
+            _confinerCamera.m_BoundingShape2D = _cameraBounds;
         }
 
-        private Transform CreateWall(Vector3 position, Vector3 scale)
+        private IEnumerator TeleportBoss(GameObject boss, Vector3 targetPosition)
         {
-            Transform wall = Instantiate(_wallPrefab, position, Quaternion.identity);
-            wall.transform.localScale = scale;
-            return wall;
-        }
+            SpriteRenderer renderer = boss.GetComponent<SpriteRenderer>();
+            Color originalColor = renderer.color;
 
-        private void DeactivateArea()
-        {
-            _bossCamera.gameObject.SetActive(false);
-            _mainCamera.gameObject.SetActive(true);
-            foreach (var wall in _arenaWalls)
-                Destroy(wall.gameObject);
+            float elapsed = 0;
+            float fadeTime = 0.2f;
+
+            while (elapsed < fadeTime)
+            {
+                elapsed += Time.deltaTime;
+                float alpha = Mathf.Lerp(1, 0, elapsed / fadeTime);
+                renderer.color = new Color(originalColor.r, originalColor.g, originalColor.b, alpha);
+                yield return null;
+            }
+
+            boss.transform.position = targetPosition + Vector3.up * _teleportDistanceFromCenter;
+
+            elapsed = 0;
+            while (elapsed < fadeTime)
+            {
+                elapsed += Time.deltaTime;
+                float alpha = Mathf.Lerp(0, 1, elapsed / fadeTime);
+                renderer.color = new Color(originalColor.r, originalColor.g, originalColor.b, alpha);
+                yield return null;
+            }
+
+            renderer.color = originalColor;
         }
     }
 }

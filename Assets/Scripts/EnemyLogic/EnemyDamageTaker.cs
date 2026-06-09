@@ -4,6 +4,7 @@ using System.Collections;
 using CharacterLogic.Initializer;
 using UnityEngine;
 using Zenject;
+using System;
 
 namespace EnemyLogic
 {

@@ -2,6 +2,7 @@ using Data;
 using Data.EnemesData;
 using Items.Interfaces;
 using Pools;
+using System;
 using UnityEngine;
 
 namespace EnemyLogic
@@ -20,10 +21,15 @@ namespace EnemyLogic
         private string _name;
         private Enemy _prefab;
         private EnemyDamageView _damageView;
+        private bool _isBoss = false;
+
+        public event Action Died;
 
         public Enemy Prefab => _prefab;
 
         public string Name => _name;
+
+        public bool IsBoss => _isBoss;
 
         private void Awake()
         {
@@ -38,8 +44,9 @@ namespace EnemyLogic
         public void Initialize(IData<Enemy> data, EnemyPool pool)
         {
             EnemyData enemyData = data as EnemyData;
-
+             
             _prefab = data.Prefab;
+            _isBoss = enemyData.IsBoss;
             _name = enemyData.Name;
             _animator.Initialize(enemyData.AnimatorController);
             _damageTaker.Initialize(enemyData.Health, enemyData.ImmuneTime);
@@ -53,6 +60,7 @@ namespace EnemyLogic
 
         public void Despawn()
         {
+            Died?.Invoke();
             gameObject.SetActive(false);
             _pool.ReturnEntity(this);
         }

@@ -19,6 +19,7 @@ MonoBehaviour:
   <ImmuneTime>k__BackingField: 20
   <Money>k__BackingField: 50
   <MoneyDropChancePerProcent>k__BackingField: 90
+  <IsBoss>k__BackingField: 1
   <Attacks>k__BackingField:
   - {fileID: 11400000, guid: a42d83a7a23780046bcee70aed9bfba7, type: 2}
   - {fileID: 11400000, guid: 6435c194ae5d8bb4e8595ba3b7b869a3, type: 2}
