@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using CharacterLogic.Initializer;
 using Data;
 using PlayerPerksController;
 using TMPro;
@@ -7,6 +8,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using Utils;
 using WalletSystem;
+using YG;
+using YG.Utils;
 using Zenject;
 
 namespace UI.Applicators
@@ -27,6 +30,7 @@ namespace UI.Applicators
         [SerializeField] private TextMeshProUGUI _hpRegen;
         [SerializeField] private TextMeshProUGUI _attackCooldown;
         [SerializeField] private TextMeshProUGUI _speed;
+        [SerializeField] private CharacterPurchaseController _characterPurchaseController;
 
         private PerkController _perkController;
 
@@ -65,6 +69,8 @@ namespace UI.Applicators
             _attackCooldown.text =
                 (data.Data.AttackRegenerationSpeed * GetM(m, PerkType.AttackCooldown)).ToString("0.##");
             _speed.text = (data.Data.MoveSpeed * GetM(m, PerkType.Speed)).ToString("0.##");
+            
+            
         }
 
         private float GetM(Dictionary<PerkType, float> m, PerkType t)
@@ -72,6 +78,12 @@ namespace UI.Applicators
 
         private void OnPlayClick()
         {
+            if (!_characterPurchaseController.IsCharacterAvailable(CurrentItem.Data.Type))
+            {
+                Debug.Log(_characterPurchaseController.IsCharacterAvailable(CurrentItem.Data.Type));
+                return;
+            }
+            
             _play.interactable = false;
             
             PlayerPrefs.SetInt(Key, (int)CurrentItem.Data.Type);

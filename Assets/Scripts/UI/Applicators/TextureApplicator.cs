@@ -34,6 +34,8 @@ namespace UI.Applicators
 
         private void Applicate(Image image)
         {
+            Debug.Log("Clicked");
+            
             _currentItem.sprite = _offSprite;
             image.sprite = _onSprite;
             _currentItem = image;

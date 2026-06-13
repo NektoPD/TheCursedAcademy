@@ -7,7 +7,7 @@
     false,
     false
   ],
-  "idSave": 482,
+  "idSave": 491,
   "money": 1,
   "newPlayerName": "Hello!",
   "openLevels": [
@@ -29,5 +29,12 @@
     "Money": 37
   },
   "IsTutorialCompleted": true,
+  "CharacterUnlockDatas": {
+    "Data": {
+      "Girl1": true,
+      "Girl2": false,
+      "Girl3": false
+    }
+  },
   "language": "ru"
 }

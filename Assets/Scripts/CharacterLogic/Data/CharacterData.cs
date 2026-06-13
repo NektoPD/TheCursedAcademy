@@ -24,5 +24,6 @@ namespace CharacterLogic.Data
         [field: SerializeField] public AnimatorOverrideController AnimatorController { get; private set; }
         [field: SerializeField] public Item StartItem { get; private set; }
         [field: SerializeField] public int InventoryLimit { get; private set; }
+        [field: SerializeField] public int UnlockPrice { get; private set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Data;
+﻿using CharacterLogic.Data;
+using Data;
 using PlayerPerksController;
 using WalletSystem;
 
@@ -17,6 +18,7 @@ namespace YG
         public PerkDataWrapper PerkDataWrapper = new PerkDataWrapper();
         public WalletWrapper WalletWrapper = new WalletWrapper();
         public bool IsTutorialCompleted;
+        public CharacterUnlockData CharacterUnlockDatas = new CharacterUnlockData();
 
         // Поля (сохранения) можно удалять и создавать новые. При обновлении игры сохранения ломаться не должны
 
@@ -27,7 +29,6 @@ namespace YG
             // Допустим, задать значения по умолчанию для отдельных элементов массива
 
             openLevels[1] = true;
-            
             
         }
     }
