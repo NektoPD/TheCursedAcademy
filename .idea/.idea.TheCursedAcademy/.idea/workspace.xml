@@ -7,11 +7,7 @@
     <list default="true" id="2352e6f7-7a00-4256-b434-98f90d0b0896" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.TheCursedAcademy/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TheCursedAcademy/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/PluginYourGames/Editor/SavesEditorYG2.json" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/PluginYourGames/Editor/SavesEditorYG2.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Menu.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Menu.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/CharacterLogic/Initializer/CharacterPurchaseController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/CharacterLogic/Initializer/CharacterPurchaseController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/Applicators/CharacterApplicator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/Applicators/CharacterApplicator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/Applicators/PerkApplicator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/Applicators/PerkApplicator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/Applicators/TextureApplicator.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/Applicators/TextureApplicator.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Items/ItemHolder/ItemsHolder.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Items/ItemHolder/ItemsHolder.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -305,7 +301,7 @@
       <workItem from="1780548521100" duration="7977000" />
       <workItem from="1780834673350" duration="4542000" />
       <workItem from="1781331595469" duration="13202000" />
-      <workItem from="1781426444492" duration="2533000" />
+      <workItem from="1781426444492" duration="4468000" />
     </task>
     <servers />
   </component>

@@ -38,7 +38,7 @@ namespace Items.ItemHolder
             {
                 ItemVisualData item = GetVisualData();
 
-                if (datas.Contains(item))
+                if (datas.Contains(item) || IsUnavailableItem(item))
                 {
                     i--;
                     continue;
@@ -46,6 +46,11 @@ namespace Items.ItemHolder
 
                 datas.Add(item);
             }
+        }
+
+        private bool IsUnavailableItem(ItemVisualData data)
+        {
+            return data == data.Variation is Enums.ItemVariations.CherryBombs or Enums.ItemVariations.Cross or Enums.ItemVariations.LaRobba;
         }
 
         private void CreateAllItems()
