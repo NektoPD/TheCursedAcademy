@@ -80,7 +80,7 @@ namespace UI.Applicators
                 return;
             }
 
-            if (_perkController.TryUpgradePerk(CurrentItem.Type) == false)
+            if (!_perkController.TryUpgradePerk(CurrentItem.Type))
                 return;
 
             _wallet.RemoveMoney(perkPrice);

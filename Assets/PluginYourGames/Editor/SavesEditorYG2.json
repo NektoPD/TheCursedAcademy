@@ -7,7 +7,7 @@
     false,
     false
   ],
-  "idSave": 491,
+  "idSave": 503,
   "money": 1,
   "newPlayerName": "Hello!",
   "openLevels": [
@@ -26,13 +26,13 @@
     }
   },
   "WalletWrapper": {
-    "Money": 37
+    "Money": 9037
   },
   "IsTutorialCompleted": true,
   "CharacterUnlockDatas": {
     "Data": {
       "Girl1": true,
-      "Girl2": false,
+      "Girl2": true,
       "Girl3": false
     }
   },

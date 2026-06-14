@@ -4,6 +4,7 @@ using CharacterLogic.Initializer;
 using Data;
 using PlayerPerksController;
 using TMPro;
+using UI.Animation;
 using UnityEngine;
 using UnityEngine.UI;
 using Utils;
@@ -21,7 +22,10 @@ namespace UI.Applicators
         [SerializeField] private TextMeshProUGUI _description;
         [SerializeField] private Image _image;
         [SerializeField] private Image _item;
-        [SerializeField] private Button _play;
+        [SerializeField] private Button _playerSelectButton;
+        [SerializeField] private Image _playerSelectButtonImage;
+        [SerializeField] private Sprite _buySprite;
+        [SerializeField] private Sprite _playSprite;
         [SerializeField] private int _gameIdScene;
         [SerializeField] private SceneChanger _changer;
         [SerializeField] private TextMeshProUGUI _attackPower;
@@ -31,26 +35,29 @@ namespace UI.Applicators
         [SerializeField] private TextMeshProUGUI _attackCooldown;
         [SerializeField] private TextMeshProUGUI _speed;
         [SerializeField] private CharacterPurchaseController _characterPurchaseController;
+        [SerializeField] private WindowAnimation _error;
 
         private PerkController _perkController;
+        private Wallet _wallet;
 
         [Inject]
-        public void Construct(PerkController perkController)
+        public void Construct(PerkController perkController, Wallet wallet)
         {
             _perkController = perkController;
+            _wallet = wallet;
         }
 
         protected override void OnEnable()
         {
             base.OnEnable();
-            _play.onClick.AddListener(OnPlayClick);
-            _play.interactable = true;
+            _playerSelectButton.onClick.AddListener(OnCharacterSelectButtonClick);
+            _playerSelectButton.interactable = true;
         }
 
         protected override void OnDisable()
         {
             base.OnDisable();
-            _play.onClick.RemoveListener(OnPlayClick);
+            _playerSelectButton.onClick.RemoveListener(OnCharacterSelectButtonClick);
         }
 
         protected override void Applicate(CharacterVisualData data)
@@ -69,25 +76,43 @@ namespace UI.Applicators
             _attackCooldown.text =
                 (data.Data.AttackRegenerationSpeed * GetM(m, PerkType.AttackCooldown)).ToString("0.##");
             _speed.text = (data.Data.MoveSpeed * GetM(m, PerkType.Speed)).ToString("0.##");
-            
-            
+
+            _playerSelectButtonImage.sprite = IsCharacterAvailable() ? _playSprite : _buySprite;
         }
 
         private float GetM(Dictionary<PerkType, float> m, PerkType t)
             => m != null && m.TryGetValue(t, out var v) ? v : 1f;
 
-        private void OnPlayClick()
+        private void OnCharacterSelectButtonClick()
         {
-            if (!_characterPurchaseController.IsCharacterAvailable(CurrentItem.Data.Type))
+            if (!IsCharacterAvailable())
             {
-                Debug.Log(_characterPurchaseController.IsCharacterAvailable(CurrentItem.Data.Type));
+                TryBuyCharacter();
                 return;
             }
-            
-            _play.interactable = false;
-            
+
+            _playerSelectButton.interactable = false;
+
             PlayerPrefs.SetInt(Key, (int)CurrentItem.Data.Type);
             _changer.ChangeScene(_gameIdScene);
+        }
+
+        private void TryBuyCharacter()
+        {
+            if (CurrentItem.Data.UnlockPrice > _wallet.Money)
+            {
+                _error.Open();
+                return;
+            }
+
+            if (!_characterPurchaseController.TryUnlockCharacter(CurrentItem.Data.Type)) return;
+            _wallet.RemoveMoney(CurrentItem.Data.UnlockPrice);
+            Applicate(CurrentItem);
+        }
+
+        private bool IsCharacterAvailable()
+        {
+            return _characterPurchaseController.IsCharacterAvailable(CurrentItem.Data.Type);
         }
     }
 }

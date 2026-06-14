@@ -20,7 +20,7 @@ namespace CharacterLogic.Initializer
         private void Awake()
         {
             CharacterUnlockData = YandexGame.savesData.CharacterUnlockDatas ??
-                                   throw new ArgumentNullException(nameof(CharacterUnlockData));
+                                  throw new ArgumentNullException(nameof(CharacterUnlockData));
         }
 
         private void Start()
@@ -30,9 +30,16 @@ namespace CharacterLogic.Initializer
 
         public bool IsCharacterAvailable(CharacterData.CharacterType characterType)
         {
-            Debug.Log(CharacterUnlockData);
-            
             return CharacterUnlockData.Data.FirstOrDefault(d => d.Key == characterType).Value;
+        }
+
+        public bool TryUnlockCharacter(CharacterData.CharacterType characterType)
+        {
+            if (!CharacterUnlockData.Data.ContainsKey(characterType)) return false;
+            CharacterUnlockData.Data[characterType] = true;
+            YandexGame.SaveProgress();
+            SetupCharacterPurchaseVisuals();
+            return true;
         }
 
         private void SetupCharacterPurchaseVisuals()
