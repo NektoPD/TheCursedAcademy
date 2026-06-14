@@ -9,10 +9,16 @@ namespace CharacterLogic
         [SerializeField] private Slider _hpBar;
         [SerializeField] private Slider _levelBar;
         [SerializeField] private Image _heroImage;
+        [SerializeField] private Image _abilityLevel;
 
         public void UpdateHpBar(float value, float maxHealth)
         {
             _hpBar.value = value / maxHealth;
+        }
+
+        public void UpdateAbilityLevelBar(float value, float maxValue)
+        {
+            _abilityLevel.fillAmount = value / maxValue;
         }
 
         public void UpdateLevelBar(int value, int levelRequirement)
