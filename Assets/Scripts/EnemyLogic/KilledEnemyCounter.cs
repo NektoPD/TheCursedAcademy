@@ -1,8 +1,12 @@
-﻿namespace EnemyLogic
+using System;
+
+namespace EnemyLogic
 {
     public class KilledEnemyCounter
     {
         public int KilledCounter { get; private set; }
+
+        public event Action EnemyKilled;
 
         public void ResetCounter()
         {
@@ -12,6 +16,7 @@
         public void AddKilledEnemy()
         {
             KilledCounter++;
+            EnemyKilled?.Invoke();
         }
     }
 }

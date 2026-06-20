@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using CameraExtensions;
+using CharacterLogic.Abilities;
 using CharacterLogic.Data;
 using CharacterLogic.InputHandler;
 using EnemyLogic;
@@ -70,6 +71,9 @@ namespace CharacterLogic
         private bool _isTutorial;
         private ItemVariations _stashedItemForChange;
         private float _abilityChargeLevel;
+        private AbilityBase _ability;
+        private float _baseAttackPower;
+        private float _baseArmor;
         public event Action<float, float> HealthChanged;
         public event Action<float, float> Damaged;
         public event Action<float, float> Healed;
@@ -79,6 +83,7 @@ namespace CharacterLogic
         public event Action NewItemAdded;
         public event Action ItemSwapped;
         public event Action MaxLevelReached;
+        public event Action AbilityReady;
         public CharacterInventory Inventory => _inventory;
         public bool IsDied => _isDied;
 
@@ -120,6 +125,8 @@ namespace CharacterLogic
 
             _killedEnemyCounter.ResetCounter();
             _gameStartTime = Time.timeSinceLevelLoad;
+
+            InitializeAbility(characterData);
         }
 
         private void Awake()
@@ -159,11 +166,30 @@ namespace CharacterLogic
 
             if (_fullInventoryItemApplicator != null)
                 _fullInventoryItemApplicator.ItemSelected -= OnChangeItemSelected;
+
+            if (_ability != null)
+            {
+                _ability.ChargeChanged -= UpdateAbilityLevelView;
+                _ability.AbilityReady -= OnAbilityReady;
+                _view.AbilityButtonPressed -= ActivateAbility;
+
+                if (_ability is RagemodeAbility rage)
+                {
+                    rage.RageModeStarted -= OnRageModeStarted;
+                    rage.RageModeEnded -= OnRageModeEnded;
+                }
+            }
+
+            if (_killedEnemyCounter != null)
+                _killedEnemyCounter.EnemyKilled -= OnEnemyKilledForAbility;
         }
 
         private void Update()
         {
             HandleMovementAnimations();
+
+            if (_ability != null && _ability.IsReady && Input.GetKeyDown(KeyCode.Space))
+                ActivateAbility();
         }
 
         private void OnExperienceGained(int value)
@@ -435,9 +461,9 @@ namespace CharacterLogic
             _view.UpdateHpBar(currentHealth, _hp);
         }
 
-        private void UpdateAbilityLevelView(float cuurrentValue)
+        private void UpdateAbilityLevelView(float currentValue, float maxValue)
         {
-            _view.UpdateAbilityLevelBar(cuurrentValue, _abilityChargeLevel);
+            _view.UpdateAbilityLevelBar(currentValue, maxValue);
         }
 
         private void UpdateExperienceView(int currentExp)
@@ -458,6 +484,73 @@ namespace CharacterLogic
         private void OnMovingRight()
         {
             _spriteHolder.FlipSprite(false);
+        }
+
+        private void InitializeAbility(CharacterData characterData)
+        {
+            if (characterData.AbilityConfig == null) return;
+
+            AbilityConfig config = characterData.AbilityConfig;
+            _abilityChargeLevel = config.KillsToCharge;
+
+            AbilityBase abilityPrefab = config.Type switch
+            {
+                AbilityType.Fireblast => gameObject.AddComponent<FireblastAbility>(),
+                AbilityType.Ragemode => gameObject.AddComponent<RagemodeAbility>(),
+                AbilityType.PoisonThrow => gameObject.AddComponent<PoisonThrowAbility>(),
+                _ => null
+            };
+
+            if (abilityPrefab == null) return;
+
+            _ability = abilityPrefab;
+            _ability.Initialize(config, _transform);
+
+            if (_ability is PoisonThrowAbility poison)
+                poison.SetMovementHandler(_movementHandler);
+
+            if (_ability is RagemodeAbility rage)
+            {
+                _baseAttackPower = _attackPower;
+                _baseArmor = _armor;
+                rage.RageModeStarted += OnRageModeStarted;
+                rage.RageModeEnded += OnRageModeEnded;
+            }
+
+            _ability.ChargeChanged += UpdateAbilityLevelView;
+            _ability.AbilityReady += OnAbilityReady;
+            _killedEnemyCounter.EnemyKilled += OnEnemyKilledForAbility;
+            _view.AbilityButtonPressed += ActivateAbility;
+
+            _view.UpdateAbilityLevelBar(0f, _abilityChargeLevel);
+        }
+
+        private void OnEnemyKilledForAbility()
+        {
+            _ability?.AddCharge();
+        }
+
+        private void OnAbilityReady()
+        {
+            _view.ShowAbilityReady();
+            AbilityReady?.Invoke();
+        }
+
+        public void ActivateAbility()
+        {
+            if (_ability == null || !_ability.IsReady) return;
+            _ability.Activate();
+            _view.HideAbilityUI();
+        }
+
+        private void OnRageModeStarted(float damageMult)
+        {
+            _attackPower = _baseAttackPower * damageMult;
+        }
+
+        private void OnRageModeEnded()
+        {
+            _attackPower = _baseAttackPower;
         }
     }
 }
