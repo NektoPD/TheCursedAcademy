@@ -69,7 +69,7 @@ namespace CharacterLogic
         private float _gameStartTime;
         private bool _isTutorial;
         private ItemVariations _stashedItemForChange;
-        private float _abilityMaxLevel;
+        private float _abilityChargeLevel;
         public event Action<float, float> HealthChanged;
         public event Action<float, float> Damaged;
         public event Action<float, float> Healed;
@@ -437,7 +437,7 @@ namespace CharacterLogic
 
         private void UpdateAbilityLevelView(float cuurrentValue)
         {
-            _view.UpdateAbilityLevelBar(cuurrentValue, _ability);
+            _view.UpdateAbilityLevelBar(cuurrentValue, _abilityChargeLevel);
         }
 
         private void UpdateExperienceView(int currentExp)

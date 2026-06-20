@@ -334,6 +334,7 @@ MonoBehaviour:
   _hpBar: {fileID: 2463584980890379236}
   _levelBar: {fileID: 3263212193798023734}
   _heroImage: {fileID: 2887678550597866198}
+  _abilityLevel: {fileID: 3996504703900119424}
 --- !u!114 &3751574626371838270
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1084,7 +1085,7 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 1
-  m_FillAmount: 0.645
+  m_FillAmount: 0.687
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
