@@ -1,50 +1,31 @@
 using System.Collections;
-using System.Collections.Generic;
 using HealthSystem;
 using UnityEngine;
 
 namespace CharacterLogic.Abilities
 {
-    [RequireComponent(typeof(Rigidbody2D))]
-    [RequireComponent(typeof(Collider2D))]
-    public class PoisonProjectile : MonoBehaviour
+    public class PoisonProjectile : AbilityProjectile
     {
         private const int PoisonTicks = 5;
         private const float MaxLifetime = 3f;
 
-        private float _totalDamage;
         private float _poisonDuration;
-        private Rigidbody2D _rb;
-        private readonly HashSet<IDamageable> _poisoned = new HashSet<IDamageable>();
 
-        private void Awake()
+        public override void Launch(Vector2 direction, float speed, float damage, float duration)
         {
-            _rb = GetComponent<Rigidbody2D>();
-            _rb.gravityScale = 0f;
-            _rb.freezeRotation = true;
-        }
-
-        public void Launch(Vector2 direction, float speed, float totalDamage, float poisonDuration)
-        {
-            _totalDamage = totalDamage;
-            _poisonDuration = poisonDuration;
-            _rb.velocity = direction.normalized * speed;
+            base.Launch(direction, speed, damage, duration);
+            _poisonDuration = duration;
             Destroy(gameObject, MaxLifetime);
         }
 
-        private void OnTriggerEnter2D(Collider2D collision)
+        protected override void ApplyEffect(IDamageable target)
         {
-            if (collision.TryGetComponent(out IDamageable damageable) &&
-                !collision.TryGetComponent(out Character character) &&
-                _poisoned.Add(damageable))
-            {
-                StartCoroutine(ApplyPoison(damageable));
-            }
+            StartCoroutine(ApplyPoison(target));
         }
 
         private IEnumerator ApplyPoison(IDamageable target)
         {
-            float tickDamage = _totalDamage / PoisonTicks;
+            float tickDamage = Damage / PoisonTicks;
             float tickInterval = _poisonDuration / PoisonTicks;
 
             for (int i = 0; i < PoisonTicks; i++)
