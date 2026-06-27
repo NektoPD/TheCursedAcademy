@@ -504,7 +504,7 @@ namespace CharacterLogic
             if (abilityPrefab == null) return;
 
             _ability = abilityPrefab;
-            _ability.Initialize(config, _transform);
+            _ability.Initialize(config, _transform, _characterSoundController);
 
             if (_ability is PoisonThrowAbility poison)
                 poison.SetMovementHandler(_movementHandler);

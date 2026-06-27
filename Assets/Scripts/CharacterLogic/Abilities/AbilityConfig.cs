@@ -12,5 +12,6 @@ namespace CharacterLogic.Abilities
         [field: SerializeField] public float ProjectileSpeed { get; private set; } = 8f;
         [field: SerializeField] public int ProjectileCount { get; private set; } = 12;
         [field: SerializeField] public AbilityProjectile ProjectilePrefab { get; private set; }
+        [field: SerializeField] public SoundType ActivationSound { get; private set; }
     }
 }
