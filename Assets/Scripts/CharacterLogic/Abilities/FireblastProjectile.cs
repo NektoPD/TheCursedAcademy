@@ -13,12 +13,16 @@ namespace CharacterLogic.Abilities
         [SerializeField] private float _speedMultiplier = 0.4f;
         [SerializeField] private float _pulseStrength = 0.15f;
         [SerializeField] private float _pulseDuration = 0.35f;
+        [SerializeField] private GameObject _hitEffect;
+        [SerializeField] private float _hitEffectAppearDuration = 0.2f;
+        [SerializeField] private float _hitEffectDisappearDuration = 0.3f;
 
         private float _speed;
         private float _lifetime;
         private Transform _currentTarget;
         private Vector3 _targetScale;
         private bool _isDespawning;
+        private bool _isHit;
         private Tween _pulseTween;
 
         public override void Launch(Vector2 direction, float speed, float damage, float duration)
@@ -27,6 +31,10 @@ namespace CharacterLogic.Abilities
             _lifetime = duration;
             _targetScale = transform.localScale;
             _isDespawning = false;
+            _isHit = false;
+
+            if (_hitEffect != null)
+                _hitEffect.SetActive(false);
 
             transform.localScale = Vector3.zero;
             transform.DOScale(_targetScale, _spawnScaleDuration)
@@ -44,7 +52,7 @@ namespace CharacterLogic.Abilities
 
         private void StartDespawn()
         {
-            if (this == null) return;
+            if (this == null || _isHit) return;
             _isDespawning = true;
             _pulseTween?.Kill();
             transform.DOScale(Vector3.zero, _despawnScaleDuration)
@@ -54,7 +62,7 @@ namespace CharacterLogic.Abilities
 
         private void StartPulse()
         {
-            if (_isDespawning) return;
+            if (_isDespawning || _isHit) return;
             _pulseTween = transform.DOScale(_targetScale * (1f + _pulseStrength), _pulseDuration)
                 .SetEase(Ease.InOutSine)
                 .SetLoops(-1, LoopType.Yoyo);
@@ -62,7 +70,7 @@ namespace CharacterLogic.Abilities
 
         private void Update()
         {
-            if (_isDespawning) return;
+            if (_isDespawning || _isHit) return;
 
             if (_currentTarget == null || !_currentTarget.gameObject.activeInHierarchy)
             {
@@ -80,13 +88,40 @@ namespace CharacterLogic.Abilities
         protected override void ApplyEffect(IDamageable target)
         {
             base.ApplyEffect(target);
-            HitEnemies.Clear();
-            FindRandomTarget();
+            PlayHitEffect();
+        }
+
+        private void PlayHitEffect()
+        {
+            _isHit = true;
+            _pulseTween?.Kill();
+            Rb.velocity = Vector2.zero;
+
+            if (_hitEffect == null)
+            {
+                Destroy(gameObject);
+                return;
+            }
+
+            _hitEffect.SetActive(true);
+            Vector3 effectScale = _hitEffect.transform.localScale;
+            _hitEffect.transform.localScale = Vector3.zero;
+
+            _hitEffect.transform.DOScale(effectScale, _hitEffectAppearDuration)
+                .SetEase(Ease.OutBack)
+                .OnComplete(() =>
+                {
+                    _hitEffect.transform.DOScale(Vector3.zero, _hitEffectDisappearDuration)
+                        .SetEase(Ease.InBack)
+                        .OnComplete(() => Destroy(gameObject));
+                });
         }
 
         private void OnDestroy()
         {
             transform.DOKill();
+            if (_hitEffect != null)
+                _hitEffect.transform.DOKill();
         }
 
         private void FindRandomTarget()
