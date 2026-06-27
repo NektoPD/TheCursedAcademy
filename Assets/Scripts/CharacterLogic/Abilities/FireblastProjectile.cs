@@ -11,12 +11,15 @@ namespace CharacterLogic.Abilities
         [SerializeField] private float _spawnScaleDuration = 0.3f;
         [SerializeField] private float _despawnScaleDuration = 0.3f;
         [SerializeField] private float _speedMultiplier = 0.4f;
+        [SerializeField] private float _pulseStrength = 0.15f;
+        [SerializeField] private float _pulseDuration = 0.35f;
 
         private float _speed;
         private float _lifetime;
         private Transform _currentTarget;
         private Vector3 _targetScale;
         private bool _isDespawning;
+        private Tween _pulseTween;
 
         public override void Launch(Vector2 direction, float speed, float damage, float duration)
         {
@@ -26,7 +29,9 @@ namespace CharacterLogic.Abilities
             _isDespawning = false;
 
             transform.localScale = Vector3.zero;
-            transform.DOScale(_targetScale, _spawnScaleDuration).SetEase(Ease.OutBack);
+            transform.DOScale(_targetScale, _spawnScaleDuration)
+                .SetEase(Ease.OutBack)
+                .OnComplete(StartPulse);
 
             base.Launch(direction, _speed, damage, duration);
             FindRandomTarget();
@@ -41,9 +46,18 @@ namespace CharacterLogic.Abilities
         {
             if (this == null) return;
             _isDespawning = true;
+            _pulseTween?.Kill();
             transform.DOScale(Vector3.zero, _despawnScaleDuration)
                 .SetEase(Ease.InBack)
                 .OnComplete(() => Destroy(gameObject));
+        }
+
+        private void StartPulse()
+        {
+            if (_isDespawning) return;
+            _pulseTween = transform.DOScale(_targetScale * (1f + _pulseStrength), _pulseDuration)
+                .SetEase(Ease.InOutSine)
+                .SetLoops(-1, LoopType.Yoyo);
         }
 
         private void Update()
