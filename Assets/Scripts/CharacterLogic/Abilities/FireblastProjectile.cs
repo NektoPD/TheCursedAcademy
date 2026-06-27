@@ -16,6 +16,7 @@ namespace CharacterLogic.Abilities
         [SerializeField] private GameObject _hitEffect;
         [SerializeField] private float _hitEffectAppearDuration = 0.2f;
         [SerializeField] private float _hitEffectDisappearDuration = 0.3f;
+        [SerializeField] private SpriteRenderer _projectileSprite;
 
         private float _speed;
         private float _lifetime;
@@ -35,6 +36,9 @@ namespace CharacterLogic.Abilities
 
             if (_hitEffect != null)
                 _hitEffect.SetActive(false);
+
+            if (_projectileSprite != null)
+                _projectileSprite.color = new Color(_projectileSprite.color.r, _projectileSprite.color.g, _projectileSprite.color.b, 1f);
 
             transform.localScale = Vector3.zero;
             transform.DOScale(_targetScale, _spawnScaleDuration)
@@ -104,6 +108,10 @@ namespace CharacterLogic.Abilities
             }
 
             _hitEffect.SetActive(true);
+
+            if (_projectileSprite != null)
+                _projectileSprite.color = new Color(_projectileSprite.color.r, _projectileSprite.color.g, _projectileSprite.color.b, 0f);
+
             Vector3 effectScale = _hitEffect.transform.localScale;
             _hitEffect.transform.localScale = Vector3.zero;
 
