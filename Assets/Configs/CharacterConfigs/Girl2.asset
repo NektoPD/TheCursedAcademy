@@ -24,3 +24,4 @@ MonoBehaviour:
   <StartItem>k__BackingField: {fileID: 8500000000000000003, guid: cb200003000000000000000000000003, type: 3}
   <InventoryLimit>k__BackingField: 5
   <UnlockPrice>k__BackingField: 1000
+  <AbilityConfig>k__BackingField: {fileID: 11400000, guid: d76431c9af7eea245bca566e55f0af1a, type: 2}

@@ -23,3 +23,5 @@ MonoBehaviour:
   <AnimatorController>k__BackingField: {fileID: 22100000, guid: 99552a1ea5b81ec41b8d3f7534ad386f, type: 2}
   <StartItem>k__BackingField: {fileID: 8400000000000000003, guid: cb200001000000000000000000000001, type: 3}
   <InventoryLimit>k__BackingField: 5
+  <UnlockPrice>k__BackingField: 0
+  <AbilityConfig>k__BackingField: {fileID: 11400000, guid: 0155273db99573344974ca751c72bb2e, type: 2}

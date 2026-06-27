@@ -188,7 +188,7 @@ namespace CharacterLogic
         {
             HandleMovementAnimations();
 
-            if (_ability != null && _ability.IsReady && Input.GetKeyDown(KeyCode.Space))
+            if (_ability != null && _ability.IsReady && Input.GetKeyDown(KeyCode.F))
                 ActivateAbility();
         }
 

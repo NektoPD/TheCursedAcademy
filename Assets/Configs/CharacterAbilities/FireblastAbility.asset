@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 035e2ce149e0c57419ae59e9a364ff4d, type: 3}
+  m_Name: FireblastAbility
+  m_EditorClassIdentifier: 
+  <Type>k__BackingField: 1
+  <KillsToCharge>k__BackingField: 2
+  <Damage>k__BackingField: 10
+  <Duration>k__BackingField: 5
+  <ProjectileSpeed>k__BackingField: 8
+  <ProjectileCount>k__BackingField: 12
+  <ProjectilePrefab>k__BackingField: {fileID: 1949747535316036314, guid: 2bd63338f415aa149963b53a51c8c3a2, type: 3}
