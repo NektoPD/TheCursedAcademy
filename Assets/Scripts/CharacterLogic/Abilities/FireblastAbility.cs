@@ -1,10 +1,13 @@
 using System.Collections;
 using UnityEngine;
+using Utils;
 
 namespace CharacterLogic.Abilities
 {
     public class FireblastAbility : AbilityBase
     {
+        private bool _activationFinished;
+
         protected override void Execute()
         {
             IsActive = true;
@@ -13,18 +16,28 @@ namespace CharacterLogic.Abilities
 
         private IEnumerator ActivationSequence()
         {
-            if (Config.ActivationEffectPrefab != null)
+            if (ActivationEffect != null)
             {
-                GameObject effect = Instantiate(Config.ActivationEffectPrefab, OwnerTransform.position, Quaternion.identity);
-                effect.transform.SetParent(OwnerTransform);
-                effect.SetActive(true);
+                _activationFinished = false;
 
-                yield return new WaitUntil(() => !effect.activeInHierarchy);
+                var animator = ActivationEffect.GetComponent<SimpleSpriteAnimator>();
+                if (animator != null)
+                    animator.Finished += OnActivationFinished;
 
-                Destroy(effect);
+                ActivationEffect.SetActive(true);
+
+                yield return new WaitUntil(() => _activationFinished);
+
+                if (animator != null)
+                    animator.Finished -= OnActivationFinished;
             }
 
             yield return StartCoroutine(SpawnFireballs());
+        }
+
+        private void OnActivationFinished()
+        {
+            _activationFinished = true;
         }
 
         private IEnumerator SpawnFireballs()

@@ -7,6 +7,7 @@ namespace CharacterLogic.Abilities
     {
         protected AbilityConfig Config;
         protected Transform OwnerTransform;
+        protected GameObject ActivationEffect;
         private CharacterSoundController _soundController;
 
         private float _currentCharge;
@@ -26,6 +27,11 @@ namespace CharacterLogic.Abilities
             _currentCharge = 0f;
             _isReady = false;
             IsActive = false;
+        }
+
+        public void SetActivationEffect(GameObject effect)
+        {
+            ActivationEffect = effect;
         }
 
         public void AddCharge(int amount = 1)

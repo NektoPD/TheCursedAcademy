@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -14,6 +14,8 @@ namespace Utils
         private SpriteRenderer _spriteRenderer;
 
         private Coroutine _spriteChangeCoroutine;
+
+        public event Action Finished;
 
         private void Awake()
         {
@@ -70,6 +72,7 @@ namespace Utils
                 yield return interval;
             }
             
+            Finished?.Invoke();
             gameObject.SetActive(false);
         }
     }
