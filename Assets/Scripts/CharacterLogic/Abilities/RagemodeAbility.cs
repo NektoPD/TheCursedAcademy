@@ -12,6 +12,10 @@ namespace CharacterLogic.Abilities
         protected override void Execute()
         {
             IsActive = true;
+
+            if (ActivationEffect != null)
+                ActivationEffect.gameObject.SetActive(true);
+
             StartCoroutine(RageModeRoutine());
         }
 
@@ -21,6 +25,9 @@ namespace CharacterLogic.Abilities
             RageModeStarted?.Invoke(damageMult);
 
             yield return new WaitForSeconds(Config.Duration);
+
+            if (ActivationEffect != null)
+                ActivationEffect.gameObject.SetActive(false);
 
             RageModeEnded?.Invoke();
             IsActive = false;
