@@ -7,6 +7,7 @@ namespace CharacterLogic.Abilities
     public class FireblastAbility : AbilityBase
     {
         private bool _activationFinished;
+        private bool _halfwayReached;
 
         protected override void Execute()
         {
@@ -19,16 +20,33 @@ namespace CharacterLogic.Abilities
             if (ActivationEffect != null)
             {
                 _activationFinished = false;
+                _halfwayReached = false;
 
                 ActivationEffect.Finished += OnActivationFinished;
+                ActivationEffect.HalfwayReached += OnHalfwayReached;
                 ActivationEffect.gameObject.SetActive(true);
+
+                yield return new WaitUntil(() => _halfwayReached);
+
+                SpawnFireballs();
 
                 yield return new WaitUntil(() => _activationFinished);
 
                 ActivationEffect.Finished -= OnActivationFinished;
+                ActivationEffect.HalfwayReached -= OnHalfwayReached;
+            }
+            else
+            {
+                SpawnFireballs();
             }
 
-            yield return StartCoroutine(SpawnFireballs());
+            yield return new WaitForSeconds(Config.Duration);
+            IsActive = false;
+        }
+
+        private void OnHalfwayReached()
+        {
+            _halfwayReached = true;
         }
 
         private void OnActivationFinished()
@@ -36,7 +54,7 @@ namespace CharacterLogic.Abilities
             _activationFinished = true;
         }
 
-        private IEnumerator SpawnFireballs()
+        private void SpawnFireballs()
         {
             int count = Config.ProjectileCount;
             float angleStep = 360f / count;
@@ -54,9 +72,6 @@ namespace CharacterLogic.Abilities
 
                 projectile.Launch(direction, Config.ProjectileSpeed, Config.Damage, Config.Duration);
             }
-
-            yield return new WaitForSeconds(Config.Duration);
-            IsActive = false;
         }
     }
 }

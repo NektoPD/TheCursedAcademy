@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 namespace CharacterLogic.Abilities
@@ -5,6 +6,7 @@ namespace CharacterLogic.Abilities
     public class PoisonThrowAbility : AbilityBase
     {
         private bool _facingLeft;
+        private bool _halfwayReached;
         private CharacterLogic.InputHandler.CharacterMovementHandler _movementHandler;
 
         public void SetMovementHandler(CharacterLogic.InputHandler.CharacterMovementHandler handler)
@@ -25,7 +27,34 @@ namespace CharacterLogic.Abilities
         protected override void Execute()
         {
             IsActive = true;
+            StartCoroutine(ActivationSequence());
+        }
 
+        private IEnumerator ActivationSequence()
+        {
+            if (ActivationEffect != null)
+            {
+                _halfwayReached = false;
+
+                ActivationEffect.HalfwayReached += OnHalfwayReached;
+                ActivationEffect.gameObject.SetActive(true);
+
+                yield return new WaitUntil(() => _halfwayReached);
+
+                ActivationEffect.HalfwayReached -= OnHalfwayReached;
+            }
+
+            SpawnProjectile();
+            IsActive = false;
+        }
+
+        private void OnHalfwayReached()
+        {
+            _halfwayReached = true;
+        }
+
+        private void SpawnProjectile()
+        {
             Vector2 direction = _facingLeft ? Vector2.left : Vector2.right;
 
             AbilityProjectile projectile = Instantiate(Config.ProjectilePrefab, OwnerTransform.position, Quaternion.identity);
@@ -38,8 +67,6 @@ namespace CharacterLogic.Abilities
                 poison.SetFacing(_facingLeft);
 
             projectile.Launch(direction, Config.ProjectileSpeed, Config.Damage, Config.Duration);
-
-            IsActive = false;
         }
     }
 }
