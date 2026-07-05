@@ -51,7 +51,7 @@ namespace CharacterLogic.Abilities
         public void SetFacing(bool facingLeft)
         {
             if (_projectileSprite != null)
-                _projectileSprite.flipX = facingLeft;
+                _projectileSprite.flipY = facingLeft;
         }
 
         private void StartDespawn()

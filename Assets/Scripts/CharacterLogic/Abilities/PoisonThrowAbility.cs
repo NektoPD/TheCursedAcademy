@@ -31,7 +31,7 @@ namespace CharacterLogic.Abilities
             AbilityProjectile projectile = Instantiate(Config.ProjectilePrefab, OwnerTransform.position, Quaternion.identity);
             projectile.transform.SetParent(null);
 
-            float angle = _facingLeft ? 180f : 0f;
+            float angle = _facingLeft ? 90f : 0f;
             projectile.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
             if (projectile is PoisonProjectile poison)

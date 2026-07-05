@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7fc2b3813dc710448f98a412d5c29db, type: 3}
   m_Name: LaRobba
   m_EditorClassIdentifier: 
-  Damage: 4
+  Damage: 10
   Cooldown: 3.5
   MaxLevel: 4
   Rarity: 1

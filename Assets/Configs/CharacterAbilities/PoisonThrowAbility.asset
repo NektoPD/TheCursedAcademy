@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: PoisonThrowAbility
   m_EditorClassIdentifier: 
   <Type>k__BackingField: 3
-  <KillsToCharge>k__BackingField: 2
+  <KillsToCharge>k__BackingField: 1
   <Damage>k__BackingField: 10
   <Duration>k__BackingField: 5
   <ProjectileSpeed>k__BackingField: 8
   <ProjectileCount>k__BackingField: 12
   <ProjectilePrefab>k__BackingField: {fileID: 6232424625480618047, guid: 2fcc9437dae46894d9c2a5b17d16e69a, type: 3}
+  <ActivationSound>k__BackingField: 0
