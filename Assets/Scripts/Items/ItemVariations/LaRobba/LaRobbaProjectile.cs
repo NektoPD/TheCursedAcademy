@@ -18,7 +18,6 @@ namespace Items.ItemVariations.LaRobba
         [SerializeField] private Sprite[] _sprites;
         [SerializeField] private float _gravity = 5f;
         [SerializeField] private float _bounceForce = 3f;
-        [SerializeField] private float _colliderEnableDelay = 1f;
 
         private float _speed;
         private Phase _phase;
@@ -26,7 +25,6 @@ namespace Items.ItemVariations.LaRobba
         private Rigidbody2D _rb;
         private Sprite _defaultSprite;
         private float _defaultColliderRadius;
-        private float _enableTimer;
 
         public event Action<LaRobbaProjectile> Finished;
 
@@ -49,7 +47,6 @@ namespace Items.ItemVariations.LaRobba
         {
             _speed = speed;
             _phase = Phase.Falling;
-            _enableTimer = 0f;
 
             if (_sprites != null && _sprites.Length > 0)
             {
@@ -103,7 +100,6 @@ namespace Items.ItemVariations.LaRobba
             }
 
             _phase = Phase.Falling;
-            _enableTimer = 0f;
             Damage = 0f;
             Owner = null;
         }
@@ -112,9 +108,13 @@ namespace Items.ItemVariations.LaRobba
         {
             if (!_circleCollider.enabled)
             {
-                _enableTimer += Time.deltaTime;
-                if (_enableTimer >= _colliderEnableDelay)
-                    _circleCollider.enabled = true;
+                Camera camera = Camera.main;
+                if (camera != null)
+                {
+                    Vector3 viewportPos = camera.WorldToViewportPoint(Transform.position);
+                    if (viewportPos.y <= 1f && viewportPos.y >= 0f)
+                        _circleCollider.enabled = true;
+                }
             }
 
             if (_phase == Phase.Bouncing)
