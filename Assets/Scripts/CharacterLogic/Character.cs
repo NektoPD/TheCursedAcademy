@@ -38,7 +38,9 @@ namespace CharacterLogic
         [SerializeField] private Canvas _characterCanvas;
         [SerializeField] private float _reviveInvincibilityDuration = 3f;
         [SerializeField] private float _deathZoomResetDuration = 0.15f;
-        [SerializeField] private GameObject _abilityActivationEffect;
+        [SerializeField] private GameObject _fireblastActivationEffect;
+        [SerializeField] private GameObject _ragemodeActivationEffect;
+        [SerializeField] private GameObject _poisonThrowActivationEffect;
         [SerializeField] private float _deathFadeDuration = 0.7f;
         private Coroutine _deathSequenceCoroutine;
         private Coroutine _reviveInvincibilityCoroutine;
@@ -507,8 +509,16 @@ namespace CharacterLogic
             _ability = abilityPrefab;
             _ability.Initialize(config, _transform, _characterSoundController);
 
-            if (_abilityActivationEffect != null)
-                _ability.SetActivationEffect(_abilityActivationEffect);
+            GameObject activationEffect = config.Type switch
+            {
+                AbilityType.Fireblast => _fireblastActivationEffect,
+                AbilityType.Ragemode => _ragemodeActivationEffect,
+                AbilityType.PoisonThrow => _poisonThrowActivationEffect,
+                _ => null
+            };
+
+            if (activationEffect != null)
+                _ability.SetActivationEffect(activationEffect);
 
             if (_ability is PoisonThrowAbility poison)
                 poison.SetMovementHandler(_movementHandler);
