@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using Utils;
 
 namespace CharacterLogic.Abilities
 {
@@ -7,7 +8,7 @@ namespace CharacterLogic.Abilities
     {
         protected AbilityConfig Config;
         protected Transform OwnerTransform;
-        protected GameObject ActivationEffect;
+        protected SimpleSpriteAnimator ActivationEffect;
         private CharacterSoundController _soundController;
 
         private float _currentCharge;
@@ -29,7 +30,7 @@ namespace CharacterLogic.Abilities
             IsActive = false;
         }
 
-        public void SetActivationEffect(GameObject effect)
+        public void SetActivationEffect(SimpleSpriteAnimator effect)
         {
             ActivationEffect = effect;
         }

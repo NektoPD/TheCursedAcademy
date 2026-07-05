@@ -19,6 +19,7 @@ using UI;
 using UI.Applicators;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Utils;
 
 namespace CharacterLogic
 {
@@ -38,9 +39,9 @@ namespace CharacterLogic
         [SerializeField] private Canvas _characterCanvas;
         [SerializeField] private float _reviveInvincibilityDuration = 3f;
         [SerializeField] private float _deathZoomResetDuration = 0.15f;
-        [SerializeField] private GameObject _fireblastActivationEffect;
-        [SerializeField] private GameObject _ragemodeActivationEffect;
-        [SerializeField] private GameObject _poisonThrowActivationEffect;
+        [SerializeField] private SimpleSpriteAnimator _fireblastActivationEffect;
+        [SerializeField] private SimpleSpriteAnimator _ragemodeActivationEffect;
+        [SerializeField] private SimpleSpriteAnimator _poisonThrowActivationEffect;
         [SerializeField] private float _deathFadeDuration = 0.7f;
         private Coroutine _deathSequenceCoroutine;
         private Coroutine _reviveInvincibilityCoroutine;
@@ -509,7 +510,7 @@ namespace CharacterLogic
             _ability = abilityPrefab;
             _ability.Initialize(config, _transform, _characterSoundController);
 
-            GameObject activationEffect = config.Type switch
+            SimpleSpriteAnimator activationEffect = config.Type switch
             {
                 AbilityType.Fireblast => _fireblastActivationEffect,
                 AbilityType.Ragemode => _ragemodeActivationEffect,

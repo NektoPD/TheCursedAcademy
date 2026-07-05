@@ -20,16 +20,12 @@ namespace CharacterLogic.Abilities
             {
                 _activationFinished = false;
 
-                var animator = ActivationEffect.GetComponent<SimpleSpriteAnimator>();
-                if (animator != null)
-                    animator.Finished += OnActivationFinished;
-
-                ActivationEffect.SetActive(true);
+                ActivationEffect.Finished += OnActivationFinished;
+                ActivationEffect.gameObject.SetActive(true);
 
                 yield return new WaitUntil(() => _activationFinished);
 
-                if (animator != null)
-                    animator.Finished -= OnActivationFinished;
+                ActivationEffect.Finished -= OnActivationFinished;
             }
 
             yield return StartCoroutine(SpawnFireballs());
