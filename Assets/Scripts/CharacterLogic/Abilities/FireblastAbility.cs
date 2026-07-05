@@ -8,7 +8,23 @@ namespace CharacterLogic.Abilities
         protected override void Execute()
         {
             IsActive = true;
-            StartCoroutine(SpawnFireballs());
+            StartCoroutine(ActivationSequence());
+        }
+
+        private IEnumerator ActivationSequence()
+        {
+            if (Config.ActivationEffectPrefab != null)
+            {
+                GameObject effect = Instantiate(Config.ActivationEffectPrefab, OwnerTransform.position, Quaternion.identity);
+                effect.transform.SetParent(OwnerTransform);
+                effect.SetActive(true);
+
+                yield return new WaitUntil(() => !effect.activeInHierarchy);
+
+                Destroy(effect);
+            }
+
+            yield return StartCoroutine(SpawnFireballs());
         }
 
         private IEnumerator SpawnFireballs()
