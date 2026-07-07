@@ -6,7 +6,7 @@ namespace CharacterLogic.Abilities
 {
     public class RagemodeAbility : AbilityBase
     {
-        public event Action<float> RageModeStarted;
+        public event Action<float, float, float> RageModeStarted;
         public event Action RageModeEnded;
 
         protected override void Execute()
@@ -22,7 +22,9 @@ namespace CharacterLogic.Abilities
         private IEnumerator RageModeRoutine()
         {
             float damageMult = Config.Damage;
-            RageModeStarted?.Invoke(damageMult);
+            float speedMult = Config.SpeedMultiplier;
+            float armorMult = Config.ArmorMultiplier;
+            RageModeStarted?.Invoke(damageMult, speedMult, armorMult);
 
             yield return new WaitForSeconds(Config.Duration);
 

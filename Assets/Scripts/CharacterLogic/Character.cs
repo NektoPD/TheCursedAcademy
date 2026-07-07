@@ -78,6 +78,8 @@ namespace CharacterLogic
         private AbilityBase _ability;
         private float _baseAttackPower;
         private float _baseArmor;
+        private float _baseMoveSpeed;
+        private bool _isRageModeActive;
         public event Action<float, float> HealthChanged;
         public event Action<float, float> Damaged;
         public event Action<float, float> Healed;
@@ -364,8 +366,10 @@ namespace CharacterLogic
         public void TakeDamage(float damage)
         {
             if (_isInvincible) return;
+
+            float reducedDamage = damage / (1f + _armor);
             CameraShake.Instance.ShakeCamera(2, 5, 0.3f);
-            _health.TakeDamage(damage);
+            _health.TakeDamage(reducedDamage);
             _characterSoundController.EnableSoundByType(SoundType.Hit);
             Damaged?.Invoke(_health.CurrentHealth, _hp);
             HealthChanged?.Invoke(_health.CurrentHealth, _hp);
@@ -530,6 +534,7 @@ namespace CharacterLogic
             {
                 _baseAttackPower = _attackPower;
                 _baseArmor = _armor;
+                _baseMoveSpeed = _moveSpeed;
                 rage.RageModeStarted += OnRageModeStarted;
                 rage.RageModeEnded += OnRageModeEnded;
             }
@@ -560,15 +565,23 @@ namespace CharacterLogic
             _view.HideAbilityUI();
         }
 
-        private void OnRageModeStarted(float damageMult)
+        private void OnRageModeStarted(float damageMult, float speedMult, float armorMult)
         {
+            _isRageModeActive = true;
             _attackPower = _baseAttackPower * damageMult;
+            _armor = _baseArmor * armorMult;
+            _moveSpeed = _baseMoveSpeed * speedMult;
+            _movementHandler.SetSpeed(_moveSpeed);
             RageModeActivated?.Invoke();
         }
 
         private void OnRageModeEnded()
         {
+            _isRageModeActive = false;
             _attackPower = _baseAttackPower;
+            _armor = _baseArmor;
+            _moveSpeed = _baseMoveSpeed;
+            _movementHandler.SetSpeed(_moveSpeed);
             RageModeDeactivated?.Invoke();
         }
     }

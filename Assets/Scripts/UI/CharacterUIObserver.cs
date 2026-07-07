@@ -48,8 +48,10 @@ namespace UI
 
         private float _flashIntensityAdd;
 
+        private bool _isRageModeActive;
         private Tween _flashTween;
         private Tween _colorTween;
+        private Tween _rageFadeTween;
 
         private void OnEnable()
         {
@@ -200,7 +202,7 @@ namespace UI
 
         private void PlayFlash(Color flashColor)
         {
-            if (_vignette == null)
+            if (_vignette == null || _isRageModeActive)
                 return;
 
             _flashTween?.Kill();
@@ -261,24 +263,49 @@ namespace UI
 
             _colorTween?.Kill();
             _colorTween = null;
+
+            _rageFadeTween?.Kill();
+            _rageFadeTween = null;
         }
 
         private void OnRageModeActivated()
         {
             if (_vignette == null) return;
 
+            _isRageModeActive = true;
+            _rageFadeTween?.Kill();
+            _flashTween?.Kill();
             _vignette.color.value = _rageModeColor;
-            _rageModeIntensityAdd = _rageModeIntensity;
-            UpdateVignette();
+
+            _rageFadeTween = DOTween.To(
+                () => _rageModeIntensityAdd,
+                x =>
+                {
+                    _rageModeIntensityAdd = x;
+                    UpdateVignette();
+                },
+                _rageModeIntensity,
+                0.4f).SetEase(Ease.OutSine);
         }
 
         private void OnRageModeDeactivated()
         {
             if (_vignette == null) return;
 
-            _rageModeIntensityAdd = 0f;
-            _vignette.color.value = _damageColor;
-            UpdateVignette();
+            _isRageModeActive = false;
+            _rageFadeTween?.Kill();
+
+            _rageFadeTween = DOTween.To(
+                () => _rageModeIntensityAdd,
+                x =>
+                {
+                    _rageModeIntensityAdd = x;
+                    UpdateVignette();
+                },
+                0f,
+                0.4f)
+                .SetEase(Ease.InSine)
+                .OnComplete(() => _vignette.color.value = _damageColor);
         }
     }
 }
