@@ -56,6 +56,7 @@ namespace Items.ItemVariations.LaRobba
             }
 
             _circleCollider.enabled = false;
+            
             Transform.rotation = Quaternion.identity;
             _rb.velocity = Vector2.down * _speed;
             _rb.gravityScale = _gravity / Physics2D.gravity.magnitude;

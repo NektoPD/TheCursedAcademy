@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using DG.Tweening;
 using HealthSystem;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace CharacterLogic.Abilities
 {
@@ -51,7 +53,7 @@ namespace CharacterLogic.Abilities
         public void SetFacing(bool facingLeft)
         {
             if (_projectileSprite != null)
-                _projectileSprite.flipY = facingLeft;
+                _projectileSprite.flipX = facingLeft;
         }
 
         private void StartDespawn()

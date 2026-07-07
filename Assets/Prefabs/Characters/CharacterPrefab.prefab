@@ -480,7 +480,7 @@ MonoBehaviour:
   _reviveInvincibilityDuration: 3
   _deathZoomResetDuration: 0.15
   _fireblastActivationEffect: {fileID: 5721913812371257471}
-  _ragemodeActivationEffect: {fileID: 1060067469454579101}
+  _ragemodeActivationEffect: {fileID: 2135827365572909173}
   _poisonThrowActivationEffect: {fileID: 1060067469454579101}
   _deathFadeDuration: 0.7
 --- !u!114 &4663065833553167498
@@ -1140,7 +1140,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6130837788340735081
 Transform:
   m_ObjectHideFlags: 0
@@ -1150,8 +1150,8 @@ Transform:
   m_GameObject: {fileID: 3802701536266168397}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.01, y: -0.246, z: 0}
-  m_LocalScale: {x: 1.2414832, y: 1.2414832, z: 1.2414832}
+  m_LocalPosition: {x: -0.001, y: -0.59, z: 0}
+  m_LocalScale: {x: 0.64407563, y: 0.64407563, z: 0.64407563}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3498055186232077328}
@@ -1196,7 +1196,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 4
+  m_SortingOrder: 0
   m_Sprite: {fileID: -1821045122, guid: 0123206305ba5934c951959c8953a3da, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

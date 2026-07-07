@@ -61,7 +61,7 @@ namespace CharacterLogic.Abilities
             projectile.transform.SetParent(null);
 
             float angle = _facingLeft ? 90f : 0f;
-            projectile.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+            //projectile.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
             if (projectile is PoisonProjectile poison)
                 poison.SetFacing(_facingLeft);
