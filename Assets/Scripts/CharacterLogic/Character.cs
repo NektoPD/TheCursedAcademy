@@ -88,6 +88,8 @@ namespace CharacterLogic
         public event Action ItemSwapped;
         public event Action MaxLevelReached;
         public event Action AbilityReady;
+        public event Action RageModeActivated;
+        public event Action RageModeDeactivated;
         public CharacterInventory Inventory => _inventory;
         public bool IsDied => _isDied;
 
@@ -561,11 +563,13 @@ namespace CharacterLogic
         private void OnRageModeStarted(float damageMult)
         {
             _attackPower = _baseAttackPower * damageMult;
+            RageModeActivated?.Invoke();
         }
 
         private void OnRageModeEnded()
         {
             _attackPower = _baseAttackPower;
+            RageModeDeactivated?.Invoke();
         }
     }
 }

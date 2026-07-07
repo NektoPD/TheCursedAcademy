@@ -34,10 +34,17 @@ namespace UI
         [ColorUsage(false, true)] [SerializeField]
         private Color _healColor = Color.green;
 
+        [Header("Vignette: Ragemode")] [SerializeField, Range(0f, 1f)]
+        private float _rageModeIntensity = 0.5f;
+
+        [ColorUsage(false, true)] [SerializeField]
+        private Color _rageModeColor = new Color(1f, 0.3f, 0f);
+
         private Character _character;
         private Vignette _vignette;
 
         private float _baseIntensity;
+        private float _rageModeIntensityAdd;
 
         private float _flashIntensityAdd;
 
@@ -68,6 +75,8 @@ namespace UI
             _character.NewItemAdded -= OnNewItemAdded;
             _character.ItemSwapped -= OnItemSwapped;
             _character.MaxLevelReached -= OnItemMaxLevelReached;
+            _character.RageModeActivated -= OnRageModeActivated;
+            _character.RageModeDeactivated -= OnRageModeDeactivated;
 
             _character = null;
         }
@@ -119,6 +128,8 @@ namespace UI
                 _character.NewItemAdded -= OnNewItemAdded;
                 _character.ItemSwapped -= OnItemSwapped;
                 _character.MaxLevelReached -= OnItemMaxLevelReached;
+                _character.RageModeActivated -= OnRageModeActivated;
+                _character.RageModeDeactivated -= OnRageModeDeactivated;
             }
 
             _character = character;
@@ -141,6 +152,8 @@ namespace UI
             _character.InventoryLimitReached += InventoryLimitReached;
             _character.NewItemAdded += OnNewItemAdded;
             _character.ItemSwapped += OnItemSwapped;
+            _character.RageModeActivated += OnRageModeActivated;
+            _character.RageModeDeactivated += OnRageModeDeactivated;
 
             if (_vignette == null)
                 CacheVignette();
@@ -235,7 +248,7 @@ namespace UI
             if (_vignette == null)
                 return;
 
-            float total = Mathf.Clamp01(_baseIntensity + _flashIntensityAdd);
+            float total = Mathf.Clamp01(_baseIntensity + _flashIntensityAdd + _rageModeIntensityAdd);
 
             _vignette.intensity.value = total;
             _vignette.enabled.value = total > 0.001f;
@@ -248,6 +261,24 @@ namespace UI
 
             _colorTween?.Kill();
             _colorTween = null;
+        }
+
+        private void OnRageModeActivated()
+        {
+            if (_vignette == null) return;
+
+            _vignette.color.value = _rageModeColor;
+            _rageModeIntensityAdd = _rageModeIntensity;
+            UpdateVignette();
+        }
+
+        private void OnRageModeDeactivated()
+        {
+            if (_vignette == null) return;
+
+            _rageModeIntensityAdd = 0f;
+            _vignette.color.value = _damageColor;
+            UpdateVignette();
         }
     }
 }
