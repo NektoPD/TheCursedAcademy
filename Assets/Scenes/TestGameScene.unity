@@ -4002,6 +4002,8 @@ MonoBehaviour:
   _flashDuration: 0.3
   _damageColor: {r: 1, g: 0, b: 0, a: 1}
   _healColor: {r: 0, g: 1, b: 0, a: 1}
+  _rageModeIntensity: 0.6
+  _rageModeColor: {r: 1, g: 0.010550404, b: 0, a: 1}
 --- !u!4 &433544583
 Transform:
   m_ObjectHideFlags: 0
@@ -4783,8 +4785,8 @@ MonoBehaviour:
       colorBlindnessType: 0
       colorBlindnessStrength: 1
   m_Resources: {fileID: 11400000, guid: d82512f9c8e5d4a4d938b575d47f88d4, type: 2}
-  m_ShowToolkit: 0
-  m_ShowCustomSorter: 1
+  m_ShowToolkit: 1
+  m_ShowCustomSorter: 0
   breakBeforeColorGrading: 0
   m_BeforeTransparentBundles: []
   m_BeforeStackBundles: []

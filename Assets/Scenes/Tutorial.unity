@@ -8566,10 +8566,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _levelUpWindow: {fileID: 1095507680}
+  _inventoryFullWindow: {fileID: 0}
   _statisticApplicator: {fileID: 0}
   _initializer: {fileID: 1136952425}
+  _itemMaxLevelReachedWindow: {fileID: 0}
   _exit: {fileID: 0}
   _reviver: {fileID: 0}
+  _postProcessVolume: {fileID: 0}
+  _lowHealthMaxIntensity: 0.45
+  _flashMaxAddIntensity: 0.35
+  _flashDuration: 0.3
+  _damageColor: {r: 1, g: 0, b: 0, a: 1}
+  _healColor: {r: 0, g: 1, b: 0, a: 1}
+  _rageModeIntensity: 0.5
+  _rageModeColor: {r: 1, g: 0.3, b: 0, a: 1}
 --- !u!4 &795323722
 Transform:
   m_ObjectHideFlags: 0
@@ -10216,7 +10226,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 802.395, y: -444.19107}
+  m_AnchoredPosition: {x: 802.395, y: -444.1911}
   m_SizeDelta: {x: 1432.2845, y: 136.9621}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1004551942
@@ -12188,6 +12198,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: bf3b8d7b270cc85479c719c88074d76d, type: 2}
   _characterSpawner: {fileID: 1136952424}
   _characterSoundController: {fileID: 339651521}
+  _fullInventoryItemApplicator: {fileID: 0}
 --- !u!4 &1136952426
 Transform:
   m_ObjectHideFlags: 0
@@ -13107,6 +13118,90 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1401065738}
   m_CullTransparentMesh: 1
+--- !u!1 &1403311060
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1403311062}
+  - component: {fileID: 1403311061}
+  m_Layer: 0
+  m_Name: Dummy
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!212 &1403311061
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1403311060}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: -674287796, guid: 7204ee243ec719a42a330b488d8b2dc5, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 2}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!4 &1403311062
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1403311060}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2.458, y: -0.17450005, z: 0}
+  m_LocalScale: {x: 2.8473, y: 2.8473, z: 2.8473}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1406323990
 GameObject:
   m_ObjectHideFlags: 0
@@ -19284,3 +19379,4 @@ SceneRoots:
   - {fileID: 176070444}
   - {fileID: 339651520}
   - {fileID: 342626528}
+  - {fileID: 1403311062}

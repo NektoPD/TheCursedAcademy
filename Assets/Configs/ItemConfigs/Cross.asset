@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Cross
   m_EditorClassIdentifier: 
   Damage: 8
-  Cooldown: 2
+  Cooldown: 3
   MaxLevel: 4
   Rarity: 1
   ItemIcon: {fileID: 21300000, guid: 50bc325ab19a88341b8593e9bf7aadd1, type: 3}
