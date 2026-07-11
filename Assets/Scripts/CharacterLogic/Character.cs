@@ -76,6 +76,7 @@ namespace CharacterLogic
         private ItemVariations _stashedItemForChange;
         private float _abilityChargeLevel;
         private AbilityBase _ability;
+        private AbilityType _abilityType;
         private float _baseAttackPower;
         private float _baseArmor;
         private float _baseMoveSpeed;
@@ -92,6 +93,8 @@ namespace CharacterLogic
         public event Action AbilityReady;
         public event Action RageModeActivated;
         public event Action RageModeDeactivated;
+        public event Action AbilityUsed;
+        public AbilityType CurrentAbilityType => _abilityType;
         public CharacterInventory Inventory => _inventory;
         public bool IsDied => _isDied;
 
@@ -502,6 +505,7 @@ namespace CharacterLogic
 
             AbilityConfig config = characterData.AbilityConfig;
             _abilityChargeLevel = config.KillsToCharge;
+            _abilityType = config.Type;
 
             AbilityBase abilityPrefab = config.Type switch
             {
@@ -563,6 +567,12 @@ namespace CharacterLogic
             if (_ability == null || !_ability.IsReady) return;
             _ability.Activate();
             _view.HideAbilityUI();
+            AbilityUsed?.Invoke();
+        }
+
+        public void FillAbilityCharge()
+        {
+            _ability?.FillCharge();
         }
 
         private void OnRageModeStarted(float damageMult, float speedMult, float armorMult)
