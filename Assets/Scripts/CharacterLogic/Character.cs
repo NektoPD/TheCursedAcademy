@@ -356,6 +356,49 @@ namespace CharacterLogic
             if (_characterCanvas != null) _characterCanvas.gameObject.SetActive(false);
         }
 
+        public void ApplyDebuffs(IEnumerable<Debuffs.DebuffData> debuffs)
+        {
+            if (debuffs == null) return;
+
+            foreach (var debuff in debuffs)
+            {
+                if (debuff == null) continue;
+
+                foreach (var modifier in debuff.Modifiers)
+                    ApplyStatModifier(modifier.Type, modifier.Multiplier);
+            }
+
+            _health.SetMaxHealth(_hp);
+            UpdateHealthView(_hp);
+            _attacker.SetAttackRegenerationSpeed(_attackCooldown);
+            _movementHandler.SetSpeed(_moveSpeed);
+        }
+
+        private void ApplyStatModifier(PerkType type, float multiplier)
+        {
+            switch (type)
+            {
+                case PerkType.Power:
+                    _attackPower *= multiplier;
+                    break;
+                case PerkType.Armor:
+                    _armor *= multiplier;
+                    break;
+                case PerkType.MaxHp:
+                    _hp *= multiplier;
+                    break;
+                case PerkType.HpRegeneration:
+                    _hpRegenerationSpeed *= multiplier;
+                    break;
+                case PerkType.AttackCooldown:
+                    _attackCooldown *= multiplier;
+                    break;
+                case PerkType.Speed:
+                    _moveSpeed *= multiplier;
+                    break;
+            }
+        }
+
         public void EnableMovement()
         {
             _movementHandler.EnableMovement();
