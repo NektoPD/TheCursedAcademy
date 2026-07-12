@@ -14,6 +14,7 @@ namespace Debuffs
         [SerializeField] private List<DebuffData> _debuffLibrary = new();
         [SerializeField] private List<SlotColumn> _columns = new();
         [SerializeField] private List<TMP_Text> _resultTexts = new();
+        [SerializeField] private float _openDelay = 0.5f;
         [SerializeField] private float _spinDuration = 1.2f;
         [SerializeField] private float _delayBetweenStops = 0.6f;
 
@@ -47,6 +48,8 @@ namespace Debuffs
             _selected.Clear();
             _selected.AddRange(PickDistinct(ColumnsCount));
 
+            yield return new WaitForSecondsRealtime(_openDelay);
+
             for (int i = 0; i < _columns.Count; i++)
             {
                 _columns[i].Initialize(_debuffLibrary);
@@ -57,7 +60,10 @@ namespace Debuffs
 
             for (int i = 0; i < _columns.Count; i++)
             {
-                _columns[i].StopOn(_selected[i]);
+                _columns[i].Stop(_selected[i]);
+
+                while (!_columns[i].IsStopped)
+                    yield return null;
 
                 if (i < _resultTexts.Count && _resultTexts[i] != null)
                     _resultTexts[i].text = _selected[i].Name;
