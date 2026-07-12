@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 545a42422c848c149a57093839fb4696, type: 3}
+  m_Name: Debuff_GlassCannon
+  m_EditorClassIdentifier: 
+  _nameRu: "\u0421\u0442\u0435\u043A\u043B\u044F\u043D\u043D\u0430\u044F \u043F\u0443\u0448\u043A\u0430"
+  _nameEn: Glass Cannon
+  _nameTr: Cam Top
+  _descriptionRu: "\u0423\u0440\u043E\u043D +40%, \u043D\u043E \u0437\u0434\u043E\u0440\u043E\u0432\u044C\u0435
+    -25%."
+  _descriptionEn: Damage +40%, but health -25%.
+  _descriptionTr: Hasar +40, can -25.
+  <Icon>k__BackingField: {fileID: 0}
+  _modifiers:
+  - <Type>k__BackingField: 0
+    <Multiplier>k__BackingField: 1.4
+  - <Type>k__BackingField: 2
+    <Multiplier>k__BackingField: 0.75

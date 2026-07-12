@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 545a42422c848c149a57093839fb4696, type: 3}
+  m_Name: Debuff_HeavyArmor
+  m_EditorClassIdentifier: 
+  _nameRu: "\u0422\u044F\u0436\u0451\u043B\u0430\u044F \u0431\u0440\u043E\u043D\u044F"
+  _nameEn: Heavy Armor
+  _nameTr: Agir Zirh
+  _descriptionRu: "\u0411\u0440\u043E\u043D\u044F +50%, \u043D\u043E \u0441\u043A\u043E\u0440\u043E\u0441\u0442\u044C
+    -20%."
+  _descriptionEn: Armor +50%, but speed -20%.
+  _descriptionTr: Zirh +50, hiz -20.
+  <Icon>k__BackingField: {fileID: 0}
+  _modifiers:
+  - <Type>k__BackingField: 1
+    <Multiplier>k__BackingField: 1.5
+  - <Type>k__BackingField: 5
+    <Multiplier>k__BackingField: 0.8

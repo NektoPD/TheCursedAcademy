@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 545a42422c848c149a57093839fb4696, type: 3}
+  m_Name: Debuff_Marathoner
+  m_EditorClassIdentifier: 
+  _nameRu: "\u041C\u0430\u0440\u0430\u0444\u043E\u043D\u0435\u0446"
+  _nameEn: Marathoner
+  _nameTr: Maratoncu
+  _descriptionRu: "\u0421\u043A\u043E\u0440\u043E\u0441\u0442\u044C +30%, \u043D\u043E
+    \u0443\u0440\u043E\u043D -20%."
+  _descriptionEn: Speed +30%, but damage -20%.
+  _descriptionTr: Hiz +30, hasar -20.
+  <Icon>k__BackingField: {fileID: 0}
+  _modifiers:
+  - <Type>k__BackingField: 5
+    <Multiplier>k__BackingField: 1.3
+  - <Type>k__BackingField: 0
+    <Multiplier>k__BackingField: 0.8
