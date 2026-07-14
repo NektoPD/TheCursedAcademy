@@ -11,6 +11,7 @@ namespace Debuffs
         [SerializeField] private CharacterInitializer _characterInitializer;
         [SerializeField] private Difficulty _difficulty;
         [SerializeField] private SlotMachineWindow _slotMachineWindow;
+        [SerializeField] private CurseRevealOverlay _curseRevealOverlay;
 
         private Character _character;
 
@@ -18,12 +19,14 @@ namespace Debuffs
         {
             _characterInitializer.CharacterCreated += OnCharacterCreated;
             _slotMachineWindow.Finished += OnSlotFinished;
+            _curseRevealOverlay.Confirmed += OnCurseRevealConfirmed;
         }
 
         private void OnDisable()
         {
             _characterInitializer.CharacterCreated -= OnCharacterCreated;
             _slotMachineWindow.Finished -= OnSlotFinished;
+            _curseRevealOverlay.Confirmed -= OnCurseRevealConfirmed;
         }
 
         private void OnCharacterCreated(Character character)
@@ -36,8 +39,13 @@ namespace Debuffs
         private void OnSlotFinished(IReadOnlyList<DebuffData> debuffs)
         {
             _character.ApplyDebuffs(debuffs);
+            _slotMachineWindow.CloseUnscaledTime();
+            _curseRevealOverlay.Show(debuffs);
+        }
+
+        private void OnCurseRevealConfirmed()
+        {
             _character.ActivateCharacter();
-            _slotMachineWindow.CloseWindow();
             _difficulty.StartSpawning();
         }
     }

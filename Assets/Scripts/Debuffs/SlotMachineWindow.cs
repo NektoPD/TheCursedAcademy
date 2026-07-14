@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 
@@ -17,6 +18,9 @@ namespace Debuffs
         [SerializeField] private float _openDelay = 0.5f;
         [SerializeField] private float _spinDuration = 1.2f;
         [SerializeField] private float _delayBetweenStops = 0.6f;
+        [SerializeField] private float _holdDelayBeforeClose = 1.5f;
+        [SerializeField] private float _pulseScale = 1.15f;
+        [SerializeField] private float _pulseDuration = 0.5f;
 
         private readonly List<DebuffData> _selected = new();
         private Coroutine _routine;
@@ -66,13 +70,27 @@ namespace Debuffs
                     yield return null;
 
                 if (i < _resultTexts.Count && _resultTexts[i] != null)
+                {
                     _resultTexts[i].text = _selected[i].Name;
+                    PulseText(_resultTexts[i]);
+                }
 
                 yield return new WaitForSecondsRealtime(_delayBetweenStops);
             }
 
+            yield return new WaitForSecondsRealtime(_holdDelayBeforeClose);
+
             Finished?.Invoke(_selected);
             _routine = null;
+        }
+
+        private void PulseText(TMP_Text text)
+        {
+            text.rectTransform.localScale = Vector3.one;
+            text.rectTransform
+                .DOScale(_pulseScale, _pulseDuration)
+                .SetLoops(-1, LoopType.Yoyo)
+                .SetUpdate(true);
         }
 
         private IEnumerable<DebuffData> PickDistinct(int count)
