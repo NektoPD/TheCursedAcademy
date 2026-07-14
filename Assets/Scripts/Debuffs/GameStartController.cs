@@ -14,6 +14,7 @@ namespace Debuffs
         [SerializeField] private CurseRevealOverlay _curseRevealOverlay;
 
         private Character _character;
+        private IReadOnlyList<DebuffData> _debuffs;
 
         private void OnEnable()
         {
@@ -39,8 +40,15 @@ namespace Debuffs
         private void OnSlotFinished(IReadOnlyList<DebuffData> debuffs)
         {
             _character.ApplyDebuffs(debuffs);
+            _debuffs = debuffs;
+            _slotMachineWindow.Closed += OnSlotClosed;
             _slotMachineWindow.CloseUnscaledTime();
-            _curseRevealOverlay.Show(debuffs);
+        }
+
+        private void OnSlotClosed()
+        {
+            _slotMachineWindow.Closed -= OnSlotClosed;
+            _curseRevealOverlay.Show(_debuffs);
         }
 
         private void OnCurseRevealConfirmed()

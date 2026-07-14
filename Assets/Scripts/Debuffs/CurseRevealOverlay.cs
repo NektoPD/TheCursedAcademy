@@ -8,9 +8,8 @@ using UnityEngine.UI;
 
 namespace Debuffs
 {
-    public class CurseRevealOverlay : MonoBehaviour
+    public class CurseRevealOverlay : UI.Window
     {
-        [SerializeField] private GameObject _root;
         [SerializeField] private TMP_Text _text;
         [SerializeField] private Button _closeButton;
         [SerializeField] private string _header = "Your Curses are:";
@@ -23,30 +22,43 @@ namespace Debuffs
         private void OnEnable()
         {
             _closeButton.onClick.AddListener(OnClosePressed);
+            Opened += OnOpened;
         }
 
         private void OnDisable()
         {
             _closeButton.onClick.RemoveListener(OnClosePressed);
+            Opened -= OnOpened;
         }
 
         public void Show(IReadOnlyList<DebuffData> debuffs)
         {
             if (_routine != null)
+            {
                 StopCoroutine(_routine);
+                _routine = null;
+            }
 
-            _root.SetActive(true);
+            _text.text = BuildText(debuffs);
+            _text.ForceMeshUpdate();
+            _text.maxVisibleCharacters = 0;
             _closeButton.gameObject.SetActive(false);
-            _routine = StartCoroutine(RevealRoutine(BuildText(debuffs)));
+
+            OpenUnscaledTime();
         }
 
-        private IEnumerator RevealRoutine(string fullText)
+        private void OnOpened()
         {
-            _text.text = fullText;
+            if (_routine != null)
+                StopCoroutine(_routine);
+
+            _routine = StartCoroutine(RevealRoutine());
+        }
+
+        private IEnumerator RevealRoutine()
+        {
             _text.ForceMeshUpdate();
             int totalCharacters = _text.textInfo.characterCount;
-
-            _text.maxVisibleCharacters = 0;
 
             var wait = new WaitForSecondsRealtime(_charInterval);
 
@@ -73,6 +85,9 @@ namespace Debuffs
                         continue;
 
                     builder.AppendLine("- " + debuff.Name);
+
+                    if (!string.IsNullOrEmpty(debuff.Description))
+                        builder.AppendLine("   " + debuff.Description);
                 }
             }
 
@@ -81,7 +96,7 @@ namespace Debuffs
 
         private void OnClosePressed()
         {
-            _root.SetActive(false);
+            CloseUnscaledTime();
             Confirmed?.Invoke();
         }
     }
