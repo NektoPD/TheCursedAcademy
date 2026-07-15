@@ -19,10 +19,17 @@ namespace InventorySystem
 
         public int InventoryLimit { get; private set; }
 
+        public ItemVariations StartVariation { get; private set; }
+
         public CharacterInventory(int inventoryLimit)
         {
             Debug.Log(inventoryLimit);
             InventoryLimit = inventoryLimit;
+        }
+
+        public void SetStartVariation(ItemVariations startVariation)
+        {
+            StartVariation = startVariation;
         }
 
         public event Action<Item> ItemAdded;
@@ -66,6 +73,12 @@ namespace InventorySystem
             if (itemToRemove == null)
             {
                 Debug.LogError("Item to remove is null");
+                return;
+            }
+
+            if (itemToRemove.VisualData.Variation == StartVariation)
+            {
+                Debug.LogWarning("Start weapon cannot be removed");
                 return;
             }
 

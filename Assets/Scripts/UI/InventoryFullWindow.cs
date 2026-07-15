@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Data;
@@ -75,7 +75,10 @@ namespace UI
 
         public override void OpenUnscaledTime()
         {
-            List<ItemVisualData> visualDatasInInventory = _inventory.Items.Select(item => item.VisualData).ToList();
+            List<ItemVisualData> visualDatasInInventory = _inventory.Items
+                .Where(item => item.VisualData.Variation != _inventory.StartVariation)
+                .Select(item => item.VisualData)
+                .ToList();
 
             _applicator.SetDefaultItem(visualDatasInInventory.First());
             _applicator.Inizialize(visualDatasInInventory);

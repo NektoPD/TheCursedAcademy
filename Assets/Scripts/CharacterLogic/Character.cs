@@ -495,6 +495,7 @@ namespace CharacterLogic
                               GetPerkBonus(perkBonuses, PerkType.AttackCooldown);
             _moveSpeed = characterData.MoveSpeed * GetPerkBonus(perkBonuses, PerkType.Speed);
             SetupNewItem(characterData.StartItem.Data.ItemVariation);
+            _inventory.SetStartVariation(characterData.StartItem.Data.ItemVariation);
             _health.SetMaxHealth(_hp);
             _view.SetHeroImage(characterData.HeroSprite);
             UpdateHealthView(_hp);
