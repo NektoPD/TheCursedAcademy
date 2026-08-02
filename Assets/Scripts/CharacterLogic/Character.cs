@@ -406,7 +406,7 @@ namespace CharacterLogic
             if (_characterCanvas != null) _characterCanvas.gameObject.SetActive(true);
         }
 
-        public void TakeDamage(float damage)
+        public void TakeDamage(float damage, bool isFromBerserk = false)
         {
             if (_isInvincible) return;
 
