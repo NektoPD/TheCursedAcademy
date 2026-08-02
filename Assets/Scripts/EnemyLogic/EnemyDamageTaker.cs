@@ -67,7 +67,7 @@ namespace EnemyLogic
             _health.Died += Die;
         }
 
-        public void TakeDamage(float damage)
+        public void TakeDamage(float damage, bool isFromBerserk = false)
         {
             if (_isDied)
                 return;
