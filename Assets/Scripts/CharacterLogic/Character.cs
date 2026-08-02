@@ -301,6 +301,43 @@ namespace CharacterLogic
             ItemSwapped?.Invoke();
         }
 
+        public void SelectWheelItem(ItemVariations selectedItemVariation)
+        {
+            OnLevelUpItemSelected(selectedItemVariation);
+        }
+
+        public void AddWheelGold(int amount)
+        {
+            _characterSessionWallet.AddMoney(amount);
+        }
+
+        public void ApplyTemporaryBuff(PerkType type, float multiplier, float durationSeconds)
+        {
+            if (multiplier <= 0f || durationSeconds <= 0f)
+                return;
+
+            StartCoroutine(TemporaryBuffRoutine(type, multiplier, durationSeconds));
+        }
+
+        private IEnumerator TemporaryBuffRoutine(PerkType type, float multiplier, float durationSeconds)
+        {
+            ApplyStatModifier(type, multiplier);
+            RefreshStats();
+
+            yield return new WaitForSeconds(durationSeconds);
+
+            ApplyStatModifier(type, 1f / multiplier);
+            RefreshStats();
+        }
+
+        private void RefreshStats()
+        {
+            _health.SetMaxHealth(_hp);
+            UpdateHealthView(_hp);
+            _attacker.SetAttackRegenerationSpeed(_attackCooldown);
+            _movementHandler.SetSpeed(_moveSpeed);
+        }
+
         private void SetupNewItem(ItemVariations selectedItemVariation)
         {
             Item newItem = _itemsHolder.GetItemByType(selectedItemVariation);

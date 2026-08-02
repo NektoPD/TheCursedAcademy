@@ -2,6 +2,7 @@ using DG.Tweening;
 using CharacterLogic;
 using CharacterLogic.Initializer;
 using StatistiscSystem;
+using UI.FortuneWheel;
 using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
 
@@ -9,7 +10,7 @@ namespace UI
 {
     public class CharacterUIObserver : MonoBehaviour
     {
-        [SerializeField] private LevelUpWindow _levelUpWindow;
+        [SerializeField] private FortuneWheelWindow _fortuneWheelWindow;
         [SerializeField] private InventoryFullWindow _inventoryFullWindow;
         [SerializeField] private StatisticsApplicator _statisticApplicator;
         [SerializeField] private CharacterInitializer _initializer;
@@ -80,20 +81,27 @@ namespace UI
             _character.RageModeActivated -= OnRageModeActivated;
             _character.RageModeDeactivated -= OnRageModeDeactivated;
 
+            if (_fortuneWheelWindow != null)
+            {
+                _fortuneWheelWindow.ItemRewarded -= OnWheelItemRewarded;
+                _fortuneWheelWindow.GoldRewarded -= OnWheelGoldRewarded;
+                _fortuneWheelWindow.BuffRewarded -= OnWheelBuffRewarded;
+            }
+
             _character = null;
         }
 
-        private void OnNewItemAdded() => _levelUpWindow.CloseWindow();
+        private void OnNewItemAdded() => _fortuneWheelWindow.CloseWindow();
 
         private void OnItemSwapped()
         {
-            _levelUpWindow.CloseWindow();
+            _fortuneWheelWindow.CloseWindow();
             _inventoryFullWindow.CloseWindow();
         }
 
         private void OnItemMaxLevelReached()
         {
-            _levelUpWindow.CloseUnscaledTime();
+            _fortuneWheelWindow.CloseUnscaledTime();
             _itemMaxLevelReachedWindow.OpenWindow();
         }
 
@@ -139,8 +147,16 @@ namespace UI
             if (_reviver != null)
                 _reviver.Inizialize(character, _initializer);
 
-            if (_levelUpWindow != null)
-                _levelUpWindow.Initialize(character.Inventory);
+            if (_fortuneWheelWindow != null)
+            {
+                _fortuneWheelWindow.Initialize(character.Inventory);
+                _fortuneWheelWindow.ItemRewarded -= OnWheelItemRewarded;
+                _fortuneWheelWindow.GoldRewarded -= OnWheelGoldRewarded;
+                _fortuneWheelWindow.BuffRewarded -= OnWheelBuffRewarded;
+                _fortuneWheelWindow.ItemRewarded += OnWheelItemRewarded;
+                _fortuneWheelWindow.GoldRewarded += OnWheelGoldRewarded;
+                _fortuneWheelWindow.BuffRewarded += OnWheelBuffRewarded;
+            }
 
             if (_inventoryFullWindow != null)
                 _inventoryFullWindow.Initialize(character.Inventory);
@@ -161,7 +177,29 @@ namespace UI
                 CacheVignette();
         }
 
-        private void LevelUp() => _levelUpWindow.OpenWindow();
+        private void LevelUp() => _fortuneWheelWindow.OpenWindow();
+
+        private void OnWheelItemRewarded(Data.ItemVisualData item)
+        {
+            if (item != null)
+                _character.SelectWheelItem(item.Variation);
+            else
+                _fortuneWheelWindow.CloseWindow();
+        }
+
+        private void OnWheelGoldRewarded(int amount)
+        {
+            _character.AddWheelGold(amount);
+            _fortuneWheelWindow.CloseWindow();
+        }
+
+        private void OnWheelBuffRewarded(FortuneWheel.WheelBuffData buff)
+        {
+            if (buff != null)
+                _character.ApplyTemporaryBuff(buff.Type, buff.Multiplier, buff.DurationSeconds);
+
+            _fortuneWheelWindow.CloseWindow();
+        }
 
         private void InventoryLimitReached()
         {
