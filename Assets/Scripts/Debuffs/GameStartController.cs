@@ -10,6 +10,7 @@ namespace Debuffs
     {
         [SerializeField] private CharacterInitializer _characterInitializer;
         [SerializeField] private Difficulty _difficulty;
+        [SerializeField] private EventStarter _eventStarter;
         [SerializeField] private SlotMachineWindow _slotMachineWindow;
         [SerializeField] private CurseRevealOverlay _curseRevealOverlay;
 
@@ -55,6 +56,9 @@ namespace Debuffs
         {
             _character.ActivateCharacter();
             _difficulty.StartSpawning();
+
+            if (_eventStarter != null)
+                _eventStarter.StartSpawning();
         }
     }
 }
