@@ -11,6 +11,7 @@ namespace Debuffs
         [SerializeField] private CharacterInitializer _characterInitializer;
         [SerializeField] private Difficulty _difficulty;
         [SerializeField] private EventStarter _eventStarter;
+        [SerializeField] private UI.TimeView _timeView;
         [SerializeField] private SlotMachineWindow _slotMachineWindow;
         [SerializeField] private CurseRevealOverlay _curseRevealOverlay;
 
@@ -59,6 +60,9 @@ namespace Debuffs
 
             if (_eventStarter != null)
                 _eventStarter.StartSpawning();
+
+            if (_timeView != null)
+                _timeView.StartTimer();
         }
     }
 }

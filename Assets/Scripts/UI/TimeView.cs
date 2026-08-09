@@ -7,16 +7,40 @@ namespace UI
     [RequireComponent(typeof(TextMeshProUGUI))]
     public class TimeView : MonoBehaviour
     {
+        [SerializeField] private bool _waitForGameStart = true;
+
         private TextMeshProUGUI _timeText;
+        private bool _isRunning;
+        private float _elapsed;
 
         private void Awake()
         {
             _timeText = GetComponent<TextMeshProUGUI>();
+            _isRunning = !_waitForGameStart;
+            UpdateText();
+        }
+
+        public void StartTimer()
+        {
+            if (_isRunning)
+                return;
+
+            _elapsed = 0f;
+            _isRunning = true;
         }
 
         private void LateUpdate()
         {
-            TimeSpan timeSpan = TimeSpan.FromSeconds(Time.timeSinceLevelLoad);
+            if (!_isRunning)
+                return;
+
+            _elapsed += Time.deltaTime;
+            UpdateText();
+        }
+
+        private void UpdateText()
+        {
+            TimeSpan timeSpan = TimeSpan.FromSeconds(_elapsed);
 
             string formattedTime;
 
