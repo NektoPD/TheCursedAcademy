@@ -27,6 +27,8 @@ namespace UI.FortuneWheel
             if (item == null)
                 return;
 
+            OpenUnscaledTime();
+
             SetIcon(item.Sprite);
             _title.text = item.Name;
 
@@ -47,15 +49,15 @@ namespace UI.FortuneWheel
             }
 
             _description.text = builder.ToString();
-            OpenUnscaledTime();
         }
 
         public void ShowGold(int amount)
         {
+            OpenUnscaledTime();
+
             SetIcon(_goldIcon);
             _title.text = Translator.Translate("Золото", "Gold", "Altın");
             _description.text = "+" + amount;
-            OpenUnscaledTime();
         }
 
         public void ShowBuff(WheelBuffData buff)
@@ -63,13 +65,14 @@ namespace UI.FortuneWheel
             if (buff == null)
                 return;
 
+            OpenUnscaledTime();
+
             SetIcon(buff.Icon);
             _title.text = buff.Name;
             _description.text = Translator.Translate(
                 "x" + buff.Multiplier.ToString("0.##") + " на " + buff.DurationSeconds.ToString("0.##") + " сек",
                 "x" + buff.Multiplier.ToString("0.##") + " for " + buff.DurationSeconds.ToString("0.##") + " sec",
                 "x" + buff.Multiplier.ToString("0.##") + " " + buff.DurationSeconds.ToString("0.##") + " sn");
-            OpenUnscaledTime();
         }
 
         private void SetIcon(Sprite sprite)
