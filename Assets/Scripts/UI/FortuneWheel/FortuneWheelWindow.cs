@@ -26,10 +26,12 @@ namespace UI.FortuneWheel
         [SerializeField] private List<WheelBuffData> _buffLibrary = new();
 
         [Header("Spin")]
-        [SerializeField] private float _openDelay = 0.4f;
+        [SerializeField] private float _appearDuration = 0.4f;
+        [SerializeField] private Ease _appearEase = Ease.OutBack;
+        [SerializeField] private float _openDelay = 0.6f;
         [SerializeField] private int _fullSpins = 5;
         [SerializeField] private float _spinDuration = 3f;
-        [SerializeField] private Ease _spinEase = Ease.OutCubic;
+        [SerializeField] private Ease _spinEase = Ease.InOutCubic;
         [SerializeField] private float _holdDelayBeforeClose = 1.5f;
 
         private readonly List<WheelReward> _rewards = new();
@@ -74,11 +76,17 @@ namespace UI.FortuneWheel
         {
             BuildRewards();
 
+            for (int i = 0; i < _slots.Count; i++)
+                _slots[i].StopPulse();
+
             for (int i = 0; i < _slots.Count && i < _rewards.Count; i++)
                 _slots[i].Set(_rewards[i]);
 
             if (_wheel != null)
+            {
                 _wheel.localRotation = Quaternion.identity;
+                yield return AppearWheel();
+            }
 
             yield return new WaitForSecondsRealtime(_openDelay);
 
@@ -86,12 +94,30 @@ namespace UI.FortuneWheel
 
             yield return SpinTo(winningIndex);
 
+            if (winningIndex < _slots.Count)
+                _slots[winningIndex].PlayPulse();
+
             yield return new WaitForSecondsRealtime(_holdDelayBeforeClose);
 
             ApplyReward(_rewards[winningIndex]);
 
             Finished?.Invoke();
             _routine = null;
+        }
+
+        private IEnumerator AppearWheel()
+        {
+            _wheel.localScale = Vector3.zero;
+
+            bool done = false;
+
+            _wheel.DOScale(Vector3.one, _appearDuration)
+                .SetEase(_appearEase)
+                .SetUpdate(true)
+                .OnComplete(() => done = true);
+
+            while (!done)
+                yield return null;
         }
 
         private IEnumerator SpinTo(int winningIndex)
