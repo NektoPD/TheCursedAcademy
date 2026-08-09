@@ -17,6 +17,7 @@ namespace UI.FortuneWheel
 
         [Header("Wheel")]
         [SerializeField] private RectTransform _wheel;
+        [SerializeField] private RectTransform _pointer;
         [SerializeField] private List<WheelSlot> _slots = new();
 
         [Header("Reward Pool Weights")]
@@ -90,16 +91,17 @@ namespace UI.FortuneWheel
 
             yield return new WaitForSecondsRealtime(_openDelay);
 
-            int winningIndex = UnityEngine.Random.Range(0, _rewards.Count);
+            yield return SpinRandom();
 
-            yield return SpinTo(winningIndex);
+            int winningIndex = DetectWinningSlotIndex();
 
-            if (winningIndex < _slots.Count)
+            if (winningIndex >= 0 && winningIndex < _slots.Count)
                 _slots[winningIndex].PlayPulse();
 
             yield return new WaitForSecondsRealtime(_holdDelayBeforeClose);
 
-            ApplyReward(_rewards[winningIndex]);
+            if (winningIndex >= 0 && winningIndex < _rewards.Count)
+                ApplyReward(_rewards[winningIndex]);
 
             Finished?.Invoke();
             _routine = null;
@@ -120,28 +122,54 @@ namespace UI.FortuneWheel
                 yield return null;
         }
 
-        private IEnumerator SpinTo(int winningIndex)
+        private IEnumerator SpinRandom()
         {
             if (_wheel == null)
                 yield break;
 
-            float sliceAngle = 360f / SlotsCount;
-            float targetSliceCenter = winningIndex * sliceAngle;
-            float finalAngle = _fullSpins * 360f + targetSliceCenter;
+            float randomOffset = UnityEngine.Random.Range(0f, 360f);
+            float finalAngle = _fullSpins * 360f + randomOffset;
 
             bool done = false;
 
             _wheel.DORotate(new Vector3(0f, 0f, -finalAngle), _spinDuration, RotateMode.FastBeyond360)
                 .SetEase(_spinEase)
                 .SetUpdate(true)
-                .OnComplete(() =>
-                {
-                    _wheel.localRotation = Quaternion.Euler(0f, 0f, -targetSliceCenter);
-                    done = true;
-                });
+                .OnComplete(() => done = true);
 
             while (!done)
                 yield return null;
+        }
+
+        private int DetectWinningSlotIndex()
+        {
+            if (_slots == null || _slots.Count == 0)
+                return -1;
+
+            Vector2 center = _wheel != null ? (Vector2)_wheel.position : Vector2.zero;
+            Vector2 pointerDir = _pointer != null
+                ? ((Vector2)_pointer.position - center).normalized
+                : Vector2.up;
+
+            int bestIndex = -1;
+            float bestAngle = float.MaxValue;
+
+            for (int i = 0; i < _slots.Count; i++)
+            {
+                if (_slots[i] == null)
+                    continue;
+
+                Vector2 slotDir = ((Vector2)_slots[i].transform.position - center).normalized;
+                float angle = Vector2.Angle(pointerDir, slotDir);
+
+                if (angle < bestAngle)
+                {
+                    bestAngle = angle;
+                    bestIndex = i;
+                }
+            }
+
+            return bestIndex;
         }
 
         private void BuildRewards()
