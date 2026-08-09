@@ -11,6 +11,7 @@ namespace UI
     public class CharacterUIObserver : MonoBehaviour
     {
         [SerializeField] private FortuneWheelWindow _fortuneWheelWindow;
+        [SerializeField] private WheelRewardPopup _rewardPopup;
         [SerializeField] private InventoryFullWindow _inventoryFullWindow;
         [SerializeField] private StatisticsApplicator _statisticApplicator;
         [SerializeField] private CharacterInitializer _initializer;
@@ -54,6 +55,13 @@ namespace UI
         private Tween _colorTween;
         private Tween _rageFadeTween;
 
+        private enum PendingRewardKind { None, Item, Gold, Buff }
+
+        private PendingRewardKind _pendingKind;
+        private Data.ItemVisualData _pendingItem;
+        private int _pendingGold;
+        private FortuneWheel.WheelBuffData _pendingBuff;
+
         private void OnEnable()
         {
             _initializer.CharacterCreated += Inizialize;
@@ -88,20 +96,23 @@ namespace UI
                 _fortuneWheelWindow.BuffRewarded -= OnWheelBuffRewarded;
             }
 
+            if (_rewardPopup != null)
+                _rewardPopup.Confirmed -= OnRewardPopupConfirmed;
+
             _character = null;
         }
 
-        private void OnNewItemAdded() => _fortuneWheelWindow.CloseWindow();
+        private void OnNewItemAdded() => _rewardPopup.CloseWindow();
 
         private void OnItemSwapped()
         {
-            _fortuneWheelWindow.CloseWindow();
+            _rewardPopup.CloseWindow();
             _inventoryFullWindow.CloseWindow();
         }
 
         private void OnItemMaxLevelReached()
         {
-            _fortuneWheelWindow.CloseUnscaledTime();
+            _rewardPopup.CloseUnscaledTime();
             _itemMaxLevelReachedWindow.OpenWindow();
         }
 
@@ -158,6 +169,12 @@ namespace UI
                 _fortuneWheelWindow.BuffRewarded += OnWheelBuffRewarded;
             }
 
+            if (_rewardPopup != null)
+            {
+                _rewardPopup.Confirmed -= OnRewardPopupConfirmed;
+                _rewardPopup.Confirmed += OnRewardPopupConfirmed;
+            }
+
             if (_inventoryFullWindow != null)
                 _inventoryFullWindow.Initialize(character.Inventory);
 
@@ -181,24 +198,59 @@ namespace UI
 
         private void OnWheelItemRewarded(Data.ItemVisualData item)
         {
-            if (item != null)
-                _character.SelectWheelItem(item.Variation);
-            else
+            if (item == null)
+            {
                 _fortuneWheelWindow.CloseWindow();
+                return;
+            }
+
+            _pendingKind = PendingRewardKind.Item;
+            _pendingItem = item;
+            _fortuneWheelWindow.CloseUnscaledTime();
+            _rewardPopup.ShowItem(item);
         }
 
         private void OnWheelGoldRewarded(int amount)
         {
-            _character.AddWheelGold(amount);
-            _fortuneWheelWindow.CloseWindow();
+            _pendingKind = PendingRewardKind.Gold;
+            _pendingGold = amount;
+            _fortuneWheelWindow.CloseUnscaledTime();
+            _rewardPopup.ShowGold(amount);
         }
 
         private void OnWheelBuffRewarded(FortuneWheel.WheelBuffData buff)
         {
-            if (buff != null)
-                _character.ApplyTemporaryBuff(buff.Type, buff.Multiplier, buff.DurationSeconds);
+            if (buff == null)
+            {
+                _fortuneWheelWindow.CloseWindow();
+                return;
+            }
 
-            _fortuneWheelWindow.CloseWindow();
+            _pendingKind = PendingRewardKind.Buff;
+            _pendingBuff = buff;
+            _fortuneWheelWindow.CloseUnscaledTime();
+            _rewardPopup.ShowBuff(buff);
+        }
+
+        private void OnRewardPopupConfirmed()
+        {
+            switch (_pendingKind)
+            {
+                case PendingRewardKind.Item:
+                    _pendingKind = PendingRewardKind.None;
+                    _character.SelectWheelItem(_pendingItem.Variation);
+                    break;
+                case PendingRewardKind.Gold:
+                    _pendingKind = PendingRewardKind.None;
+                    _character.AddWheelGold(_pendingGold);
+                    _rewardPopup.CloseWindow();
+                    break;
+                case PendingRewardKind.Buff:
+                    _pendingKind = PendingRewardKind.None;
+                    _character.ApplyTemporaryBuff(_pendingBuff.Type, _pendingBuff.Multiplier, _pendingBuff.DurationSeconds);
+                    _rewardPopup.CloseWindow();
+                    break;
+            }
         }
 
         private void InventoryLimitReached()
