@@ -4,11 +4,12 @@ using System.Collections.Generic;
 using System.Text;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace Debuffs
 {
-    public class CurseRevealOverlay : UI.Window
+    public class CurseRevealOverlay : UI.Window, IPointerClickHandler
     {
         [SerializeField] private TMP_Text _text;
         [SerializeField] private Button _closeButton;
@@ -16,6 +17,7 @@ namespace Debuffs
         [SerializeField] private float _charInterval = 0.04f;
 
         private Coroutine _routine;
+        private bool _isRevealing;
 
         public event Action Confirmed;
 
@@ -57,6 +59,7 @@ namespace Debuffs
 
         private IEnumerator RevealRoutine()
         {
+            _isRevealing = true;
             _text.ForceMeshUpdate();
             int totalCharacters = _text.textInfo.characterCount;
 
@@ -68,8 +71,25 @@ namespace Debuffs
                 yield return wait;
             }
 
+            _isRevealing = false;
             _closeButton.gameObject.SetActive(true);
             _routine = null;
+        }
+
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            if (!_isRevealing)
+                return;
+
+            if (_routine != null)
+            {
+                StopCoroutine(_routine);
+                _routine = null;
+            }
+
+            _isRevealing = false;
+            _text.maxVisibleCharacters = int.MaxValue;
+            _closeButton.gameObject.SetActive(true);
         }
 
         private string BuildText(IReadOnlyList<DebuffData> debuffs)
