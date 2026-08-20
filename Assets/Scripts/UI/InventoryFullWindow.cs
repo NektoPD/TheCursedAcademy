@@ -75,33 +75,31 @@ namespace UI
 
         public override void OpenUnscaledTime()
         {
-            List<ItemVisualData> visualDatasInInventory = _inventory.Items
+            List<Item> itemsWithoutStart = _inventory.Items
                 .Where(item => item.VisualData.Variation != _inventory.StartVariation)
+                .ToList();
+
+            List<ItemVisualData> visualDatasInInventory = itemsWithoutStart
                 .Select(item => item.VisualData)
                 .ToList();
 
-            _applicator.SetDefaultItem(visualDatasInInventory.First());
-            _applicator.Inizialize(visualDatasInInventory);
-            _applicator.Initialize(_inventory.Items);
+            if (visualDatasInInventory.Count > 0)
+            {
+                _applicator.SetDefaultItem(visualDatasInInventory.First());
+                _applicator.Inizialize(visualDatasInInventory);
+                _applicator.Initialize(itemsWithoutStart);
+            }
 
             base.OpenWindow();
 
             for (int i = 0; i < _itemsVisual.Count; i++)
             {
-                if (_inventory.Items.Count - 1 >= i)
+                if (i < itemsWithoutStart.Count && itemsWithoutStart[i] != null)
                 {
-                    if (_inventory.Items[i] == null)
-                    {
-                        Debug.Log(_inventory.Items[i]);
-                        continue;
-                    }
-
-                    int level = _inventory.Items[i] ? 0 : _inventory.Items[i].CurrentLevel;
                     _itemsVisual[i].gameObject.SetActive(true);
-                    _itemsVisual[i].Initialize(_inventory.Items[i].VisualData, false, level,
-                        _inventory.Items[i].IsMaxLevelReached());
-                    
-                    Debug.Log(_inventory.Items[i].VisualData);
+                    _itemsVisual[i].Initialize(itemsWithoutStart[i].VisualData, false,
+                        itemsWithoutStart[i].CurrentLevel, itemsWithoutStart[i].IsMaxLevelReached());
+
                     continue;
                 }
 

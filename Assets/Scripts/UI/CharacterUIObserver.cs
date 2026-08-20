@@ -255,6 +255,9 @@ namespace UI
 
         private void InventoryLimitReached()
         {
+            if (_rewardPopup != null)
+                _rewardPopup.CloseUnscaledTime();
+
             _inventoryFullWindow.OpenUnscaledTime();
         }
 

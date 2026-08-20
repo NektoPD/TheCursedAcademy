@@ -9,13 +9,14 @@ namespace UI.FortuneWheel
     {
         [SerializeField] private Image _icon;
         [SerializeField] private TextMeshProUGUI _label;
+        [SerializeField] private Image _new;
         [SerializeField] private RectTransform _pulseTarget;
         [SerializeField] private float _pulseScale = 1.2f;
         [SerializeField] private float _pulseDuration = 0.5f;
 
         private Tween _pulseTween;
 
-        public void Set(WheelReward reward)
+        public void Set(WheelReward reward, bool isNew = false)
         {
             if (reward == null)
                 return;
@@ -29,6 +30,9 @@ namespace UI.FortuneWheel
 
             if (_label != null)
                 _label.text = reward.Label;
+
+            if (_new != null)
+                _new.gameObject.SetActive(isNew);
         }
 
         public void PlayPulse()

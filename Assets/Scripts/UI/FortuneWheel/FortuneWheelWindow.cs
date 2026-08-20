@@ -27,8 +27,6 @@ namespace UI.FortuneWheel
         [SerializeField] private List<WheelBuffData> _buffLibrary = new();
 
         [Header("Spin")]
-        [SerializeField] private float _appearDuration = 0.4f;
-        [SerializeField] private Ease _appearEase = Ease.OutBack;
         [SerializeField] private float _openDelay = 0.6f;
         [SerializeField] private int _fullSpins = 5;
         [SerializeField] private float _spinDuration = 3f;
@@ -81,12 +79,12 @@ namespace UI.FortuneWheel
                 _slots[i].StopPulse();
 
             for (int i = 0; i < _slots.Count && i < _rewards.Count; i++)
-                _slots[i].Set(_rewards[i]);
+                _slots[i].Set(_rewards[i], IsNewItem(_rewards[i]));
 
             if (_wheel != null)
             {
+                _wheel.localScale = Vector3.one;
                 _wheel.localRotation = Quaternion.identity;
-                yield return AppearWheel();
             }
 
             yield return new WaitForSecondsRealtime(_openDelay);
@@ -107,21 +105,6 @@ namespace UI.FortuneWheel
             _routine = null;
         }
 
-        private IEnumerator AppearWheel()
-        {
-            _wheel.localScale = Vector3.zero;
-
-            bool done = false;
-
-            _wheel.DOScale(Vector3.one, _appearDuration)
-                .SetEase(_appearEase)
-                .SetUpdate(true)
-                .OnComplete(() => done = true);
-
-            while (!done)
-                yield return null;
-        }
-
         private IEnumerator SpinRandom()
         {
             if (_wheel == null)
@@ -139,6 +122,17 @@ namespace UI.FortuneWheel
 
             while (!done)
                 yield return null;
+        }
+
+        private bool IsNewItem(WheelReward reward)
+        {
+            if (reward == null || reward.Type != WheelRewardType.Item || reward.Item == null)
+                return false;
+
+            if (_inventory == null)
+                return true;
+
+            return _inventory.Items.All(item => item.VisualData.Variation != reward.Item.Variation);
         }
 
         private int DetectWinningSlotIndex()
