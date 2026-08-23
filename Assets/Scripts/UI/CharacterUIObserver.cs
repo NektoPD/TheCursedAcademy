@@ -312,7 +312,7 @@ namespace UI
                         UpdateVignette();
                     },
                     _flashMaxAddIntensity,
-                    _flashDuration * 0.5f).SetEase(Ease.OutSine))
+                    _flashDuration * 0.15f).SetEase(Ease.OutQuad))
                 .Append(DOTween.To(
                     () => _flashIntensityAdd,
                     x =>
@@ -321,7 +321,7 @@ namespace UI
                         UpdateVignette();
                     },
                     0f,
-                    _flashDuration * 0.5f).SetEase(Ease.InSine))
+                    _flashDuration * 0.85f).SetEase(Ease.OutCubic))
                 .OnComplete(ReturnToDamageColor);
         }
 

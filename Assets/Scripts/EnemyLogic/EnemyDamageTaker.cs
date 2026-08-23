@@ -11,7 +11,7 @@ namespace EnemyLogic
     [RequireComponent(typeof(EnemyDamageView), typeof(EnemyEjector))]
     public class EnemyDamageTaker : MonoBehaviour, IDamageable
     {
-        private readonly int _duration = 1;
+        private readonly float _duration = 0.14f;
 
         private Health _health;
         private HealthBar _healthBar;

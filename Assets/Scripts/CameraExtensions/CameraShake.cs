@@ -12,6 +12,7 @@ namespace CameraExtensions
         private CinemachineVirtualCamera _virtualCamera;
         private CinemachineBasicMultiChannelPerlin _noise;
         private Coroutine _shakeCoroutine;
+        private float _currentIntensity;
 
         private void Awake()
         {
@@ -24,6 +25,9 @@ namespace CameraExtensions
         {
             if (_shakeCoroutine != null)
             {
+                if (intensity < _currentIntensity)
+                    return;
+
                 StopCoroutine(_shakeCoroutine);
             }
 
@@ -37,22 +41,27 @@ namespace CameraExtensions
 
         private IEnumerator ShakeRoutine(float intensity, float frequency, float duration)
         {
+            _currentIntensity = intensity;
+
             _noise.m_AmplitudeGain = intensity;
             _noise.m_FrequencyGain = frequency;
 
             float elapsedTime = 0f;
-            float startingIntensity = intensity;
 
             while (elapsedTime < duration)
             {
                 elapsedTime += Time.deltaTime;
 
-                _noise.m_AmplitudeGain = Mathf.Lerp(startingIntensity, 0f, elapsedTime / duration);
+                float t = Mathf.Clamp01(elapsedTime / duration);
+                float falloff = (1f - t) * (1f - t);
+
+                _noise.m_AmplitudeGain = intensity * falloff;
 
                 yield return null;
             }
 
             _noise.m_AmplitudeGain = 0f;
+            _currentIntensity = 0f;
             _shakeCoroutine = null;
         }
 
@@ -62,6 +71,7 @@ namespace CameraExtensions
             {
                 StopCoroutine(_shakeCoroutine);
                 _noise.m_AmplitudeGain = 0f;
+                _currentIntensity = 0f;
                 _shakeCoroutine = null;
             }
         }
