@@ -26,9 +26,11 @@ namespace UI
         private float _lowHealthMaxIntensity = 0.45f;
 
         [Header("Vignette: Flash")] [SerializeField, Range(0f, 1f)]
-        private float _flashMaxAddIntensity = 0.35f;
+        private float _flashMaxAddIntensity = 0.18f;
 
-        [SerializeField] private float _flashDuration = 0.30f;
+        [SerializeField] private float _flashDuration = 0.45f;
+
+        [SerializeField] private float _flashCooldown = 0.25f;
 
         [Header("Vignette Colors (HDR allowed)")] [ColorUsage(false, true)] [SerializeField]
         private Color _damageColor = Color.red;
@@ -49,6 +51,7 @@ namespace UI
         private float _rageModeIntensityAdd;
 
         private float _flashIntensityAdd;
+        private float _nextFlashTime;
 
         private bool _isRageModeActive;
         private Tween _flashTween;
@@ -298,6 +301,11 @@ namespace UI
             if (_vignette == null || _isRageModeActive)
                 return;
 
+            if (Time.unscaledTime < _nextFlashTime)
+                return;
+
+            _nextFlashTime = Time.unscaledTime + _flashCooldown;
+
             _flashTween?.Kill();
             _colorTween?.Kill();
 
@@ -312,7 +320,7 @@ namespace UI
                         UpdateVignette();
                     },
                     _flashMaxAddIntensity,
-                    _flashDuration * 0.15f).SetEase(Ease.OutQuad))
+                    _flashDuration * 0.35f).SetEase(Ease.OutSine))
                 .Append(DOTween.To(
                     () => _flashIntensityAdd,
                     x =>
@@ -321,7 +329,7 @@ namespace UI
                         UpdateVignette();
                     },
                     0f,
-                    _flashDuration * 0.85f).SetEase(Ease.OutCubic))
+                    _flashDuration * 0.65f).SetEase(Ease.InOutSine))
                 .OnComplete(ReturnToDamageColor);
         }
 
