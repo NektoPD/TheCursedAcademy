@@ -16,11 +16,36 @@ namespace Debuffs
         [SerializeField] private string _descriptionTr;
 
         [field: SerializeField] public Sprite Icon { get; private set; }
+        [SerializeField] private List<Sprite> _iconVariants = new();
+        [SerializeField, Range(0f, 0.5f)] private float _maxDeviation = 0.1f;
         [SerializeField] private List<DebuffModifier> _modifiers = new();
 
         public string Name => Translator.Translate(_nameRu, _nameEn, _nameTr);
         public string Description => Translator.Translate(_descriptionRu, _descriptionEn, _descriptionTr);
         public IReadOnlyList<DebuffModifier> Modifiers => _modifiers;
+        public IReadOnlyList<Sprite> IconVariants => _iconVariants;
+        public int VariantCount => _iconVariants.Count > 0 ? _iconVariants.Count : 1;
+
+        public Sprite GetIcon(int variantIndex)
+        {
+            if (_iconVariants.Count == 0)
+                return Icon;
+
+            int index = Mathf.Clamp(variantIndex, 0, _iconVariants.Count - 1);
+
+            return _iconVariants[index] != null ? _iconVariants[index] : Icon;
+        }
+
+        public float GetDeviation(int variantIndex)
+        {
+            if (VariantCount <= 1)
+                return 0f;
+
+            int index = Mathf.Clamp(variantIndex, 0, VariantCount - 1);
+            float t = (float)index / (VariantCount - 1);
+
+            return Mathf.Lerp(-_maxDeviation, _maxDeviation, t);
+        }
 
         public void SetLocalization(string ru, string en, string tr,
             string descRu, string descEn, string descTr)
@@ -36,6 +61,38 @@ namespace Debuffs
         public void SetIcon(Sprite icon) => Icon = icon;
 
         public void SetModifiers(List<DebuffModifier> modifiers) => _modifiers = modifiers;
+    }
+
+    public class DebuffRoll
+    {
+        public DebuffData Data { get; }
+        public int VariantIndex { get; }
+        public float Deviation { get; }
+
+        public DebuffRoll(DebuffData data, int variantIndex)
+        {
+            Data = data;
+            VariantIndex = variantIndex;
+            Deviation = data != null ? data.GetDeviation(variantIndex) : 0f;
+        }
+
+        public Sprite Icon => Data != null ? Data.GetIcon(VariantIndex) : null;
+        public string Name => Data != null ? Data.Name : string.Empty;
+        public string Description => Data != null ? Data.Description : string.Empty;
+
+        public IEnumerable<DebuffModifier> GetModifiers()
+        {
+            if (Data == null)
+                yield break;
+
+            foreach (var modifier in Data.Modifiers)
+                yield return new DebuffModifier(modifier.Type, ApplyDeviation(modifier.Multiplier));
+        }
+
+        private float ApplyDeviation(float multiplier)
+        {
+            return 1f + (multiplier - 1f) * (1f + Deviation);
+        }
     }
 
     [Serializable]

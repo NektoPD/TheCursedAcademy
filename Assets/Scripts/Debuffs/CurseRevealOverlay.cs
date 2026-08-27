@@ -33,7 +33,7 @@ namespace Debuffs
             Opened -= OnOpened;
         }
 
-        public void Show(IReadOnlyList<DebuffData> debuffs)
+        public void Show(IReadOnlyList<DebuffRoll> debuffs)
         {
             if (_routine != null)
             {
@@ -92,7 +92,7 @@ namespace Debuffs
             _closeButton.gameObject.SetActive(true);
         }
 
-        private string BuildText(IReadOnlyList<DebuffData> debuffs)
+        private string BuildText(IReadOnlyList<DebuffRoll> debuffs)
         {
             var builder = new StringBuilder();
             builder.AppendLine(_header);

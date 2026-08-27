@@ -412,7 +412,7 @@ namespace CharacterLogic
             if (_characterCanvas != null) _characterCanvas.gameObject.SetActive(false);
         }
 
-        public void ApplyDebuffs(IEnumerable<Debuffs.DebuffData> debuffs)
+        public void ApplyDebuffs(IEnumerable<Debuffs.DebuffRoll> debuffs)
         {
             if (debuffs == null) return;
 
@@ -420,7 +420,7 @@ namespace CharacterLogic
             {
                 if (debuff == null) continue;
 
-                foreach (var modifier in debuff.Modifiers)
+                foreach (var modifier in debuff.GetModifiers())
                     ApplyStatModifier(modifier.Type, modifier.Multiplier);
             }
 

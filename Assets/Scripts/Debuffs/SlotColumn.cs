@@ -15,11 +15,11 @@ namespace Debuffs
 
         private IReadOnlyList<DebuffData> _pool;
         private Coroutine _spinRoutine;
-        private DebuffData _result;
+        private DebuffRoll _result;
         private bool _isStopped = true;
 
         public bool IsStopped => _isStopped;
-        public DebuffData Result => _result;
+        public DebuffRoll Result => _result;
 
         public void Initialize(IReadOnlyList<DebuffData> pool)
         {
@@ -35,7 +35,7 @@ namespace Debuffs
             _spinRoutine = StartCoroutine(SpinRoutine());
         }
 
-        public void Stop(DebuffData result)
+        public void Stop(DebuffRoll result)
         {
             if (_spinRoutine != null)
                 StopCoroutine(_spinRoutine);
@@ -53,7 +53,7 @@ namespace Debuffs
             }
         }
 
-        private IEnumerator SettleRoutine(DebuffData result)
+        private IEnumerator SettleRoutine(DebuffRoll result)
         {
             float speed = _spinSpeed;
             float elapsed = 0f;
@@ -99,11 +99,11 @@ namespace Debuffs
             top.sprite = GetRandomIcon();
         }
 
-        private void AlignToCenter(DebuffData result)
+        private void AlignToCenter(DebuffRoll result)
         {
             _strip.anchoredPosition = new Vector2(_strip.anchoredPosition.x, 0f);
 
-            if (_cells.Count == 0)
+            if (_cells.Count == 0 || result == null)
                 return;
 
             int center = _cells.Count / 2;
@@ -115,7 +115,9 @@ namespace Debuffs
             if (_pool == null || _pool.Count == 0)
                 return null;
 
-            return _pool[Random.Range(0, _pool.Count)].Icon;
+            DebuffData data = _pool[Random.Range(0, _pool.Count)];
+
+            return data.GetIcon(Random.Range(0, data.VariantCount));
         }
     }
 }
