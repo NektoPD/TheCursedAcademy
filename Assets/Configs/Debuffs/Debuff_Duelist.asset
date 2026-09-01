@@ -21,6 +21,13 @@ MonoBehaviour:
   _descriptionEn: Attack speed +40% and speed +15%, but health -30%.
   _descriptionTr: Saldiri +40, hiz +15, can -30.
   <Icon>k__BackingField: {fileID: 0}
+  _iconVariants:
+  - {fileID: -1370229733, guid: d9563aab2b2fffc4991b558a0e2b8578, type: 3}
+  - {fileID: -1808716710, guid: d9563aab2b2fffc4991b558a0e2b8578, type: 3}
+  - {fileID: -370926203, guid: d9563aab2b2fffc4991b558a0e2b8578, type: 3}
+  - {fileID: -263372069, guid: d9563aab2b2fffc4991b558a0e2b8578, type: 3}
+  - {fileID: -1231575987, guid: d9563aab2b2fffc4991b558a0e2b8578, type: 3}
+  _maxDeviation: 0.1
   _modifiers:
   - <Type>k__BackingField: 4
     <Multiplier>k__BackingField: 0.6

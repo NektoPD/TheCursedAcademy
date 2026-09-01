@@ -20,6 +20,13 @@ MonoBehaviour:
   _descriptionEn: Armor +60% and health +20%, but speed -35%.
   _descriptionTr: Zirh +60, can +20, hiz -35.
   <Icon>k__BackingField: {fileID: 0}
+  _iconVariants:
+  - {fileID: -190099357, guid: 163c4bc84013843488d1f693b9dfd326, type: 3}
+  - {fileID: 465777969, guid: 163c4bc84013843488d1f693b9dfd326, type: 3}
+  - {fileID: 199533621, guid: 163c4bc84013843488d1f693b9dfd326, type: 3}
+  - {fileID: -931248923, guid: 163c4bc84013843488d1f693b9dfd326, type: 3}
+  - {fileID: 1179211573, guid: 163c4bc84013843488d1f693b9dfd326, type: 3}
+  _maxDeviation: 0.1
   _modifiers:
   - <Type>k__BackingField: 1
     <Multiplier>k__BackingField: 1.6

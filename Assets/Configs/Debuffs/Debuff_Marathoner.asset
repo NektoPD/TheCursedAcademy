@@ -20,6 +20,13 @@ MonoBehaviour:
   _descriptionEn: Speed +30%, but damage -20%.
   _descriptionTr: Hiz +30, hasar -20.
   <Icon>k__BackingField: {fileID: 0}
+  _iconVariants:
+  - {fileID: 2109852520, guid: b5dc973a0e9045a4799ddd7832f1ae0a, type: 3}
+  - {fileID: -1632698466, guid: b5dc973a0e9045a4799ddd7832f1ae0a, type: 3}
+  - {fileID: 1981708954, guid: b5dc973a0e9045a4799ddd7832f1ae0a, type: 3}
+  - {fileID: -1344255432, guid: b5dc973a0e9045a4799ddd7832f1ae0a, type: 3}
+  - {fileID: 1737331789, guid: b5dc973a0e9045a4799ddd7832f1ae0a, type: 3}
+  _maxDeviation: 0.1
   _modifiers:
   - <Type>k__BackingField: 5
     <Multiplier>k__BackingField: 1.3

@@ -19,7 +19,14 @@ MonoBehaviour:
     +35%, \u043D\u043E \u0431\u0440\u043E\u043D\u044F -30%."
   _descriptionEn: Attack speed +35%, but armor -30%.
   _descriptionTr: Saldiri +35, zirh -30.
-  <Icon>k__BackingField: {fileID: 0}
+  <Icon>k__BackingField: {fileID: -334962410, guid: 9b348545948d24249a9c511b5a545d73, type: 3}
+  _iconVariants:
+  - {fileID: -334962410, guid: 9b348545948d24249a9c511b5a545d73, type: 3}
+  - {fileID: 883678097, guid: 9b348545948d24249a9c511b5a545d73, type: 3}
+  - {fileID: 1751335516, guid: 9b348545948d24249a9c511b5a545d73, type: 3}
+  - {fileID: -1970435848, guid: 9b348545948d24249a9c511b5a545d73, type: 3}
+  - {fileID: -610904584, guid: 9b348545948d24249a9c511b5a545d73, type: 3}
+  _maxDeviation: 0.1
   _modifiers:
   - <Type>k__BackingField: 4
     <Multiplier>k__BackingField: 0.65
