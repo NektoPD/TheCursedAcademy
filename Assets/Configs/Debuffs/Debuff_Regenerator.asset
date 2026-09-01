@@ -15,10 +15,9 @@ MonoBehaviour:
   _nameRu: "\u0420\u0435\u0433\u0435\u043D\u0435\u0440\u0430\u0442\u043E\u0440"
   _nameEn: Regenerator
   _nameTr: Yenileyici
-  _descriptionRu: "\u0420\u0435\u0433\u0435\u043D +80%, \u043D\u043E \u0437\u0434\u043E\u0440\u043E\u0432\u044C\u0435
-    -20%."
-  _descriptionEn: Regen +80%, but health -20%.
-  _descriptionTr: Yenilenme +80, can -20.
+  _descriptionRu: "\u0420\u0435\u0433\u0435\u043D +120%, \u043D\u043E \u0437\u0434\u043E\u0440\u043E\u0432\u044C\u0435 -25%."
+  _descriptionEn: Regen +120%, but health -25%.
+  _descriptionTr: Yenilenme +120, can -25.
   <Icon>k__BackingField: {fileID: 0}
   _iconVariants:
   - {fileID: -1599815003, guid: 8dff690d6dfd2ec41834753b531ad6f6, type: 3}
@@ -29,6 +28,6 @@ MonoBehaviour:
   _maxDeviation: 0.1
   _modifiers:
   - <Type>k__BackingField: 3
-    <Multiplier>k__BackingField: 1.8
+    <Multiplier>k__BackingField: 2.2
   - <Type>k__BackingField: 2
-    <Multiplier>k__BackingField: 0.8
+    <Multiplier>k__BackingField: 0.75
