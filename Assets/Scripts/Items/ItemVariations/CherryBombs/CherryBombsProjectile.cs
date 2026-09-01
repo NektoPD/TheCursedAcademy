@@ -24,6 +24,8 @@ namespace Items.ItemVariations.CherryBombs
         private static readonly int ExplosionEffectTrigger = Animator.StringToHash("ExplosionEffect");
 
         private Vector3 _targetScale;
+        private Transform _target;
+        private Vector3 _targetPosition;
         private bool _hasExploded;
         private Tween _scaleTween;
         private Tween _pulseTween;
@@ -40,14 +42,14 @@ namespace Items.ItemVariations.CherryBombs
                 _animator = GetComponent<Animator>();
         }
 
-        public void Launch(Vector2 startPos, Vector2 direction, float speed)
+        public void Launch(Vector2 startPos, Vector2 direction, float speed, Transform target = null)
         {
             _hasExploded = false;
             Transform.position = startPos;
             Transform.localScale = Vector3.zero;
 
-            float distance = speed * _flightDuration;
-            Vector2 endPos = startPos + direction * distance;
+            _target = target;
+            _targetPosition = startPos + direction * (speed * _flightDuration);
 
             KillTweens();
 
@@ -57,7 +59,10 @@ namespace Items.ItemVariations.CherryBombs
                 () => 0f,
                 t =>
                 {
-                    Vector2 linear = Vector2.Lerp(startPos, endPos, t);
+                    if (_target != null)
+                        _targetPosition = _target.position;
+
+                    Vector2 linear = Vector2.Lerp(startPos, _targetPosition, t);
                     float arc = _arcHeight * 4f * t * (1f - t);
                     Transform.position = new Vector3(linear.x, linear.y + arc, 0f);
                 },
@@ -105,6 +110,7 @@ namespace Items.ItemVariations.CherryBombs
 
             Transform.localScale = _targetScale;
             Transform.rotation = Quaternion.identity;
+            _target = null;
             _hasExploded = false;
             Damage = 0f;
             Owner = null;

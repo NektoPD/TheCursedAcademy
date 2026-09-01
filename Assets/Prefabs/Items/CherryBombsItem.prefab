@@ -52,6 +52,10 @@ MonoBehaviour:
   _fuseDuration: 1.5
   _projectilesPerAttack: 1
   _initialPoolSize: 10
+  _enemyLayer:
+    serializedVersion: 2
+    m_Bits: 256
+  _detectionRadius: 15
 --- !u!114 &8400000000000000004
 MonoBehaviour:
   m_ObjectHideFlags: 0
