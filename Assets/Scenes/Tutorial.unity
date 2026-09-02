@@ -8566,10 +8566,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _levelUpWindow: {fileID: 1095507680}
+  _inventoryFullWindow: {fileID: 0}
   _statisticApplicator: {fileID: 0}
   _initializer: {fileID: 1136952425}
+  _itemMaxLevelReachedWindow: {fileID: 0}
   _exit: {fileID: 0}
   _reviver: {fileID: 0}
+  _postProcessVolume: {fileID: 0}
+  _lowHealthMaxIntensity: 0.45
+  _flashMaxAddIntensity: 0.35
+  _flashDuration: 0.3
+  _damageColor: {r: 1, g: 0, b: 0, a: 1}
+  _healColor: {r: 0, g: 1, b: 0, a: 1}
 --- !u!4 &795323722
 Transform:
   m_ObjectHideFlags: 0
@@ -12188,6 +12196,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: bf3b8d7b270cc85479c719c88074d76d, type: 2}
   _characterSpawner: {fileID: 1136952424}
   _characterSoundController: {fileID: 339651521}
+  _fullInventoryItemApplicator: {fileID: 0}
 --- !u!4 &1136952426
 Transform:
   m_ObjectHideFlags: 0
@@ -14994,7 +15003,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 67108863
+    rgba: 4294967295
   m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3

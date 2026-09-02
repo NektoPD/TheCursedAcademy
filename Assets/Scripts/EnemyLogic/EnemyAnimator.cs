@@ -17,6 +17,8 @@ namespace EnemyLogic
 
         public event Action DeadAnimationStarted;
 
+        public Animator Animator => _animator;
+
         private void Awake()
         {
             _animator = GetComponent<Animator>();

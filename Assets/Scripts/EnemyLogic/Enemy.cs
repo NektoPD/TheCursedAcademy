@@ -31,6 +31,8 @@ namespace EnemyLogic
 
         public bool IsBoss => _isBoss;
 
+        public Animator EnemyAnimator => _animator.Animator;
+
         private void Awake()
         {
             _mover = GetComponent<EnemyMover>();
