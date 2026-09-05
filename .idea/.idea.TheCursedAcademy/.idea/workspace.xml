@@ -4,7 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2352e6f7-7a00-4256-b434-98f90d0b0896" name="Changes" comment="" />
+    <list default="true" id="2352e6f7-7a00-4256-b434-98f90d0b0896" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/Assets/Animations/EnemyAnimations/BaseEnemy.controller" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Animations/EnemyAnimations/BaseEnemy.controller" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Animations/EnemyAnimations/Enemy.controller" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Animations/EnemyAnimations/Enemy.controller" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/PluginYourGames/Editor/SavesEditorYG2.json" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/PluginYourGames/Editor/SavesEditorYG2.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/TestGameScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/TestGameScene.unity" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -313,7 +318,7 @@
       <workItem from="1784450131864" duration="1594000" />
       <workItem from="1785992261681" duration="3572000" />
       <workItem from="1787470826954" duration="983000" />
-      <workItem from="1788603406292" duration="1579000" />
+      <workItem from="1788603406292" duration="2178000" />
     </task>
     <servers />
   </component>
