@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 8dff690d6dfd2ec41834753b531ad6f6
+guid: 6e4b9cd023b066746bff7cd66cd01b2e
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -34,7 +34,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -110,13 +110,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Regenerator_0
+      name: wheel_buffs_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 32
-        height: 32
+        width: 276
+        height: 223
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -124,20 +124,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5e760a2ece960084f92a8d77b5adf4d8
-      internalID: -1599815003
+      spriteID: 4c94c02fcfc252b4f9e2dc5bd29ceba8
+      internalID: -2036754394
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Regenerator_1
+      name: wheel_buffs_1
       rect:
         serializedVersion: 2
-        x: 32
+        x: 276
         y: 0
-        width: 32
-        height: 32
+        width: 276
+        height: 223
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -145,20 +145,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5e46792c5d6bec94da5e2a11baf76c4f
-      internalID: 345673246
+      spriteID: 5c16c54a9aa6f5e409e305b2d8aa0227
+      internalID: -1827635915
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Regenerator_2
+      name: wheel_buffs_2
       rect:
         serializedVersion: 2
-        x: 64
+        x: 552
         y: 0
-        width: 32
-        height: 32
+        width: 276
+        height: 223
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -166,20 +166,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 63582380aded0c04f9fe4b05cc0a3517
-      internalID: -1728822973
+      spriteID: bc9d133d62a774b41ace8be8a4ba0a78
+      internalID: 1698521902
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Regenerator_3
+      name: wheel_buffs_3
       rect:
         serializedVersion: 2
-        x: 96
+        x: 828
         y: 0
-        width: 32
-        height: 32
+        width: 276
+        height: 223
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -187,29 +187,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a1d6a7aa66b83c74385aac7f475466f4
-      internalID: -1217416689
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Regenerator_4
-      rect:
-        serializedVersion: 2
-        x: 128
-        y: 0
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: ed56e6ac3fabf8745a431e96c14b18f7
-      internalID: -1572185576
+      spriteID: 67acb76d6a27fab48bca56f2d272d12a
+      internalID: 1653420269
       vertices: []
       indices: 
       edges: []
@@ -225,11 +204,10 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Regenerator_0: -1599815003
-      Regenerator_1: 345673246
-      Regenerator_2: -1728822973
-      Regenerator_3: -1217416689
-      Regenerator_4: -1572185576
+      wheel_buffs_0: -2036754394
+      wheel_buffs_1: -1827635915
+      wheel_buffs_2: 1698521902
+      wheel_buffs_3: 1653420269
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
