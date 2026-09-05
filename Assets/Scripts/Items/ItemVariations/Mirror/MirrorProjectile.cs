@@ -55,7 +55,7 @@ namespace Items.ItemVariations
             if (collision.TryGetComponent(out IDamageable damageable) && HitEnemies.Add(damageable) &&
                 !collision.TryGetComponent(out Character character))
             {
-                damageable.TakeDamage(Damage);
+                damageable.TakeDamage(Damage, IsBerserkDamage);
                 Hit?.Invoke(this);
             }
         }

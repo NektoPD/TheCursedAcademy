@@ -384,7 +384,7 @@ namespace CharacterLogic
             }
 
             newItem.transform.position = _transform.position;
-            newItem.Initialize(_movementHandler, _characterSoundController);
+            newItem.Initialize(_movementHandler, _characterSoundController, () => _isRageModeActive);
             _inventory.AddItem(newItem);
         }
 

@@ -151,7 +151,7 @@ namespace Items.ItemVariations.CherryBombs
                     !damaged.Add(damageable))
                     continue;
 
-                damageable.TakeDamage(Damage);
+                damageable.TakeDamage(Damage, IsBerserkDamage);
                 Owner?.RaiseDamageDealt(Damage);
             }
         }

@@ -55,7 +55,7 @@ namespace Items.ItemVariations.Gum
             {
                 if (HitEnemies.Add(damageable))
                 {
-                    damageable.TakeDamage(Damage);
+                    damageable.TakeDamage(Damage, IsBerserkDamage);
                 }
             }
         }

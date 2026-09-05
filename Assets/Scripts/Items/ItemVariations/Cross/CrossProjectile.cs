@@ -110,7 +110,7 @@ namespace Items.ItemVariations.Cross
                 !collision.TryGetComponent(out Character character) &&
                 HitEnemies.Add(damageable))
             {
-                damageable.TakeDamage(Damage);
+                damageable.TakeDamage(Damage, IsBerserkDamage);
                 Owner?.RaiseDamageDealt(Damage);
             }
         }
