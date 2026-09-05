@@ -412,7 +412,7 @@ namespace CharacterLogic
             if (_characterCanvas != null) _characterCanvas.gameObject.SetActive(false);
         }
 
-        public void ApplyDebuffs(IEnumerable<Debuffs.DebuffRoll> debuffs)
+        public void ApplyDebuffs(IEnumerable<Debuffs.DebuffRoll> debuffs, float negativeEffectMultiplier = 1f)
         {
             if (debuffs == null) return;
 
@@ -420,7 +420,7 @@ namespace CharacterLogic
             {
                 if (debuff == null) continue;
 
-                foreach (var modifier in debuff.GetModifiers())
+                foreach (var modifier in debuff.GetModifiers(negativeEffectMultiplier))
                     ApplyStatModifier(modifier.Type, modifier.Multiplier);
             }
 
@@ -428,6 +428,11 @@ namespace CharacterLogic
             UpdateHealthView(_hp);
             _attacker.SetAttackRegenerationSpeed(_attackCooldown);
             _movementHandler.SetSpeed(_moveSpeed);
+        }
+
+        public void SetCoinMultiplier(float multiplier)
+        {
+            _characterSessionWallet.SetMultiplier(multiplier);
         }
 
         private void ApplyStatModifier(PerkType type, float multiplier)

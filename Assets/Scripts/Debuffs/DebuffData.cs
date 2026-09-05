@@ -80,13 +80,27 @@ namespace Debuffs
         public string Name => Data != null ? Data.Name : string.Empty;
         public string Description => Data != null ? Data.Description : string.Empty;
 
-        public IEnumerable<DebuffModifier> GetModifiers()
+        public IEnumerable<DebuffModifier> GetModifiers(float negativeEffectMultiplier = 1f)
         {
             if (Data == null)
                 yield break;
 
-            foreach (var modifier in Data.Modifiers)
-                yield return new DebuffModifier(modifier.Type, ApplyDeviation(modifier.Multiplier));
+            foreach (DebuffModifier modifier in Data.Modifiers)
+            {
+                float multiplier = ApplyDeviation(modifier.Multiplier);
+
+                if (IsNegative(modifier.Type, multiplier))
+                    multiplier = 1f + (multiplier - 1f) * Mathf.Max(1f, negativeEffectMultiplier);
+
+                yield return new DebuffModifier(modifier.Type, Mathf.Max(0.01f, multiplier));
+            }
+        }
+
+        private static bool IsNegative(PerkType type, float multiplier)
+        {
+            return type == PerkType.AttackCooldown
+                ? multiplier > 1f
+                : multiplier < 1f;
         }
 
         private float ApplyDeviation(float multiplier)

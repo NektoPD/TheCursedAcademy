@@ -6,6 +6,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using Utils;
 
 namespace Debuffs
 {
@@ -20,23 +21,33 @@ namespace Debuffs
         private readonly List<int> _revealAt = new();
 
         private Coroutine _routine;
+        private Button _acceptButton;
         private bool _isRevealing;
+        private bool _choiceMade;
 
-        public event Action Confirmed;
+        public event Action<bool> Confirmed;
 
         private void OnEnable()
         {
             _closeButton.onClick.AddListener(OnClosePressed);
+            CreateAcceptButton();
+            _acceptButton.onClick.AddListener(OnAcceptPressed);
+            SetButtonsInteractable(true);
             Opened += OnOpened;
         }
 
         private void OnDisable()
         {
             _closeButton.onClick.RemoveListener(OnClosePressed);
+
+            if (_acceptButton != null)
+                _acceptButton.onClick.RemoveListener(OnAcceptPressed);
+
             Opened -= OnOpened;
         }
 
-        public void Show(IReadOnlyList<DebuffRoll> debuffs)
+        public void Show(IReadOnlyList<DebuffRoll> debuffs, float negativeEffectIncreasePercent,
+            float coinBonusPercent)
         {
             if (_routine != null)
             {
@@ -44,11 +55,13 @@ namespace Debuffs
                 _routine = null;
             }
 
-            _text.text = BuildText(debuffs);
+            _choiceMade = false;
+            SetButtonsInteractable(true);
+            _text.text = BuildText(debuffs, negativeEffectIncreasePercent, coinBonusPercent);
             _text.ForceMeshUpdate();
             _text.maxVisibleCharacters = 0;
             PrepareIcons(debuffs);
-            _closeButton.gameObject.SetActive(false);
+            SetButtonsVisible(false);
 
             OpenUnscaledTime();
         }
@@ -77,7 +90,7 @@ namespace Debuffs
             }
 
             _isRevealing = false;
-            _closeButton.gameObject.SetActive(true);
+            SetButtonsVisible(true);
             _routine = null;
         }
 
@@ -95,7 +108,7 @@ namespace Debuffs
             _isRevealing = false;
             _text.maxVisibleCharacters = int.MaxValue;
             RevealAllIcons();
-            _closeButton.gameObject.SetActive(true);
+            SetButtonsVisible(true);
         }
 
         private void PrepareIcons(IReadOnlyList<DebuffRoll> debuffs)
@@ -131,7 +144,8 @@ namespace Debuffs
             }
         }
 
-        private string BuildText(IReadOnlyList<DebuffRoll> debuffs)
+        private string BuildText(IReadOnlyList<DebuffRoll> debuffs, float negativeEffectIncreasePercent,
+            float coinBonusPercent)
         {
             _revealAt.Clear();
 
@@ -140,7 +154,7 @@ namespace Debuffs
 
             if (debuffs != null)
             {
-                foreach (var debuff in debuffs)
+                foreach (DebuffRoll debuff in debuffs)
                 {
                     if (debuff == null)
                         continue;
@@ -153,13 +167,92 @@ namespace Debuffs
                 }
             }
 
+            builder.AppendLine();
+            builder.AppendLine(Translator.Translate(
+                $"Усилить негативные эффекты на {negativeEffectIncreasePercent:0}% и получать на {coinBonusPercent:0}% больше монет?",
+                $"Increase negative effects by {negativeEffectIncreasePercent:0}% and receive {coinBonusPercent:0}% more coins?",
+                $"Olumsuz etkileri %{negativeEffectIncreasePercent:0} artır ve %{coinBonusPercent:0} daha fazla jeton kazan?"));
+
             return builder.ToString();
         }
 
         private void OnClosePressed()
         {
+            CompleteChoice(false);
+        }
+
+        private void OnAcceptPressed()
+        {
+            CompleteChoice(true);
+        }
+
+        private void CompleteChoice(bool accepted)
+        {
+            if (_choiceMade)
+                return;
+
+            _choiceMade = true;
+            SetButtonsInteractable(false);
             CloseUnscaledTime();
-            Confirmed?.Invoke();
+            Confirmed?.Invoke(accepted);
+        }
+
+        private void CreateAcceptButton()
+        {
+            if (_acceptButton != null)
+                return;
+
+            _acceptButton = Instantiate(_closeButton, _closeButton.transform.parent);
+            _acceptButton.name = "AcceptDebuffBoost";
+            _acceptButton.onClick = new Button.ButtonClickedEvent();
+
+            RectTransform declineRect = _closeButton.GetComponent<RectTransform>();
+            RectTransform acceptRect = _acceptButton.GetComponent<RectTransform>();
+            float offset = Mathf.Max(100f, declineRect.rect.width * 0.6f);
+            declineRect.anchoredPosition += Vector2.left * offset;
+            acceptRect.anchoredPosition += Vector2.right * offset;
+
+            AddButtonLabel(_closeButton, Translator.Translate("Без усиления", "Continue", "Devam et"));
+            AddButtonLabel(_acceptButton, Translator.Translate("Усилить", "Boost", "Güçlendir"));
+        }
+
+        private void AddButtonLabel(Button button, string label)
+        {
+            var labelObject = new GameObject("Label", typeof(RectTransform), typeof(CanvasRenderer),
+                typeof(TextMeshProUGUI));
+            labelObject.transform.SetParent(button.transform, false);
+
+            RectTransform rect = labelObject.GetComponent<RectTransform>();
+            rect.anchorMin = Vector2.zero;
+            rect.anchorMax = Vector2.one;
+            rect.offsetMin = Vector2.zero;
+            rect.offsetMax = Vector2.zero;
+
+            TextMeshProUGUI text = labelObject.GetComponent<TextMeshProUGUI>();
+            text.font = _text.font;
+            text.fontSize = Mathf.Max(20f, _text.fontSize * 0.45f);
+            text.color = _text.color;
+            text.alignment = TextAlignmentOptions.Center;
+            text.enableAutoSizing = true;
+            text.fontSizeMin = 12f;
+            text.fontSizeMax = text.fontSize;
+            text.text = label;
+        }
+
+        private void SetButtonsVisible(bool visible)
+        {
+            _closeButton.gameObject.SetActive(visible);
+
+            if (_acceptButton != null)
+                _acceptButton.gameObject.SetActive(visible);
+        }
+
+        private void SetButtonsInteractable(bool interactable)
+        {
+            _closeButton.interactable = interactable;
+
+            if (_acceptButton != null)
+                _acceptButton.interactable = interactable;
         }
     }
 }

@@ -26219,6 +26219,8 @@ MonoBehaviour:
   _timeView: {fileID: 1609013580}
   _slotMachineWindow: {fileID: 8679567519223357705}
   _curseRevealOverlay: {fileID: 1446347549}
+  _negativeEffectIncreasePercent: 25
+  _coinBonusPercent: 25
 --- !u!4 &1673244302
 Transform:
   m_ObjectHideFlags: 0
