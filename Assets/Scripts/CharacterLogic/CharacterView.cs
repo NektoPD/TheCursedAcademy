@@ -14,14 +14,24 @@ namespace CharacterLogic
         [SerializeField] private Button _abilityButton;
         [SerializeField] private GameObject _abilityDesktopPrompt;
 
+        private Canvas _hudCanvas;
+
         public event Action AbilityButtonPressed;
 
         private void Awake()
         {
+            _hudCanvas = GetComponentInChildren<Canvas>(true);
+
             if (_abilityButton != null)
                 _abilityButton.onClick.AddListener(() => AbilityButtonPressed?.Invoke());
 
             HideAbilityUI();
+        }
+
+        public void SetHudVisible(bool isVisible)
+        {
+            if (_hudCanvas != null)
+                _hudCanvas.gameObject.SetActive(isVisible);
         }
 
         public void UpdateHpBar(float value, float maxHealth)

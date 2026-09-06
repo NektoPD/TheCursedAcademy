@@ -11,6 +11,7 @@ namespace Timelines
         [SerializeField] private TutorialEnemyDieEvent _tutorialEnemyDieEvent;
 
         private Character _character;
+        private bool _characterEnabled = true;
 
         private void OnEnable()
         {
@@ -32,12 +33,16 @@ namespace Timelines
 
         public void Disable()
         {
+            _characterEnabled = false;
+
             if (_character != null)
                 _character.DisableCharacter();
         }
 
         public void Enable()
         {
+            _characterEnabled = true;
+
             if (_character != null)
                 _character.ActivateCharacter();
         }
@@ -51,6 +56,9 @@ namespace Timelines
         private void Initialize(Character character)
         {
             _character = character;
+
+            if (!_characterEnabled)
+                _character.DisableCharacter();
         }
     }
 }

@@ -405,6 +405,7 @@ namespace CharacterLogic
             _movementHandler.SetSpeed(_moveSpeed);
             _attacker.EnableAttack();
             CameraShake.Instance.SetTarget(_transform);
+            _view.SetHudVisible(true);
             if (_characterCanvas != null) _characterCanvas.gameObject.SetActive(true);
         }
 
@@ -413,6 +414,7 @@ namespace CharacterLogic
             _attacker.DisableAttack();
             _movementHandler.DisableMovement();
             _movementHandler.SetSpeed(0);
+            _view.SetHudVisible(false);
             if (_characterCanvas != null) _characterCanvas.gameObject.SetActive(false);
         }
 
