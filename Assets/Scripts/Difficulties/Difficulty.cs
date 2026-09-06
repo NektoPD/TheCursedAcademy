@@ -49,6 +49,7 @@ namespace Difficulties
         private int _maxEnemy;
 
         private bool _canSpawn = true;
+        private bool _isStarted = false;
         private int _waveIndex = 0;
 
         [Inject]
@@ -84,8 +85,21 @@ namespace Difficulties
             _timeTracker.TimeComed += OnWaveChanged;
         }
 
+        [Header("Game start")]
+        [SerializeField] private bool _waitForGameStart = true;
+
         private void Start()
         {
+            if (!_waitForGameStart)
+                StartSpawning();
+        }
+
+        public void StartSpawning()
+        {
+            if (_isStarted)
+                return;
+
+            _isStarted = true;
             _timeTracker.Start();
         }
 
@@ -102,6 +116,9 @@ namespace Difficulties
 
         private void Update()
         {
+            if (!_isStarted)
+                return;
+
             if (!_canSpawn)
                 return;
 

@@ -1,6 +1,7 @@
 using UnityEngine;
 using DG.Tweening;
 using UnityEngine.UI;
+using System;
 
 namespace UI.Animation
 {
@@ -15,6 +16,9 @@ namespace UI.Animation
         private RectTransform _rectTransform;
         private float _startY;
         private Tween _currentTween;
+
+        public event Action Opened;
+        public event Action Closed;
 
         private void Awake()
         {
@@ -31,7 +35,11 @@ namespace UI.Animation
 
             _currentTween = DoFadeBackground(0, 0);
             _currentTween = _rectTransform.DOAnchorPos(_targetPosition, _duration)
-                .OnComplete(() => DoFadeBackground(_alfa, _duration / 2)).SetUpdate(true);
+                .OnComplete(() =>
+                {
+                    DoFadeBackground(_alfa, _duration / 2);
+                    Opened?.Invoke();
+                }).SetUpdate(true);
         }
 
         public void Close()
@@ -47,7 +55,11 @@ namespace UI.Animation
                 .Append(_rectTransform.DOAnchorPos(newPosition, _duration))
                 .SetUpdate(true);
 
-            _currentTween = suquence.OnComplete(() => gameObject.SetActive(false)).Play();
+            _currentTween = suquence.OnComplete(() =>
+            {
+                gameObject.SetActive(false);
+                Closed?.Invoke();
+            }).Play();
         }
 
         public void StopTime()

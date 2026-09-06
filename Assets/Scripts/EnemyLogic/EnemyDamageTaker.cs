@@ -11,7 +11,7 @@ namespace EnemyLogic
     [RequireComponent(typeof(EnemyDamageView), typeof(EnemyEjector))]
     public class EnemyDamageTaker : MonoBehaviour, IDamageable
     {
-        private readonly int _duration = 1;
+        private readonly float _duration = 0.14f;
 
         private Health _health;
         private HealthBar _healthBar;
@@ -24,6 +24,7 @@ namespace EnemyLogic
         
         private bool _isDied = false;
         private bool _inImmune = false;
+        private bool _wasKilledByBerserk;
         private CharacterInitializer _initializer;
 
         public Health Health => _health;
@@ -58,7 +59,8 @@ namespace EnemyLogic
         {
             _isDied = false;
             _inImmune = false;
-            _enemyAnimator.SetDeadBool(false);
+            _wasKilledByBerserk = false;
+            _enemyAnimator.ResetDeathState();
 
             _health = new Health(maxHealth);
             _healthBar.SetHealth(_health);
@@ -67,14 +69,15 @@ namespace EnemyLogic
             _health.Died += Die;
         }
 
-        public void TakeDamage(float damage)
+        public void TakeDamage(float damage, bool isFromBerserk = false)
         {
             if (_isDied)
                 return;
 
+            _wasKilledByBerserk = isFromBerserk;
             _health.TakeDamage(damage);
 
-            if (_inImmune == false)
+            if (!_isDied && _inImmune == false)
             {
                 _coroutine = StartCoroutine(Countdown());
                 _enemyAnimator.SetHurtTigger();
@@ -94,7 +97,10 @@ namespace EnemyLogic
                 _deathSound.Play();
 
             _ejector.Eject();
-            _enemyAnimator.SetDeadBool(true);
+            if (_wasKilledByBerserk)
+                _enemyAnimator.PlayPopDeathAnimation();
+            else
+                _enemyAnimator.SetDeadBool(true);
         }
 
         private IEnumerator Countdown()

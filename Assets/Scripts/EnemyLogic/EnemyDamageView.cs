@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using UnityEngine;
 using DG.Tweening;
 using UnityEngine.Serialization;
@@ -9,6 +9,7 @@ namespace EnemyLogic
     public class EnemyDamageView : MonoBehaviour
     {
         [SerializeField] private Color _damageColor = new(1f, 0.5f, 0.5f);
+        [SerializeField, Range(0f, 1f)] private float _flashHoldPart = 0.35f;
         
         [Header("Hit Impulse (Jump + Knockback)")]
         [SerializeField] private float _impulseDuration = 0.12f;
@@ -27,11 +28,18 @@ namespace EnemyLogic
         [SerializeField] private float _impulseCooldownNormal = 0.35f;
         [SerializeField] private float _impulseCooldownBoss = 0.7f;
 
+        [Header("Hit Squash & Stretch")]
+        [SerializeField] private bool _useSquash = true;
+        [SerializeField] private float _squashAmount = 0.18f;
+        [SerializeField] private float _squashDuration = 0.16f;
+
         private SpriteRenderer _spriteRenderer;
         private Color _originalColor;
         private Coroutine _coroutine;
 
         private Tween _impulseTween;
+        private Tween _squashTween;
+        private Vector3 _originalScale;
 
         private float _nextImpulseTime;
         private int _bossEnemyId = 1000;
@@ -41,6 +49,7 @@ namespace EnemyLogic
         private void Awake()
         {
             _spriteRenderer = GetComponent<SpriteRenderer>();
+            _originalScale = transform.localScale;
         }
 
         private void Start()
@@ -56,6 +65,9 @@ namespace EnemyLogic
             _spriteRenderer.color = _originalColor;
 
             _impulseTween?.Kill();
+
+            _squashTween?.Kill();
+            transform.localScale = _originalScale;
         }
 
         public void Initialize(int enemyId)
@@ -71,6 +83,8 @@ namespace EnemyLogic
                 StopCoroutine(_coroutine);
 
             _coroutine = StartCoroutine(FlashCoroutine(duration));
+
+            ApplySquash();
         }
 
         public void StartFlash(float duration, Vector2 hitFromWorldPos)
@@ -80,7 +94,26 @@ namespace EnemyLogic
 
             _coroutine = StartCoroutine(FlashCoroutine(duration));
 
+            ApplySquash();
             ApplyHitImpulse(hitFromWorldPos);
+        }
+
+        private void ApplySquash()
+        {
+            if (_useSquash == false)
+                return;
+
+            _squashTween?.Kill();
+            transform.localScale = _originalScale;
+
+            Vector3 squashed = new Vector3(
+                _originalScale.x * (1f + _squashAmount),
+                _originalScale.y * (1f - _squashAmount),
+                _originalScale.z);
+
+            _squashTween = DOTween.Sequence()
+                .Append(transform.DOScale(squashed, _squashDuration * 0.35f).SetEase(Ease.OutQuad))
+                .Append(transform.DOScale(_originalScale, _squashDuration * 0.65f).SetEase(Ease.OutBack));
         }
 
         private void ApplyHitImpulse(Vector2 hitFromWorldPos)
@@ -125,23 +158,18 @@ namespace EnemyLogic
 
         private IEnumerator FlashCoroutine(float duration)
         {
-            float halfDuration = duration / 2f;
-            Color flashColor = _damageColor;
+            _spriteRenderer.color = _damageColor;
 
+            float holdTime = duration * _flashHoldPart;
+            yield return new WaitForSeconds(holdTime);
+
+            float fadeDuration = Mathf.Max(0.0001f, duration - holdTime);
             float elapsed = 0f;
-            while (elapsed < halfDuration)
-            {
-                float t = elapsed / halfDuration;
-                _spriteRenderer.color = Color.Lerp(_originalColor, flashColor, t);
-                elapsed += Time.deltaTime;
-                yield return null;
-            }
 
-            elapsed = 0f;
-            while (elapsed < halfDuration)
+            while (elapsed < fadeDuration)
             {
-                float t = elapsed / halfDuration;
-                _spriteRenderer.color = Color.Lerp(flashColor, _originalColor, t);
+                float t = elapsed / fadeDuration;
+                _spriteRenderer.color = Color.Lerp(_damageColor, _originalColor, t * t);
                 elapsed += Time.deltaTime;
                 yield return null;
             }

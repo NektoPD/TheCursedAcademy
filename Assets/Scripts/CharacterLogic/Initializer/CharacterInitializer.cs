@@ -20,6 +20,7 @@ namespace CharacterLogic.Initializer
         [SerializeField] private CharacterSpawner _characterSpawner;
         [SerializeField] private CharacterSoundController _characterSoundController;
         [SerializeField] private ItemApplicatorCurrentOnly _fullInventoryItemApplicator;
+        [SerializeField] private bool _disableUntilGameStart;
         private PerkController _perkController;
         private CharacterFabric _fabric;
         private ItemsHolder _itemsHolder;
@@ -61,6 +62,7 @@ namespace CharacterLogic.Initializer
             if (_isTutorial) characterToSpawn.DisableCharacter();
             characterToSpawn.Construct(chosenData, finalPerkBonuses, _itemsHolder, _itemApplicator, _killedEnemyCounter,
                 _characterSoundController, _fullInventoryItemApplicator);
+            if (_disableUntilGameStart) characterToSpawn.DisableCharacter();
             _characterSpawner.Spawn(characterToSpawn);
             PlayerTransform = characterToSpawn.transform;
             Debug.Log(PlayerTransform);

@@ -17,12 +17,14 @@ namespace Difficulties
 
         [SerializeField] private float _spawnRadius = 1f;
         [SerializeField] private float _offset = 0.3f;
+        [SerializeField] private bool _waitForGameStart = true;
 
         private EnemyPool _enemyPool;
         private TimeTracker<GroupEnemysEventData> _timeTracker;
         private List<EnemyData> _enemyDataList;
 
         private Coroutine _coroutine;
+        private bool _isStarted;
 
         [Inject]
         public void Construct(EnemyPool enemyPool, List<EnemyData> enemyDataList)
@@ -38,6 +40,16 @@ namespace Difficulties
 
         private void Start()
         {
+            if (!_waitForGameStart)
+                StartSpawning();
+        }
+
+        public void StartSpawning()
+        {
+            if (_isStarted)
+                return;
+
+            _isStarted = true;
             _timeTracker.Start();
         }
 

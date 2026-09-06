@@ -9,6 +9,7 @@ namespace EnemyLogic
         private const string Speed = nameof(Speed);
         private const string Dead = nameof(Dead);
         private const string Hurt = nameof(Hurt);
+        private const string Pop = nameof(Pop);
 
         private float _speed;
         private Animator _animator;
@@ -43,6 +44,27 @@ namespace EnemyLogic
 
             IsDeadAnimationStarted = true;
 
+            DeadAnimationStarted?.Invoke();
+        }
+
+        public void ResetDeathState()
+        {
+            _animator.SetBool(Dead, false);
+            IsDeadAnimationStarted = false;
+        }
+
+        public void PlayPopDeathAnimation()
+        {
+            int popStateHash = Animator.StringToHash(Pop);
+
+            if (!_animator.HasState(0, popStateHash))
+            {
+                SetDeadBool(true);
+                return;
+            }
+
+            _animator.Play(popStateHash);
+            IsDeadAnimationStarted = true;
             DeadAnimationStarted?.Invoke();
         }
 

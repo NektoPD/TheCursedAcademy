@@ -203,7 +203,7 @@ namespace Items.ItemVariations.BeautiZone
                 !HitEnemies.Contains(damageable))
             {
                 HitEnemies.Add(damageable);
-                damageable?.TakeDamage(Damage);
+                damageable?.TakeDamage(Damage, IsBerserkDamage);
             }
         }
 

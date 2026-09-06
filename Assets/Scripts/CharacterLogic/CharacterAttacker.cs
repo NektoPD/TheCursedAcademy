@@ -21,6 +21,11 @@ namespace CharacterLogic
             _attackRegenerationSpeed = attackRegenerationSpeed;
         }
 
+        public void SetAttackRegenerationSpeed(float attackRegenerationSpeed)
+        {
+            _attackRegenerationSpeed = attackRegenerationSpeed;
+        }
+
         private void OnEnable()
         {
             if (!_isAttacking && _inventory != null && !_isTutorial)

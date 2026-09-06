@@ -2,6 +2,7 @@ using DG.Tweening;
 using CharacterLogic;
 using CharacterLogic.Initializer;
 using StatistiscSystem;
+using UI.FortuneWheel;
 using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
 
@@ -9,7 +10,8 @@ namespace UI
 {
     public class CharacterUIObserver : MonoBehaviour
     {
-        [SerializeField] private LevelUpWindow _levelUpWindow;
+        [SerializeField] private FortuneWheelWindow _fortuneWheelWindow;
+        [SerializeField] private WheelRewardPopup _rewardPopup;
         [SerializeField] private InventoryFullWindow _inventoryFullWindow;
         [SerializeField] private StatisticsApplicator _statisticApplicator;
         [SerializeField] private CharacterInitializer _initializer;
@@ -24,9 +26,11 @@ namespace UI
         private float _lowHealthMaxIntensity = 0.45f;
 
         [Header("Vignette: Flash")] [SerializeField, Range(0f, 1f)]
-        private float _flashMaxAddIntensity = 0.35f;
+        private float _flashMaxAddIntensity = 0.18f;
 
-        [SerializeField] private float _flashDuration = 0.30f;
+        [SerializeField] private float _flashDuration = 0.45f;
+
+        [SerializeField] private float _flashCooldown = 0.25f;
 
         [Header("Vignette Colors (HDR allowed)")] [ColorUsage(false, true)] [SerializeField]
         private Color _damageColor = Color.red;
@@ -47,11 +51,19 @@ namespace UI
         private float _rageModeIntensityAdd;
 
         private float _flashIntensityAdd;
+        private float _nextFlashTime;
 
         private bool _isRageModeActive;
         private Tween _flashTween;
         private Tween _colorTween;
         private Tween _rageFadeTween;
+
+        private enum PendingRewardKind { None, Item, Gold, Buff }
+
+        private PendingRewardKind _pendingKind;
+        private Data.ItemVisualData _pendingItem;
+        private int _pendingGold;
+        private FortuneWheel.WheelBuffData _pendingBuff;
 
         private void OnEnable()
         {
@@ -80,20 +92,30 @@ namespace UI
             _character.RageModeActivated -= OnRageModeActivated;
             _character.RageModeDeactivated -= OnRageModeDeactivated;
 
+            if (_fortuneWheelWindow != null)
+            {
+                _fortuneWheelWindow.ItemRewarded -= OnWheelItemRewarded;
+                _fortuneWheelWindow.GoldRewarded -= OnWheelGoldRewarded;
+                _fortuneWheelWindow.BuffRewarded -= OnWheelBuffRewarded;
+            }
+
+            if (_rewardPopup != null)
+                _rewardPopup.Confirmed -= OnRewardPopupConfirmed;
+
             _character = null;
         }
 
-        private void OnNewItemAdded() => _levelUpWindow.CloseWindow();
+        private void OnNewItemAdded() => _rewardPopup.CloseWindow();
 
         private void OnItemSwapped()
         {
-            _levelUpWindow.CloseWindow();
+            _rewardPopup.CloseWindow();
             _inventoryFullWindow.CloseWindow();
         }
 
         private void OnItemMaxLevelReached()
         {
-            _levelUpWindow.CloseUnscaledTime();
+            _rewardPopup.CloseUnscaledTime();
             _itemMaxLevelReachedWindow.OpenWindow();
         }
 
@@ -139,8 +161,22 @@ namespace UI
             if (_reviver != null)
                 _reviver.Inizialize(character, _initializer);
 
-            if (_levelUpWindow != null)
-                _levelUpWindow.Initialize(character.Inventory);
+            if (_fortuneWheelWindow != null)
+            {
+                _fortuneWheelWindow.Initialize(character.Inventory);
+                _fortuneWheelWindow.ItemRewarded -= OnWheelItemRewarded;
+                _fortuneWheelWindow.GoldRewarded -= OnWheelGoldRewarded;
+                _fortuneWheelWindow.BuffRewarded -= OnWheelBuffRewarded;
+                _fortuneWheelWindow.ItemRewarded += OnWheelItemRewarded;
+                _fortuneWheelWindow.GoldRewarded += OnWheelGoldRewarded;
+                _fortuneWheelWindow.BuffRewarded += OnWheelBuffRewarded;
+            }
+
+            if (_rewardPopup != null)
+            {
+                _rewardPopup.Confirmed -= OnRewardPopupConfirmed;
+                _rewardPopup.Confirmed += OnRewardPopupConfirmed;
+            }
 
             if (_inventoryFullWindow != null)
                 _inventoryFullWindow.Initialize(character.Inventory);
@@ -161,10 +197,70 @@ namespace UI
                 CacheVignette();
         }
 
-        private void LevelUp() => _levelUpWindow.OpenWindow();
+        private void LevelUp() => _fortuneWheelWindow.OpenWindow();
+
+        private void OnWheelItemRewarded(Data.ItemVisualData item)
+        {
+            if (item == null)
+            {
+                _fortuneWheelWindow.CloseWindow();
+                return;
+            }
+
+            _pendingKind = PendingRewardKind.Item;
+            _pendingItem = item;
+            _fortuneWheelWindow.CloseUnscaledTime();
+            _rewardPopup.ShowItem(item);
+        }
+
+        private void OnWheelGoldRewarded(int amount)
+        {
+            _pendingKind = PendingRewardKind.Gold;
+            _pendingGold = amount;
+            _fortuneWheelWindow.CloseUnscaledTime();
+            _rewardPopup.ShowGold(amount);
+        }
+
+        private void OnWheelBuffRewarded(FortuneWheel.WheelBuffData buff)
+        {
+            if (buff == null)
+            {
+                _fortuneWheelWindow.CloseWindow();
+                return;
+            }
+
+            _pendingKind = PendingRewardKind.Buff;
+            _pendingBuff = buff;
+            _fortuneWheelWindow.CloseUnscaledTime();
+            _rewardPopup.ShowBuff(buff);
+        }
+
+        private void OnRewardPopupConfirmed()
+        {
+            switch (_pendingKind)
+            {
+                case PendingRewardKind.Item:
+                    _pendingKind = PendingRewardKind.None;
+                    _character.SelectWheelItem(_pendingItem.Variation);
+                    break;
+                case PendingRewardKind.Gold:
+                    _pendingKind = PendingRewardKind.None;
+                    _character.AddWheelGold(_pendingGold);
+                    _rewardPopup.CloseWindow();
+                    break;
+                case PendingRewardKind.Buff:
+                    _pendingKind = PendingRewardKind.None;
+                    _character.ApplyTemporaryBuff(_pendingBuff.Type, _pendingBuff.Multiplier, _pendingBuff.DurationSeconds);
+                    _rewardPopup.CloseWindow();
+                    break;
+            }
+        }
 
         private void InventoryLimitReached()
         {
+            if (_rewardPopup != null)
+                _rewardPopup.CloseUnscaledTime();
+
             _inventoryFullWindow.OpenUnscaledTime();
         }
 
@@ -205,6 +301,11 @@ namespace UI
             if (_vignette == null || _isRageModeActive)
                 return;
 
+            if (Time.unscaledTime < _nextFlashTime)
+                return;
+
+            _nextFlashTime = Time.unscaledTime + _flashCooldown;
+
             _flashTween?.Kill();
             _colorTween?.Kill();
 
@@ -219,7 +320,7 @@ namespace UI
                         UpdateVignette();
                     },
                     _flashMaxAddIntensity,
-                    _flashDuration * 0.5f).SetEase(Ease.OutSine))
+                    _flashDuration * 0.35f).SetEase(Ease.OutSine))
                 .Append(DOTween.To(
                     () => _flashIntensityAdd,
                     x =>
@@ -228,7 +329,7 @@ namespace UI
                         UpdateVignette();
                     },
                     0f,
-                    _flashDuration * 0.5f).SetEase(Ease.InSine))
+                    _flashDuration * 0.65f).SetEase(Ease.InOutSine))
                 .OnComplete(ReturnToDamageColor);
         }
 

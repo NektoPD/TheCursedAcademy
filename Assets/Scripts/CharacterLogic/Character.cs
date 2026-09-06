@@ -6,6 +6,7 @@ using CameraExtensions;
 using CharacterLogic.Abilities;
 using CharacterLogic.Data;
 using CharacterLogic.InputHandler;
+using DG.Tweening;
 using EnemyLogic;
 using HealthSystem;
 using InventorySystem;
@@ -43,6 +44,16 @@ namespace CharacterLogic
         [SerializeField] private SimpleSpriteAnimator _ragemodeActivationEffect;
         [SerializeField] private SimpleSpriteAnimator _poisonThrowActivationEffect;
         [SerializeField] private float _deathFadeDuration = 0.7f;
+
+        [Header("Hit Feedback")]
+        [SerializeField] private float _hitShakeMinIntensity = 1.2f;
+        [SerializeField] private float _hitShakeMaxIntensity = 3.5f;
+        [SerializeField] private float _hitShakeMinDuration = 0.18f;
+        [SerializeField] private float _hitShakeMaxDuration = 0.35f;
+        [SerializeField] private float _hitShakeFrequency = 6f;
+        [SerializeField] private float _hitSquashAmount = 0.15f;
+        [SerializeField] private float _hitSquashDuration = 0.18f;
+
         private Coroutine _deathSequenceCoroutine;
         private Coroutine _reviveInvincibilityCoroutine;
         private CharacterData _characterData;
@@ -70,6 +81,8 @@ namespace CharacterLogic
         private Item _startItem;
         private bool _isInvincible = false;
         private Transform _transform;
+        private Vector3 _originalScale;
+        private Tween _hitSquashTween;
         private bool _isDied;
         private float _gameStartTime;
         private bool _isTutorial;
@@ -149,11 +162,17 @@ namespace CharacterLogic
             _attacker = GetComponent<CharacterAttacker>();
             if (_cameraOnCharacter) Camera.main.transform.SetParent(transform);
             _transform = transform;
+            _originalScale = _transform.localScale;
             _isTutorial = SceneManager.GetActiveScene().name is TutorialSceneName;
         }
 
         private void OnDisable()
         {
+            _hitSquashTween?.Kill();
+
+            if (_transform != null)
+                _transform.localScale = _originalScale;
+
             _movementHandler.MovingLeft -= OnMovingLeft;
             _movementHandler.MovingRight -= OnMovingRight;
             _health.Changed -= UpdateHealthView;
@@ -304,6 +323,43 @@ namespace CharacterLogic
             ItemSwapped?.Invoke();
         }
 
+        public void SelectWheelItem(ItemVariations selectedItemVariation)
+        {
+            OnLevelUpItemSelected(selectedItemVariation);
+        }
+
+        public void AddWheelGold(int amount)
+        {
+            _characterSessionWallet.AddMoney(amount);
+        }
+
+        public void ApplyTemporaryBuff(PerkType type, float multiplier, float durationSeconds)
+        {
+            if (multiplier <= 0f || durationSeconds <= 0f)
+                return;
+
+            StartCoroutine(TemporaryBuffRoutine(type, multiplier, durationSeconds));
+        }
+
+        private IEnumerator TemporaryBuffRoutine(PerkType type, float multiplier, float durationSeconds)
+        {
+            ApplyStatModifier(type, multiplier);
+            RefreshStats();
+
+            yield return new WaitForSeconds(durationSeconds);
+
+            ApplyStatModifier(type, 1f / multiplier);
+            RefreshStats();
+        }
+
+        private void RefreshStats()
+        {
+            _health.SetMaxHealth(_hp);
+            UpdateHealthView(_hp);
+            _attacker.SetAttackRegenerationSpeed(_attackCooldown);
+            _movementHandler.SetSpeed(_moveSpeed);
+        }
+
         private void SetupNewItem(ItemVariations selectedItemVariation)
         {
             Item newItem = _itemsHolder.GetItemByType(selectedItemVariation);
@@ -331,7 +387,7 @@ namespace CharacterLogic
             }
 
             newItem.transform.position = _transform.position;
-            newItem.Initialize(_movementHandler, _characterSoundController);
+            newItem.Initialize(_movementHandler, _characterSoundController, () => _isRageModeActive);
             _inventory.AddItem(newItem);
         }
 
@@ -359,6 +415,54 @@ namespace CharacterLogic
             if (_characterCanvas != null) _characterCanvas.gameObject.SetActive(false);
         }
 
+        public void ApplyDebuffs(IEnumerable<Debuffs.DebuffRoll> debuffs, float negativeEffectMultiplier = 1f)
+        {
+            if (debuffs == null) return;
+
+            foreach (var debuff in debuffs)
+            {
+                if (debuff == null) continue;
+
+                foreach (var modifier in debuff.GetModifiers(negativeEffectMultiplier))
+                    ApplyStatModifier(modifier.Type, modifier.Multiplier);
+            }
+
+            _health.SetMaxHealth(_hp);
+            UpdateHealthView(_hp);
+            _attacker.SetAttackRegenerationSpeed(_attackCooldown);
+            _movementHandler.SetSpeed(_moveSpeed);
+        }
+
+        public void SetCoinMultiplier(float multiplier)
+        {
+            _characterSessionWallet.SetMultiplier(multiplier);
+        }
+
+        private void ApplyStatModifier(PerkType type, float multiplier)
+        {
+            switch (type)
+            {
+                case PerkType.Power:
+                    _attackPower *= multiplier;
+                    break;
+                case PerkType.Armor:
+                    _armor *= multiplier;
+                    break;
+                case PerkType.MaxHp:
+                    _hp *= multiplier;
+                    break;
+                case PerkType.HpRegeneration:
+                    _hpRegenerationSpeed *= multiplier;
+                    break;
+                case PerkType.AttackCooldown:
+                    _attackCooldown *= multiplier;
+                    break;
+                case PerkType.Speed:
+                    _moveSpeed *= multiplier;
+                    break;
+            }
+        }
+
         public void EnableMovement()
         {
             _movementHandler.EnableMovement();
@@ -366,16 +470,41 @@ namespace CharacterLogic
             if (_characterCanvas != null) _characterCanvas.gameObject.SetActive(true);
         }
 
-        public void TakeDamage(float damage)
+        public void TakeDamage(float damage, bool isFromBerserk = false)
         {
             if (_isInvincible) return;
 
             float reducedDamage = damage / (1f + _armor);
-            CameraShake.Instance.ShakeCamera(2, 5, 0.3f);
+
+            float severity = _hp > 0f ? Mathf.Clamp01(reducedDamage / (_hp * 0.25f)) : 1f;
+            float shakeIntensity = Mathf.Lerp(_hitShakeMinIntensity, _hitShakeMaxIntensity, severity);
+            float shakeDuration = Mathf.Lerp(_hitShakeMinDuration, _hitShakeMaxDuration, severity);
+
+            CameraShake.Instance.ShakeCamera(shakeIntensity, _hitShakeFrequency, shakeDuration);
+            PlayHitSquash();
+
             _health.TakeDamage(reducedDamage);
             _characterSoundController.EnableSoundByType(SoundType.Hit);
             Damaged?.Invoke(_health.CurrentHealth, _hp);
             HealthChanged?.Invoke(_health.CurrentHealth, _hp);
+        }
+
+        private void PlayHitSquash()
+        {
+            if (_isDied)
+                return;
+
+            _hitSquashTween?.Kill();
+            _transform.localScale = _originalScale;
+
+            Vector3 squashed = new Vector3(
+                _originalScale.x * (1f + _hitSquashAmount),
+                _originalScale.y * (1f - _hitSquashAmount),
+                _originalScale.z);
+
+            _hitSquashTween = DOTween.Sequence()
+                .Append(_transform.DOScale(squashed, _hitSquashDuration * 0.35f).SetEase(Ease.OutQuad))
+                .Append(_transform.DOScale(_originalScale, _hitSquashDuration * 0.65f).SetEase(Ease.OutBack));
         }
 
         private void TakeHeal(int value)
@@ -455,6 +584,7 @@ namespace CharacterLogic
                               GetPerkBonus(perkBonuses, PerkType.AttackCooldown);
             _moveSpeed = characterData.MoveSpeed * GetPerkBonus(perkBonuses, PerkType.Speed);
             SetupNewItem(characterData.StartItem.Data.ItemVariation);
+            _inventory.SetStartVariation(characterData.StartItem.Data.ItemVariation);
             _health.SetMaxHealth(_hp);
             _view.SetHeroImage(characterData.HeroSprite);
             UpdateHealthView(_hp);
