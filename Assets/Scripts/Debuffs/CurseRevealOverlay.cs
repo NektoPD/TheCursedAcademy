@@ -14,6 +14,8 @@ namespace Debuffs
     {
         [SerializeField] private TMP_Text _text;
         [SerializeField] private Button _closeButton;
+        [SerializeField] private Button _acceptButton;
+        [SerializeField] private TMP_Text _acceptButtonText;
         [SerializeField] private List<Image> _icons = new();
         [SerializeField] private string _header = "Your Curses are:";
         [SerializeField] private float _charInterval = 0.04f;
@@ -21,7 +23,6 @@ namespace Debuffs
         private readonly List<int> _revealAt = new();
 
         private Coroutine _routine;
-        private Button _acceptButton;
         private bool _isRevealing;
         private bool _choiceMade;
 
@@ -30,8 +31,10 @@ namespace Debuffs
         private void OnEnable()
         {
             _closeButton.onClick.AddListener(OnClosePressed);
-            CreateAcceptButton();
-            _acceptButton.onClick.AddListener(OnAcceptPressed);
+
+            if (_acceptButton != null)
+                _acceptButton.onClick.AddListener(OnAcceptPressed);
+
             SetButtonsInteractable(true);
             Opened += OnOpened;
         }
@@ -57,7 +60,8 @@ namespace Debuffs
 
             _choiceMade = false;
             SetButtonsInteractable(true);
-            _text.text = BuildText(debuffs, negativeEffectIncreasePercent, coinBonusPercent);
+            _text.text = BuildText(debuffs);
+            SetAcceptButtonText(negativeEffectIncreasePercent, coinBonusPercent);
             _text.ForceMeshUpdate();
             _text.maxVisibleCharacters = 0;
             PrepareIcons(debuffs);
@@ -144,8 +148,7 @@ namespace Debuffs
             }
         }
 
-        private string BuildText(IReadOnlyList<DebuffRoll> debuffs, float negativeEffectIncreasePercent,
-            float coinBonusPercent)
+        private string BuildText(IReadOnlyList<DebuffRoll> debuffs)
         {
             _revealAt.Clear();
 
@@ -167,13 +170,18 @@ namespace Debuffs
                 }
             }
 
-            builder.AppendLine();
-            builder.AppendLine(Translator.Translate(
-                $"Усилить негативные эффекты на {negativeEffectIncreasePercent:0}% и получать на {coinBonusPercent:0}% больше монет?",
-                $"Increase negative effects by {negativeEffectIncreasePercent:0}% and receive {coinBonusPercent:0}% more coins?",
-                $"Olumsuz etkileri %{negativeEffectIncreasePercent:0} artır ve %{coinBonusPercent:0} daha fazla jeton kazan?"));
-
             return builder.ToString();
+        }
+
+        private void SetAcceptButtonText(float negativeEffectIncreasePercent, float coinBonusPercent)
+        {
+            if (_acceptButtonText == null)
+                return;
+
+            _acceptButtonText.text = Translator.Translate(
+                $"Усилить отрицательные эффекты на {negativeEffectIncreasePercent:0}%\nНаграда: +{coinBonusPercent:0}% монет",
+                $"Increase negative effects by {negativeEffectIncreasePercent:0}%\nReward: +{coinBonusPercent:0}% coins",
+                $"Olumsuz etkileri %{negativeEffectIncreasePercent:0} artır\nÖdül: %{coinBonusPercent:0} daha fazla jeton");
         }
 
         private void OnClosePressed()
@@ -195,48 +203,6 @@ namespace Debuffs
             SetButtonsInteractable(false);
             CloseUnscaledTime();
             Confirmed?.Invoke(accepted);
-        }
-
-        private void CreateAcceptButton()
-        {
-            if (_acceptButton != null)
-                return;
-
-            _acceptButton = Instantiate(_closeButton, _closeButton.transform.parent);
-            _acceptButton.name = "AcceptDebuffBoost";
-            _acceptButton.onClick = new Button.ButtonClickedEvent();
-
-            RectTransform declineRect = _closeButton.GetComponent<RectTransform>();
-            RectTransform acceptRect = _acceptButton.GetComponent<RectTransform>();
-            float offset = Mathf.Max(100f, declineRect.rect.width * 0.6f);
-            declineRect.anchoredPosition += Vector2.left * offset;
-            acceptRect.anchoredPosition += Vector2.right * offset;
-
-            AddButtonLabel(_closeButton, Translator.Translate("Без усиления", "Continue", "Devam et"));
-            AddButtonLabel(_acceptButton, Translator.Translate("Усилить", "Boost", "Güçlendir"));
-        }
-
-        private void AddButtonLabel(Button button, string label)
-        {
-            var labelObject = new GameObject("Label", typeof(RectTransform), typeof(CanvasRenderer),
-                typeof(TextMeshProUGUI));
-            labelObject.transform.SetParent(button.transform, false);
-
-            RectTransform rect = labelObject.GetComponent<RectTransform>();
-            rect.anchorMin = Vector2.zero;
-            rect.anchorMax = Vector2.one;
-            rect.offsetMin = Vector2.zero;
-            rect.offsetMax = Vector2.zero;
-
-            TextMeshProUGUI text = labelObject.GetComponent<TextMeshProUGUI>();
-            text.font = _text.font;
-            text.fontSize = Mathf.Max(20f, _text.fontSize * 0.45f);
-            text.color = _text.color;
-            text.alignment = TextAlignmentOptions.Center;
-            text.enableAutoSizing = true;
-            text.fontSizeMin = 12f;
-            text.fontSizeMax = text.fontSize;
-            text.text = label;
         }
 
         private void SetButtonsVisible(bool visible)
