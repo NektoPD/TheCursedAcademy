@@ -10688,7 +10688,7 @@ PlayableDirector:
   - key: {fileID: -8659330006036292927, guid: c65584afa56d7c54984baa20a2af0150, type: 2}
     value: {fileID: 2036607759}
   - key: {fileID: -3149079543802563755, guid: c65584afa56d7c54984baa20a2af0150, type: 2}
-    value: {fileID: 8312350746950439175}
+    value: {fileID: 1403311060}
   - key: {fileID: 1775007117585624132, guid: c65584afa56d7c54984baa20a2af0150, type: 2}
     value: {fileID: 1628754761}
   - key: {fileID: 1852405653702049891, guid: c65584afa56d7c54984baa20a2af0150, type: 2}
@@ -15354,10 +15354,9 @@ MonoBehaviour:
       de: 
       hi: 
   text: 
-  ru: "\u0423\u0431\u0435\u0439\u0442\u0435 \u0441\u0432\u043E\u0435\u0433\u043E
-    \u043F\u0435\u0440\u0432\u043E\u0433\u043E \u0432\u0440\u0430\u0433\u0430"
-  en: Kill your first enemy
-  tr: "\u0130lk d\xFC\u015Fman\u0131n\u0131 \xF6ld\xFCr"
+  ru: "\u0410\u0442\u0430\u043A\u0443\u0439 \u0442\u0440\u0435\u043D\u0438\u0440\u043E\u0432\u043E\u0447\u043D\u044B\u0439 \u043C\u0430\u043D\u0435\u043A\u0435\u043D"
+  en: Attack the training dummy
+  tr: "E\u011Fitim mankenine sald\u0131r"
   az: 
   be: 
   he: 
@@ -19346,87 +19345,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 953e47090b005bd4c8c80a5ad6972add, type: 3}
---- !u!1001 &5567504668025628907
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 7549414681347482468, guid: f2610b8b7d341bf4f945aa958bbaeab8, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2826314596705294938, guid: f2610b8b7d341bf4f945aa958bbaeab8, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 2.044
-      objectReference: {fileID: 0}
-    - target: {fileID: 2826314596705294938, guid: f2610b8b7d341bf4f945aa958bbaeab8, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.317
-      objectReference: {fileID: 0}
-    - target: {fileID: 2826314596705294938, guid: f2610b8b7d341bf4f945aa958bbaeab8, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -0.14107752
-      objectReference: {fileID: 0}
-    - target: {fileID: 2826314596705294938, guid: f2610b8b7d341bf4f945aa958bbaeab8, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2826314596705294938, guid: f2610b8b7d341bf4f945aa958bbaeab8, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2826314596705294938, guid: f2610b8b7d341bf4f945aa958bbaeab8, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2826314596705294938, guid: f2610b8b7d341bf4f945aa958bbaeab8, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2826314596705294938, guid: f2610b8b7d341bf4f945aa958bbaeab8, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2826314596705294938, guid: f2610b8b7d341bf4f945aa958bbaeab8, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2826314596705294938, guid: f2610b8b7d341bf4f945aa958bbaeab8, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7207810036507777692, guid: f2610b8b7d341bf4f945aa958bbaeab8, type: 3}
-      propertyPath: _deathSound
-      value: 
-      objectReference: {fileID: 342626529}
-    - target: {fileID: 7549414681347482468, guid: f2610b8b7d341bf4f945aa958bbaeab8, type: 3}
-      propertyPath: m_Name
-      value: TutorialEnemy
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: f2610b8b7d341bf4f945aa958bbaeab8, type: 3}
---- !u!114 &5889677603597286954 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7207810036507777692, guid: f2610b8b7d341bf4f945aa958bbaeab8, type: 3}
-  m_PrefabInstance: {fileID: 5567504668025628907}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8312350746950439175}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 354e070f4db3ed548bfb7130a3539535, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!1 &8312350746950439175 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7549414681347482468, guid: f2610b8b7d341bf4f945aa958bbaeab8, type: 3}
-  m_PrefabInstance: {fileID: 5567504668025628907}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -19437,7 +19355,6 @@ SceneRoots:
   - {fileID: 1136952426}
   - {fileID: 485990583}
   - {fileID: 1527530020}
-  - {fileID: 5567504668025628907}
   - {fileID: 1410960910}
   - {fileID: 1340026654}
   - {fileID: 369644400}
