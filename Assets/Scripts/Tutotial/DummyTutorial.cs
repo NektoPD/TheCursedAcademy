@@ -1,17 +1,22 @@
 using System;
+using DG.Tweening;
 using HealthSystem;
 using UnityEngine;
 
 namespace Tutorial
 {
-    [RequireComponent(typeof(Animator))]
+    [RequireComponent(typeof(Collider2D), typeof(SpriteRenderer))]
     public class DummyTutorial : MonoBehaviour, IDamageable
     {
-        private const string HitTrigger = "Hit";
+        [SerializeField, Min(1)] private int _hitsToComplete = 5;
+        [SerializeField, Min(1f)] private float _hitScale = 1.12f;
+        [SerializeField, Min(0.01f)] private float _hitDuration = 0.12f;
+        [SerializeField] private Color _hitColor = new(1f, 0.55f, 0.55f, 1f);
 
-        [SerializeField] private int _hitsToComplete = 5;
-
-        private Animator _animator;
+        private SpriteRenderer _spriteRenderer;
+        private Vector3 _initialScale;
+        private Color _initialColor;
+        private Sequence _hitSequence;
         private int _hitCount;
         private bool _completed;
 
@@ -22,12 +27,23 @@ namespace Tutorial
 
         private void Awake()
         {
-            _animator = GetComponent<Animator>();
+            _spriteRenderer = GetComponent<SpriteRenderer>();
+            _initialScale = transform.localScale;
+            _initialColor = _spriteRenderer.color;
         }
 
-        public void TakeDamage(float damage)
+        private void OnDisable()
         {
-            _animator.SetTrigger(HitTrigger);
+            _hitSequence?.Kill();
+            transform.localScale = _initialScale;
+
+            if (_spriteRenderer != null)
+                _spriteRenderer.color = _initialColor;
+        }
+
+        public void TakeDamage(float damage, bool isFromBerserk = false)
+        {
+            PlayHitFeedback();
 
             if (_completed)
                 return;
@@ -35,11 +51,24 @@ namespace Tutorial
             _hitCount++;
             HitRegistered?.Invoke(_hitCount, _hitsToComplete);
 
-            if (_hitCount >= _hitsToComplete)
-            {
-                _completed = true;
-                HitsCompleted?.Invoke();
-            }
+            if (_hitCount < _hitsToComplete)
+                return;
+
+            _completed = true;
+            HitsCompleted?.Invoke();
+        }
+
+        private void PlayHitFeedback()
+        {
+            _hitSequence?.Kill();
+            transform.localScale = _initialScale;
+            _spriteRenderer.color = _initialColor;
+
+            _hitSequence = DOTween.Sequence()
+                .Append(transform.DOScale(_initialScale * _hitScale, _hitDuration).SetEase(Ease.OutQuad))
+                .Join(_spriteRenderer.DOColor(_hitColor, _hitDuration))
+                .Append(transform.DOScale(_initialScale, _hitDuration).SetEase(Ease.InQuad))
+                .Join(_spriteRenderer.DOColor(_initialColor, _hitDuration));
         }
     }
 }

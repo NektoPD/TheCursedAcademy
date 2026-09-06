@@ -160,7 +160,8 @@ namespace CharacterLogic
             _spriteHolder = GetComponent<CharacterSpriteHolder>();
             _view = GetComponent<CharacterView>();
             _attacker = GetComponent<CharacterAttacker>();
-            if (_cameraOnCharacter) Camera.main.transform.SetParent(transform);
+            if (_cameraOnCharacter && !_isTutorial)
+                Camera.main.transform.SetParent(transform);
             _transform = transform;
             _originalScale = _transform.localScale;
             _isTutorial = SceneManager.GetActiveScene().name is TutorialSceneName;
