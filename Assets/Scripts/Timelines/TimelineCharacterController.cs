@@ -1,44 +1,56 @@
 using CharacterLogic;
 using CharacterLogic.Initializer;
-using System;
 using Tutorial;
 using UnityEngine;
-using Zenject;
 
 namespace Timelines
 {
     public class TimelineCharacterController : MonoBehaviour
     {
+        [SerializeField] private CharacterInitializer _initializer;
         [SerializeField] private TutorialEnemyDieEvent _tutorialEnemyDieEvent;
-        
-        private CharacterInitializer _initializer;
-        private Character _character;
 
-        [Inject]
-        private void Construct(CharacterInitializer characterInitializer)
-        {
-            _initializer = characterInitializer;
-            _initializer.CharacterCreated += Inizialize;
-        }
+        private Character _character;
 
         private void OnEnable()
         {
-            _tutorialEnemyDieEvent.TutorialEnemyDied += EnableAfterTutorialEnemyDeath;
+            if (_initializer != null)
+                _initializer.CharacterCreated += Initialize;
+
+            if (_tutorialEnemyDieEvent != null)
+                _tutorialEnemyDieEvent.TutorialEnemyDied += EnableAfterTutorialEnemyDeath;
         }
 
         private void OnDisable()
         {
-            _initializer.CharacterCreated -= Inizialize;
-            
-            _tutorialEnemyDieEvent.TutorialEnemyDied -= EnableAfterTutorialEnemyDeath;
+            if (_initializer != null)
+                _initializer.CharacterCreated -= Initialize;
+
+            if (_tutorialEnemyDieEvent != null)
+                _tutorialEnemyDieEvent.TutorialEnemyDied -= EnableAfterTutorialEnemyDeath;
         }
 
-        public void Disable() => _character.DisableCharacter();
+        public void Disable()
+        {
+            if (_character != null)
+                _character.DisableCharacter();
+        }
 
-        public void Enable() => _character.ActivateCharacter();
+        public void Enable()
+        {
+            if (_character != null)
+                _character.ActivateCharacter();
+        }
 
-        public void EnableAfterTutorialEnemyDeath() => _character.EnableMovement();
+        public void EnableAfterTutorialEnemyDeath()
+        {
+            if (_character != null)
+                _character.EnableMovement();
+        }
 
-        private void Inizialize(Character character) => _character = character;
+        private void Initialize(Character character)
+        {
+            _character = character;
+        }
     }
 }

@@ -4727,7 +4727,8 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c63020243ea70f24dab2aa51c310d51d, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier:
+  _initializer: {fileID: 1136952425}
   _dummy: {fileID: 1403311063}
   _taskController: {fileID: 385249935}
   _timelineController: {fileID: 1410960909}
@@ -12584,8 +12585,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a637cdd86dbea35408ebf93f5307aac0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
+  _initializer: {fileID: 1136952425}
   _tutorialEnemyDieEvent: {fileID: 369644399}
 --- !u!224 &1318600387 stripped
 RectTransform:
@@ -12801,7 +12803,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _taskController: {fileID: 385249935}
-  _window: {fileID: 1095507680}
+  _initializer: {fileID: 1136952425}
+  _fortuneWheelWindow: {fileID: 2100000002}
 --- !u!4 &1340026654
 Transform:
   m_ObjectHideFlags: 0
@@ -13132,6 +13135,7 @@ GameObject:
   - component: {fileID: 1403311061}
   - component: {fileID: 1403311063}
   - component: {fileID: 1403311064}
+  - component: {fileID: 1403311065}
   m_Layer: 0
   m_Name: Dummy
   m_TagString: Untagged
@@ -13219,9 +13223,6 @@ MonoBehaviour:
   m_Name:
   m_EditorClassIdentifier:
   _hitsToComplete: 5
-  _hitScale: 1.12
-  _hitDuration: 0.12
-  _hitColor: {r: 1, g: 0.55, b: 0.55, a: 1}
 --- !u!61 &1403311064
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -13267,6 +13268,27 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.75, y: 1.7}
   m_EdgeRadius: 0
+--- !u!95 &1403311065
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1403311060}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: cdc0862c58ea49d4b87a2cf71a6480ff, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage:
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1406323990
 GameObject:
   m_ObjectHideFlags: 0
@@ -19345,6 +19367,34 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 953e47090b005bd4c8c80a5ad6972add, type: 3}
+--- !u!1001 &2100000001
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 311500669}
+    m_Modifications:
+    - target: {fileID: 1747386206, guid: f784bbb489d84854970f53d066f77d41, type: 3}
+      propertyPath: m_Name
+      value: FortuneWheel
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f784bbb489d84854970f53d066f77d41, type: 3}
+--- !u!114 &2100000002 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1747386210, guid: f784bbb489d84854970f53d066f77d41, type: 3}
+  m_PrefabInstance: {fileID: 2100000001}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99ad272ba32fda84ea599480a0be9f7d, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
