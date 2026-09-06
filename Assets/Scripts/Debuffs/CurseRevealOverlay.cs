@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -19,10 +20,15 @@ namespace Debuffs
         [SerializeField] private List<Image> _icons = new();
         [SerializeField] private string _header = "Your Curses are:";
         [SerializeField] private float _charInterval = 0.04f;
+        [SerializeField] private float _acceptButtonPulseScale = 1.08f;
+        [SerializeField] private float _acceptButtonPulseDuration = 0.65f;
 
         private readonly List<int> _revealAt = new();
 
         private Coroutine _routine;
+        private Tween _acceptButtonPulseTween;
+        private Vector3 _acceptButtonInitialScale;
+        private bool _acceptButtonScaleSaved;
         private bool _isRevealing;
         private bool _choiceMade;
 
@@ -46,6 +52,7 @@ namespace Debuffs
             if (_acceptButton != null)
                 _acceptButton.onClick.RemoveListener(OnAcceptPressed);
 
+            StopAcceptButtonPulse();
             Opened -= OnOpened;
         }
 
@@ -179,9 +186,9 @@ namespace Debuffs
                 return;
 
             _acceptButtonText.text = Translator.Translate(
-                $"Усилить отрицательные эффекты на {negativeEffectIncreasePercent:0}%\nНаграда: +{coinBonusPercent:0}% монет",
-                $"Increase negative effects by {negativeEffectIncreasePercent:0}%\nReward: +{coinBonusPercent:0}% coins",
-                $"Olumsuz etkileri %{negativeEffectIncreasePercent:0} artır\nÖdül: %{coinBonusPercent:0} daha fazla jeton");
+                $"Нажми, чтобы усилить отрицательные эффекты на {negativeEffectIncreasePercent:0}%\nНаграда: +{coinBonusPercent:0}% монет",
+                $"Click to increase negative effects by {negativeEffectIncreasePercent:0}%\nReward: +{coinBonusPercent:0}% coins",
+                $"Olumsuz etkileri %{negativeEffectIncreasePercent:0} artırmak için tıkla\nÖdül: %{coinBonusPercent:0} daha fazla jeton");
         }
 
         private void OnClosePressed()
@@ -201,6 +208,7 @@ namespace Debuffs
 
             _choiceMade = true;
             SetButtonsInteractable(false);
+            StopAcceptButtonPulse();
             CloseUnscaledTime();
             Confirmed?.Invoke(accepted);
         }
@@ -210,7 +218,14 @@ namespace Debuffs
             _closeButton.gameObject.SetActive(visible);
 
             if (_acceptButton != null)
+            {
                 _acceptButton.gameObject.SetActive(visible);
+
+                if (visible)
+                    StartAcceptButtonPulse();
+                else
+                    StopAcceptButtonPulse();
+            }
         }
 
         private void SetButtonsInteractable(bool interactable)
@@ -219,6 +234,31 @@ namespace Debuffs
 
             if (_acceptButton != null)
                 _acceptButton.interactable = interactable;
+        }
+
+        private void StartAcceptButtonPulse()
+        {
+            StopAcceptButtonPulse();
+
+            Transform buttonTransform = _acceptButton.transform;
+            _acceptButtonInitialScale = buttonTransform.localScale;
+            _acceptButtonScaleSaved = true;
+            _acceptButtonPulseTween = buttonTransform
+                .DOScale(_acceptButtonInitialScale * _acceptButtonPulseScale, _acceptButtonPulseDuration)
+                .SetEase(Ease.InOutSine)
+                .SetLoops(-1, LoopType.Yoyo)
+                .SetUpdate(true);
+        }
+
+        private void StopAcceptButtonPulse()
+        {
+            _acceptButtonPulseTween?.Kill();
+            _acceptButtonPulseTween = null;
+
+            if (_acceptButton != null && _acceptButtonScaleSaved)
+                _acceptButton.transform.localScale = _acceptButtonInitialScale;
+
+            _acceptButtonScaleSaved = false;
         }
     }
 }
