@@ -5,10 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2352e6f7-7a00-4256-b434-98f90d0b0896" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/Assets/Animations/EnemyAnimations/BaseEnemy.controller" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Animations/EnemyAnimations/BaseEnemy.controller" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Animations/EnemyAnimations/Enemy.controller" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Animations/EnemyAnimations/Enemy.controller" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.TheCursedAcademy/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TheCursedAcademy/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/PluginYourGames/Editor/SavesEditorYG2.json" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/PluginYourGames/Editor/SavesEditorYG2.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/TestGameScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/TestGameScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Textures/EnemySprites/PopAnimation/greenbloodsplash2-Sheet.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/EnemySprites/PopAnimation/greenbloodsplash2-Sheet.png.meta" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -124,6 +124,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "git-widget-placeholder": "bebuffs",
+    "ignore.virus.scanning.warn.message": "true",
     "node.js.detected.package.eslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
@@ -318,7 +319,8 @@
       <workItem from="1784450131864" duration="1594000" />
       <workItem from="1785992261681" duration="3572000" />
       <workItem from="1787470826954" duration="983000" />
-      <workItem from="1788603406292" duration="2178000" />
+      <workItem from="1788603406292" duration="2813000" />
+      <workItem from="1788681608113" duration="1804000" />
     </task>
     <servers />
   </component>
