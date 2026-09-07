@@ -57,14 +57,14 @@ namespace CharacterLogic
                 bool isAbilityText = _abilityDesktopPrompt != null && child.gameObject == _abilityDesktopPrompt;
                 bool containsAbilityBar = _abilityLevel != null && _abilityLevel.transform.IsChildOf(child);
 
-                if (containsAbilityBar)
-                    HideNonAbilityChildren(child, _abilityLevel.transform);
-                else if (!isAbilityButton && !isAbilityText)
+                //if (containsAbilityBar)
+                  //  HideNonAbilityChildren(child, _abilityLevel.transform);
+                if (!isAbilityButton && !isAbilityText)
                     child.gameObject.SetActive(false);
             }
         }
 
-        private static void HideNonAbilityChildren(Transform parent, Transform abilityBar)
+        private void HideNonAbilityChildren(Transform parent, Transform abilityBar)
         {
             foreach (Transform child in parent)
             {
