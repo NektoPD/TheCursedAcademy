@@ -4736,6 +4736,7 @@ MonoBehaviour:
   _exitTrigger: {fileID: 39049519}
   _showLevelUpTraining: {fileID: 2112695956}
   _levelUpMain: {fileID: 1095507680}
+  _fortuneWheelDemo: {fileID: 2100000002}
   _abilityChargeDelay: 5
   _abilityChargeDuration: 0.75
   _characterReleaseDelay: 8.5

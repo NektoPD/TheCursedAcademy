@@ -5,6 +5,7 @@ using CharacterLogic.Initializer;
 using Timelines;
 using UI;
 using UI.Animation;
+using UI.FortuneWheel;
 using UnityEngine;
 
 namespace Tutorial
@@ -19,6 +20,7 @@ namespace Tutorial
         [SerializeField] private TutorialExitTrigger _exitTrigger;
         [SerializeField] private WindowAnimation _showLevelUpTraining;
         [SerializeField] private LevelUpWindow _levelUpMain;
+        [SerializeField] private FortuneWheelWindow _fortuneWheelDemo;
         [SerializeField, Min(0f)] private float _abilityChargeDelay = 5f;
         [SerializeField, Min(0.1f)] private float _abilityChargeDuration = 0.75f;
         [SerializeField, Min(0f)] private float _characterReleaseDelay = 8.5f;
@@ -39,6 +41,9 @@ namespace Tutorial
 
             if (_showLevelUpTraining != null)
                 _showLevelUpTraining.Closed += ShowLevelUpMain;
+
+            if (_levelUpMain != null)
+                _levelUpMain.Closed += HideFortuneWheelDemo;
         }
 
         private void OnDisable()
@@ -51,6 +56,9 @@ namespace Tutorial
 
             if (_showLevelUpTraining != null)
                 _showLevelUpTraining.Closed -= ShowLevelUpMain;
+
+            if (_levelUpMain != null)
+                _levelUpMain.Closed -= HideFortuneWheelDemo;
 
             if (_character != null)
                 _character.AbilityUsed -= OnAbilityUsed;
@@ -116,6 +124,15 @@ namespace Tutorial
         {
             if (_levelUpMain != null)
                 _levelUpMain.OpenWindow();
+
+            if (_fortuneWheelDemo != null && _character != null)
+                _fortuneWheelDemo.PlayDemo(_character.Inventory);
+        }
+
+        private void HideFortuneWheelDemo()
+        {
+            if (_fortuneWheelDemo != null)
+                _fortuneWheelDemo.StopDemo();
         }
     }
 }

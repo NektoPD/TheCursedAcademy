@@ -37,6 +37,7 @@ namespace UI.FortuneWheel
         private ItemsHolder _itemsHolder;
         private CharacterInventory _inventory;
         private Coroutine _routine;
+        private bool _demoPlayed;
 
         public event Action<ItemVisualData> ItemRewarded;
         public event Action<int> GoldRewarded;
@@ -71,21 +72,40 @@ namespace UI.FortuneWheel
             _routine = StartCoroutine(PlayRoutine());
         }
 
-        private IEnumerator PlayRoutine()
+        public void PlayDemo(CharacterInventory inventory)
         {
-            BuildRewards();
+            Initialize(inventory);
 
-            for (int i = 0; i < _slots.Count; i++)
-                _slots[i].StopPulse();
+            if (_demoPlayed)
+                return;
 
-            for (int i = 0; i < _slots.Count && i < _rewards.Count; i++)
-                _slots[i].Set(_rewards[i], IsNewItem(_rewards[i]));
+            _demoPlayed = true;
+            base.OpenUnscaledTime();
+
+            if (_routine != null)
+                StopCoroutine(_routine);
+
+            _routine = StartCoroutine(PlayDemoRoutine());
+        }
+
+        public void StopDemo()
+        {
+            if (_routine != null)
+            {
+                StopCoroutine(_routine);
+                _routine = null;
+            }
 
             if (_wheel != null)
-            {
-                _wheel.localScale = Vector3.one;
-                _wheel.localRotation = Quaternion.identity;
-            }
+                _wheel.DOKill();
+
+            StopSlotPulses();
+            gameObject.SetActive(false);
+        }
+
+        private IEnumerator PlayRoutine()
+        {
+            PrepareWheel();
 
             yield return new WaitForSecondsRealtime(_openDelay);
 
@@ -103,6 +123,43 @@ namespace UI.FortuneWheel
 
             Finished?.Invoke();
             _routine = null;
+        }
+
+        private IEnumerator PlayDemoRoutine()
+        {
+            PrepareWheel();
+
+            yield return new WaitForSecondsRealtime(_openDelay);
+            yield return SpinRandom();
+
+            int winningIndex = DetectWinningSlotIndex();
+
+            if (winningIndex >= 0 && winningIndex < _slots.Count)
+                _slots[winningIndex].PlayPulse();
+
+            _routine = null;
+        }
+
+        private void PrepareWheel()
+        {
+            BuildRewards();
+            StopSlotPulses();
+
+            for (int i = 0; i < _slots.Count && i < _rewards.Count; i++)
+                _slots[i].Set(_rewards[i], IsNewItem(_rewards[i]));
+
+            if (_wheel == null)
+                return;
+
+            _wheel.DOKill();
+            _wheel.localScale = Vector3.one;
+            _wheel.localRotation = Quaternion.identity;
+        }
+
+        private void StopSlotPulses()
+        {
+            for (int i = 0; i < _slots.Count; i++)
+                _slots[i].StopPulse();
         }
 
         private IEnumerator SpinRandom()
