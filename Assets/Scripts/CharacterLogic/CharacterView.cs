@@ -15,6 +15,7 @@ namespace CharacterLogic
         [SerializeField] private GameObject _abilityDesktopPrompt;
 
         private Canvas _hudCanvas;
+        private bool _isTutorialMode;
 
         public event Action AbilityButtonPressed;
 
@@ -30,11 +31,40 @@ namespace CharacterLogic
 
         public void SetHudVisible(bool isVisible)
         {
-            if (_hudCanvas == null)
-                _hudCanvas = GetComponentInChildren<Canvas>(true);
+            CacheHudCanvas();
 
             if (_hudCanvas != null)
-                _hudCanvas.gameObject.SetActive(isVisible);
+                _hudCanvas.gameObject.SetActive(_isTutorialMode || isVisible);
+        }
+
+        public void SetTutorialMode(bool isTutorial)
+        {
+            _isTutorialMode = isTutorial;
+
+            if (!isTutorial)
+                return;
+
+            CacheHudCanvas();
+
+            if (_hudCanvas == null)
+                return;
+
+            _hudCanvas.gameObject.SetActive(true);
+
+            foreach (Transform child in _hudCanvas.transform)
+            {
+                bool isAbilityButton = _abilityButton != null && child.gameObject == _abilityButton.gameObject;
+                bool isAbilityText = _abilityDesktopPrompt != null && child.gameObject == _abilityDesktopPrompt;
+
+                if (!isAbilityButton && !isAbilityText)
+                    child.gameObject.SetActive(false);
+            }
+        }
+
+        private void CacheHudCanvas()
+        {
+            if (_hudCanvas == null)
+                _hudCanvas = GetComponentInChildren<Canvas>(true);
         }
 
         public void UpdateHpBar(float value, float maxHealth)

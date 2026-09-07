@@ -161,7 +161,8 @@ namespace CharacterLogic
             _spriteHolder = GetComponent<CharacterSpriteHolder>();
             _view = GetComponent<CharacterView>();
             _attacker = GetComponent<CharacterAttacker>();
-            _view.SetHudVisible(!_isTutorial);
+            _view.SetTutorialMode(_isTutorial);
+            _view.SetHudVisible(true);
             if (_cameraOnCharacter && !_isTutorial)
                 Camera.main.transform.SetParent(transform);
             _transform = transform;
@@ -406,8 +407,8 @@ namespace CharacterLogic
             _movementHandler.SetSpeed(_moveSpeed);
             _attacker.EnableAttack();
             CameraShake.Instance.SetTarget(_transform);
-            _view.SetHudVisible(!_isTutorial);
-            if (_characterCanvas != null) _characterCanvas.gameObject.SetActive(!_isTutorial);
+            _view.SetHudVisible(true);
+            if (_characterCanvas != null) _characterCanvas.gameObject.SetActive(true);
         }
 
         public void DisableCharacter()
@@ -471,8 +472,8 @@ namespace CharacterLogic
         {
             _movementHandler.EnableMovement();
             _movementHandler.SetSpeed(_moveSpeed);
-            _view.SetHudVisible(!_isTutorial);
-            if (_characterCanvas != null) _characterCanvas.gameObject.SetActive(!_isTutorial);
+            _view.SetHudVisible(true);
+            if (_characterCanvas != null) _characterCanvas.gameObject.SetActive(true);
         }
 
         public void TakeDamage(float damage, bool isFromBerserk = false)
