@@ -4735,6 +4735,8 @@ MonoBehaviour:
   _timelineController: {fileID: 1410960909}
   _cutscene: {fileID: 1439677086}
   _exitTrigger: {fileID: 39049519}
+  _showLevelUpTraining: {fileID: 2112695956}
+  _levelUpMain: {fileID: 1095507680}
   _abilityChargeDelay: 5
   _abilityChargeDuration: 0.75
   _characterReleaseDelay: 8.5
@@ -11760,18 +11762,6 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: Close
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 2112695956}
-        m_TargetAssemblyTypeName: UI.WindowAnimation, Assembly-CSharp
-        m_MethodName: StartTime
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1101949808

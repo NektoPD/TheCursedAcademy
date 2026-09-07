@@ -3,6 +3,8 @@ using System.Collections;
 using CharacterLogic;
 using CharacterLogic.Initializer;
 using Timelines;
+using UI;
+using UI.Animation;
 using UnityEngine;
 
 namespace Tutorial
@@ -15,6 +17,8 @@ namespace Tutorial
         [SerializeField] private TimelineController _timelineController;
         [SerializeField] private GameObject _cutscene;
         [SerializeField] private TutorialExitTrigger _exitTrigger;
+        [SerializeField] private WindowAnimation _showLevelUpTraining;
+        [SerializeField] private LevelUpWindow _levelUpMain;
         [SerializeField, Min(0f)] private float _abilityChargeDelay = 5f;
         [SerializeField, Min(0.1f)] private float _abilityChargeDuration = 0.75f;
         [SerializeField, Min(0f)] private float _characterReleaseDelay = 8.5f;
@@ -32,6 +36,9 @@ namespace Tutorial
 
             if (_dummy != null)
                 _dummy.HitsCompleted += StartAbilityPhase;
+
+            if (_showLevelUpTraining != null)
+                _showLevelUpTraining.Closed += ShowLevelUpMain;
         }
 
         private void OnDisable()
@@ -41,6 +48,9 @@ namespace Tutorial
 
             if (_dummy != null)
                 _dummy.HitsCompleted -= StartAbilityPhase;
+
+            if (_showLevelUpTraining != null)
+                _showLevelUpTraining.Closed -= ShowLevelUpMain;
 
             if (_character != null)
                 _character.AbilityUsed -= OnAbilityUsed;
@@ -55,6 +65,9 @@ namespace Tutorial
         private void OnCharacterCreated(Character character)
         {
             _character = character;
+
+            if (_levelUpMain != null)
+                _levelUpMain.Initialize(character.Inventory);
         }
 
         private void StartAbilityPhase()
@@ -89,8 +102,20 @@ namespace Tutorial
             _character.AbilityUsed -= OnAbilityUsed;
             _taskController.ShowNextTask();
 
+            if (_showLevelUpTraining != null)
+            {
+                _showLevelUpTraining.Open();
+                _showLevelUpTraining.StopTime();
+            }
+
             if (_exitTrigger != null)
                 _exitTrigger.On();
+        }
+
+        private void ShowLevelUpMain()
+        {
+            if (_levelUpMain != null)
+                _levelUpMain.OpenWindow();
         }
     }
 }
