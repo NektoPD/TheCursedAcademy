@@ -15,7 +15,9 @@ namespace Tutorial
         [SerializeField] private TimelineController _timelineController;
         [SerializeField] private GameObject _cutscene;
         [SerializeField] private TutorialExitTrigger _exitTrigger;
-        [SerializeField, Min(0f)] private float _abilityChargeDelay = 8.5f;
+        [SerializeField, Min(0f)] private float _abilityChargeDelay = 5f;
+        [SerializeField, Min(0.1f)] private float _abilityChargeDuration = 0.75f;
+        [SerializeField, Min(0f)] private float _characterReleaseDelay = 8.5f;
 
         private Character _character;
         private Coroutine _abilityRoutine;
@@ -71,8 +73,14 @@ namespace Tutorial
         private IEnumerator EnableAbilityAfterExplanation()
         {
             yield return new WaitForSeconds(_abilityChargeDelay);
+            _character.FillAbilityCharge(_abilityChargeDuration);
+
+            float remainingDelay = _characterReleaseDelay - _abilityChargeDelay;
+
+            if (remainingDelay > 0f)
+                yield return new WaitForSeconds(remainingDelay);
+
             _abilityRoutine = null;
-            _character.FillAbilityCharge();
             TutorialEnemyDied?.Invoke();
         }
 

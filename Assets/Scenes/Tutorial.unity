@@ -4735,7 +4735,9 @@ MonoBehaviour:
   _timelineController: {fileID: 1410960909}
   _cutscene: {fileID: 1439677086}
   _exitTrigger: {fileID: 39049519}
-  _abilityChargeDelay: 8.5
+  _abilityChargeDelay: 5
+  _abilityChargeDuration: 0.75
+  _characterReleaseDelay: 8.5
 --- !u!4 &369644400
 Transform:
   m_ObjectHideFlags: 0

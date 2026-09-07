@@ -56,6 +56,7 @@ namespace CharacterLogic
 
         private Coroutine _deathSequenceCoroutine;
         private Coroutine _reviveInvincibilityCoroutine;
+        private Coroutine _abilityChargeFillCoroutine;
         private CharacterData _characterData;
         private CharacterAnimationController _animationController;
         private CharacterMovementHandler _movementHandler;
@@ -172,6 +173,12 @@ namespace CharacterLogic
         private void OnDisable()
         {
             _hitSquashTween?.Kill();
+
+            if (_abilityChargeFillCoroutine != null)
+            {
+                StopCoroutine(_abilityChargeFillCoroutine);
+                _abilityChargeFillCoroutine = null;
+            }
 
             if (_transform != null)
                 _transform.localScale = _originalScale;
@@ -706,9 +713,37 @@ namespace CharacterLogic
             AbilityUsed?.Invoke();
         }
 
-        public void FillAbilityCharge()
+        public void FillAbilityCharge(float duration = 0f)
         {
-            _ability?.FillCharge();
+            if (_ability == null)
+                return;
+
+            if (_abilityChargeFillCoroutine != null)
+                StopCoroutine(_abilityChargeFillCoroutine);
+
+            if (duration <= 0f)
+            {
+                _ability.FillCharge();
+                return;
+            }
+
+            _abilityChargeFillCoroutine = StartCoroutine(FillAbilityChargeRoutine(duration));
+        }
+
+        private IEnumerator FillAbilityChargeRoutine(float duration)
+        {
+            float elapsed = 0f;
+
+            while (elapsed < duration)
+            {
+                elapsed += Time.unscaledDeltaTime;
+                float charge = Mathf.Lerp(0f, _abilityChargeLevel, Mathf.Clamp01(elapsed / duration));
+                _view.UpdateAbilityLevelBar(charge, _abilityChargeLevel);
+                yield return null;
+            }
+
+            _abilityChargeFillCoroutine = null;
+            _ability.FillCharge();
         }
 
         private void OnRageModeStarted(float damageMult, float speedMult, float armorMult)
