@@ -28,6 +28,7 @@ namespace Tutorial
         private Character _character;
         private Coroutine _abilityRoutine;
         private bool _abilityPhaseStarted;
+        private bool _abilityUsed;
 
         public event Action TutorialEnemyDied;
 
@@ -78,7 +79,11 @@ namespace Tutorial
 
         private void OnCharacterCreated(Character character)
         {
+            if (_character != null)
+                _character.AbilityUsed -= OnAbilityUsed;
+
             _character = character;
+            _character.AbilityUsed += OnAbilityUsed;
 
             if (_levelUpMain != null)
                 _levelUpMain.Initialize(character.Inventory);
@@ -93,7 +98,6 @@ namespace Tutorial
             _dummy.HitsCompleted -= StartAbilityPhase;
             _timelineController.StartCutscene(_cutscene.name);
             _taskController.ShowNextTask();
-            _character.AbilityUsed += OnAbilityUsed;
             _abilityRoutine = StartCoroutine(EnableAbilityAfterExplanation());
         }
 
@@ -113,6 +117,10 @@ namespace Tutorial
 
         private void OnAbilityUsed()
         {
+            if (_abilityUsed)
+                return;
+
+            _abilityUsed = true;
             _character.AbilityUsed -= OnAbilityUsed;
             _taskController.ShowNextTask();
 

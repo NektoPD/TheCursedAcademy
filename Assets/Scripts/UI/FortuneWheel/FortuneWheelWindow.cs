@@ -80,7 +80,7 @@ namespace UI.FortuneWheel
                 return;
 
             _demoPlayed = true;
-            base.OpenUnscaledTime();
+            gameObject.SetActive(true);
 
             if (_routine != null)
                 StopCoroutine(_routine);
