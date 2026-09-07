@@ -23,7 +23,6 @@ namespace InventorySystem
 
         public CharacterInventory(int inventoryLimit)
         {
-            Debug.Log(inventoryLimit);
             InventoryLimit = inventoryLimit;
         }
 
