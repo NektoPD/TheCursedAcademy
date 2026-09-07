@@ -1687,7 +1687,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 80.15
+  m_fontSize: 36
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -3904,6 +3904,7 @@ RectTransform:
   - {fileID: 2112695955}
   - {fileID: 1095507677}
   - {fileID: 1050973885}
+  - {fileID: 2100000003}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -4727,7 +4728,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c63020243ea70f24dab2aa51c310d51d, type: 3}
   m_Name: 
-  m_EditorClassIdentifier:
+  m_EditorClassIdentifier: 
   _initializer: {fileID: 1136952425}
   _dummy: {fileID: 1403311063}
   _taskController: {fileID: 385249935}
@@ -4768,7 +4769,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &385249931
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4789,7 +4790,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 74, y: -81}
+  m_AnchoredPosition: {x: 816, y: -89}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &385249932
@@ -8568,7 +8569,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82a403aae920b4b42961aa9b5f3f795e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _levelUpWindow: {fileID: 1095507680}
+  _fortuneWheelWindow: {fileID: 0}
+  _rewardPopup: {fileID: 0}
   _inventoryFullWindow: {fileID: 0}
   _statisticApplicator: {fileID: 0}
   _initializer: {fileID: 1136952425}
@@ -8579,6 +8581,7 @@ MonoBehaviour:
   _lowHealthMaxIntensity: 0.45
   _flashMaxAddIntensity: 0.35
   _flashDuration: 0.3
+  _flashCooldown: 0.25
   _damageColor: {r: 1, g: 0, b: 0, a: 1}
   _healColor: {r: 0, g: 1, b: 0, a: 1}
   _rageModeIntensity: 0.5
@@ -12202,6 +12205,7 @@ MonoBehaviour:
   _characterSpawner: {fileID: 1136952424}
   _characterSoundController: {fileID: 339651521}
   _fullInventoryItemApplicator: {fileID: 0}
+  _disableUntilGameStart: 0
 --- !u!4 &1136952426
 Transform:
   m_ObjectHideFlags: 0
@@ -12295,9 +12299,9 @@ RectTransform:
   - {fileID: 1598387565}
   m_Father: {fileID: 385249931}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 394.066, y: -50}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 588.132, y: 139.035}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1215388251
@@ -12585,8 +12589,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a637cdd86dbea35408ebf93f5307aac0, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
+  m_Name: 
+  m_EditorClassIdentifier: 
   _initializer: {fileID: 1136952425}
   _tutorialEnemyDieEvent: {fileID: 369644399}
 --- !u!224 &1318600387 stripped
@@ -13183,7 +13187,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_Sprite: {fileID: -674287796, guid: 7204ee243ec719a42a330b488d8b2dc5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -13204,7 +13208,7 @@ Transform:
   m_GameObject: {fileID: 1403311060}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.458, y: -0.17450005, z: 0}
+  m_LocalPosition: {x: 2.08, y: 0.01, z: 0}
   m_LocalScale: {x: 2.8473, y: 2.8473, z: 2.8473}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -13220,9 +13224,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6c8fb2a1d8974ad49bdcbb2c4d8f1e73, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
-  _hitsToComplete: 5
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hitsToComplete: 3
 --- !u!61 &1403311064
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -13259,14 +13263,14 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 2}
+    oldSize: {x: 0.32, y: 0.32}
     newSize: {x: 1, y: 2}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.75, y: 1.7}
+  m_Size: {x: 0.06, y: 0.14}
   m_EdgeRadius: 0
 --- !u!95 &1403311065
 Animator:
@@ -13284,7 +13288,7 @@ Animator:
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
-  m_WarningMessage:
+  m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
@@ -14216,9 +14220,9 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 385249931}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 50, y: -50}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1500084424
@@ -15176,7 +15180,7 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 67108863
+    rgba: 4294967295
   m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
@@ -15376,7 +15380,8 @@ MonoBehaviour:
       de: 
       hi: 
   text: 
-  ru: "\u0410\u0442\u0430\u043A\u0443\u0439 \u0442\u0440\u0435\u043D\u0438\u0440\u043E\u0432\u043E\u0447\u043D\u044B\u0439 \u043C\u0430\u043D\u0435\u043A\u0435\u043D"
+  ru: "\u0410\u0442\u0430\u043A\u0443\u0439 \u0442\u0440\u0435\u043D\u0438\u0440\u043E\u0432\u043E\u0447\u043D\u044B\u0439
+    \u043C\u0430\u043D\u0435\u043A\u0435\u043D"
   en: Attack the training dummy
   tr: "E\u011Fitim mankenine sald\u0131r"
   az: 
@@ -18742,6 +18747,43 @@ MonoBehaviour:
   processTranslateLabel: 0/3 completed
   componentTextField: 1
   countLang: 0
+--- !u!1001 &2100000001
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 311500669}
+    m_Modifications:
+    - target: {fileID: 1747386206, guid: f784bbb489d84854970f53d066f77d41, type: 3}
+      propertyPath: m_Name
+      value: FortuneWheel
+      objectReference: {fileID: 0}
+    - target: {fileID: 2108159806, guid: f784bbb489d84854970f53d066f77d41, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 152.68
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f784bbb489d84854970f53d066f77d41, type: 3}
+--- !u!114 &2100000002 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1747386210, guid: f784bbb489d84854970f53d066f77d41, type: 3}
+  m_PrefabInstance: {fileID: 2100000001}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99ad272ba32fda84ea599480a0be9f7d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!224 &2100000003 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 1747386207, guid: f784bbb489d84854970f53d066f77d41, type: 3}
+  m_PrefabInstance: {fileID: 2100000001}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2106197875
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -19367,34 +19409,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 953e47090b005bd4c8c80a5ad6972add, type: 3}
---- !u!1001 &2100000001
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 311500669}
-    m_Modifications:
-    - target: {fileID: 1747386206, guid: f784bbb489d84854970f53d066f77d41, type: 3}
-      propertyPath: m_Name
-      value: FortuneWheel
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: f784bbb489d84854970f53d066f77d41, type: 3}
---- !u!114 &2100000002 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1747386210, guid: f784bbb489d84854970f53d066f77d41, type: 3}
-  m_PrefabInstance: {fileID: 2100000001}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 99ad272ba32fda84ea599480a0be9f7d, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
