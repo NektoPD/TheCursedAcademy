@@ -30,6 +30,9 @@ namespace CharacterLogic
 
         public void SetHudVisible(bool isVisible)
         {
+            if (_hudCanvas == null)
+                _hudCanvas = GetComponentInChildren<Canvas>(true);
+
             if (_hudCanvas != null)
                 _hudCanvas.gameObject.SetActive(isVisible);
         }

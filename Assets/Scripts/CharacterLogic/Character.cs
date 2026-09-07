@@ -155,16 +155,17 @@ namespace CharacterLogic
 
         private void Awake()
         {
+            _isTutorial = SceneManager.GetActiveScene().name is TutorialSceneName;
             _animationController = GetComponent<CharacterAnimationController>();
             _movementHandler = GetComponent<CharacterMovementHandler>();
             _spriteHolder = GetComponent<CharacterSpriteHolder>();
             _view = GetComponent<CharacterView>();
             _attacker = GetComponent<CharacterAttacker>();
+            _view.SetHudVisible(!_isTutorial);
             if (_cameraOnCharacter && !_isTutorial)
                 Camera.main.transform.SetParent(transform);
             _transform = transform;
             _originalScale = _transform.localScale;
-            _isTutorial = SceneManager.GetActiveScene().name is TutorialSceneName;
         }
 
         private void OnDisable()
@@ -405,8 +406,8 @@ namespace CharacterLogic
             _movementHandler.SetSpeed(_moveSpeed);
             _attacker.EnableAttack();
             CameraShake.Instance.SetTarget(_transform);
-            _view.SetHudVisible(true);
-            if (_characterCanvas != null) _characterCanvas.gameObject.SetActive(true);
+            _view.SetHudVisible(!_isTutorial);
+            if (_characterCanvas != null) _characterCanvas.gameObject.SetActive(!_isTutorial);
         }
 
         public void DisableCharacter()
@@ -470,7 +471,8 @@ namespace CharacterLogic
         {
             _movementHandler.EnableMovement();
             _movementHandler.SetSpeed(_moveSpeed);
-            if (_characterCanvas != null) _characterCanvas.gameObject.SetActive(true);
+            _view.SetHudVisible(!_isTutorial);
+            if (_characterCanvas != null) _characterCanvas.gameObject.SetActive(!_isTutorial);
         }
 
         public void TakeDamage(float damage, bool isFromBerserk = false)
