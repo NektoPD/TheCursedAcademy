@@ -12986,6 +12986,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _hitsToComplete: 3
+  _rewardExperience: {fileID: 11400000, guid: a9f9b65962bcfac42bc433586f9b7025, type: 2}
+  _rewardMoney: 5
+  _experienceDropOffset: {x: -0.35, y: -0.5}
+  _moneyDropOffset: {x: 0.35, y: -0.5}
 --- !u!61 &1403311064
 BoxCollider2D:
   m_ObjectHideFlags: 0

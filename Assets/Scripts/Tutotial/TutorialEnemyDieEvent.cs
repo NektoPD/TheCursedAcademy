@@ -26,9 +26,12 @@ namespace Tutorial
         [SerializeField, Min(0f)] private float _characterReleaseDelay = 8.5f;
 
         private Character _character;
+        private CharacterCollisionHandler _collisionHandler;
         private Coroutine _abilityRoutine;
         private bool _abilityPhaseStarted;
         private bool _abilityUsed;
+        private bool _experiencePickedUp;
+        private bool _moneyPickedUp;
 
         public event Action TutorialEnemyDied;
 
@@ -70,6 +73,8 @@ namespace Tutorial
             if (_character != null)
                 _character.AbilityUsed -= OnAbilityUsed;
 
+            UnsubscribeFromRewardPickups();
+
             if (_abilityRoutine != null)
             {
                 StopCoroutine(_abilityRoutine);
@@ -83,6 +88,7 @@ namespace Tutorial
                 _character.AbilityUsed -= OnAbilityUsed;
 
             _character = character;
+            _collisionHandler = character.GetComponent<CharacterCollisionHandler>();
             _character.AbilityUsed += OnAbilityUsed;
 
             if (_levelUpMain != null)
@@ -123,6 +129,47 @@ namespace Tutorial
             _abilityUsed = true;
             _character.AbilityUsed -= OnAbilityUsed;
             _taskController.ShowNextTask();
+
+            SubscribeToRewardPickups();
+            _dummy.EjectRewards();
+        }
+
+        private void SubscribeToRewardPickups()
+        {
+            if (_collisionHandler == null)
+                return;
+
+            _collisionHandler.GotExpPoint += OnExperiencePickedUp;
+            _collisionHandler.GotMoney += OnMoneyPickedUp;
+        }
+
+        private void UnsubscribeFromRewardPickups()
+        {
+            if (_collisionHandler == null)
+                return;
+
+            _collisionHandler.GotExpPoint -= OnExperiencePickedUp;
+            _collisionHandler.GotMoney -= OnMoneyPickedUp;
+        }
+
+        private void OnExperiencePickedUp(int value)
+        {
+            _experiencePickedUp = true;
+            TryContinueAfterRewardPickups();
+        }
+
+        private void OnMoneyPickedUp(int value)
+        {
+            _moneyPickedUp = true;
+            TryContinueAfterRewardPickups();
+        }
+
+        private void TryContinueAfterRewardPickups()
+        {
+            if (!_experiencePickedUp || !_moneyPickedUp)
+                return;
+
+            UnsubscribeFromRewardPickups();
 
             if (_showLevelUpTraining != null)
             {
