@@ -129,10 +129,11 @@ namespace Tutorial
 
             _abilityUsed = true;
             _character.AbilityUsed -= OnAbilityUsed;
-            _taskController.ShowNextTask();
 
             SubscribeToRewardPickups();
             _dummy.EjectRewards();
+            
+            _taskController.ShowNextTask();
         }
 
         private void SubscribeToRewardPickups()
@@ -198,6 +199,8 @@ namespace Tutorial
         {
             if (_fortuneWheelDemo != null)
                 _fortuneWheelDemo.StopDemo();
+            
+            _taskController.ShowNextTask();
         }
     }
 }
