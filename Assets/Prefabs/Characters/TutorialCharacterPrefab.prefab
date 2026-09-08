@@ -521,7 +521,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 0
-  m_Spacing: 6.7083335
+  m_Spacing: 12.5
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
@@ -973,6 +973,7 @@ MonoBehaviour:
   _abilityLevel: {fileID: 6128283510170975610}
   _abilityButton: {fileID: 714699333689452297}
   _abilityDesktopPrompt: {fileID: 1517289363051479260}
+  _forceMobileMode: 1
 --- !u!114 &2185473648218716617
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1458,7 +1459,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 0
-  m_Spacing: 6.7083335
+  m_Spacing: 12.5
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0

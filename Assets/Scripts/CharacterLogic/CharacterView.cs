@@ -1,4 +1,5 @@
 using System;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 using YG;
@@ -13,9 +14,13 @@ namespace CharacterLogic
         [SerializeField] private Image _abilityLevel;
         [SerializeField] private Button _abilityButton;
         [SerializeField] private GameObject _abilityDesktopPrompt;
+        [SerializeField] private bool _forceMobileMode;
 
         private Canvas _hudCanvas;
         private bool _isTutorialMode;
+
+        private Tween _abilityPulseTween;
+        private Vector3 _abilityButtonInitialScale;
 
         public event Action AbilityButtonPressed;
 
@@ -24,7 +29,10 @@ namespace CharacterLogic
             _hudCanvas = GetComponentInChildren<Canvas>(true);
 
             if (_abilityButton != null)
+            {
                 _abilityButton.onClick.AddListener(() => AbilityButtonPressed?.Invoke());
+                _abilityButtonInitialScale = _abilityButton.transform.localScale;
+            }
 
             HideAbilityUI();
         }
@@ -53,12 +61,15 @@ namespace CharacterLogic
 
             foreach (Transform child in _hudCanvas.transform)
             {
-                bool isAbilityButton = _abilityButton != null && child.gameObject == _abilityButton.gameObject;
-                bool isAbilityText = _abilityDesktopPrompt != null && child.gameObject == _abilityDesktopPrompt;
-                bool containsAbilityBar = _abilityLevel != null && _abilityLevel.transform.IsChildOf(child);
+                bool isAbilityButton = _abilityButton != null &&
+                                       child.gameObject == _abilityButton.gameObject;
 
-                //if (containsAbilityBar)
-                  //  HideNonAbilityChildren(child, _abilityLevel.transform);
+                bool isAbilityText = _abilityDesktopPrompt != null &&
+                                     child.gameObject == _abilityDesktopPrompt;
+
+                bool containsAbilityBar = _abilityLevel != null &&
+                                          _abilityLevel.transform.IsChildOf(child);
+
                 if (!isAbilityButton && !isAbilityText)
                     child.gameObject.SetActive(false);
             }
@@ -104,10 +115,23 @@ namespace CharacterLogic
 
         public void ShowAbilityReady()
         {
-            bool isMobile = !YandexGame.EnvironmentData.isDesktop;
+            bool isMobile;
+
+#if UNITY_EDITOR
+            isMobile = _forceMobileMode;
+#else
+            isMobile = !YandexGame.EnvironmentData.isDesktop;
+#endif
 
             if (_abilityButton != null)
+            {
                 _abilityButton.gameObject.SetActive(isMobile);
+
+                if (isMobile)
+                    StartAbilityPulse();
+                else
+                    StopAbilityPulse();
+            }
 
             if (_abilityDesktopPrompt != null)
                 _abilityDesktopPrompt.SetActive(!isMobile);
@@ -116,10 +140,44 @@ namespace CharacterLogic
         public void HideAbilityUI()
         {
             if (_abilityButton != null)
+            {
                 _abilityButton.gameObject.SetActive(false);
+                StopAbilityPulse();
+            }
 
             if (_abilityDesktopPrompt != null)
                 _abilityDesktopPrompt.SetActive(false);
+        }
+
+        private void StartAbilityPulse()
+        {
+            if (_abilityButton == null)
+                return;
+
+            if (_abilityPulseTween == null)
+            {
+                _abilityPulseTween = _abilityButton.transform
+                    .DOScale(_abilityButtonInitialScale * 1.1f, 0.5f)
+                    .SetEase(Ease.InOutSine)
+                    .SetLoops(-1, LoopType.Yoyo)
+                    .SetAutoKill(false);
+            }
+
+            _abilityPulseTween.Play();
+        }
+
+        private void StopAbilityPulse()
+        {
+            if (_abilityPulseTween == null)
+                return;
+
+            _abilityPulseTween.Pause();
+            _abilityButton.transform.localScale = _abilityButtonInitialScale;
+        }
+
+        private void OnDestroy()
+        {
+            _abilityPulseTween?.Kill();
         }
     }
 }

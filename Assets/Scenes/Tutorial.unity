@@ -13174,6 +13174,7 @@ MonoBehaviour:
   _joystick: {fileID: 21300000, guid: 792dd540070ce12418ca359167216cb6, type: 3}
   _joystickText: {fileID: 1520936632}
   _keyboardText: {fileID: 646668037}
+  _forceMobileMode: 1
 --- !u!114 &1344444869
 MonoBehaviour:
   m_ObjectHideFlags: 0
