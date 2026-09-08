@@ -127,8 +127,6 @@ namespace UI.FortuneWheel
 
         private IEnumerator PlayDemoRoutine()
         {
-            PrepareWheel();
-
             yield return new WaitForSecondsRealtime(_openDelay);
             yield return SpinRandom();
 
@@ -140,7 +138,7 @@ namespace UI.FortuneWheel
             _routine = null;
         }
 
-        private void PrepareWheel()
+        public void PrepareWheel()
         {
             BuildRewards();
             StopSlotPulses();

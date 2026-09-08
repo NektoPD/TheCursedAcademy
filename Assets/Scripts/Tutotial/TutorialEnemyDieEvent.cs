@@ -51,9 +51,11 @@ namespace Tutorial
                 _levelUpMain.Opened += PlayFortuneWheelDemo;
                 _levelUpMain.Closed += HideFortuneWheelDemo;
             }
+            
+            _fortuneWheelDemo.PrepareWheel();
         }
 
-        private void OnDisable()
+        private void OnDestroy()
         {
             if (_initializer != null)
                 _initializer.CharacterCreated -= OnCharacterCreated;
@@ -72,7 +74,7 @@ namespace Tutorial
 
             if (_character != null)
                 _character.AbilityUsed -= OnAbilityUsed;
-
+            
             UnsubscribeFromRewardPickups();
 
             if (_abilityRoutine != null)
@@ -84,8 +86,7 @@ namespace Tutorial
 
         private void OnCharacterCreated(Character character)
         {
-            if (_character != null)
-                _character.AbilityUsed -= OnAbilityUsed;
+            Debug.Log(character);
 
             _character = character;
             _collisionHandler = character.GetComponent<CharacterCollisionHandler>();
