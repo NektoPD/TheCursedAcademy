@@ -28,6 +28,7 @@ namespace Items.BaseClass
         protected int Level = 1;
         protected float RuntimeCooldown;
         protected float RuntimeDamage;
+        private Func<bool> _isBerserkActive;
         
         protected StatModifiers Mods = new();
         public IReadOnlyList<Stat> UiStats => ItemStats.Stats;
@@ -46,13 +47,14 @@ namespace Items.BaseClass
         public event Action MaxLevelReached;
 
         public void Initialize(CharacterMovementHandler movementHandler,
-            CharacterSoundController characterSoundController)
+            CharacterSoundController characterSoundController, Func<bool> isBerserkActive)
         {
             MovementHandler = movementHandler;
             ItemStats = new ItemStats(VisualData.Stats);
             ItemStats.Item = VisualData.Name;
             StatVariations = VisualData.Stats.Select(stat => stat.Variation);
             CharacterSoundController = characterSoundController;
+            _isBerserkActive = isBerserkActive;
             RuntimeCooldown = Data.Cooldown;
             RuntimeDamage = Data.Damage;
             
