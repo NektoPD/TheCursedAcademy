@@ -44,7 +44,7 @@ namespace InventorySystem
             InventoryUISlot slotToEnable = _uiSlots.FirstOrDefault(slot => !slot.IsActive);
 
             slotToEnable.Enable();
-            slotToEnable.SetItem(item.Data.ItemIcon, item.VisualData.Variation);
+            slotToEnable.SetItem(item);
         }
 
         private void DisableItemSlot(Item item)
