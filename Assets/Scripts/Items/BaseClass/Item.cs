@@ -22,6 +22,8 @@ namespace Items.BaseClass
 
         private bool _canAttack = true;
         private IEnumerator _attackCoroutine;
+        private float _reloadStartedAt;
+        private float _reloadDuration;
 
         protected int Level = 1;
         protected float RuntimeCooldown;
@@ -34,6 +36,14 @@ namespace Items.BaseClass
         [field: SerializeField] public ItemVisualData VisualData { get; private set; }
 
         public int CurrentLevel => Level;
+<<<<<<< Updated upstream
+=======
+        public bool IsBerserkActive => _isBerserkActive?.Invoke() == true;
+        public bool IsReloading => !_canAttack;
+        public float ReloadProgress => IsReloading && _reloadDuration > 0f
+            ? Mathf.Clamp01((Time.time - _reloadStartedAt) / _reloadDuration)
+            : 0f;
+>>>>>>> Stashed changes
         public event Action<Enums.ItemVariations, float> DamageDealt;
         public event Action MaxLevelReached;
 
@@ -105,7 +115,9 @@ namespace Items.BaseClass
         private IEnumerator AttackCooldown()
         {
             _canAttack = false;
-            yield return new WaitForSeconds(RuntimeCooldown);
+            _reloadStartedAt = Time.time;
+            _reloadDuration = Mathf.Max(0f, RuntimeCooldown);
+            yield return new WaitForSeconds(_reloadDuration);
             _canAttack = true;
         }
     }
