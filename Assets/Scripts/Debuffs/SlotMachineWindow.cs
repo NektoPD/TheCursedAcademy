@@ -22,10 +22,10 @@ namespace Debuffs
         [SerializeField] private float _pulseScale = 1.15f;
         [SerializeField] private float _pulseDuration = 0.5f;
 
-        private readonly List<DebuffData> _selected = new();
+        private readonly List<DebuffRoll> _selected = new();
         private Coroutine _routine;
 
-        public event Action<IReadOnlyList<DebuffData>> Finished;
+        public event Action<IReadOnlyList<DebuffRoll>> Finished;
 
         public override void OpenWindow()
         {
@@ -93,11 +93,12 @@ namespace Debuffs
                 .SetUpdate(true);
         }
 
-        private IEnumerable<DebuffData> PickDistinct(int count)
+        private IEnumerable<DebuffRoll> PickDistinct(int count)
         {
             return _debuffLibrary
                 .OrderBy(_ => UnityEngine.Random.value)
-                .Take(Mathf.Min(count, _debuffLibrary.Count));
+                .Take(Mathf.Min(count, _debuffLibrary.Count))
+                .Select(data => new DebuffRoll(data, UnityEngine.Random.Range(0, data.VariantCount)));
         }
     }
 }

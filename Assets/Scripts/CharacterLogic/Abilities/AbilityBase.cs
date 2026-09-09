@@ -35,6 +35,13 @@ namespace CharacterLogic.Abilities
             ActivationEffect = effect;
         }
 
+        public void FillCharge()
+        {
+            if (_isReady || IsActive) return;
+
+            AddCharge(Config.KillsToCharge);
+        }
+
         public void AddCharge(int amount = 1)
         {
             if (_isReady || IsActive) return;

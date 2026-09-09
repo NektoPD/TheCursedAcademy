@@ -22,7 +22,7 @@ namespace Items.ItemVariations.Toys
         {
             if (collision.TryGetComponent(out IDamageable damageable))
             {
-                damageable?.TakeDamage(Damage);
+                damageable?.TakeDamage(Damage, IsBerserkDamage);
             }
         }
     }

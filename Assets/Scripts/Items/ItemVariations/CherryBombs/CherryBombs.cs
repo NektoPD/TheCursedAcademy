@@ -1,6 +1,8 @@
+using HealthSystem;
 using Items.BaseClass;
 using Items.Enums;
 using Items.Pools;
+using System.Linq;
 using UnityEngine;
 
 namespace Items.ItemVariations.CherryBombs
@@ -13,6 +15,8 @@ namespace Items.ItemVariations.CherryBombs
         [SerializeField] private float _fuseDuration = 1.5f;
         [SerializeField] private int _projectilesPerAttack = 1;
         [SerializeField] private int _initialPoolSize = 8;
+        [SerializeField] private LayerMask _enemyLayer;
+        [SerializeField] private float _detectionRadius = 15f;
 
         private ItemProjectilePool _projectilePool;
         private Transform _transform;
@@ -42,6 +46,7 @@ namespace Items.ItemVariations.CherryBombs
                 ? MovementHandler.GetMoveDirection()
                 : _lastFacingDirection;
 
+            Transform[] targets = FindNearestEnemies(_projectilesPerAttack);
             float spreadAngle = 15f;
 
             for (int i = 0; i < _projectilesPerAttack; i++)
@@ -56,6 +61,8 @@ namespace Items.ItemVariations.CherryBombs
                     direction.x * Mathf.Sin(rad) + direction.y * Mathf.Cos(rad)
                 ).normalized;
 
+                Transform target = i < targets.Length ? targets[i] : null;
+
                 CherryBombsProjectile projectile =
                     _projectilePool.GetFromPool<CherryBombsProjectile>(_transform.position, Quaternion.identity);
 
@@ -65,9 +72,21 @@ namespace Items.ItemVariations.CherryBombs
                 projectile.Transform.SetParent(null);
                 projectile.Initialize(RuntimeDamage, this);
                 projectile.ClearHitEnemies();
-                projectile.Launch(_transform.position, dir, _projectileSpeed);
+                projectile.Launch(_transform.position, dir, _projectileSpeed, target);
                 projectile.Finished += OnProjectileFinished;
             }
+        }
+
+        private Transform[] FindNearestEnemies(int count)
+        {
+            Collider2D[] colliders = Physics2D.OverlapCircleAll(_transform.position, _detectionRadius, _enemyLayer);
+
+            return colliders
+                .Where(c => c.TryGetComponent(out IDamageable _))
+                .OrderBy(c => Vector2.Distance(_transform.position, c.transform.position))
+                .Select(c => c.transform)
+                .Take(count)
+                .ToArray();
         }
 
         private void OnProjectileFinished(CherryBombsProjectile projectile)

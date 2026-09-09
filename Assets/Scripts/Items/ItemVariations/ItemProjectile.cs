@@ -13,6 +13,7 @@ namespace Items.ItemVariations
         protected float Damage;
         protected Item Owner;
         protected readonly HashSet<IDamageable> HitEnemies = new HashSet<IDamageable>();
+        protected bool IsBerserkDamage => Owner != null && Owner.IsBerserkActive;
 
         public SpriteRenderer SpriteRenderer { get; private set; }
         public Transform Transform { get; private set; }
@@ -39,7 +40,7 @@ namespace Items.ItemVariations
             if (collision.TryGetComponent(out IDamageable damageable) &&
                 !collision.TryGetComponent(out Character character))
             {
-                damageable?.TakeDamage(Damage);
+                damageable?.TakeDamage(Damage, IsBerserkDamage);
                 
                 if (Owner != null)
                     Owner.RaiseDamageDealt(Damage);

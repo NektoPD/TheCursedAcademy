@@ -56,6 +56,7 @@ namespace CharacterLogic
 
         private Coroutine _deathSequenceCoroutine;
         private Coroutine _reviveInvincibilityCoroutine;
+        private Coroutine _abilityChargeFillCoroutine;
         private CharacterData _characterData;
         private CharacterAnimationController _animationController;
         private CharacterMovementHandler _movementHandler;
@@ -89,6 +90,7 @@ namespace CharacterLogic
         private ItemVariations _stashedItemForChange;
         private float _abilityChargeLevel;
         private AbilityBase _ability;
+        private AbilityType _abilityType;
         private float _baseAttackPower;
         private float _baseArmor;
         private float _baseMoveSpeed;
@@ -105,6 +107,8 @@ namespace CharacterLogic
         public event Action AbilityReady;
         public event Action RageModeActivated;
         public event Action RageModeDeactivated;
+        public event Action AbilityUsed;
+        public AbilityType CurrentAbilityType => _abilityType;
         public CharacterInventory Inventory => _inventory;
         public bool IsDied => _isDied;
 
@@ -152,20 +156,29 @@ namespace CharacterLogic
 
         private void Awake()
         {
+            _isTutorial = SceneManager.GetActiveScene().name is TutorialSceneName;
             _animationController = GetComponent<CharacterAnimationController>();
             _movementHandler = GetComponent<CharacterMovementHandler>();
             _spriteHolder = GetComponent<CharacterSpriteHolder>();
             _view = GetComponent<CharacterView>();
             _attacker = GetComponent<CharacterAttacker>();
-            if (_cameraOnCharacter) Camera.main.transform.SetParent(transform);
+            _view.SetTutorialMode(_isTutorial);
+            _view.SetHudVisible(true);
+            if (_cameraOnCharacter && !_isTutorial)
+                Camera.main.transform.SetParent(transform);
             _transform = transform;
             _originalScale = _transform.localScale;
-            _isTutorial = SceneManager.GetActiveScene().name is TutorialSceneName;
         }
 
         private void OnDisable()
         {
             _hitSquashTween?.Kill();
+
+            if (_abilityChargeFillCoroutine != null)
+            {
+                StopCoroutine(_abilityChargeFillCoroutine);
+                _abilityChargeFillCoroutine = null;
+            }
 
             if (_transform != null)
                 _transform.localScale = _originalScale;
@@ -384,7 +397,7 @@ namespace CharacterLogic
             }
 
             newItem.transform.position = _transform.position;
-            newItem.Initialize(_movementHandler, _characterSoundController);
+            newItem.Initialize(_movementHandler, _characterSoundController, () => _isRageModeActive);
             _inventory.AddItem(newItem);
         }
 
@@ -401,6 +414,7 @@ namespace CharacterLogic
             _movementHandler.SetSpeed(_moveSpeed);
             _attacker.EnableAttack();
             CameraShake.Instance.SetTarget(_transform);
+            _view.SetHudVisible(true);
             if (_characterCanvas != null) _characterCanvas.gameObject.SetActive(true);
         }
 
@@ -409,10 +423,11 @@ namespace CharacterLogic
             _attacker.DisableAttack();
             _movementHandler.DisableMovement();
             _movementHandler.SetSpeed(0);
+            _view.SetHudVisible(false);
             if (_characterCanvas != null) _characterCanvas.gameObject.SetActive(false);
         }
 
-        public void ApplyDebuffs(IEnumerable<Debuffs.DebuffData> debuffs)
+        public void ApplyDebuffs(IEnumerable<Debuffs.DebuffRoll> debuffs, float negativeEffectMultiplier = 1f)
         {
             if (debuffs == null) return;
 
@@ -420,7 +435,7 @@ namespace CharacterLogic
             {
                 if (debuff == null) continue;
 
-                foreach (var modifier in debuff.Modifiers)
+                foreach (var modifier in debuff.GetModifiers(negativeEffectMultiplier))
                     ApplyStatModifier(modifier.Type, modifier.Multiplier);
             }
 
@@ -428,6 +443,11 @@ namespace CharacterLogic
             UpdateHealthView(_hp);
             _attacker.SetAttackRegenerationSpeed(_attackCooldown);
             _movementHandler.SetSpeed(_moveSpeed);
+        }
+
+        public void SetCoinMultiplier(float multiplier)
+        {
+            _characterSessionWallet.SetMultiplier(multiplier);
         }
 
         private void ApplyStatModifier(PerkType type, float multiplier)
@@ -459,6 +479,7 @@ namespace CharacterLogic
         {
             _movementHandler.EnableMovement();
             _movementHandler.SetSpeed(_moveSpeed);
+            _view.SetHudVisible(true);
             if (_characterCanvas != null) _characterCanvas.gameObject.SetActive(true);
         }
 
@@ -627,6 +648,7 @@ namespace CharacterLogic
 
             AbilityConfig config = characterData.AbilityConfig;
             _abilityChargeLevel = config.KillsToCharge;
+            _abilityType = config.Type;
 
             AbilityBase abilityPrefab = config.Type switch
             {
@@ -688,6 +710,40 @@ namespace CharacterLogic
             if (_ability == null || !_ability.IsReady) return;
             _ability.Activate();
             _view.HideAbilityUI();
+            AbilityUsed?.Invoke();
+        }
+
+        public void FillAbilityCharge(float duration = 0f)
+        {
+            if (_ability == null)
+                return;
+
+            if (_abilityChargeFillCoroutine != null)
+                StopCoroutine(_abilityChargeFillCoroutine);
+
+            if (duration <= 0f)
+            {
+                _ability.FillCharge();
+                return;
+            }
+
+            _abilityChargeFillCoroutine = StartCoroutine(FillAbilityChargeRoutine(duration));
+        }
+
+        private IEnumerator FillAbilityChargeRoutine(float duration)
+        {
+            float elapsed = 0f;
+
+            while (elapsed < duration)
+            {
+                elapsed += Time.unscaledDeltaTime;
+                float charge = Mathf.Lerp(0f, _abilityChargeLevel, Mathf.Clamp01(elapsed / duration));
+                _view.UpdateAbilityLevelBar(charge, _abilityChargeLevel);
+                yield return null;
+            }
+
+            _abilityChargeFillCoroutine = null;
+            _ability.FillCharge();
         }
 
         private void OnRageModeStarted(float damageMult, float speedMult, float armorMult)

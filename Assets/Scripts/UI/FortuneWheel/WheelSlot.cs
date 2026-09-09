@@ -13,17 +13,23 @@ namespace UI.FortuneWheel
         [SerializeField] private RectTransform _pulseTarget;
         [SerializeField] private float _pulseScale = 1.2f;
         [SerializeField] private float _pulseDuration = 0.5f;
+        [SerializeField] private Sprite _goldIcon;
 
         private Tween _pulseTween;
 
         public void Set(WheelReward reward, bool isNew = false)
         {
             if (reward == null)
+            {
+                Debug.Log($"Reward {reward} is null");
                 return;
+            }
+            
+            Debug.Log($"{reward.Sprite} sprite for reward {reward.Type} {reward.Label} {reward.Item}");
 
             if (_icon != null)
             {
-                Sprite sprite = reward.Sprite;
+                Sprite sprite = reward.Type == WheelRewardType.Gold ? _goldIcon : reward.Sprite;
                 _icon.sprite = sprite;
                 _icon.enabled = sprite != null;
             }
