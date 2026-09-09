@@ -36,14 +36,12 @@ namespace Items.BaseClass
         [field: SerializeField] public ItemVisualData VisualData { get; private set; }
 
         public int CurrentLevel => Level;
-<<<<<<< Updated upstream
-=======
+
         public bool IsBerserkActive => _isBerserkActive?.Invoke() == true;
         public bool IsReloading => !_canAttack;
         public float ReloadProgress => IsReloading && _reloadDuration > 0f
             ? Mathf.Clamp01((Time.time - _reloadStartedAt) / _reloadDuration)
             : 0f;
->>>>>>> Stashed changes
         public event Action<Enums.ItemVariations, float> DamageDealt;
         public event Action MaxLevelReached;
 
