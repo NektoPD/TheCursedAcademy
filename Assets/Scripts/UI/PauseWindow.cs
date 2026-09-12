@@ -2,6 +2,7 @@ using UI;
 using UnityEngine;
 using UnityEngine.UI;
 using Utils;
+using YG;
 
 public class PauseWindow : Window
 {
@@ -12,11 +13,19 @@ public class PauseWindow : Window
     private void OnEnable()
     {
         _exit.onClick.AddListener(ChangeScene);
+        YG2.onFocusWindowGame += OnFocusWindowGame;
     }
 
     private void OnDisable()
     {
         _exit.onClick.RemoveListener(ChangeScene);
+        YG2.onFocusWindowGame -= OnFocusWindowGame;
+    }
+
+    private void OnFocusWindowGame(bool isFocused)
+    {
+        if (isFocused)
+            Time.timeScale = 0f;
     }
 
     private void ChangeScene()
