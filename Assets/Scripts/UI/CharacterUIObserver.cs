@@ -64,6 +64,7 @@ namespace UI
         private Data.ItemVisualData _pendingItem;
         private int _pendingGold;
         private FortuneWheel.WheelBuffData _pendingBuff;
+        private int _pendingLevelUps;
 
         private void OnEnable()
         {
@@ -105,12 +106,17 @@ namespace UI
             _character = null;
         }
 
-        private void OnNewItemAdded() => _rewardPopup.CloseWindow();
+        private void OnNewItemAdded()
+        {
+            _rewardPopup.CloseWindow();
+            OpenPendingLevelUp();
+        }
 
         private void OnItemSwapped()
         {
             _rewardPopup.CloseWindow();
             _inventoryFullWindow.CloseWindow();
+            OpenPendingLevelUp();
         }
 
         private void OnItemMaxLevelReached()
@@ -197,13 +203,32 @@ namespace UI
                 CacheVignette();
         }
 
-        private void LevelUp() => _fortuneWheelWindow.OpenWindow();
+        private void LevelUp()
+        {
+            if (_fortuneWheelWindow.gameObject.activeSelf || _pendingKind != PendingRewardKind.None)
+            {
+                _pendingLevelUps++;
+                return;
+            }
+
+            _fortuneWheelWindow.OpenWindow();
+        }
+
+        private void OpenPendingLevelUp()
+        {
+            if (_pendingLevelUps <= 0 || _pendingKind != PendingRewardKind.None)
+                return;
+
+            _pendingLevelUps--;
+            _fortuneWheelWindow.OpenWindow();
+        }
 
         private void OnWheelItemRewarded(Data.ItemVisualData item)
         {
             if (item == null)
             {
                 _fortuneWheelWindow.CloseWindow();
+                OpenPendingLevelUp();
                 return;
             }
 
@@ -226,6 +251,7 @@ namespace UI
             if (buff == null)
             {
                 _fortuneWheelWindow.CloseWindow();
+                OpenPendingLevelUp();
                 return;
             }
 
@@ -247,11 +273,13 @@ namespace UI
                     _pendingKind = PendingRewardKind.None;
                     _character.AddWheelGold(_pendingGold);
                     _rewardPopup.CloseWindow();
+                    OpenPendingLevelUp();
                     break;
                 case PendingRewardKind.Buff:
                     _pendingKind = PendingRewardKind.None;
                     _character.ApplyTemporaryBuff(_pendingBuff.Type, _pendingBuff.Multiplier, _pendingBuff.DurationSeconds);
                     _rewardPopup.CloseWindow();
+                    OpenPendingLevelUp();
                     break;
             }
         }

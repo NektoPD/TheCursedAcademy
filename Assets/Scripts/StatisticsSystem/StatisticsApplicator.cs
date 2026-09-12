@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using TMPro;
 using UI.Animation;
 using Unity.VisualScripting;
@@ -20,7 +19,7 @@ namespace StatistiscSystem
         [SerializeField] private ItemStatisticsApplicator _itemStatisticsApplicator;
         [SerializeField] private WindowAnimation _window;
 
-        private HashSet<ItemStatistics> _displayedItems = new HashSet<ItemStatistics>();
+        private readonly List<ItemStatistics> _displayedItems = new();
         
         public void Applicate(Statistics statistics)
         {
@@ -34,10 +33,8 @@ namespace StatistiscSystem
             _enemyKilled.text = statistics.EnemysKills.ToString();
             _time.text = TimeFormatUtil.FormatLikeTimeView(statistics.LiveTime);
             
-            foreach (var item in statistics.Items)
-            {
-                _displayedItems.Add(item);
-            }
+            if (statistics.Items != null)
+                _displayedItems.AddRange(statistics.Items);
             
             foreach (var item in _displayedItems)
             {

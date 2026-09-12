@@ -102,7 +102,7 @@ namespace InventorySystem
         {
             if (_collectedItems.Count <= 0)
             {
-                return null;
+                return new List<ItemStatistics>();
             }
 
             var currentTime = Time.timeSinceLevelLoad;
