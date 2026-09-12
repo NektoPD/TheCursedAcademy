@@ -32,12 +32,15 @@ namespace UI.FortuneWheel
         [SerializeField] private float _spinDuration = 3f;
         [SerializeField] private Ease _spinEase = Ease.InOutCubic;
         [SerializeField] private float _holdDelayBeforeClose = 1.5f;
+        [SerializeField] private AudioClip _stopClip;
 
         private readonly List<WheelReward> _rewards = new();
         private ItemsHolder _itemsHolder;
         private CharacterInventory _inventory;
         private Coroutine _routine;
         private bool _demoPlayed;
+        private Tween _spinTween;
+        private bool _isSpinning;
 
         public event Action<ItemVisualData> ItemRewarded;
         public event Action<int> GoldRewarded;
@@ -51,6 +54,12 @@ namespace UI.FortuneWheel
         }
 
         public void Initialize(CharacterInventory inventory) => _inventory = inventory;
+
+        private void Update()
+        {
+            if (_isSpinning && (Input.GetMouseButtonDown(0) || (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)))
+                StopSpin();
+        }
 
         public override void OpenWindow()
         {
@@ -98,6 +107,9 @@ namespace UI.FortuneWheel
 
             if (_wheel != null)
                 _wheel.DOKill();
+
+            _spinTween = null;
+            _isSpinning = false;
 
             StopSlotPulses();
             gameObject.SetActive(false);
@@ -169,14 +181,30 @@ namespace UI.FortuneWheel
             float finalAngle = _fullSpins * 360f + randomOffset;
 
             bool done = false;
+            _isSpinning = true;
 
-            _wheel.DORotate(new Vector3(0f, 0f, -finalAngle), _spinDuration, RotateMode.FastBeyond360)
+            _spinTween = _wheel.DORotate(new Vector3(0f, 0f, -finalAngle), _spinDuration, RotateMode.FastBeyond360)
                 .SetEase(_spinEase)
                 .SetUpdate(true)
                 .OnComplete(() => done = true);
 
-            while (!done)
+            while (!done && _isSpinning)
                 yield return null;
+
+            _spinTween = null;
+            _isSpinning = false;
+        }
+
+        private void StopSpin()
+        {
+            if (!_isSpinning || _spinTween == null)
+                return;
+
+            _spinTween.Kill(false);
+            _spinTween = null;
+            _isSpinning = false;
+            if (_stopClip != null)
+                AudioSource.PlayClipAtPoint(_stopClip, transform.position);
         }
 
         private bool IsNewItem(WheelReward reward)

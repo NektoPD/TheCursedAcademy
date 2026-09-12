@@ -134,6 +134,7 @@ MonoBehaviour:
   _spinDuration: 3
   _spinEase: 9
   _holdDelayBeforeClose: 1.5
+  _stopClip: {fileID: 8300000, guid: a0f4be8d2695b3042bf83448cea461d1, type: 3}
 --- !u!1 &904692675749574108
 GameObject:
   m_ObjectHideFlags: 0
