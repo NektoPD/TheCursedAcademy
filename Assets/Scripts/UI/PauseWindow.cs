@@ -20,12 +20,20 @@ public class PauseWindow : Window
     {
         _exit.onClick.RemoveListener(ChangeScene);
         YG2.onFocusWindowGame -= OnFocusWindowGame;
+        if (YG2.isFocusWindowGame)
+            YG2.PauseGame(false);
+    }
+
+    public override void OpenWindow()
+    {
+        base.OpenWindow();
+        YG2.PauseGame(true);
     }
 
     private void OnFocusWindowGame(bool isFocused)
     {
         if (isFocused)
-            Time.timeScale = 0f;
+            YG2.PauseGame(true);
     }
 
     private void ChangeScene()
