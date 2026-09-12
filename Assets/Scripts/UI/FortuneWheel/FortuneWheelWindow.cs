@@ -186,9 +186,9 @@ namespace UI.FortuneWheel
             {
                 _spinTween = _wheel
                     .DORotate(new Vector3(0f, 0f, -360f), _spinDuration, RotateMode.FastBeyond360)
-                    .SetEase(_spinEase)
+                    .SetEase(Ease.Linear)
                     .SetRelative()
-                    .SetLoops(-1, LoopType.Restart)
+                    .SetLoops(-1, LoopType.Incremental)
                     .SetUpdate(true);
 
                 while (_isSpinning)
