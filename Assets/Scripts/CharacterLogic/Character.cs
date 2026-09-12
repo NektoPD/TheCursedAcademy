@@ -265,7 +265,7 @@ namespace CharacterLogic
             CameraShake.Instance?.StopShake();
             _isInvincible = true;
             float previousTimeScale = Time.timeScale;
-            Time.timeScale = 0f;
+            GameTimeScale.Set(0f);
             if (CameraDeathZoom.Instance != null)
             {
                 CameraDeathZoom.Instance.SetTarget(_transform);
@@ -275,7 +275,7 @@ namespace CharacterLogic
             Coroutine fade = _spriteHolder.PlayDeathFade(this);
             yield return fade;
             CameraDeathZoom.Instance?.ResetZoom(_deathZoomResetDuration);
-            Time.timeScale = previousTimeScale;
+            GameTimeScale.Set(previousTimeScale);
             OnPlayerDied();
             _deathSequenceCoroutine = null;
         }
@@ -538,7 +538,7 @@ namespace CharacterLogic
         public void Revive()
         {
             _isDied = false;
-            Time.timeScale = 1f;
+            GameTimeScale.Set(1f);
             _health.TakeHeal(_hp);
             UpdateHealthView(_hp);
             _characterSoundController.EnableSoundByType(SoundType.Heal);

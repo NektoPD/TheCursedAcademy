@@ -64,12 +64,12 @@ namespace UI.Animation
 
         public void StopTime()
         {
-            Time.timeScale = 0f;
+            Utils.GameTimeScale.Set(0f);
         }
 
         public void StartTime()
         {
-            Time.timeScale = 1f;
+            Utils.GameTimeScale.Set(1f);
         }
 
         private Tween DoFadeBackground(float alfa, float duration)
