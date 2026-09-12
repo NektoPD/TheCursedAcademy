@@ -33,20 +33,20 @@ public class PauseWindow : Window
 
         GameTimeScale.ForcePause();
         if (!YG2.isPauseGame)
-            YG2.PauseGame(true);
+            YG2.PauseGameNoEditEventSystem(true);
     }
 
     public override void OpenWindow()
     {
         GameTimeScale.SetPauseActive(true);
         base.OpenWindow();
-        YG2.PauseGame(true);
+        YG2.PauseGameNoEditEventSystem(true);
     }
 
     private void OnFocusWindowGame(bool isFocused)
     {
         if (isFocused && GameTimeScale.IsPauseActive)
-            YG2.PauseGame(true);
+            YG2.PauseGameNoEditEventSystem(true);
     }
 
     private void ChangeScene()
