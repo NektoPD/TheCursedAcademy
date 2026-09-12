@@ -121,7 +121,7 @@ namespace UI.FortuneWheel
 
             yield return new WaitForSecondsRealtime(_openDelay);
 
-            yield return SpinRandom();
+            yield return SpinRandom(true);
 
             int winningIndex = DetectWinningSlotIndex();
 
@@ -140,7 +140,7 @@ namespace UI.FortuneWheel
         private IEnumerator PlayDemoRoutine()
         {
             yield return new WaitForSecondsRealtime(_openDelay);
-            yield return SpinRandom();
+            yield return SpinRandom(false);
 
             int winningIndex = DetectWinningSlotIndex();
 
@@ -172,7 +172,7 @@ namespace UI.FortuneWheel
                 _slots[i].StopPulse();
         }
 
-        private IEnumerator SpinRandom()
+        private IEnumerator SpinRandom(bool waitForManualStop)
         {
             if (_wheel == null)
                 yield break;
@@ -180,16 +180,32 @@ namespace UI.FortuneWheel
             float randomOffset = UnityEngine.Random.Range(0f, 360f);
             float finalAngle = _fullSpins * 360f + randomOffset;
 
-            bool done = false;
             _isSpinning = true;
 
-            _spinTween = _wheel.DORotate(new Vector3(0f, 0f, -finalAngle), _spinDuration, RotateMode.FastBeyond360)
-                .SetEase(_spinEase)
-                .SetUpdate(true)
-                .OnComplete(() => done = true);
+            if (waitForManualStop)
+            {
+                _spinTween = _wheel
+                    .DORotate(new Vector3(0f, 0f, -360f), _spinDuration, RotateMode.FastBeyond360)
+                    .SetEase(_spinEase)
+                    .SetRelative()
+                    .SetLoops(-1, LoopType.Restart)
+                    .SetUpdate(true);
 
-            while (!done && _isSpinning)
-                yield return null;
+                while (_isSpinning)
+                    yield return null;
+            }
+            else
+            {
+                bool done = false;
+                _spinTween = _wheel
+                    .DORotate(new Vector3(0f, 0f, -finalAngle), _spinDuration, RotateMode.FastBeyond360)
+                    .SetEase(_spinEase)
+                    .SetUpdate(true)
+                    .OnComplete(() => done = true);
+
+                while (!done)
+                    yield return null;
+            }
 
             _spinTween = null;
             _isSpinning = false;
