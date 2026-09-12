@@ -131,7 +131,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 8860bf3f966fffd458fe7f3e6ac044e5, type: 2}
   _openDelay: 0.8
   _fullSpins: 5
-  _spinDuration: 3
+  _spinDuration: 1.2
   _spinEase: 9
   _holdDelayBeforeClose: 1.5
   _stopClip: {fileID: 8300000, guid: a0f4be8d2695b3042bf83448cea461d1, type: 3}

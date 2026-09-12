@@ -29,7 +29,7 @@ namespace UI.FortuneWheel
         [Header("Spin")]
         [SerializeField] private float _openDelay = 0.6f;
         [SerializeField] private int _fullSpins = 5;
-        [SerializeField] private float _spinDuration = 3f;
+        [SerializeField] private float _spinDuration = 1.2f;
         [SerializeField] private Ease _spinEase = Ease.InOutCubic;
         [SerializeField] private float _holdDelayBeforeClose = 1.5f;
         [SerializeField] private AudioClip _stopClip;
