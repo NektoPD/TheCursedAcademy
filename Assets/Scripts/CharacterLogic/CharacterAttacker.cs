@@ -64,6 +64,8 @@ namespace CharacterLogic
 
             WaitForSeconds interval = new WaitForSeconds(_attackRegenerationSpeed);
 
+            yield return null;
+
             while (enabled && _inventory != null)
             {
                 AttackWithAllItems();
