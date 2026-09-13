@@ -5,6 +5,7 @@ using StatistiscSystem;
 using UI.FortuneWheel;
 using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
+using Utils;
 
 namespace UI
 {
