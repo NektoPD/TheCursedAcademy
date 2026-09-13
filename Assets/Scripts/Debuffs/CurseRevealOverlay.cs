@@ -18,7 +18,7 @@ namespace Debuffs
         [SerializeField] private Button _acceptButton;
         [SerializeField] private TMP_Text _acceptButtonText;
         [SerializeField] private List<Image> _icons = new();
-        [SerializeField] private string _header = "Your Curses are:";
+        private string Header => Translator.Translate("Твои проклятия:", "Your Curses are:", "Lanetlerin:");
         [SerializeField] private float _charInterval = 0.04f;
         [SerializeField] private float _acceptButtonPulseScale = 1.08f;
         [SerializeField] private float _acceptButtonPulseDuration = 0.65f;
@@ -160,7 +160,7 @@ namespace Debuffs
             _revealAt.Clear();
 
             var builder = new StringBuilder();
-            builder.AppendLine(_header);
+            builder.AppendLine(Header);
 
             if (debuffs != null)
             {
