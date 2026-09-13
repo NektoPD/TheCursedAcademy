@@ -8598,6 +8598,7 @@ MonoBehaviour:
   _exit: {fileID: 331983623}
   _menuIdScene: 1
   _changer: {fileID: 1197300363}
+  _eventSystem: {fileID: 419879697}
 --- !u!1001 &697611349
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -22128,8 +22129,8 @@ MonoBehaviour:
   m_VerticalScrollbar: {fileID: 0}
   m_HorizontalScrollbarVisibility: 2
   m_VerticalScrollbarVisibility: 2
-  m_HorizontalScrollbarSpacing: -1.2383176
-  m_VerticalScrollbarSpacing: -1.2383176
+  m_HorizontalScrollbarSpacing: -0.53738326
+  m_VerticalScrollbarSpacing: -0.53738326
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -22510,6 +22511,8 @@ MonoBehaviour:
   - {fileID: 1446347612}
   _header: 'Your Curses are:'
   _charInterval: 0.07
+  _acceptButtonPulseScale: 1.08
+  _acceptButtonPulseDuration: 0.65
 --- !u!1 &1446347601
 GameObject:
   m_ObjectHideFlags: 0
@@ -28301,9 +28304,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 8860bf3f966fffd458fe7f3e6ac044e5, type: 2}
   _openDelay: 0.8
   _fullSpins: 5
-  _spinDuration: 3
+  _spinDuration: 0.4
   _spinEase: 9
   _holdDelayBeforeClose: 1.5
+  _stopClip: {fileID: 0}
 --- !u!114 &1747386211
 MonoBehaviour:
   m_ObjectHideFlags: 0
