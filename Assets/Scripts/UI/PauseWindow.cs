@@ -1,6 +1,5 @@
 using UI;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Utils;
 using YG;
@@ -11,52 +10,41 @@ public class PauseWindow : Window
     [SerializeField] private int _menuIdScene;
     [SerializeField] private SceneChanger _changer;
 
+    private bool _pauseHeld;
+
     private void OnEnable()
     {
         _exit.onClick.AddListener(ChangeScene);
-        YG2.onFocusWindowGame += OnFocusWindowGame;
     }
 
     private void OnDisable()
     {
         _exit.onClick.RemoveListener(ChangeScene);
-        YG2.onFocusWindowGame -= OnFocusWindowGame;
-        GameTimeScale.SetPauseActive(false);
-        GameTimeScale.Set(1f);
-        if (YG2.isFocusWindowGame)
-            YG2.PauseGame(false);
-    }
-
-    private void Update()
-    {
-        if (!GameTimeScale.IsPauseActive)
-            return;
-
-        GameTimeScale.ForcePause();
-        if (!YG2.isPauseGame)
-            YG2.PauseGameNoEditEventSystem(true);
-    }
-
-    private void LateUpdate()
-    {
-        if (!GameTimeScale.IsPauseActive)
-            return;
-
-        foreach (EventSystem eventSystem in FindObjectsByType<EventSystem>(FindObjectsSortMode.None))
-            eventSystem.enabled = true;
+        ReleasePause();
     }
 
     public override void OpenWindow()
     {
-        GameTimeScale.SetPauseActive(true);
         base.OpenWindow();
-        YG2.PauseGameNoEditEventSystem(true);
+        HoldPause();
     }
 
-    private void OnFocusWindowGame(bool isFocused)
+    private void HoldPause()
     {
-        if (isFocused && GameTimeScale.IsPauseActive)
-            YG2.PauseGameNoEditEventSystem(true);
+        if (_pauseHeld)
+            return;
+
+        _pauseHeld = true;
+        GamePauseController.HoldPause();
+    }
+
+    private void ReleasePause()
+    {
+        if (!_pauseHeld)
+            return;
+
+        _pauseHeld = false;
+        GamePauseController.ReleasePause();
     }
 
     private void ChangeScene()

@@ -41,6 +41,7 @@ namespace UI.FortuneWheel
         private bool _demoPlayed;
         private Tween _spinTween;
         private bool _isSpinning;
+        private bool _pauseHeld;
 
         public event Action<ItemVisualData> ItemRewarded;
         public event Action<int> GoldRewarded;
@@ -64,12 +65,14 @@ namespace UI.FortuneWheel
         public override void OpenWindow()
         {
             base.OpenWindow();
+            HoldPause();
             Play();
         }
 
         public override void OpenUnscaledTime()
         {
             base.OpenUnscaledTime();
+            HoldPause();
             Play();
         }
 
@@ -95,6 +98,29 @@ namespace UI.FortuneWheel
                 StopCoroutine(_routine);
 
             _routine = StartCoroutine(PlayDemoRoutine());
+        }
+
+        private void OnDisable()
+        {
+            ReleasePause();
+        }
+
+        private void HoldPause()
+        {
+            if (_pauseHeld)
+                return;
+
+            _pauseHeld = true;
+            GamePauseController.HoldPause();
+        }
+
+        private void ReleasePause()
+        {
+            if (!_pauseHeld)
+                return;
+
+            _pauseHeld = false;
+            GamePauseController.ReleasePause();
         }
 
         public void StopDemo()
