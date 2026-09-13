@@ -260,6 +260,7 @@ namespace UI
 
             _pendingKind = PendingRewardKind.Buff;
             _pendingBuff = buff;
+            HoldRewardPause();
             _fortuneWheelWindow.CloseUnscaledTime();
             _rewardPopup.ShowBuff(buff);
         }
@@ -290,26 +291,19 @@ namespace UI
         private void HoldRewardPause()
         {
             if (_rewardPauseHeld)
-            {
-                Debug.Log(_rewardPauseHeld);
                 return;
-            }
 
             _rewardPauseHeld = true;
+            GamePauseController.HoldPause();
         }
 
         private void OnRewardPopupClosed()
         {
             if (!_rewardPauseHeld)
-            {
-                Debug.Log("not paused");
                 return;
-            }
 
             _rewardPauseHeld = false;
             GamePauseController.ReleasePause();
-            
-            Debug.Log("Reward closed");
         }
 
         private void InventoryLimitReached()
