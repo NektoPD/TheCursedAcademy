@@ -7,6 +7,7 @@ using DG.Tweening;
 using Items.ItemHolder;
 using InventorySystem;
 using UnityEngine;
+using UnityEngine.UI;
 using Utils;
 using Zenject;
 
@@ -34,6 +35,9 @@ namespace UI.FortuneWheel
         [SerializeField] private Ease _spinEase = Ease.InOutCubic;
         [SerializeField] private float _holdDelayBeforeClose = 1.5f;
         [SerializeField] private AudioClip _stopClip;
+        [SerializeField] private Button _stopButton;
+        [SerializeField] private float _stopButtonPulseScale = 1.1f;
+        [SerializeField] private float _stopButtonPulseDuration = 0.45f;
 
         private readonly List<WheelReward> _rewards = new();
         private ItemsHolder _itemsHolder;
@@ -43,6 +47,8 @@ namespace UI.FortuneWheel
         private Tween _spinTween;
         private bool _isSpinning;
         private bool _pauseHeld;
+        private Tween _stopButtonPulseTween;
+        private Vector3 _stopButtonInitialScale;
 
         public event Action<ItemVisualData> ItemRewarded;
         public event Action<int> GoldRewarded;
@@ -57,10 +63,13 @@ namespace UI.FortuneWheel
 
         public void Initialize(CharacterInventory inventory) => _inventory = inventory;
 
-        private void Update()
+        private void OnEnable()
         {
-            if (_isSpinning && (Input.GetMouseButtonDown(0) || (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)))
-                StopSpin();
+            if (_stopButton != null)
+            {
+                _stopButton.onClick.AddListener(StopSpin);
+                _stopButtonInitialScale = _stopButton.transform.localScale;
+            }
         }
 
         public override void OpenWindow()
@@ -103,7 +112,33 @@ namespace UI.FortuneWheel
 
         private void OnDisable()
         {
+            if (_stopButton != null)
+                _stopButton.onClick.RemoveListener(StopSpin);
+
+            StopButtonPulse();
             ReleasePause();
+        }
+
+        private void StartButtonPulse()
+        {
+            if (_stopButton == null)
+                return;
+
+            StopButtonPulse();
+            _stopButtonPulseTween = _stopButton.transform
+                .DOScale(_stopButtonInitialScale * _stopButtonPulseScale, _stopButtonPulseDuration)
+                .SetLoops(-1, LoopType.Yoyo)
+                .SetEase(Ease.InOutSine)
+                .SetUpdate(true);
+        }
+
+        private void StopButtonPulse()
+        {
+            _stopButtonPulseTween?.Kill();
+            _stopButtonPulseTween = null;
+
+            if (_stopButton != null)
+                _stopButton.transform.localScale = _stopButtonInitialScale;
         }
 
         private void HoldPause()
@@ -210,6 +245,7 @@ namespace UI.FortuneWheel
             float finalAngle = _fullSpins * 360f + randomOffset;
 
             _isSpinning = true;
+            StartButtonPulse();
 
             if (waitForManualStop)
             {
@@ -248,6 +284,7 @@ namespace UI.FortuneWheel
             _spinTween.Kill(false);
             _spinTween = null;
             _isSpinning = false;
+            StopButtonPulse();
             if (_stopClip != null)
                 AudioSource.PlayClipAtPoint(_stopClip, transform.position);
         }
