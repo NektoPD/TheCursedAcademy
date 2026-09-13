@@ -16,7 +16,7 @@ namespace Items.ItemVariations.CherryBombs
         [SerializeField] private int _projectilesPerAttack = 1;
         [SerializeField] private int _initialPoolSize = 8;
         [SerializeField] private LayerMask _enemyLayer;
-        [SerializeField] private float _detectionRadius = 15f;
+        [SerializeField] private float _detectionRadius = 8f;
 
         private ItemProjectilePool _projectilePool;
         private Transform _transform;
