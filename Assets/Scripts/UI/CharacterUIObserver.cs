@@ -65,6 +65,7 @@ namespace UI
         private int _pendingGold;
         private FortuneWheel.WheelBuffData _pendingBuff;
         private int _pendingLevelUps;
+        private bool _rewardPauseHeld;
 
         private void OnEnable()
         {
@@ -102,6 +103,8 @@ namespace UI
 
             if (_rewardPopup != null)
                 _rewardPopup.Confirmed -= OnRewardPopupConfirmed;
+            if (_rewardPopup != null)
+                _rewardPopup.Closed -= OnRewardPopupClosed;
 
             _character = null;
         }
@@ -182,6 +185,8 @@ namespace UI
             {
                 _rewardPopup.Confirmed -= OnRewardPopupConfirmed;
                 _rewardPopup.Confirmed += OnRewardPopupConfirmed;
+                _rewardPopup.Closed -= OnRewardPopupClosed;
+                _rewardPopup.Closed += OnRewardPopupClosed;
             }
 
             if (_inventoryFullWindow != null)
@@ -234,6 +239,7 @@ namespace UI
 
             _pendingKind = PendingRewardKind.Item;
             _pendingItem = item;
+            HoldRewardPause();
             _fortuneWheelWindow.CloseUnscaledTime();
             _rewardPopup.ShowItem(item);
         }
@@ -242,6 +248,7 @@ namespace UI
         {
             _pendingKind = PendingRewardKind.Gold;
             _pendingGold = amount;
+            HoldRewardPause();
             _fortuneWheelWindow.CloseUnscaledTime();
             _rewardPopup.ShowGold(amount);
         }
@@ -257,6 +264,7 @@ namespace UI
 
             _pendingKind = PendingRewardKind.Buff;
             _pendingBuff = buff;
+            HoldRewardPause();
             _fortuneWheelWindow.CloseUnscaledTime();
             _rewardPopup.ShowBuff(buff);
         }
@@ -282,6 +290,24 @@ namespace UI
                     OpenPendingLevelUp();
                     break;
             }
+        }
+
+        private void HoldRewardPause()
+        {
+            if (_rewardPauseHeld)
+                return;
+
+            _rewardPauseHeld = true;
+            GamePauseController.HoldPause();
+        }
+
+        private void OnRewardPopupClosed()
+        {
+            if (!_rewardPauseHeld)
+                return;
+
+            _rewardPauseHeld = false;
+            GamePauseController.ReleasePause();
         }
 
         private void InventoryLimitReached()
