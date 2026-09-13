@@ -1,5 +1,6 @@
 using UI;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Utils;
 using YG;
@@ -34,6 +35,15 @@ public class PauseWindow : Window
         GameTimeScale.ForcePause();
         if (!YG2.isPauseGame)
             YG2.PauseGameNoEditEventSystem(true);
+    }
+
+    private void LateUpdate()
+    {
+        if (!GameTimeScale.IsPauseActive)
+            return;
+
+        foreach (EventSystem eventSystem in FindObjectsByType<EventSystem>(FindObjectsSortMode.None))
+            eventSystem.enabled = true;
     }
 
     public override void OpenWindow()
