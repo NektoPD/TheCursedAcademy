@@ -82,7 +82,6 @@ namespace UI.FortuneWheel
         public override void OpenUnscaledTime()
         {
             base.OpenUnscaledTime();
-            HoldPause();
             Play();
         }
 
@@ -116,7 +115,6 @@ namespace UI.FortuneWheel
                 _stopButton.onClick.RemoveListener(StopSpin);
 
             StopButtonPulse();
-            ReleasePause();
         }
 
         private void StartButtonPulse()
@@ -189,8 +187,6 @@ namespace UI.FortuneWheel
 
             if (winningIndex >= 0 && winningIndex < _slots.Count)
                 _slots[winningIndex].PlayPulse();
-
-            ReleasePause();
 
             yield return new WaitForSecondsRealtime(_holdDelayBeforeClose);
 
