@@ -154,6 +154,8 @@ namespace UI.FortuneWheel
             if (winningIndex >= 0 && winningIndex < _slots.Count)
                 _slots[winningIndex].PlayPulse();
 
+            ReleasePause();
+
             yield return new WaitForSecondsRealtime(_holdDelayBeforeClose);
 
             if (winningIndex >= 0 && winningIndex < _rewards.Count)
