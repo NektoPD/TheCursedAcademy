@@ -20,6 +20,9 @@ namespace Tutorial
                 _initializer.CharacterCreated += OnCharacterCreated;
 
             SubscribeToWheel();
+
+            if (_fortuneWheelWindow != null)
+                _fortuneWheelWindow.DemoClosed += OnFortuneWheelClosed;
         }
 
         private void OnDisable()
@@ -31,6 +34,9 @@ namespace Tutorial
                 _character.LevelUp -= OnLevelUp;
 
             UnsubscribeFromWheel();
+
+            if (_fortuneWheelWindow != null)
+                _fortuneWheelWindow.DemoClosed -= OnFortuneWheelClosed;
         }
 
         private void OnCharacterCreated(Character character)
@@ -95,6 +101,11 @@ namespace Tutorial
                 _character.ApplyTemporaryBuff(buff.Type, buff.Multiplier, buff.DurationSeconds);
 
             _fortuneWheelWindow.CloseWindow();
+        }
+
+        private void OnFortuneWheelClosed()
+        {
+            _taskController.ShowNextTask();
         }
     }
 }
