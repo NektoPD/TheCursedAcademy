@@ -7,7 +7,7 @@ namespace Utils
     public sealed class GamePauseController : MonoBehaviour
     {
         private static GamePauseController _instance;
-        private static int _pauseRequests;
+        private static bool _isPauseHeld;
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         private static void Create()
@@ -23,17 +23,15 @@ namespace Utils
         public static void HoldPause()
         {
             EnsureCreated();
-            _pauseRequests++;
+            _isPauseHeld = true;
             ApplyPause();
         }
 
         public static void ReleasePause()
         {
-            if (_pauseRequests > 0)
-                _pauseRequests--;
-
-            if (_pauseRequests == 0)
-                YG2.PauseGame(false);
+            _isPauseHeld = false;
+            Time.timeScale = 1f;
+            YG2.PauseGame(false);
         }
 
         private static void EnsureCreated()
@@ -62,13 +60,13 @@ namespace Utils
 
         private void Update()
         {
-            if (_pauseRequests > 0)
+            if (_isPauseHeld)
                 ApplyPause();
         }
 
         private void LateUpdate()
         {
-            if (_pauseRequests <= 0)
+            if (!_isPauseHeld)
                 return;
 
             foreach (EventSystem eventSystem in FindObjectsByType<EventSystem>(FindObjectsSortMode.None))
@@ -77,13 +75,13 @@ namespace Utils
 
         private void OnFocusWindowGame(bool isFocused)
         {
-            if (_pauseRequests > 0 && isFocused)
+            if (_isPauseHeld && isFocused)
                 ApplyPause();
         }
 
         private void OnPauseGame(bool isPaused)
         {
-            if (_pauseRequests > 0 && isPaused == false)
+            if (_isPauseHeld && isPaused == false)
                 ApplyPause();
         }
     }

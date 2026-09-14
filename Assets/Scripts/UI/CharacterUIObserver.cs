@@ -113,14 +113,12 @@ namespace UI
         private void OnNewItemAdded()
         {
             _rewardPopup.CloseWindow();
-            OpenPendingLevelUp();
         }
 
         private void OnItemSwapped()
         {
             _rewardPopup.CloseWindow();
             _inventoryFullWindow.CloseWindow();
-            OpenPendingLevelUp();
         }
 
         private void OnItemMaxLevelReached()
@@ -212,6 +210,7 @@ namespace UI
                 return;
             }
 
+            HoldRewardPause();
             _fortuneWheelWindow.OpenWindow();
         }
 
@@ -235,7 +234,6 @@ namespace UI
 
             _pendingKind = PendingRewardKind.Item;
             _pendingItem = item;
-            HoldRewardPause();
             _fortuneWheelWindow.CloseUnscaledTime();
             _rewardPopup.ShowItem(item);
         }
@@ -244,7 +242,6 @@ namespace UI
         {
             _pendingKind = PendingRewardKind.Gold;
             _pendingGold = amount;
-            HoldRewardPause();
             _fortuneWheelWindow.CloseUnscaledTime();
             _rewardPopup.ShowGold(amount);
         }
@@ -260,7 +257,6 @@ namespace UI
 
             _pendingKind = PendingRewardKind.Buff;
             _pendingBuff = buff;
-            HoldRewardPause();
             _fortuneWheelWindow.CloseUnscaledTime();
             _rewardPopup.ShowBuff(buff);
         }
@@ -277,13 +273,11 @@ namespace UI
                     _pendingKind = PendingRewardKind.None;
                     _character.AddWheelGold(_pendingGold);
                     _rewardPopup.CloseWindow();
-                    OpenPendingLevelUp();
                     break;
                 case PendingRewardKind.Buff:
                     _pendingKind = PendingRewardKind.None;
                     _character.ApplyTemporaryBuff(_pendingBuff.Type, _pendingBuff.Multiplier, _pendingBuff.DurationSeconds);
                     _rewardPopup.CloseWindow();
-                    OpenPendingLevelUp();
                     break;
             }
         }
@@ -304,6 +298,7 @@ namespace UI
 
             _rewardPauseHeld = false;
             GamePauseController.ReleasePause();
+            OpenPendingLevelUp();
         }
 
         private void InventoryLimitReached()

@@ -46,7 +46,6 @@ namespace UI.FortuneWheel
         private bool _demoPlayed;
         private Tween _spinTween;
         private bool _isSpinning;
-        private bool _pauseHeld;
         private Tween _stopButtonPulseTween;
         private Vector3 _stopButtonInitialScale;
 
@@ -75,7 +74,6 @@ namespace UI.FortuneWheel
         public override void OpenWindow()
         {
             base.OpenWindow();
-            HoldPause();
             Play();
         }
 
@@ -137,24 +135,6 @@ namespace UI.FortuneWheel
 
             if (_stopButton != null)
                 _stopButton.transform.localScale = _stopButtonInitialScale;
-        }
-
-        private void HoldPause()
-        {
-            if (_pauseHeld)
-                return;
-
-            _pauseHeld = true;
-            GamePauseController.HoldPause();
-        }
-
-        private void ReleasePause()
-        {
-            if (!_pauseHeld)
-                return;
-
-            _pauseHeld = false;
-            GamePauseController.ReleasePause();
         }
 
         public void StopDemo()
