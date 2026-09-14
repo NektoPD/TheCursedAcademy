@@ -1,6 +1,8 @@
+using System.Linq;
 using DG.Tweening;
 using CharacterLogic;
 using CharacterLogic.Initializer;
+using Items.BaseClass;
 using StatistiscSystem;
 using UI.FortuneWheel;
 using UnityEngine;
@@ -235,7 +237,9 @@ namespace UI
             _pendingKind = PendingRewardKind.Item;
             _pendingItem = item;
             _fortuneWheelWindow.CloseUnscaledTime();
-            _rewardPopup.ShowItem(item);
+            Item existingItem = _character.Inventory.Items.FirstOrDefault(
+                inventoryItem => inventoryItem.VisualData.Variation == item.Variation);
+            _rewardPopup.ShowItem(item, existingItem);
         }
 
         private void OnWheelGoldRewarded(int amount)

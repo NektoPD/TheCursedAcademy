@@ -1,6 +1,7 @@
 using System;
 using System.Text;
 using Data;
+using Items.BaseClass;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -24,6 +25,11 @@ namespace UI.FortuneWheel
 
         public void ShowItem(ItemVisualData item)
         {
+            ShowItem(item, null);
+        }
+
+        public void ShowItem(ItemVisualData item, Item existingItem)
+        {
             if (item == null)
                 return;
 
@@ -37,14 +43,19 @@ namespace UI.FortuneWheel
             if (!string.IsNullOrEmpty(item.Description))
                 builder.AppendLine(item.Description);
 
-            if (item.Stats != null)
+            var stats = existingItem != null ? existingItem.UiStats : item.Stats;
+
+            if (stats != null)
             {
-                foreach (var stat in item.Stats)
+                foreach (var stat in stats)
                 {
                     if (stat == null)
                         continue;
 
-                    builder.AppendLine(stat.Name + ": " + stat.CurrentValue.ToString("0.##"));
+                    string value = existingItem != null && !existingItem.IsMaxLevelReached()
+                        ? stat.CurrentValue.ToString("0.##") + " -> " + stat.NextValue.ToString("0.##")
+                        : stat.CurrentValue.ToString("0.##");
+                    builder.AppendLine(stat.Name + ": " + value);
                 }
             }
 
