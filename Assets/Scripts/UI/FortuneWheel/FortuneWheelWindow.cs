@@ -36,6 +36,7 @@ namespace UI.FortuneWheel
         [SerializeField] private float _holdDelayBeforeClose = 1.5f;
         [SerializeField] private AudioClip _stopClip;
         [SerializeField] private Button _stopButton;
+        [SerializeField] private Button _tutorialCloseButton;
         [SerializeField] private float _stopButtonPulseScale = 1.1f;
         [SerializeField] private float _stopButtonPulseDuration = 0.45f;
 
@@ -46,6 +47,7 @@ namespace UI.FortuneWheel
         private bool _demoPlayed;
         private Tween _spinTween;
         private bool _isSpinning;
+        private bool _isDemo;
         private Tween _stopButtonPulseTween;
         private Vector3 _stopButtonInitialScale;
 
@@ -53,6 +55,7 @@ namespace UI.FortuneWheel
         public event Action<int> GoldRewarded;
         public event Action<WheelBuffData> BuffRewarded;
         public event Action Finished;
+        public event Action DemoClosed;
 
         [Inject]
         private void Construct(ItemsHolder holder)
@@ -68,6 +71,12 @@ namespace UI.FortuneWheel
             {
                 _stopButton.onClick.AddListener(StopSpin);
                 _stopButtonInitialScale = _stopButton.transform.localScale;
+            }
+
+            if (_tutorialCloseButton != null)
+            {
+                _tutorialCloseButton.onClick.AddListener(CloseDemo);
+                _tutorialCloseButton.gameObject.SetActive(false);
             }
         }
 
@@ -99,6 +108,7 @@ namespace UI.FortuneWheel
                 return;
 
             _demoPlayed = true;
+            _isDemo = true;
             gameObject.SetActive(true);
 
             if (_routine != null)
@@ -111,6 +121,9 @@ namespace UI.FortuneWheel
         {
             if (_stopButton != null)
                 _stopButton.onClick.RemoveListener(StopSpin);
+
+            if (_tutorialCloseButton != null)
+                _tutorialCloseButton.onClick.RemoveListener(CloseDemo);
 
             StopButtonPulse();
         }
@@ -155,6 +168,13 @@ namespace UI.FortuneWheel
             gameObject.SetActive(false);
         }
 
+        private void CloseDemo()
+        {
+            _isDemo = false;
+            DemoClosed?.Invoke();
+            CloseUnscaledTime();
+        }
+
         private IEnumerator PlayRoutine()
         {
             PrepareWheel();
@@ -180,12 +200,15 @@ namespace UI.FortuneWheel
         private IEnumerator PlayDemoRoutine()
         {
             yield return new WaitForSecondsRealtime(_openDelay);
-            yield return SpinRandom(false);
+            yield return SpinRandom(true);
 
             int winningIndex = DetectWinningSlotIndex();
 
             if (winningIndex >= 0 && winningIndex < _slots.Count)
                 _slots[winningIndex].PlayPulse();
+
+            if (_isDemo && _tutorialCloseButton != null)
+                _tutorialCloseButton.gameObject.SetActive(true);
 
             _routine = null;
         }
@@ -263,6 +286,9 @@ namespace UI.FortuneWheel
             StopButtonPulse();
             if (_stopClip != null)
                 AudioSource.PlayClipAtPoint(_stopClip, transform.position);
+
+            if (_isDemo && _tutorialCloseButton != null)
+                _tutorialCloseButton.gameObject.SetActive(true);
         }
 
         private bool IsNewItem(WheelReward reward)
