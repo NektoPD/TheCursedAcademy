@@ -1,3 +1,4 @@
+using CharacterLogic;
 using HealthSystem;
 using Items.BaseClass;
 using UnityEngine;
@@ -20,9 +21,10 @@ namespace Items.ItemVariations.Toys
 
         protected override void OnTriggerEnter2D(Collider2D collision)
         {
-            if (collision.TryGetComponent(out IDamageable damageable))
+            if (collision.TryGetComponent(out IDamageable damageable) &&
+                !collision.TryGetComponent(out Character character))
             {
-                damageable?.TakeDamage(Damage, IsBerserkDamage);
+                DealDamage(damageable);
             }
         }
     }

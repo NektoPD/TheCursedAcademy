@@ -35,15 +35,25 @@ namespace Items.ItemVariations
             HitEnemies.Clear();
         }
 
+        protected float DealDamage(IDamageable damageable)
+        {
+            if (damageable == null)
+                return 0f;
+
+            float appliedDamage = damageable.TakeDamage(Damage, IsBerserkDamage);
+
+            if (appliedDamage > 0f)
+                Owner?.RaiseDamageDealt(appliedDamage);
+
+            return appliedDamage;
+        }
+
         protected virtual void OnTriggerEnter2D(Collider2D collision)
         {
             if (collision.TryGetComponent(out IDamageable damageable) &&
                 !collision.TryGetComponent(out Character character))
             {
-                damageable?.TakeDamage(Damage, IsBerserkDamage);
-                
-                if (Owner != null)
-                    Owner.RaiseDamageDealt(Damage);
+                DealDamage(damageable);
             }
         }
     }

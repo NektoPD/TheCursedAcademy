@@ -483,9 +483,9 @@ namespace CharacterLogic
             if (_characterCanvas != null) _characterCanvas.gameObject.SetActive(true);
         }
 
-        public void TakeDamage(float damage, bool isFromBerserk = false)
+        public float TakeDamage(float damage, bool isFromBerserk = false)
         {
-            if (_isInvincible) return;
+            if (_isInvincible || _isDied) return 0f;
 
             float reducedDamage = damage / (1f + _armor);
 
@@ -496,10 +496,12 @@ namespace CharacterLogic
             CameraShake.Instance.ShakeCamera(shakeIntensity, _hitShakeFrequency, shakeDuration);
             PlayHitSquash();
 
-            _health.TakeDamage(reducedDamage);
+            float appliedDamage = _health.TakeDamage(reducedDamage);
             _characterSoundController.EnableSoundByType(SoundType.Hit);
             Damaged?.Invoke(_health.CurrentHealth, _hp);
             HealthChanged?.Invoke(_health.CurrentHealth, _hp);
+
+            return appliedDamage;
         }
 
         private void PlayHitSquash()

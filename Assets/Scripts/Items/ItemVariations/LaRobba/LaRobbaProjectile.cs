@@ -138,8 +138,7 @@ namespace Items.ItemVariations.LaRobba
                 !collision.TryGetComponent(out Character character) &&
                 HitEnemies.Add(damageable))
             {
-                damageable.TakeDamage(Damage, IsBerserkDamage);
-                Owner?.RaiseDamageDealt(Damage);
+                DealDamage(damageable);
 
                 if (_phase == Phase.Falling)
                 {

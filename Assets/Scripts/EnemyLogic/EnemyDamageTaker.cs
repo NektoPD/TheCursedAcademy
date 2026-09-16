@@ -69,13 +69,13 @@ namespace EnemyLogic
             _health.Died += Die;
         }
 
-        public void TakeDamage(float damage, bool isFromBerserk = false)
+        public float TakeDamage(float damage, bool isFromBerserk = false)
         {
             if (_isDied)
-                return;
+                return 0f;
 
             _wasKilledByBerserk = isFromBerserk;
-            _health.TakeDamage(damage);
+            float appliedDamage = _health.TakeDamage(damage);
 
             if (!_isDied && _inImmune == false)
             {
@@ -87,6 +87,8 @@ namespace EnemyLogic
                 _damageView.StartFlash(_duration, _initializer.PlayerTransform.position);
             else
                 _damageView.StartFlash(_duration);
+
+            return appliedDamage;
         }
 
         private void Die()

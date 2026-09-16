@@ -39,11 +39,12 @@ namespace HealthSystem
                 HealthRegainedToNormal?.Invoke();
         }
 
-        public void TakeDamage(float damage)
+        public float TakeDamage(float damage)
         {
             if (damage < 0)
-                return;
+                return 0f;
 
+            float previousHealth = _currentHealth;
             _currentHealth = Math.Clamp(_currentHealth - damage, 0, MaxHealth);
             Changed?.Invoke(_currentHealth);
 
@@ -52,6 +53,8 @@ namespace HealthSystem
 
             if (_currentHealth == 0)
                 Died?.Invoke();
+
+            return previousHealth - _currentHealth;
         }
     }
 }
