@@ -860,6 +860,10 @@ PrefabInstance:
       propertyPath: timeTypeConvert
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 427125380090051075, guid: f40a236569a66c344b68a9feb3f86a18, type: 3}
+      propertyPath: nameLB
+      value: mainLeaderboard
+      objectReference: {fileID: 0}
     - target: {fileID: 1705290334077199572, guid: f40a236569a66c344b68a9feb3f86a18, type: 3}
       propertyPath: m_Name
       value: LB Example
