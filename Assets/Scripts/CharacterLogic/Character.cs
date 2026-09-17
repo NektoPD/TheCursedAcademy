@@ -540,7 +540,6 @@ namespace CharacterLogic
         public void Revive()
         {
             _isDied = false;
-            GameTimeScale.Set(1f);
             _health.TakeHeal(_hp);
             UpdateHealthView(_hp);
             _characterSoundController.EnableSoundByType(SoundType.Heal);

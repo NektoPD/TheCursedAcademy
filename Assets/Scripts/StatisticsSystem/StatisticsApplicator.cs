@@ -45,7 +45,6 @@ namespace StatistiscSystem
             _itemStatisticsApplicator.Applicate(_displayedItems);
 
             _window.Open();
-            _window.StopTime();
         }
         
         private void ClearContainers()

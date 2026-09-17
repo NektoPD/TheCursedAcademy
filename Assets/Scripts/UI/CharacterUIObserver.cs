@@ -82,6 +82,12 @@ namespace UI
 
             KillTweens();
 
+            if (_rewardPauseHeld)
+            {
+                _rewardPauseHeld = false;
+                GamePauseController.ReleasePause();
+            }
+
             if (_character == null)
                 return;
 
@@ -315,6 +321,9 @@ namespace UI
 
         private void StatisticApplicate(Statistics statistics)
         {
+            if (_reviver != null)
+                _reviver.HoldDeathPause();
+
             if (_statisticApplicator != null)
                 _statisticApplicator.Applicate(statistics);
 
