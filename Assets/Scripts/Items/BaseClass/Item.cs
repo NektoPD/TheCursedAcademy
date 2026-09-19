@@ -31,6 +31,8 @@ namespace Items.BaseClass
         private Func<bool> _isBerserkActive;
         
         protected StatModifiers Mods = new();
+        protected float AreaMultiplier = 1f;
+        protected float EffectDurationMultiplier = 1f;
         public IReadOnlyList<Stat> UiStats => ItemStats.Stats;
 
         [field: SerializeField] public ItemDataConfig Data { get; private set; }
@@ -47,7 +49,8 @@ namespace Items.BaseClass
         public event Action MaxLevelReached;
 
         public void Initialize(CharacterMovementHandler movementHandler,
-            CharacterSoundController characterSoundController, Func<bool> isBerserkActive)
+            CharacterSoundController characterSoundController, Func<bool> isBerserkActive,
+            float areaMultiplier = 1f, float effectDurationMultiplier = 1f)
         {
             MovementHandler = movementHandler;
             ItemStats = new ItemStats(VisualData.Stats);
@@ -57,7 +60,11 @@ namespace Items.BaseClass
             _isBerserkActive = isBerserkActive;
             RuntimeCooldown = Data.Cooldown;
             RuntimeDamage = Data.Damage;
-            
+            AreaMultiplier = Mathf.Max(1f, areaMultiplier);
+            EffectDurationMultiplier = Mathf.Max(1f, effectDurationMultiplier);
+            Mods.Multiply(Enums.StatVariations.Radius, AreaMultiplier);
+            Mods.Multiply(Enums.StatVariations.Duration, EffectDurationMultiplier);
+
             UpdateStatsValues();
         }
         

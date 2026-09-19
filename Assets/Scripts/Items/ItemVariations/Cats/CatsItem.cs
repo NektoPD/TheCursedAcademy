@@ -186,7 +186,8 @@ namespace Items.ItemVariations.Cats
             {
                 CatsProjectile cat = _catPool.Get();
                 cat.Initialize(RuntimeDamage, this);
-                cat.Activate(_currentCatMovementSpeed, _catLifetime, _detectionRadius, transform);
+                cat.Activate(_currentCatMovementSpeed, _catLifetime * EffectDurationMultiplier,
+                    _detectionRadius * AreaMultiplier, transform);
             }
         }
 

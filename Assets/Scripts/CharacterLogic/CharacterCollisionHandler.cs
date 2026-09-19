@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using PickableItems;
 using Utils;
@@ -26,6 +27,25 @@ namespace CharacterLogic
         public event Action<int> GotExpPoint;
         public event Action<int> GotHeal;
         public event Action GotMagnet;
+
+        private BoxCollider2D _pickupCollider;
+        private Vector2 _basePickupSize;
+
+        private void Awake()
+        {
+            _pickupCollider = GetComponents<BoxCollider2D>().FirstOrDefault(collider => collider.isTrigger);
+
+            if (_pickupCollider != null)
+                _basePickupSize = _pickupCollider.size;
+        }
+
+        public void SetPickupRadiusMultiplier(float multiplier)
+        {
+            if (_pickupCollider == null)
+                return;
+
+            _pickupCollider.size = _basePickupSize * Mathf.Max(1f, multiplier);
+        }
 
         private void Update()
         {

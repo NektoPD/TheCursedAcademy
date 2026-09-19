@@ -62,7 +62,7 @@ namespace Items.ItemVariations
                 if (parfumeProjectile != null)
                 {
                     parfumeProjectile.Initialize(RuntimeDamage, this);
-                    parfumeProjectile.SetupMovement(targetPosition, _projectileSpeed, _damageZoneDuration * _durationMultiplier);
+                    parfumeProjectile.SetupMovement(targetPosition, _projectileSpeed, _damageZoneDuration * EffectDurationMultiplier * _durationMultiplier);
                     parfumeProjectile.ClearHitEnemies();
 
                     StartCoroutine(DisableProjectileAfterLifetime(parfumeProjectile, _projectileLifetime));

@@ -370,6 +370,9 @@ namespace CharacterLogic
             _movementHandler.SetSpeed(_moveSpeed);
         }
 
+        private float _itemAreaMultiplier = 1f;
+        private float _itemEffectDurationMultiplier = 1f;
+
         private void SetupNewItem(ItemVariations selectedItemVariation)
         {
             Item newItem = _itemsHolder.GetItemByType(selectedItemVariation);
@@ -397,7 +400,8 @@ namespace CharacterLogic
             }
 
             newItem.transform.position = _transform.position;
-            newItem.Initialize(_movementHandler, _characterSoundController, () => _isRageModeActive);
+            newItem.Initialize(_movementHandler, _characterSoundController, () => _isRageModeActive,
+                _itemAreaMultiplier, _itemEffectDurationMultiplier);
             _inventory.AddItem(newItem);
         }
 
@@ -589,6 +593,11 @@ namespace CharacterLogic
 
         private void InitializeCharacterData(CharacterData characterData, Dictionary<PerkType, float> perkBonuses)
         {
+            _itemAreaMultiplier = Mathf.Max(1f, GetPerkBonus(perkBonuses, PerkType.Area));
+            _itemEffectDurationMultiplier = Mathf.Max(1f, GetPerkBonus(perkBonuses, PerkType.Duration));
+            _characterSessionWallet.SetPerkMultiplier(GetPerkBonus(perkBonuses, PerkType.Greed));
+            _characterLevelController.SetExpMultiplier(GetPerkBonus(perkBonuses, PerkType.Growth));
+            _collisionHandler.SetPickupRadiusMultiplier(GetPerkBonus(perkBonuses, PerkType.Magnet));
             _attackPower = characterData.AttackPower * GetPerkBonus(perkBonuses, PerkType.Power);
             _armor = characterData.Armor * GetPerkBonus(perkBonuses, PerkType.Armor);
             _hp = characterData.Hp * GetPerkBonus(perkBonuses, PerkType.MaxHp);

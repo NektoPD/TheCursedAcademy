@@ -48,9 +48,9 @@ namespace Items.ItemVariations.SchoolBell
                 _projectilePool.GetFromPool<SchoolBellProjectile>(
                     new Vector2(_transform.position.x, _transform.position.y + _ySpawnOffset), Quaternion.identity);
 
-            projectile.SetFreezeDuration(_freezeDuration * _currentEffectDurationMult);
-            projectile.SetFreezeRadius(_bellEffectRadius * _currentRadiusMult);
-            StartCoroutine(EnableProjectile(projectile, _freezeDuration * _currentEffectDurationMult));
+            projectile.SetFreezeDuration(_freezeDuration * EffectDurationMultiplier * _currentEffectDurationMult);
+            projectile.SetFreezeRadius(_bellEffectRadius * AreaMultiplier * _currentRadiusMult);
+            StartCoroutine(EnableProjectile(projectile, _freezeDuration * EffectDurationMultiplier * _currentEffectDurationMult));
 
             projectile.SetEnemyLayerMask(_enemyLayerMask);
             projectile.ClearHitEnemies();

@@ -14,6 +14,12 @@ namespace PlayerPerksController
         public void Initialize()
         {
             PerkDataWrapper = YandexGame.savesData.PerkDataWrapper;
+
+            foreach (PerkType perk in Enum.GetValues(typeof(PerkType)))
+            {
+                if (PerkDataWrapper.PerkLevels.ContainsKey(perk) == false)
+                    PerkDataWrapper.PerkLevels.Add(perk, 0);
+            }
         }
 
         public PerkDataWrapper PerkDataWrapper { get; private set; }
@@ -22,6 +28,11 @@ namespace PlayerPerksController
         {
             if (PerkDataWrapper.PerkLevels.ContainsKey(type) == false) throw new NullReferenceException(nameof(type));
             return PerkDataWrapper.PerkLevels[type];
+        }
+
+        public float GetUpgradeStep(PerkType type)
+        {
+            return _perkModifiers.GetModifiers()[type];
         }
 
         public bool TryUpgradePerk(PerkType perkType)
@@ -62,7 +73,8 @@ namespace PlayerPerksController
         public Dictionary<PerkType, int> PerkLevels = new()
         {
             { PerkType.Power, 0 }, { PerkType.Armor, 0 }, { PerkType.MaxHp, 0 }, { PerkType.HpRegeneration, 0 },
-            { PerkType.AttackCooldown, 0 }, { PerkType.Speed, 0 }
+            { PerkType.AttackCooldown, 0 }, { PerkType.Speed, 0 }, { PerkType.Greed, 0 }, { PerkType.Growth, 0 },
+            { PerkType.Magnet, 0 }, { PerkType.Area, 0 }, { PerkType.Duration, 0 }
         };
     }
 }

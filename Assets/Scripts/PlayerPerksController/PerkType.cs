@@ -5,5 +5,10 @@ public enum PerkType
     MaxHp,
     HpRegeneration,
     AttackCooldown,
-    Speed
+    Speed,
+    Greed,
+    Growth,
+    Magnet,
+    Area,
+    Duration
 }

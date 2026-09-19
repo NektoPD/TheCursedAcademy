@@ -56,14 +56,16 @@ namespace UI.Applicators
         {
             _name.text = data.Name;
 
+            int stepPercent = Mathf.RoundToInt(_perkController.GetUpgradeStep(data.Type) * 100f);
+
             if (_perkController.GetPerkLevel(data.Type) < _perkController.MaxUpgradeCount)
             {
-                _description.text =
-                    $"{data.Description} ({_perkController.GetPerkLevel(data.Type) * 5}% => {(_perkController.GetPerkLevel(data.Type) + 1) * 5}%)";
+                int currentPercent = stepPercent * _perkController.GetPerkLevel(data.Type);
+                _description.text = $"{data.Description} ({currentPercent}% => {currentPercent + stepPercent}%)";
             }
             else
             {
-                _description.text = $"{data.Description} ({_perkController.GetPerkLevel(data.Type) * 5}%)";
+                _description.text = $"{data.Description} ({stepPercent * _perkController.GetPerkLevel(data.Type)}%)";
             }
 
             _image.sprite = data.Sprite;
