@@ -27,6 +27,13 @@ namespace HealthSystem
             _currentHealth = maxHealth;
         }
 
+        public void SetMaxHealthPreservingCurrent(float maxHealth)
+        {
+            MaxHealth = maxHealth;
+            _currentHealth = Math.Clamp(_currentHealth, 0, maxHealth);
+            Changed?.Invoke(_currentHealth);
+        }
+
         public void TakeHeal(float heal)
         {
             if (heal < 0)

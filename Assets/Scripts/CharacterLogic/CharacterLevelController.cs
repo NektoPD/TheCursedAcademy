@@ -5,7 +5,7 @@ namespace CharacterLogic
 {
     public class CharacterLevelController : IDisposable
     {
-        private const int InitialExperienceRequirement = 5;
+        private const int InitialExperienceRequirement = 8;
         private const double ExpGrowthFactor = 1.5;
 
         private int _experienceIncreaseValue = 10;

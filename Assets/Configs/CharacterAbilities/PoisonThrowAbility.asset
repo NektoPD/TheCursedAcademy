@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PoisonThrowAbility
   m_EditorClassIdentifier: 
   <Type>k__BackingField: 3
-  <KillsToCharge>k__BackingField: 1
+  <KillsToCharge>k__BackingField: 15
   <Damage>k__BackingField: 10
   <Duration>k__BackingField: 8
   <ProjectileSpeed>k__BackingField: 4

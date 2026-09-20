@@ -13,6 +13,8 @@ namespace CharacterLogic
 
         public int CollectedMoney { get; private set; }
 
+        public event Action<int> MoneyChanged;
+
         public void Initialize(CharacterCollisionHandler characterCollisionHandler)
         {
             _characterCollisionHandler = characterCollisionHandler;
@@ -28,6 +30,7 @@ namespace CharacterLogic
             int wholeMoney = Mathf.FloorToInt(rewardedMoney);
             _fractionalMoney = rewardedMoney - wholeMoney;
             CollectedMoney += wholeMoney;
+            MoneyChanged?.Invoke(CollectedMoney);
         }
 
         public void SetMultiplier(float multiplier)
@@ -44,6 +47,7 @@ namespace CharacterLogic
         {
             CollectedMoney = 0;
             _fractionalMoney = 0f;
+            MoneyChanged?.Invoke(CollectedMoney);
         }
 
         public void Dispose()

@@ -108,6 +108,7 @@ namespace CharacterLogic
         public event Action RageModeActivated;
         public event Action RageModeDeactivated;
         public event Action AbilityUsed;
+        public event Action<int> RoundCoinsChanged;
         public AbilityType CurrentAbilityType => _abilityType;
         public CharacterInventory Inventory => _inventory;
         public bool IsDied => _isDied;
@@ -201,6 +202,7 @@ namespace CharacterLogic
 
             if (_characterLevelController != null) _characterLevelController.LeveledUp -= OnLeveledUp;
             _characterLevelController?.Dispose();
+            if (_characterSessionWallet != null) _characterSessionWallet.MoneyChanged -= OnRoundCoinsChanged;
             _characterSessionWallet?.Dispose();
             _levelUpItemApplicator.ItemSelected -= OnLevelUpItemSelected;
 
@@ -343,6 +345,11 @@ namespace CharacterLogic
             _characterSessionWallet.AddMoney(amount);
         }
 
+        private void OnRoundCoinsChanged(int coins)
+        {
+            RoundCoinsChanged?.Invoke(coins);
+        }
+
         public void ApplyTemporaryBuff(PerkType type, float multiplier, float durationSeconds)
         {
             if (multiplier <= 0f || durationSeconds <= 0f)
@@ -364,8 +371,8 @@ namespace CharacterLogic
 
         private void RefreshStats()
         {
-            _health.SetMaxHealth(_hp);
-            UpdateHealthView(_hp);
+            _health.SetMaxHealthPreservingCurrent(_hp);
+            UpdateHealthView(_health.CurrentHealth);
             _attacker.SetAttackRegenerationSpeed(_attackCooldown);
             _movementHandler.SetSpeed(_moveSpeed);
         }
@@ -443,8 +450,8 @@ namespace CharacterLogic
                     ApplyStatModifier(modifier.Type, modifier.Multiplier);
             }
 
-            _health.SetMaxHealth(_hp);
-            UpdateHealthView(_hp);
+            _health.SetMaxHealthPreservingCurrent(_hp);
+            UpdateHealthView(_health.CurrentHealth);
             _attacker.SetAttackRegenerationSpeed(_attackCooldown);
             _movementHandler.SetSpeed(_moveSpeed);
         }
@@ -587,6 +594,7 @@ namespace CharacterLogic
             _characterSessionWallet = new CharacterSessionWallet();
             _characterLevelController = new CharacterLevelController();
             _characterSessionWallet.Initialize(_collisionHandler);
+            _characterSessionWallet.MoneyChanged += OnRoundCoinsChanged;
             _characterLevelController.Initialize(_collisionHandler);
             _characterLevelController.LeveledUp += OnLeveledUp;
         }
