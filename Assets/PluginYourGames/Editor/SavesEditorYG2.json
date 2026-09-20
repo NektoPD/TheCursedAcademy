@@ -7,7 +7,7 @@
     false,
     false
   ],
-  "idSave": 724,
+  "idSave": 742,
   "money": 1,
   "newPlayerName": "Hello!",
   "openLevels": [
@@ -22,7 +22,12 @@
       "MaxHp": 3,
       "HpRegeneration": 0,
       "AttackCooldown": 1,
-      "Speed": 0
+      "Speed": 0,
+      "Greed": 0,
+      "Growth": 0,
+      "Magnet": 0,
+      "Area": 0,
+      "Duration": 0
     }
   },
   "WalletWrapper": {
