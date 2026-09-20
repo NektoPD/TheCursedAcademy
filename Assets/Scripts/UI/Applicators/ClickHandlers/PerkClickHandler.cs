@@ -10,6 +10,7 @@ namespace UI.Applicators.ClickHandlers
         [SerializeField] private Image[] _levels;
         [SerializeField] private Sprite _on;
         [SerializeField] private PerkApplicator _applicator;
+        [SerializeField] private Image _maxImage;
 
         private Queue<Image> _currentLevels;
 
@@ -25,6 +26,8 @@ namespace UI.Applicators.ClickHandlers
                 Image level = _currentLevels.Dequeue();
                 level.sprite = _on;
             }
+
+            _maxImage.enabled = _currentLevels.Count == 0;
         }
 
         private void OnEnable()

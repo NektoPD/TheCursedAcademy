@@ -12,12 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07864c3fceb4cde45993daa6d6308b25, type: 3}
   m_Name: Growth
   m_EditorClassIdentifier: 
-  _nameRu: "Рост"
+  _nameRu: "\u0420\u043E\u0441\u0442"
   _nameEn: Growth
-  _nameTr: "Büyüme"
-  _descriptionRu: "Увеличивает получаемый опыт "
+  _nameTr: "B\xFCy\xFCme"
+  _descriptionRu: "\u0423\u0432\u0435\u043B\u0438\u0447\u0438\u0432\u0430\u0435\u0442
+    \u043F\u043E\u043B\u0443\u0447\u0430\u0435\u043C\u044B\u0439 \u043E\u043F\u044B\u0442 "
   _descriptionEn: 'Increases experience gained '
-  _descriptionTr: "Kazanılan tecrübeyi artırır "
+  _descriptionTr: "Kazan\u0131lan tecr\xFCbeyi art\u0131r\u0131r "
   <Type>k__BackingField: 7
-  <Sprite>k__BackingField: {fileID: 0}
+  <Sprite>k__BackingField: {fileID: 21300000, guid: e70f678fc7b2c5d418b277bc0e4a3ca4, type: 3}
   <DefaultPrice>k__BackingField: 200

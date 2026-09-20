@@ -5,10 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2352e6f7-7a00-4256-b434-98f90d0b0896" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/Assets/PluginYourGames/Editor/BuildLogYG2.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/PluginYourGames/Editor/BuildLogYG2.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.TheCursedAcademy/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TheCursedAcademy/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Configs/PerlVisualData/Area.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Configs/PerlVisualData/Area.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Configs/PerlVisualData/Duration.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Configs/PerlVisualData/Duration.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Configs/PerlVisualData/Greed.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Configs/PerlVisualData/Greed.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Configs/PerlVisualData/Growth.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Configs/PerlVisualData/Growth.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Configs/PerlVisualData/Magnet.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Configs/PerlVisualData/Magnet.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/PluginYourGames/Editor/SavesEditorYG2.json" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/PluginYourGames/Editor/SavesEditorYG2.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Shop/Item.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Shop/Item.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/Menu.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Menu.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/TestGameScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/TestGameScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/Applicators/ClickHandlers/PerkClickHandler.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/Applicators/ClickHandlers/PerkClickHandler.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -334,6 +340,7 @@
       <workItem from="1789366038095" duration="1537000" />
       <workItem from="1789621235306" duration="2172000" />
       <workItem from="1789808550979" duration="3135000" />
+      <workItem from="1789886571452" duration="2744000" />
     </task>
     <servers />
   </component>

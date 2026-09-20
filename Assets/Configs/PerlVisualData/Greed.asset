@@ -12,12 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07864c3fceb4cde45993daa6d6308b25, type: 3}
   m_Name: Greed
   m_EditorClassIdentifier: 
-  _nameRu: "Жадность"
+  _nameRu: "\u0416\u0430\u0434\u043D\u043E\u0441\u0442\u044C"
   _nameEn: Greed
-  _nameTr: "Açgözlülük"
-  _descriptionRu: "Увеличивает получаемые монеты "
+  _nameTr: "A\xE7g\xF6zl\xFCl\xFCk"
+  _descriptionRu: "\u0423\u0432\u0435\u043B\u0438\u0447\u0438\u0432\u0430\u0435\u0442
+    \u043F\u043E\u043B\u0443\u0447\u0430\u0435\u043C\u044B\u0435 \u043C\u043E\u043D\u0435\u0442\u044B "
   _descriptionEn: 'Increases coins gained '
-  _descriptionTr: "Kazanılan altınları artırır "
+  _descriptionTr: "Kazan\u0131lan alt\u0131nlar\u0131 art\u0131r\u0131r "
   <Type>k__BackingField: 6
-  <Sprite>k__BackingField: {fileID: 0}
+  <Sprite>k__BackingField: {fileID: 21300000, guid: 9c61e02caae2d91429b33e973f59b421, type: 3}
   <DefaultPrice>k__BackingField: 200
