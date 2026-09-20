@@ -18,6 +18,7 @@ namespace PickableItems
         private Animator _animator;
         private ExpPoint _prefab;
         private XpWaveScaler _xpWaveScaler;
+        private BoxCollider2D _collider;
 
         public int Value => _point;
 
@@ -34,6 +35,7 @@ namespace PickableItems
             _spriteRenderer = GetComponent<SpriteRenderer>();
             _resizeCollider = GetComponent<ResizeCollider>();
             _animator = GetComponent<Animator>();
+            _collider = GetComponent<BoxCollider2D>();
         }
 
         public void Initialize(IData<ExpPoint> data, ExpPointPool pool)
@@ -46,6 +48,7 @@ namespace PickableItems
             _pool = pool;
             _spriteRenderer.sprite = expPointData.Sprite;
             _resizeCollider.Resize();
+            _collider.size *= PickupRadius.Scale;
             _animator.runtimeAnimatorController = expPointData.AnimatorController;
         }
 

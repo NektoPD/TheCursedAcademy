@@ -16,8 +16,16 @@ namespace PickableItems
         private ExpPointPool _expPointPool;
         private HealPool _healPool;
         private int _value;
+        private BoxCollider2D _collider;
+        private Vector2 _baseColliderSize;
 
         public int Value => _value;
+
+        private void Awake()
+        {
+            _collider = GetComponent<BoxCollider2D>();
+            _baseColliderSize = _collider.size;
+        }
 
         [Inject]
         private void Construct(MoneyPool moneyPool, ExpPointPool expPointPool, HealPool healPool)
@@ -31,6 +39,7 @@ namespace PickableItems
         {
             _pool = pool;
             _value = count;
+            _collider.size = _baseColliderSize * PickupRadius.Scale;
         }
 
         public Dictionary<IPickable, Transform> GetAllActivePickableItems()

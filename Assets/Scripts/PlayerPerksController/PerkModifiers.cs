@@ -12,11 +12,11 @@ namespace PlayerPerksController
         [SerializeField] private float _hpRegenerationModifier = 0.05f;
         [SerializeField] private float _attackCooldownModifier = -0.05f;
         [SerializeField] private float _speedModifier = 0.05f;
-        [SerializeField] private float _greedModifier = 0.05f;
-        [SerializeField] private float _growthModifier = 0.05f;
+        [SerializeField] private float _greedModifier = 0.1f;
+        [SerializeField] private float _growthModifier = 0.03f;
         [SerializeField] private float _magnetModifier = 0.1f;
-        [SerializeField] private float _areaModifier = 0.05f;
-        [SerializeField] private float _durationModifier = 0.05f;
+        [SerializeField] private float _areaModifier = 0.03f;
+        [SerializeField] private float _durationModifier = 0.04f;
 
         public Dictionary<PerkType, float> GetModifiers()
         {

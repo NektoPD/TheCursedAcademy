@@ -597,7 +597,7 @@ namespace CharacterLogic
             _itemEffectDurationMultiplier = Mathf.Max(1f, GetPerkBonus(perkBonuses, PerkType.Duration));
             _characterSessionWallet.SetPerkMultiplier(GetPerkBonus(perkBonuses, PerkType.Greed));
             _characterLevelController.SetExpMultiplier(GetPerkBonus(perkBonuses, PerkType.Growth));
-            _collisionHandler.SetPickupRadiusMultiplier(GetPerkBonus(perkBonuses, PerkType.Magnet));
+            PickupRadius.Set(GetPerkBonus(perkBonuses, PerkType.Magnet));
             _attackPower = characterData.AttackPower * GetPerkBonus(perkBonuses, PerkType.Power);
             _armor = characterData.Armor * GetPerkBonus(perkBonuses, PerkType.Armor);
             _hp = characterData.Hp * GetPerkBonus(perkBonuses, PerkType.MaxHp);

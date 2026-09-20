@@ -18,8 +18,8 @@ MonoBehaviour:
   _hpRegenerationModifier: 0.05
   _attackCooldownModifier: -0.05
   _speedModifier: 0.05
-  _greedModifier: 0.05
-  _growthModifier: 0.05
+  _greedModifier: 0.1
+  _growthModifier: 0.03
   _magnetModifier: 0.1
-  _areaModifier: 0.05
-  _durationModifier: 0.05
+  _areaModifier: 0.03
+  _durationModifier: 0.04

@@ -9,13 +9,22 @@ namespace PickableItems
     {
         private HealPool _pool;
         private int _value;
+        private BoxCollider2D _collider;
+        private Vector2 _baseColliderSize;
 
         public int Value => _value;
+
+        private void Awake()
+        {
+            _collider = GetComponent<BoxCollider2D>();
+            _baseColliderSize = _collider.size;
+        }
 
         public void Initialize(int count, HealPool pool)
         {
             _pool = pool;
             _value = count;
+            _collider.size = _baseColliderSize * PickupRadius.Scale;
         }
 
         public void Despawn()
