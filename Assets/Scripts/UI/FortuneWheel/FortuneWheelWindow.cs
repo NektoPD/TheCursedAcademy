@@ -35,6 +35,9 @@ namespace UI.FortuneWheel
         [SerializeField] private Ease _spinEase = Ease.InOutCubic;
         [SerializeField] private float _holdDelayBeforeClose = 1.5f;
         [SerializeField] private AudioClip _stopClip;
+        [SerializeField] private AudioSource _audioSource;
+        [SerializeField] private AudioClip _spinClip;
+        [SerializeField, Min(0.01f)] private float _spinSoundInterval = 0.1f;
         [SerializeField] private Button _stopButton;
         [SerializeField] private Button _tutorialCloseButton;
         [SerializeField] private float _stopButtonPulseScale = 1.1f;
@@ -44,6 +47,7 @@ namespace UI.FortuneWheel
         private ItemsHolder _itemsHolder;
         private CharacterInventory _inventory;
         private Coroutine _routine;
+        private Coroutine _spinSoundRoutine;
         private bool _demoPlayed;
         private Tween _spinTween;
         private bool _isSpinning;
@@ -94,6 +98,7 @@ namespace UI.FortuneWheel
 
         private void Play()
         {
+            CancelSpin();
             if (_routine != null)
                 StopCoroutine(_routine);
 
@@ -108,6 +113,7 @@ namespace UI.FortuneWheel
                 return;
 
             _demoPlayed = true;
+            CancelSpin();
             _isDemo = true;
             gameObject.SetActive(true);
 
@@ -119,13 +125,16 @@ namespace UI.FortuneWheel
 
         private void OnDisable()
         {
+            CancelSpin();
+            if (_routine != null)
+                StopCoroutine(_routine);
+
+            _routine = null;
             if (_stopButton != null)
                 _stopButton.onClick.RemoveListener(StopSpin);
 
             if (_tutorialCloseButton != null)
                 _tutorialCloseButton.onClick.RemoveListener(CloseDemo);
-
-            StopButtonPulse();
         }
 
         private void StartButtonPulse()
@@ -152,6 +161,7 @@ namespace UI.FortuneWheel
 
         public void StopDemo()
         {
+            CancelSpin();
             if (_routine != null)
             {
                 StopCoroutine(_routine);
@@ -160,9 +170,6 @@ namespace UI.FortuneWheel
 
             if (_wheel != null)
                 _wheel.DOKill();
-
-            _spinTween = null;
-            _isSpinning = false;
 
             StopSlotPulses();
             gameObject.SetActive(false);
@@ -244,6 +251,7 @@ namespace UI.FortuneWheel
             float finalAngle = _fullSpins * 360f + randomOffset;
 
             _isSpinning = true;
+            StartSpinSound();
             StartButtonPulse();
 
             if (waitForManualStop)
@@ -267,8 +275,15 @@ namespace UI.FortuneWheel
                     .SetUpdate(true)
                     .OnComplete(() => done = true);
 
-                while (!done)
+                while (!done && _isSpinning)
                     yield return null;
+
+                if (_isSpinning)
+                {
+                    StopSpinSound();
+                    StopButtonPulse();
+                    PlayStopSound();
+                }
             }
 
             _spinTween = null;
@@ -284,11 +299,63 @@ namespace UI.FortuneWheel
             _spinTween = null;
             _isSpinning = false;
             StopButtonPulse();
-            if (_stopClip != null)
-                AudioSource.PlayClipAtPoint(_stopClip, transform.position);
+            StopSpinSound();
+            PlayStopSound();
 
             if (_isDemo && _tutorialCloseButton != null)
                 _tutorialCloseButton.gameObject.SetActive(true);
+        }
+
+        private AudioSource GetAudioSource()
+        {
+            if (_audioSource == null)
+            {
+                _audioSource = gameObject.AddComponent<AudioSource>();
+                _audioSource.playOnAwake = false;
+                _audioSource.spatialBlend = 0f;
+            }
+
+            return _audioSource;
+        }
+
+        private void StartSpinSound()
+        {
+            StopSpinSound();
+            if (_spinClip != null)
+                _spinSoundRoutine = StartCoroutine(PlaySpinSoundRoutine());
+        }
+
+        private IEnumerator PlaySpinSoundRoutine()
+        {
+            while (_isSpinning)
+            {
+                GetAudioSource().PlayOneShot(_spinClip);
+                yield return new WaitForSecondsRealtime(Mathf.Max(0.01f, _spinSoundInterval));
+            }
+        }
+
+        private void StopSpinSound()
+        {
+            if (_spinSoundRoutine != null)
+                StopCoroutine(_spinSoundRoutine);
+
+            _spinSoundRoutine = null;
+            _audioSource?.Stop();
+        }
+
+        private void PlayStopSound()
+        {
+            if (_stopClip != null)
+                GetAudioSource().PlayOneShot(_stopClip);
+        }
+
+        private void CancelSpin()
+        {
+            _spinTween?.Kill();
+            _spinTween = null;
+            _isSpinning = false;
+            StopSpinSound();
+            StopButtonPulse();
         }
 
         private bool IsNewItem(WheelReward reward)

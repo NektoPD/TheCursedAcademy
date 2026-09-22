@@ -1,3 +1,4 @@
+using CharacterLogic;
 using HealthSystem;
 using Items.BaseClass;
 using Items.Enums;
@@ -72,6 +73,8 @@ namespace Items.ItemVariations.CherryBombs
                 projectile.Transform.SetParent(null);
                 projectile.Initialize(RuntimeDamage, this);
                 projectile.ClearHitEnemies();
+                projectile.Exploded -= OnProjectileExploded;
+                projectile.Exploded += OnProjectileExploded;
                 projectile.Launch(_transform.position, dir, _projectileSpeed, target);
                 projectile.Finished += OnProjectileFinished;
             }
@@ -89,8 +92,14 @@ namespace Items.ItemVariations.CherryBombs
                 .ToArray();
         }
 
+        private void OnProjectileExploded()
+        {
+            CharacterSoundController?.EnableSoundByType(SoundType.CherryBombExplosion);
+        }
+
         private void OnProjectileFinished(CherryBombsProjectile projectile)
         {
+            projectile.Exploded -= OnProjectileExploded;
             projectile.Finished -= OnProjectileFinished;
             projectile.Transform.SetParent(_projectilePool.transform);
             _projectilePool.ReturnToPool(projectile);

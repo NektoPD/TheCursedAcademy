@@ -31,7 +31,9 @@ namespace Items.ItemVariations.CherryBombs
         private Tween _pulseTween;
         private Tween _flightTween;
         private Tween _delayedFinish;
+        private Tween _explosionTween;
 
+        public event Action Exploded;
         public event Action<CherryBombsProjectile> Finished;
 
         protected override void Awake()
@@ -82,7 +84,7 @@ namespace Items.ItemVariations.CherryBombs
                 _pulseVibrato
             );
 
-            DOVirtual.DelayedCall(_explosionDelay, Explode);
+            _explosionTween = DOVirtual.DelayedCall(_explosionDelay, Explode);
         }
 
         private void OnEnable()
@@ -122,16 +124,19 @@ namespace Items.ItemVariations.CherryBombs
             _pulseTween?.Kill();
             _flightTween?.Kill();
             _delayedFinish?.Kill();
+            _explosionTween?.Kill();
             _scaleTween = null;
             _pulseTween = null;
             _flightTween = null;
             _delayedFinish = null;
+            _explosionTween = null;
         }
 
         private void Explode()
         {
             if (_hasExploded) return;
             _hasExploded = true;
+            Exploded?.Invoke();
 
             if (_animator != null)
                 _animator.SetTrigger(ExplosionEffectTrigger);

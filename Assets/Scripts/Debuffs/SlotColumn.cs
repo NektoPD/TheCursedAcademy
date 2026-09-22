@@ -19,6 +19,7 @@ namespace Debuffs
         private bool _isStopped = true;
 
         public bool IsStopped => _isStopped;
+        public float SettleDuration => Mathf.Max(0f, _settleDuration);
         public DebuffRoll Result => _result;
 
         public void Initialize(IReadOnlyList<DebuffData> pool)
@@ -35,13 +36,13 @@ namespace Debuffs
             _spinRoutine = StartCoroutine(SpinRoutine());
         }
 
-        public void Stop(DebuffRoll result)
+        public void Stop(DebuffRoll result, float? settleDuration = null)
         {
             if (_spinRoutine != null)
                 StopCoroutine(_spinRoutine);
 
             _result = result;
-            _spinRoutine = StartCoroutine(SettleRoutine(result));
+            _spinRoutine = StartCoroutine(SettleRoutine(result, settleDuration ?? SettleDuration));
         }
 
         private IEnumerator SpinRoutine()
@@ -53,15 +54,14 @@ namespace Debuffs
             }
         }
 
-        private IEnumerator SettleRoutine(DebuffRoll result)
+        private IEnumerator SettleRoutine(DebuffRoll result, float duration)
         {
-            float speed = _spinSpeed;
             float elapsed = 0f;
 
-            while (elapsed < _settleDuration)
+            while (elapsed < duration)
             {
                 elapsed += Time.unscaledDeltaTime;
-                float t = Mathf.Clamp01(elapsed / _settleDuration);
+                float t = Mathf.Clamp01(elapsed / duration);
                 float currentSpeed = Mathf.Lerp(_spinSpeed, 0f, t);
                 Scroll(currentSpeed * Time.unscaledDeltaTime);
                 yield return null;

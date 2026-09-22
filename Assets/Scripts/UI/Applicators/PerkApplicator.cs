@@ -20,6 +20,7 @@ namespace UI.Applicators
         [SerializeField] private TextMeshProUGUI _cost;
         [SerializeField] private Button _buy;
         [SerializeField] private GameObject _error;
+        [SerializeField] private AudioSource _upgradeSound;
 
         private PerkController _perkController;
         private Wallet _wallet;
@@ -86,6 +87,9 @@ namespace UI.Applicators
                 return;
 
             _wallet.RemoveMoney(perkPrice);
+            if (_upgradeSound != null && _upgradeSound.clip != null)
+                _upgradeSound.PlayOneShot(_upgradeSound.clip);
+
             Buyed?.Invoke(CurrentItem);
             UpdatePerkText(CurrentItem);
         }

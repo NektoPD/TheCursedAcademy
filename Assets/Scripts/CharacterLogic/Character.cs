@@ -679,7 +679,7 @@ namespace CharacterLogic
             if (abilityPrefab == null) return;
 
             _ability = abilityPrefab;
-            _ability.Initialize(config, _transform, _characterSoundController);
+            _ability.Initialize(config, _transform);
 
             SimpleSpriteAnimator activationEffect = config.Type switch
             {
@@ -725,8 +725,10 @@ namespace CharacterLogic
 
         public void ActivateAbility()
         {
-            if (_ability == null || !_ability.IsReady) return;
+            if (_ability == null || !_ability.IsReady || _ability.IsActive) return;
             _ability.Activate();
+            AbilityConfig config = _characterData.AbilityConfig;
+            _characterSoundController?.PlayAbilitySound(config.ActivationClip, config.ActivationSound);
             _view.HideAbilityUI();
             AbilityUsed?.Invoke();
         }

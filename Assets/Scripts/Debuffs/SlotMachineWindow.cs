@@ -17,6 +17,7 @@ namespace Debuffs
         [SerializeField] private List<TMP_Text> _resultTexts = new();
         [SerializeField] private float _openDelay = 0.5f;
         [SerializeField] private float _spinDuration = 1.2f;
+        [SerializeField] private AudioSource _spinSound;
         [SerializeField] private float _delayBetweenStops = 0.6f;
         [SerializeField] private float _holdDelayBeforeClose = 1.5f;
         [SerializeField] private float _pulseScale = 1.15f;
@@ -44,7 +45,17 @@ namespace Debuffs
             if (_routine != null)
                 StopCoroutine(_routine);
 
+            _spinSound?.Stop();
             _routine = StartCoroutine(PlayRoutine());
+        }
+
+        private void OnDisable()
+        {
+            if (_routine != null)
+                StopCoroutine(_routine);
+
+            _routine = null;
+            _spinSound?.Stop();
         }
 
         private IEnumerator PlayRoutine()
@@ -54,17 +65,40 @@ namespace Debuffs
 
             yield return new WaitForSecondsRealtime(_openDelay);
 
+            float timingScale = 1f;
+            float initialSpinDuration = Mathf.Max(0f, _spinDuration);
+            float defaultDuration = initialSpinDuration
+                + _columns.Sum(column => column.SettleDuration)
+                + Mathf.Max(0f, _delayBetweenStops) * Mathf.Max(0, _columns.Count - 1);
+
+            if (_spinSound != null && _spinSound.clip != null && Mathf.Abs(_spinSound.pitch) > 0f)
+            {
+                float soundDuration = _spinSound.clip.length / Mathf.Abs(_spinSound.pitch);
+                if (defaultDuration > 0f)
+                    timingScale = soundDuration / defaultDuration;
+                else
+                    initialSpinDuration = soundDuration;
+
+                _spinSound.loop = false;
+                _spinSound.Play();
+            }
+
+            float startedAt = Time.unscaledTime;
+            float stopAt = initialSpinDuration * timingScale;
+
             for (int i = 0; i < _columns.Count; i++)
             {
                 _columns[i].Initialize(_debuffLibrary);
                 _columns[i].StartSpin();
             }
 
-            yield return new WaitForSecondsRealtime(_spinDuration);
-
             for (int i = 0; i < _columns.Count; i++)
             {
-                _columns[i].Stop(_selected[i]);
+                while (Time.unscaledTime - startedAt < stopAt)
+                    yield return null;
+
+                float settleDuration = _columns[i].SettleDuration * timingScale;
+                _columns[i].Stop(_selected[i], settleDuration);
 
                 while (!_columns[i].IsStopped)
                     yield return null;
@@ -75,9 +109,11 @@ namespace Debuffs
                     PulseText(_resultTexts[i]);
                 }
 
-                yield return new WaitForSecondsRealtime(_delayBetweenStops);
+                stopAt += settleDuration + Mathf.Max(0f, _delayBetweenStops) * timingScale;
             }
 
+            _spinSound?.Stop();
+            yield return new WaitForSecondsRealtime(_delayBetweenStops);
             yield return new WaitForSecondsRealtime(_holdDelayBeforeClose);
 
             Finished?.Invoke(_selected);

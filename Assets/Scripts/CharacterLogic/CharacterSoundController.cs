@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor;
 using UnityEngine;
 
 namespace CharacterLogic
@@ -16,10 +15,27 @@ namespace CharacterLogic
     public class CharacterSoundController : MonoBehaviour
     {
         [SerializeField] private List<SoundData> _soundDatas;
+        [SerializeField] private AudioSource _abilityAudioSource;
 
         public void EnableSoundByType(SoundType type)
         {
-            _soundDatas.FirstOrDefault(data => data.SoundType == type)?.AudioSource?.Play();
+            _soundDatas?.FirstOrDefault(data => data != null && data.SoundType == type)?.AudioSource?.Play();
+        }
+
+        public void PlayAbilitySound(AudioClip clip, SoundType fallbackType)
+        {
+            if (clip == null)
+            {
+                EnableSoundByType(fallbackType);
+                return;
+            }
+
+            AudioSource source = _abilityAudioSource != null
+                ? _abilityAudioSource
+                : _soundDatas?.FirstOrDefault(data => data != null && data.SoundType == fallbackType)?.AudioSource;
+
+            if (source != null)
+                source.PlayOneShot(clip);
         }
     }
 
@@ -43,6 +59,7 @@ namespace CharacterLogic
         XpPoint,
         Fireblast,
         Ragemode,
-        PoisonThrow
+        PoisonThrow,
+        CherryBombExplosion
     }
 }
