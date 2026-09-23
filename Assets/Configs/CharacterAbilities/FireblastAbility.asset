@@ -16,7 +16,10 @@ MonoBehaviour:
   <KillsToCharge>k__BackingField: 30
   <Damage>k__BackingField: 10
   <Duration>k__BackingField: 5
+  <SpeedMultiplier>k__BackingField: 1.5
+  <ArmorMultiplier>k__BackingField: 2
   <ProjectileSpeed>k__BackingField: 6
   <ProjectileCount>k__BackingField: 12
   <ProjectilePrefab>k__BackingField: {fileID: 1949747535316036314, guid: 2bd63338f415aa149963b53a51c8c3a2, type: 3}
   <ActivationSound>k__BackingField: 0
+  <ActivationClip>k__BackingField: {fileID: 8300000, guid: 56f9600c2a921bf47a6f6544ed946698, type: 3}
