@@ -55,6 +55,7 @@ namespace UI
 
         private float _flashIntensityAdd;
         private float _nextFlashTime;
+        private bool _lastFlashWasHeal;
 
         private bool _isRageModeActive;
         private Tween _flashTween;
@@ -81,6 +82,17 @@ namespace UI
             _initializer.CharacterCreated -= Inizialize;
 
             KillTweens();
+            _flashIntensityAdd = 0f;
+            _rageModeIntensityAdd = 0f;
+            _baseIntensity = 0f;
+            _isRageModeActive = false;
+            _nextFlashTime = 0f;
+            _lastFlashWasHeal = false;
+            if (_vignette != null)
+            {
+                _vignette.color.value = _damageColor;
+                UpdateVignette();
+            }
 
             if (_rewardPauseHeld)
             {
@@ -346,23 +358,24 @@ namespace UI
 
         private void OnDamaged(float current, float max)
         {
-            PlayFlash(_damageColor);
+            PlayFlash(_damageColor, false);
         }
 
         private void OnHealed(float current, float max)
         {
-            PlayFlash(_healColor);
+            PlayFlash(_healColor, true);
         }
 
-        private void PlayFlash(Color flashColor)
+        private void PlayFlash(Color flashColor, bool isHeal)
         {
             if (_vignette == null || _isRageModeActive)
                 return;
 
-            if (Time.unscaledTime < _nextFlashTime)
+            if (Time.unscaledTime < _nextFlashTime && (isHeal || !_lastFlashWasHeal))
                 return;
 
             _nextFlashTime = Time.unscaledTime + _flashCooldown;
+            _lastFlashWasHeal = isHeal;
 
             _flashTween?.Kill();
             _colorTween?.Kill();
@@ -388,7 +401,8 @@ namespace UI
                     },
                     0f,
                     _flashDuration * 0.65f).SetEase(Ease.InOutSine))
-                .OnComplete(ReturnToDamageColor);
+                .OnComplete(ReturnToDamageColor)
+                .SetUpdate(true);
         }
 
         private void ReturnToDamageColor()
@@ -401,7 +415,8 @@ namespace UI
                     c => _vignette.color.value = c,
                     _damageColor,
                     0.15f)
-                .SetEase(Ease.OutSine);
+                .SetEase(Ease.OutSine)
+                .SetUpdate(true);
         }
 
         private void UpdateVignette()
@@ -434,7 +449,10 @@ namespace UI
             _isRageModeActive = true;
             _rageFadeTween?.Kill();
             _flashTween?.Kill();
+            _colorTween?.Kill();
+            _flashIntensityAdd = 0f;
             _vignette.color.value = _rageModeColor;
+            UpdateVignette();
 
             _rageFadeTween = DOTween.To(
                 () => _rageModeIntensityAdd,
@@ -444,7 +462,7 @@ namespace UI
                     UpdateVignette();
                 },
                 _rageModeIntensity,
-                0.4f).SetEase(Ease.OutSine);
+                0.4f).SetEase(Ease.OutSine).SetUpdate(true);
         }
 
         private void OnRageModeDeactivated()
@@ -464,7 +482,8 @@ namespace UI
                 0f,
                 0.4f)
                 .SetEase(Ease.InSine)
-                .OnComplete(() => _vignette.color.value = _damageColor);
+                .OnComplete(() => _vignette.color.value = _damageColor)
+                .SetUpdate(true);
         }
     }
 }

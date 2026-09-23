@@ -424,7 +424,7 @@ namespace CharacterLogic
             _movementHandler.EnableMovement();
             _movementHandler.SetSpeed(_moveSpeed);
             _attacker.EnableAttack();
-            CameraShake.Instance.SetTarget(_transform);
+            CameraShake.Instance?.SetTarget(_transform);
             _view.SetHudVisible(true);
             if (_characterCanvas != null) _characterCanvas.gameObject.SetActive(true);
         }
@@ -500,14 +500,20 @@ namespace CharacterLogic
 
             float reducedDamage = damage / (1f + _armor);
 
-            float severity = _hp > 0f ? Mathf.Clamp01(reducedDamage / (_hp * 0.25f)) : 1f;
+            float appliedDamage = _health.TakeDamage(reducedDamage);
+            if (appliedDamage <= 0f)
+                return 0f;
+
+            float severity = _hp > 0f ? Mathf.Clamp01(appliedDamage / (_hp * 0.25f)) : 1f;
             float shakeIntensity = Mathf.Lerp(_hitShakeMinIntensity, _hitShakeMaxIntensity, severity);
             float shakeDuration = Mathf.Lerp(_hitShakeMinDuration, _hitShakeMaxDuration, severity);
 
-            CameraShake.Instance.ShakeCamera(shakeIntensity, _hitShakeFrequency, shakeDuration);
-            PlayHitSquash();
+            if (!_isDied)
+            {
+                CameraShake.Instance?.ShakeCamera(shakeIntensity, _hitShakeFrequency, shakeDuration);
+                PlayHitSquash();
+            }
 
-            float appliedDamage = _health.TakeDamage(reducedDamage);
             _characterSoundController.EnableSoundByType(SoundType.Hit);
             Damaged?.Invoke(_health.CurrentHealth, _hp);
             HealthChanged?.Invoke(_health.CurrentHealth, _hp);

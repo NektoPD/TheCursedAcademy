@@ -76,9 +76,14 @@ namespace EnemyLogic
 
             _wasKilledByBerserk = isFromBerserk;
             float appliedDamage = _health.TakeDamage(damage);
+            if (appliedDamage <= 0f)
+                return 0f;
 
             if (!_isDied && _inImmune == false)
             {
+                if (_coroutine != null)
+                    StopCoroutine(_coroutine);
+
                 _coroutine = StartCoroutine(Countdown());
                 _enemyAnimator.SetHurtTigger();
             }

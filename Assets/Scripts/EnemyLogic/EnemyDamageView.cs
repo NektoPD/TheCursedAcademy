@@ -1,7 +1,6 @@
 using System.Collections;
 using UnityEngine;
 using DG.Tweening;
-using UnityEngine.Serialization;
 
 namespace EnemyLogic
 {
@@ -52,9 +51,10 @@ namespace EnemyLogic
             _originalScale = transform.localScale;
         }
 
-        private void Start()
+        private void OnEnable()
         {
             _originalColor = _spriteRenderer.color;
+            _nextImpulseTime = 0f;
         }
 
         private void OnDisable()
@@ -62,12 +62,14 @@ namespace EnemyLogic
             if (_coroutine != null)
                 StopCoroutine(_coroutine);
 
+            _coroutine = null;
             _spriteRenderer.color = _originalColor;
 
             _impulseTween?.Kill();
 
             _squashTween?.Kill();
             transform.localScale = _originalScale;
+            _nextImpulseTime = 0f;
         }
 
         public void Initialize(int enemyId)
@@ -79,23 +81,23 @@ namespace EnemyLogic
 
         public void StartFlash(float duration)
         {
-            if (_coroutine != null)
-                StopCoroutine(_coroutine);
-
-            _coroutine = StartCoroutine(FlashCoroutine(duration));
-
+            RestartFlash(duration);
             ApplySquash();
         }
 
         public void StartFlash(float duration, Vector2 hitFromWorldPos)
         {
+            RestartFlash(duration);
+            ApplySquash();
+            ApplyHitImpulse(hitFromWorldPos);
+        }
+
+        private void RestartFlash(float duration)
+        {
             if (_coroutine != null)
                 StopCoroutine(_coroutine);
 
-            _coroutine = StartCoroutine(FlashCoroutine(duration));
-
-            ApplySquash();
-            ApplyHitImpulse(hitFromWorldPos);
+            _coroutine = StartCoroutine(FlashCoroutine(Mathf.Max(0f, duration)));
         }
 
         private void ApplySquash()
@@ -175,6 +177,7 @@ namespace EnemyLogic
             }
 
             _spriteRenderer.color = _originalColor;
+            _coroutine = null;
         }
     }
 }
