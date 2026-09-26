@@ -529,9 +529,9 @@ namespace CharacterLogic
 
         public float TakeDamage(float damage, bool isFromBerserk = false)
         {
-            if (_isInvincible || _isDied) return 0f;
+            if (_isInvincible || _isDied || damage <= 0f) return 0f;
 
-            float reducedDamage = damage / (1f + _armor);
+            float reducedDamage = damage / (1f + Mathf.Max(0f, _armor) / 100f);
 
             float appliedDamage = _health.TakeDamage(reducedDamage);
             if (appliedDamage <= 0f)
