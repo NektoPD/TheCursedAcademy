@@ -8,6 +8,8 @@ namespace CharacterLogic
 {
     public class CharacterCollisionHandler : MonoBehaviour
     {
+        private const float PickupReachAtHundredPercentBonus = 2f;
+
         [SerializeField] private float _duration = 1f;
         [SerializeField] private float _maxRiseHeight = 1f;
         [SerializeField] private float _maxPushDistance = 2f;
@@ -46,9 +48,11 @@ namespace CharacterLogic
                 return;
             }
 
-            _pickupCollider.size = _basePickupColliderSize * PickupRadius.Scale;
+            float extraReach = (PickupRadius.Scale - 1f) * PickupReachAtHundredPercentBonus;
+            _pickupCollider.size = _basePickupColliderSize + Vector2.one * (extraReach * 2f);
             Debug.Log($"[Magnet perk] Pickup collider initial size: {_basePickupColliderSize}; " +
-                      $"after applying x{PickupRadius.Scale}: {_pickupCollider.size}", this);
+                      $"after bonus +{(PickupRadius.Scale - 1f) * 100f:0}% " +
+                      $"(+{extraReach:0.##} units per side): {_pickupCollider.size}", this);
         }
 
         private void Update()
