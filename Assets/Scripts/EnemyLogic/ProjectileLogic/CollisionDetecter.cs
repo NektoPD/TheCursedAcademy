@@ -1,3 +1,4 @@
+using CharacterLogic;
 using HealthSystem;
 using UnityEngine;
 
@@ -21,10 +22,16 @@ namespace EnemyLogic.ProjectileLogic
             if ((_enemyLayer.value & (1 << collision.gameObject.layer)) != 0)
                 return;
 
+            if (collision.TryGetComponent<CharacterCollisionHandler>(out _))
+                return;
+
             if (collision.TryGetComponent(out Projectile _))
                 return;
 
-            if (collision.TryGetComponent(out IDamageable damageable))
+            IDamageable damageable = collision.GetComponent<IDamageable>();
+            damageable ??= collision.GetComponentInParent<Character>();
+
+            if (damageable != null)
             {
                 damageable.TakeDamage(_damage);
                 _view.SetHitTrigger();

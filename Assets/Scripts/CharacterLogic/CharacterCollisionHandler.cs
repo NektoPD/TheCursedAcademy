@@ -21,11 +21,30 @@ namespace CharacterLogic
 
         private readonly Dictionary<IPickable, AttractedItem> _items = new();
         private readonly List<IPickable> _iterationBuffer = new();
+        private BoxCollider2D _pickupCollider;
+        private Vector2 _basePickupColliderSize;
 
         public event Action<int> GotMoney;
         public event Action<int> GotExpPoint;
         public event Action<int> GotHeal;
         public event Action GotMagnet;
+
+        private void Awake()
+        {
+            _pickupCollider = GetComponent<BoxCollider2D>();
+            if (_pickupCollider != null)
+                _basePickupColliderSize = _pickupCollider.size;
+        }
+
+        private void OnEnable() => ApplyPickupRadius();
+
+        public void ApplyPickupRadius()
+        {
+            if (_pickupCollider == null)
+                return;
+
+            _pickupCollider.size = _basePickupColliderSize * PickupRadius.Scale;
+        }
 
         private void Update()
         {

@@ -1,7 +1,6 @@
 using Pools;
 using Pools.FromPrefab;
 using UnityEngine;
-using Utils;
 
 namespace PickableItems
 {
@@ -9,22 +8,13 @@ namespace PickableItems
     {
         private MoneyPool _pool;
         private int _value = 0;
-        private BoxCollider2D _collider;
-        private Vector2 _baseColliderSize;
 
         public int Value => _value;
-
-        private void Awake()
-        {
-            _collider = GetComponent<BoxCollider2D>();
-            _baseColliderSize = _collider.size;
-        }
 
         public void Initialize(int count, MoneyPool pool)
         {
             _pool = pool;
             _value = count;
-            _collider.size = _baseColliderSize * PickupRadius.Scale;
         }
 
         public void Despawn()

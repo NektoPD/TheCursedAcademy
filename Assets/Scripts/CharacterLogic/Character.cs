@@ -628,6 +628,7 @@ namespace CharacterLogic
             _characterSessionWallet.SetPerkMultiplier(GetPerkBonus(perkBonuses, PerkType.Greed));
             _characterLevelController.SetExpMultiplier(GetPerkBonus(perkBonuses, PerkType.Growth));
             PickupRadius.Set(GetPerkBonus(perkBonuses, PerkType.Magnet));
+            _collisionHandler.ApplyPickupRadius();
             _attackPower = characterData.AttackPower * GetPerkBonus(perkBonuses, PerkType.Power);
             _armor = characterData.Armor * GetPerkBonus(perkBonuses, PerkType.Armor);
             _hp = characterData.Hp * GetPerkBonus(perkBonuses, PerkType.MaxHp);
