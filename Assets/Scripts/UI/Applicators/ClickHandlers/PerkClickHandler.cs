@@ -17,12 +17,15 @@ namespace UI.Applicators.ClickHandlers
         private Image _background;
         private Color _backgroundColor;
         private Tween _selectionTween;
+        private Tween _cardTween;
         private Tween _levelTween;
         private Image _lastBoughtLevel;
         private Vector3 _lastLevelScale;
+        private Vector3 _cardScale;
 
         private void Awake()
         {
+            _cardScale = transform.localScale;
             _background = GetComponent<Image>();
             if (_background != null)
                 _backgroundColor = _background.color;
@@ -55,7 +58,9 @@ namespace UI.Applicators.ClickHandlers
             _applicator.Buyed -= Up;
             _applicator.Selected -= OnSelected;
             _selectionTween?.Kill();
+            _cardTween?.Kill();
             _levelTween?.Kill();
+            transform.localScale = _cardScale;
             if (_background != null)
                 _background.color = _backgroundColor;
             if (_lastBoughtLevel != null)
@@ -66,6 +71,16 @@ namespace UI.Applicators.ClickHandlers
         {
             if (_background == null)
                 return;
+
+            _cardTween?.Kill();
+            transform.localScale = _cardScale;
+            if (data == Data)
+            {
+                _cardTween = transform.DOScale(_cardScale * 1.08f, 0.16f)
+                    .SetEase(Ease.OutQuad)
+                    .SetLoops(2, LoopType.Yoyo)
+                    .SetUpdate(true);
+            }
 
             _selectionTween?.Kill();
             Color selectedColor = Color.Lerp(_backgroundColor,

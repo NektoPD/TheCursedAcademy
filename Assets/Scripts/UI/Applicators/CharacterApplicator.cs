@@ -41,11 +41,14 @@ namespace UI.Applicators
         private PerkController _perkController;
         private Wallet _wallet;
         private Tween _purchaseTween;
+        private Tween _characterSelectionTween;
         private Vector3 _selectButtonImageScale;
+        private Vector3 _characterImageScale;
 
         private void Awake()
         {
             _selectButtonImageScale = _playerSelectButtonImage.transform.localScale;
+            _characterImageScale = _image.transform.localScale;
         }
 
         [Inject]
@@ -67,7 +70,19 @@ namespace UI.Applicators
             base.OnDisable();
             _playerSelectButton.onClick.RemoveListener(OnCharacterSelectButtonClick);
             _purchaseTween?.Kill();
+            _characterSelectionTween?.Kill();
             _playerSelectButtonImage.transform.localScale = _selectButtonImageScale;
+            _image.transform.localScale = _characterImageScale;
+        }
+
+        protected override void OnItemSelected(CharacterVisualData data)
+        {
+            _characterSelectionTween?.Kill();
+            _image.transform.localScale = _characterImageScale;
+            _characterSelectionTween = _image.transform.DOScale(_characterImageScale * 1.15f, 0.18f)
+                .SetEase(Ease.OutQuad)
+                .SetLoops(2, LoopType.Yoyo)
+                .SetUpdate(true);
         }
 
         protected override void Applicate(CharacterVisualData data)
