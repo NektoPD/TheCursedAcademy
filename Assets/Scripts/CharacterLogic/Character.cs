@@ -34,6 +34,7 @@ namespace CharacterLogic
     {
         private const string TutorialSceneName = "Tutorial";
         private const int MaxLevelCoinReward = 30;
+        private const float NeutralAttackPower = 15f;
         
         [SerializeField] private CharacterInventoryUI _inventoryUI;
         [SerializeField] private bool _cameraOnCharacter;
@@ -78,6 +79,7 @@ namespace CharacterLogic
         private float _armor;
         private float _hp;
         private float _hpRegenerationSpeed;
+        private float _healthRegenerationElapsed;
         private float _attackCooldown;
         private float _moveSpeed;
         private Item _startItem;
@@ -92,9 +94,9 @@ namespace CharacterLogic
         private float _abilityChargeLevel;
         private AbilityBase _ability;
         private AbilityType _abilityType;
-        private float _baseAttackPower;
-        private float _baseArmor;
-        private float _baseMoveSpeed;
+        private float _rageDamageMultiplier = 1f;
+        private float _rageArmorMultiplier = 1f;
+        private float _rageSpeedMultiplier = 1f;
         private bool _isRageModeActive;
         public event Action<float, float> HealthChanged;
         public event Action<float, float> Damaged;
@@ -177,6 +179,7 @@ namespace CharacterLogic
         private void OnDisable()
         {
             _hitSquashTween?.Kill();
+            _healthRegenerationElapsed = 0f;
 
             if (_abilityChargeFillCoroutine != null)
             {
@@ -232,9 +235,28 @@ namespace CharacterLogic
         private void Update()
         {
             HandleMovementAnimations();
+            RegenerateHealth();
 
             if (_ability != null && _ability.IsReady && Input.GetKeyDown(KeyCode.F))
                 ActivateAbility();
+        }
+
+        private void RegenerateHealth()
+        {
+            if (_health == null || _isDied || _hpRegenerationSpeed <= 0f ||
+                _health.CurrentHealth <= 0f || _health.CurrentHealth >= _health.MaxHealth)
+            {
+                _healthRegenerationElapsed = 0f;
+                return;
+            }
+
+            _healthRegenerationElapsed += Time.deltaTime;
+            if (_healthRegenerationElapsed < 1f)
+                return;
+
+            _health.TakeHeal(_hpRegenerationSpeed * _healthRegenerationElapsed);
+            _healthRegenerationElapsed = 0f;
+            HealthChanged?.Invoke(_health.CurrentHealth, _hp);
         }
 
         private void OnExperienceGained(int value)
@@ -412,8 +434,13 @@ namespace CharacterLogic
 
             newItem.transform.position = _transform.position;
             newItem.Initialize(_movementHandler, _characterSoundController, () => _isRageModeActive,
-                _itemAreaMultiplier, _itemEffectDurationMultiplier);
+                GetAttackDamageMultiplier, _itemAreaMultiplier, _itemEffectDurationMultiplier);
             _inventory.AddItem(newItem);
+        }
+
+        private float GetAttackDamageMultiplier()
+        {
+            return Mathf.Max(0f, _attackPower / NeutralAttackPower);
         }
 
         private void OnLeveledUp()
@@ -720,9 +747,6 @@ namespace CharacterLogic
 
             if (_ability is RagemodeAbility rage)
             {
-                _baseAttackPower = _attackPower;
-                _baseArmor = _armor;
-                _baseMoveSpeed = _moveSpeed;
                 rage.RageModeStarted += OnRageModeStarted;
                 rage.RageModeEnded += OnRageModeEnded;
             }
@@ -791,20 +815,30 @@ namespace CharacterLogic
 
         private void OnRageModeStarted(float damageMult, float speedMult, float armorMult)
         {
+            if (_isRageModeActive) return;
+
             _isRageModeActive = true;
-            _attackPower = _baseAttackPower * damageMult;
-            _armor = _baseArmor * armorMult;
-            _moveSpeed = _baseMoveSpeed * speedMult;
+            _rageDamageMultiplier = damageMult;
+            _rageArmorMultiplier = armorMult;
+            _rageSpeedMultiplier = speedMult;
+            _attackPower *= _rageDamageMultiplier;
+            _armor *= _rageArmorMultiplier;
+            _moveSpeed *= _rageSpeedMultiplier;
             _movementHandler.SetSpeed(_moveSpeed);
             RageModeActivated?.Invoke();
         }
 
         private void OnRageModeEnded()
         {
+            if (!_isRageModeActive) return;
+
             _isRageModeActive = false;
-            _attackPower = _baseAttackPower;
-            _armor = _baseArmor;
-            _moveSpeed = _baseMoveSpeed;
+            _attackPower /= _rageDamageMultiplier;
+            _armor /= _rageArmorMultiplier;
+            _moveSpeed /= _rageSpeedMultiplier;
+            _rageDamageMultiplier = 1f;
+            _rageArmorMultiplier = 1f;
+            _rageSpeedMultiplier = 1f;
             _movementHandler.SetSpeed(_moveSpeed);
             RageModeDeactivated?.Invoke();
         }

@@ -34,7 +34,7 @@ namespace EnemyLogic
             if (_coroutine != null)
                 StopCoroutine(_coroutine);
 
-            _spriteRenderer.color = _defaultColor;
+            _damageView.SetBaseColor(_defaultColor);
         }
 
         public void SetState(bool componentEnabled)
@@ -61,12 +61,12 @@ namespace EnemyLogic
 
             while (timeElapsed < _duration)
             {
-                _spriteRenderer.color = Color.Lerp(startColor, endColor, timeElapsed / _duration);
+                _damageView.SetBaseColor(Color.Lerp(startColor, endColor, timeElapsed / _duration));
                 timeElapsed += Time.deltaTime;
                 yield return null;
             }
 
-            _spriteRenderer.color = endColor;
+            _damageView.SetBaseColor(endColor);
         }
     }
 }

@@ -10,6 +10,9 @@ namespace EnemyLogic
     {
         [SerializeField] private Color _damageColor = new(1f, 0.5f, 0.5f);
         [SerializeField, Range(0f, 1f)] private float _flashHoldPart = 0.35f;
+
+        [Header("Poison")]
+        [SerializeField] private Color _poisonColor = new(0.2f, 1f, 0.2f);
         
         [Header("Hit Impulse (Jump + Knockback)")]
         [SerializeField] private float _impulseDuration = 0.12f;
@@ -49,6 +52,10 @@ namespace EnemyLogic
         private SpriteRenderer _spriteRenderer;
         private Color _originalColor;
         private Coroutine _coroutine;
+        private Tween _poisonTween;
+        private float _poisonStrength;
+        private float _flashStrength;
+        private bool _isPoisoned;
 
         private Tween _impulseTween;
         private Tween _squashTween;
@@ -69,6 +76,9 @@ namespace EnemyLogic
         {
             _originalColor = _spriteRenderer.color;
             _nextImpulseTime = 0f;
+
+            if (_isPoisoned)
+                StartPoisonPulse();
         }
 
         private void OnDisable()
@@ -77,7 +87,14 @@ namespace EnemyLogic
                 StopCoroutine(_coroutine);
 
             _coroutine = null;
+            _poisonTween?.Kill();
+            _poisonTween = null;
+            _poisonStrength = 0f;
+            _flashStrength = 0f;
             _spriteRenderer.color = _originalColor;
+
+            if (!gameObject.activeInHierarchy)
+                _isPoisoned = false;
 
             _impulseTween?.Kill();
 
@@ -104,6 +121,48 @@ namespace EnemyLogic
             RestartFlash(duration);
             ApplySquash();
             ApplyHitImpulse(hitFromWorldPos);
+        }
+
+        public void StartPoisonPulse()
+        {
+            _isPoisoned = true;
+            if (!isActiveAndEnabled || _poisonTween != null && _poisonTween.IsActive())
+                return;
+
+            _poisonTween = DOVirtual.Float(0.15f, 0.7f, 0.45f, strength =>
+                {
+                    _poisonStrength = strength;
+                    UpdateTint();
+                })
+                .SetEase(Ease.InOutSine)
+                .SetLoops(-1, LoopType.Yoyo);
+        }
+
+        public void StopPoisonPulse()
+        {
+            _isPoisoned = false;
+            _poisonTween?.Kill();
+            _poisonTween = null;
+            _poisonStrength = 0f;
+
+            if (isActiveAndEnabled)
+                UpdateTint();
+        }
+
+        public void SetBaseColor(Color color)
+        {
+            _originalColor = color;
+            if (isActiveAndEnabled)
+                UpdateTint();
+            else
+                _spriteRenderer.color = color;
+        }
+
+        private void UpdateTint()
+        {
+            Color tint = Color.Lerp(_originalColor, _poisonColor, _poisonStrength);
+            tint.a = _originalColor.a;
+            _spriteRenderer.color = Color.Lerp(tint, _damageColor, _flashStrength);
         }
 
         public void ShowDamageNumber(float damage)
@@ -235,7 +294,8 @@ namespace EnemyLogic
 
         private IEnumerator FlashCoroutine(float duration)
         {
-            _spriteRenderer.color = _damageColor;
+            _flashStrength = 1f;
+            UpdateTint();
 
             float holdTime = duration * _flashHoldPart;
             yield return new WaitForSeconds(holdTime);
@@ -246,12 +306,14 @@ namespace EnemyLogic
             while (elapsed < fadeDuration)
             {
                 float t = elapsed / fadeDuration;
-                _spriteRenderer.color = Color.Lerp(_damageColor, _originalColor, t * t);
+                _flashStrength = 1f - t * t;
+                UpdateTint();
                 elapsed += Time.deltaTime;
                 yield return null;
             }
 
-            _spriteRenderer.color = _originalColor;
+            _flashStrength = 0f;
+            UpdateTint();
             _coroutine = null;
         }
     }

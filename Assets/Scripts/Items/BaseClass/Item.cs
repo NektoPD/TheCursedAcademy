@@ -29,6 +29,7 @@ namespace Items.BaseClass
         protected float RuntimeCooldown;
         protected float RuntimeDamage;
         private Func<bool> _isBerserkActive;
+        private Func<float> _damageMultiplier;
         
         protected StatModifiers Mods = new();
         protected float AreaMultiplier = 1f;
@@ -41,6 +42,7 @@ namespace Items.BaseClass
         public int CurrentLevel => Level;
 
         public bool IsBerserkActive => _isBerserkActive?.Invoke() == true;
+        public float DamageMultiplier => _damageMultiplier?.Invoke() ?? 1f;
         public bool IsReloading => !_canAttack;
         public float ReloadProgress => IsReloading && _reloadDuration > 0f
             ? Mathf.Clamp01((Time.time - _reloadStartedAt) / _reloadDuration)
@@ -50,7 +52,7 @@ namespace Items.BaseClass
 
         public void Initialize(CharacterMovementHandler movementHandler,
             CharacterSoundController characterSoundController, Func<bool> isBerserkActive,
-            float areaMultiplier = 1f, float effectDurationMultiplier = 1f)
+            Func<float> damageMultiplier, float areaMultiplier = 1f, float effectDurationMultiplier = 1f)
         {
             MovementHandler = movementHandler;
             ItemStats = new ItemStats(VisualData.Stats);
@@ -58,6 +60,7 @@ namespace Items.BaseClass
             StatVariations = VisualData.Stats.Select(stat => stat.Variation);
             CharacterSoundController = characterSoundController;
             _isBerserkActive = isBerserkActive;
+            _damageMultiplier = damageMultiplier;
             RuntimeCooldown = Data.Cooldown;
             RuntimeDamage = Data.Damage;
             AreaMultiplier = Mathf.Max(1f, areaMultiplier);

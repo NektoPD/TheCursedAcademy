@@ -40,7 +40,8 @@ namespace Items.ItemVariations
             if (damageable == null)
                 return 0f;
 
-            float appliedDamage = damageable.TakeDamage(Damage, IsBerserkDamage);
+            float damage = Damage * (Owner?.DamageMultiplier ?? 1f);
+            float appliedDamage = damageable.TakeDamage(damage, IsBerserkDamage);
 
             if (appliedDamage > 0f)
                 Owner?.RaiseDamageDealt(appliedDamage);
