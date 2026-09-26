@@ -41,6 +41,10 @@ namespace UI
         [ColorUsage(false, true)] [SerializeField]
         private Color _healColor = Color.green;
 
+        [Header("Vignette: Death and Revive")]
+        [SerializeField, Range(0f, 1f)] private float _deathIntensity = 0.65f;
+        [SerializeField, Range(0f, 1f)] private float _reviveIntensity = 0.4f;
+
         [Header("Vignette: Ragemode")] [SerializeField, Range(0f, 1f)]
         private float _rageModeIntensity = 0.5f;
 
@@ -54,6 +58,7 @@ namespace UI
         private float _rageModeIntensityAdd;
 
         private float _flashIntensityAdd;
+        private float _transitionIntensityAdd;
         private float _nextFlashTime;
         private bool _lastFlashWasHeal;
 
@@ -61,6 +66,7 @@ namespace UI
         private Tween _flashTween;
         private Tween _colorTween;
         private Tween _rageFadeTween;
+        private Tween _transitionTween;
 
         private enum PendingRewardKind { None, Item, Gold, Buff }
 
@@ -83,6 +89,7 @@ namespace UI
 
             KillTweens();
             _flashIntensityAdd = 0f;
+            _transitionIntensityAdd = 0f;
             _rageModeIntensityAdd = 0f;
             _baseIntensity = 0f;
             _isRageModeActive = false;
@@ -107,6 +114,8 @@ namespace UI
             _character.LevelUp -= LevelUp;
             _character.Damaged -= OnDamaged;
             _character.Healed -= OnHealed;
+            _character.DeathStarted -= OnDeathStarted;
+            _character.Revived -= OnRevived;
             _character.HealthChanged -= OnHealthChanged;
             _character.InventoryLimitReached -= InventoryLimitReached;
             _character.NewItemAdded -= OnNewItemAdded;
@@ -175,6 +184,8 @@ namespace UI
                 _character.LevelUp -= LevelUp;
                 _character.Damaged -= OnDamaged;
                 _character.Healed -= OnHealed;
+                _character.DeathStarted -= OnDeathStarted;
+                _character.Revived -= OnRevived;
                 _character.HealthChanged -= OnHealthChanged;
                 _character.InventoryLimitReached -= InventoryLimitReached;
                 _character.NewItemAdded -= OnNewItemAdded;
@@ -211,6 +222,8 @@ namespace UI
             _character.LevelUp += LevelUp;
             _character.Damaged += OnDamaged;
             _character.Healed += OnHealed;
+            _character.DeathStarted += OnDeathStarted;
+            _character.Revived += OnRevived;
             _character.HealthChanged += OnHealthChanged;
             _character.InventoryLimitReached += InventoryLimitReached;
             _character.NewItemAdded += OnNewItemAdded;
@@ -358,12 +371,61 @@ namespace UI
 
         private void OnDamaged(float current, float max)
         {
+            if (_character != null && _character.IsDied)
+                return;
+
             PlayFlash(_damageColor, false);
         }
 
         private void OnHealed(float current, float max)
         {
             PlayFlash(_healColor, true);
+        }
+
+        private void OnDeathStarted()
+        {
+            if (_vignette == null)
+                return;
+
+            KillTweens();
+            _isRageModeActive = false;
+            _rageModeIntensityAdd = 0f;
+            _flashIntensityAdd = 0f;
+            _vignette.color.value = _damageColor;
+            _transitionTween = DOTween.To(
+                    () => _transitionIntensityAdd,
+                    value =>
+                    {
+                        _transitionIntensityAdd = value;
+                        UpdateVignette();
+                    },
+                    _deathIntensity, 0.3f)
+                .SetEase(Ease.OutSine).SetUpdate(true);
+        }
+
+        private void OnRevived()
+        {
+            if (_vignette == null)
+                return;
+
+            KillTweens();
+            _isRageModeActive = false;
+            _rageModeIntensityAdd = 0f;
+            _flashIntensityAdd = 0f;
+            _transitionIntensityAdd = _reviveIntensity;
+            _vignette.color.value = _healColor;
+            UpdateVignette();
+            _transitionTween = DOTween.To(
+                    () => _transitionIntensityAdd,
+                    value =>
+                    {
+                        _transitionIntensityAdd = value;
+                        UpdateVignette();
+                    },
+                    0f, 0.75f)
+                .SetEase(Ease.OutSine)
+                .OnComplete(ReturnToDamageColor)
+                .SetUpdate(true);
         }
 
         private void PlayFlash(Color flashColor, bool isHeal)
@@ -424,7 +486,7 @@ namespace UI
             if (_vignette == null)
                 return;
 
-            float total = Mathf.Clamp01(_baseIntensity + _flashIntensityAdd + _rageModeIntensityAdd);
+            float total = Mathf.Clamp01(_baseIntensity + _flashIntensityAdd + _rageModeIntensityAdd + _transitionIntensityAdd);
 
             _vignette.intensity.value = total;
             _vignette.enabled.value = total > 0.001f;
@@ -440,6 +502,9 @@ namespace UI
 
             _rageFadeTween?.Kill();
             _rageFadeTween = null;
+
+            _transitionTween?.Kill();
+            _transitionTween = null;
         }
 
         private void OnRageModeActivated()

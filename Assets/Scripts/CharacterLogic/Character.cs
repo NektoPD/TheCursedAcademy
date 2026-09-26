@@ -55,6 +55,7 @@ namespace CharacterLogic
         [SerializeField] private float _hitSquashDuration = 0.18f;
 
         private Coroutine _deathSequenceCoroutine;
+        private float _timeScaleBeforeDeath;
         private Coroutine _reviveInvincibilityCoroutine;
         private Coroutine _abilityChargeFillCoroutine;
         private CharacterData _characterData;
@@ -98,6 +99,8 @@ namespace CharacterLogic
         public event Action<float, float> HealthChanged;
         public event Action<float, float> Damaged;
         public event Action<float, float> Healed;
+        public event Action DeathStarted;
+        public event Action Revived;
         public event Action<Statistics> StatisticCollected;
         public event Action LevelUp;
         public event Action InventoryLimitReached;
@@ -263,10 +266,11 @@ namespace CharacterLogic
         private IEnumerator DeathSequenceRoutine()
         {
             _isDied = true;
+            DeathStarted?.Invoke();
             DisableCharacter();
             CameraShake.Instance?.StopShake();
             _isInvincible = true;
-            float previousTimeScale = Time.timeScale;
+            _timeScaleBeforeDeath = Time.timeScale;
             GameTimeScale.Set(0f);
             if (CameraDeathZoom.Instance != null)
             {
@@ -274,10 +278,10 @@ namespace CharacterLogic
                 CameraDeathZoom.Instance.PlayDeathZoom();
             }
 
-            Coroutine fade = _spriteHolder.PlayDeathFade(this);
+            Coroutine fade = _spriteHolder.PlayDeathFade();
             yield return fade;
             CameraDeathZoom.Instance?.ResetZoom(_deathZoomResetDuration);
-            GameTimeScale.Set(previousTimeScale);
+            GameTimeScale.Set(_timeScaleBeforeDeath);
             OnPlayerDied();
             _deathSequenceCoroutine = null;
         }
@@ -415,6 +419,8 @@ namespace CharacterLogic
         private void OnLeveledUp()
         {
             UpdateExperienceView(_characterLevelController.CurrentExp);
+            _view.PlayLevelUpPulse();
+            _spriteHolder.PlayLevelUpFlash();
             _characterSoundController.EnableSoundByType(SoundType.LevelUp);
             LevelUp?.Invoke();
         }
@@ -556,6 +562,14 @@ namespace CharacterLogic
 
         public void Revive()
         {
+            if (_deathSequenceCoroutine != null)
+            {
+                StopCoroutine(_deathSequenceCoroutine);
+                _deathSequenceCoroutine = null;
+                CameraDeathZoom.Instance?.ResetZoom(_deathZoomResetDuration);
+                GameTimeScale.Set(_timeScaleBeforeDeath);
+            }
+
             _isDied = false;
             _health.TakeHeal(_hp);
             UpdateHealthView(_hp);
@@ -564,8 +578,10 @@ namespace CharacterLogic
             HealthChanged?.Invoke(_health.CurrentHealth, _hp);
             ActivateCharacter();
             _spriteHolder.ResetVisual();
+            Revived?.Invoke();
             if (_reviveInvincibilityCoroutine != null) StopCoroutine(_reviveInvincibilityCoroutine);
             _reviveInvincibilityCoroutine = StartCoroutine(ReviveInvincibilityRoutine());
+            _spriteHolder.PlayReviveAppear();
         }
 
         private IEnumerator ReviveInvincibilityRoutine()

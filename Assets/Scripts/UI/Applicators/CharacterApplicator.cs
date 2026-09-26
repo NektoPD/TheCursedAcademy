@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using CharacterLogic.Initializer;
 using Data;
+using DG.Tweening;
 using PlayerPerksController;
 using TMPro;
 using UI.Animation;
@@ -39,6 +40,13 @@ namespace UI.Applicators
 
         private PerkController _perkController;
         private Wallet _wallet;
+        private Tween _purchaseTween;
+        private Vector3 _selectButtonImageScale;
+
+        private void Awake()
+        {
+            _selectButtonImageScale = _playerSelectButtonImage.transform.localScale;
+        }
 
         [Inject]
         public void Construct(PerkController perkController, Wallet wallet)
@@ -58,6 +66,8 @@ namespace UI.Applicators
         {
             base.OnDisable();
             _playerSelectButton.onClick.RemoveListener(OnCharacterSelectButtonClick);
+            _purchaseTween?.Kill();
+            _playerSelectButtonImage.transform.localScale = _selectButtonImageScale;
         }
 
         protected override void Applicate(CharacterVisualData data)
@@ -108,6 +118,13 @@ namespace UI.Applicators
             if (!_characterPurchaseController.TryUnlockCharacter(CurrentItem.Data.Type)) return;
             _wallet.RemoveMoney(CurrentItem.Data.UnlockPrice);
             Applicate(CurrentItem);
+            _purchaseTween?.Kill();
+            _playerSelectButtonImage.transform.localScale = _selectButtonImageScale;
+            _purchaseTween = _playerSelectButtonImage.transform
+                .DOScale(_selectButtonImageScale * 1.18f, 0.18f)
+                .SetEase(Ease.OutBack)
+                .SetLoops(2, LoopType.Yoyo)
+                .SetUpdate(true);
         }
 
         private bool IsCharacterAvailable()

@@ -1322,7 +1322,10 @@ MonoBehaviour:
   _spinDuration: 1.2
   _spinEase: 9
   _holdDelayBeforeClose: 1.5
+  _openClip: {fileID: 8300000, guid: 5f6897f92037d404ab4b81d94d8ce8ca, type: 3}
   _stopClip: {fileID: 8300000, guid: a0f4be8d2695b3042bf83448cea461d1, type: 3}
+  _audioSource: {fileID: 0}
+  _spinClip: {fileID: 8300000, guid: eb120cd61c73a224f9af340ba5df6d2e, type: 3}
 --- !u!114 &1747386211
 MonoBehaviour:
   m_ObjectHideFlags: 0

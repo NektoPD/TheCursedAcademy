@@ -20,13 +20,17 @@ namespace CharacterLogic
         private bool _isTutorialMode;
 
         private Tween _abilityPulseTween;
+        private Tween _levelPulseTween;
         private Vector3 _abilityButtonInitialScale;
+        private Vector3 _levelBarInitialScale;
 
         public event Action AbilityButtonPressed;
 
         private void Awake()
         {
             _hudCanvas = GetComponentInChildren<Canvas>(true);
+            if (_levelBar != null)
+                _levelBarInitialScale = _levelBar.transform.localScale;
 
             if (_abilityButton != null)
             {
@@ -108,6 +112,20 @@ namespace CharacterLogic
             _levelBar.value = (float)value / levelRequirement;
         }
 
+        public void PlayLevelUpPulse()
+        {
+            if (_levelBar == null)
+                return;
+
+            _levelPulseTween?.Kill();
+            _levelBar.transform.localScale = _levelBarInitialScale;
+            _levelPulseTween = _levelBar.transform
+                .DOScale(_levelBarInitialScale * 1.15f, 0.18f)
+                .SetEase(Ease.OutQuad)
+                .SetLoops(2, LoopType.Yoyo)
+                .SetUpdate(true);
+        }
+
         public void SetHeroImage(Sprite image)
         {
             _heroImage.sprite = image;
@@ -178,6 +196,7 @@ namespace CharacterLogic
         private void OnDestroy()
         {
             _abilityPulseTween?.Kill();
+            _levelPulseTween?.Kill();
         }
     }
 }

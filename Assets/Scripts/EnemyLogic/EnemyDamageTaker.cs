@@ -79,6 +79,8 @@ namespace EnemyLogic
             if (appliedDamage <= 0f)
                 return 0f;
 
+            _damageView.ShowDamageNumber(appliedDamage);
+
             if (!_isDied && _inImmune == false)
             {
                 if (_coroutine != null)

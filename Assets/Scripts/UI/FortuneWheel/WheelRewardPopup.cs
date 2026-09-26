@@ -16,6 +16,8 @@ namespace UI.FortuneWheel
         [SerializeField] private TMP_Text _description;
         [SerializeField] private Button _closeButton;
         [SerializeField] private Sprite _goldIcon;
+        [SerializeField] private AudioClip _showClip;
+        [SerializeField] private AudioSource _audioSource;
 
         public event Action Confirmed;
 
@@ -34,6 +36,7 @@ namespace UI.FortuneWheel
                 return;
 
             OpenUnscaledTime();
+            PlayShowSound();
 
             SetIcon(item.Sprite);
             _title.text = item.Name;
@@ -65,6 +68,7 @@ namespace UI.FortuneWheel
         public void ShowGold(int amount)
         {
             OpenUnscaledTime();
+            PlayShowSound();
 
             SetIcon(_goldIcon);
             _title.text = Translator.Translate("Золото", "Gold", "Altın");
@@ -77,6 +81,7 @@ namespace UI.FortuneWheel
                 return;
 
             OpenUnscaledTime();
+            PlayShowSound();
 
             SetIcon(buff.Icon);
             _title.text = buff.Name;
@@ -93,6 +98,27 @@ namespace UI.FortuneWheel
 
             _icon.sprite = sprite;
             _icon.enabled = sprite != null;
+        }
+
+        private void PlayShowSound()
+        {
+            if (_showClip != null)
+                GetAudioSource().PlayOneShot(_showClip);
+        }
+
+        private AudioSource GetAudioSource()
+        {
+            if (_audioSource == null)
+                _audioSource = GetComponent<AudioSource>();
+
+            if (_audioSource == null)
+            {
+                _audioSource = gameObject.AddComponent<AudioSource>();
+                _audioSource.playOnAwake = false;
+                _audioSource.spatialBlend = 0f;
+            }
+
+            return _audioSource;
         }
 
         private void OnClosePressed() => Confirmed?.Invoke();

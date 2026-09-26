@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using DG.Tweening;
+using TMPro;
 
 namespace EnemyLogic
 {
@@ -32,6 +33,19 @@ namespace EnemyLogic
         [SerializeField] private float _squashAmount = 0.18f;
         [SerializeField] private float _squashDuration = 0.16f;
 
+        [Header("Damage Numbers")]
+        [SerializeField] private TMP_FontAsset _damageFont;
+        [SerializeField] private Color _damageNumberColor = Color.white;
+        
+        [SerializeField] private float _damageNumberStartHeight = 0.55f;
+        [SerializeField] private float _damageNumberArcHeight = 0.45f;
+        [SerializeField] private float _damageNumberHorizontalSpread = 0.35f;
+        [SerializeField] private float _damageNumberEndDrop = 0.15f;
+        [SerializeField] private float _damageNumberDuration = 0.75f;
+        [SerializeField] private float _damageNumberPopDuration = 0.1f;
+        [SerializeField] private int _damageNumberSortingOrder = 10;
+
+        private float _damageNumberFontSize = 5f;
         private SpriteRenderer _spriteRenderer;
         private Color _originalColor;
         private Coroutine _coroutine;
@@ -92,6 +106,60 @@ namespace EnemyLogic
             ApplyHitImpulse(hitFromWorldPos);
         }
 
+        public void ShowDamageNumber(float damage)
+        {
+            if (_damageFont == null || damage <= 0f)
+                return;
+
+            GameObject damageObject = new GameObject("EnemyDamageNumber");
+            TextMeshPro damageText = damageObject.AddComponent<TextMeshPro>();
+            damageText.font = _damageFont;
+            damageText.fontSize = _damageNumberFontSize;
+            damageText.alignment = TextAlignmentOptions.Center;
+            damageText.enableWordWrapping = false;
+            damageText.overflowMode = TextOverflowModes.Overflow;
+            damageText.text = FormatDamage(damage);
+            damageText.color = _damageNumberColor;
+
+            MeshRenderer renderer = damageObject.GetComponent<MeshRenderer>();
+            if (renderer != null)
+            {
+                renderer.sortingLayerID = _spriteRenderer.sortingLayerID;
+                renderer.sortingOrder = _spriteRenderer.sortingOrder + _damageNumberSortingOrder;
+            }
+
+            Vector3 start = transform.position + new Vector3(
+                Random.Range(-0.08f, 0.08f),
+                _damageNumberStartHeight,
+                -0.1f);
+            Vector3 end = start + new Vector3(
+                Random.Range(-_damageNumberHorizontalSpread, _damageNumberHorizontalSpread),
+                -_damageNumberEndDrop,
+                0f);
+
+            damageObject.transform.position = start;
+            damageObject.transform.localScale = Vector3.one * 0.45f;
+
+            float duration = Mathf.Max(0.05f, _damageNumberDuration);
+            Sequence sequence = DOTween.Sequence().SetUpdate(true);
+            sequence.Append(damageObject.transform
+                .DOScale(Vector3.one, _damageNumberPopDuration)
+                .SetEase(Ease.OutBack));
+
+            Tween arcTween = DOVirtual.Float(0f, 1f, duration, progress =>
+            {
+                float arc = 4f * _damageNumberArcHeight * progress * (1f - progress);
+                damageObject.transform.position = Vector3.Lerp(start, end, progress)
+                    + Vector3.up * arc;
+            }).SetEase(Ease.Linear).SetUpdate(true);
+
+            sequence.Append(arcTween);
+            sequence.Join(damageObject.transform
+                .DOScale(Vector3.zero, duration)
+                .SetEase(Ease.InQuad));
+            sequence.OnComplete(() => Destroy(damageObject));
+        }
+
         private void RestartFlash(float duration)
         {
             if (_coroutine != null)
@@ -116,6 +184,13 @@ namespace EnemyLogic
             _squashTween = DOTween.Sequence()
                 .Append(transform.DOScale(squashed, _squashDuration * 0.35f).SetEase(Ease.OutQuad))
                 .Append(transform.DOScale(_originalScale, _squashDuration * 0.65f).SetEase(Ease.OutBack));
+        }
+
+        private static string FormatDamage(float damage)
+        {
+            return Mathf.Approximately(damage, Mathf.Round(damage))
+                ? Mathf.RoundToInt(damage).ToString()
+                : damage.ToString("0.##");
         }
 
         private void ApplyHitImpulse(Vector2 hitFromWorldPos)

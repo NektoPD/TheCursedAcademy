@@ -6,6 +6,7 @@ using Data;
 using DG.Tweening;
 using Items.ItemHolder;
 using InventorySystem;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Utils;
@@ -22,6 +23,12 @@ namespace UI.FortuneWheel
         [SerializeField] private RectTransform _pointer;
         [SerializeField] private List<WheelSlot> _slots = new();
 
+        [Header("Level Up Effect")]
+        [SerializeField] private RectTransform _levelUpTitle;
+        [SerializeField, Min(0.01f)] private float _levelUpTitleIntroDuration = 0.28f;
+        [SerializeField, Min(0.01f)] private float _levelUpTitlePulseDuration = 0.65f;
+        [SerializeField, Range(1f, 1.25f)] private float _levelUpTitlePulseScale = 1.08f;
+
         [Header("Reward Pool Weights")]
         [SerializeField, Range(0, 8)] private int _itemSlots = 4;
         [SerializeField, Range(0, 8)] private int _goldSlots = 2;
@@ -34,10 +41,10 @@ namespace UI.FortuneWheel
         [SerializeField] private float _spinDuration = 1.2f;
         [SerializeField] private Ease _spinEase = Ease.InOutCubic;
         [SerializeField] private float _holdDelayBeforeClose = 1.5f;
+        [SerializeField] private AudioClip _openClip;
         [SerializeField] private AudioClip _stopClip;
         [SerializeField] private AudioSource _audioSource;
         [SerializeField] private AudioClip _spinClip;
-        [SerializeField, Min(0.01f)] private float _spinSoundInterval = 0.1f;
         [SerializeField] private Button _stopButton;
         [SerializeField] private Button _tutorialCloseButton;
         [SerializeField] private float _stopButtonPulseScale = 1.1f;
@@ -47,13 +54,17 @@ namespace UI.FortuneWheel
         private ItemsHolder _itemsHolder;
         private CharacterInventory _inventory;
         private Coroutine _routine;
-        private Coroutine _spinSoundRoutine;
         private bool _demoPlayed;
         private Tween _spinTween;
+        private AudioSource _spinAudioSource;
         private bool _isSpinning;
         private bool _isDemo;
         private Tween _stopButtonPulseTween;
         private Vector3 _stopButtonInitialScale;
+        private Tween _levelUpTitleIntroTween;
+        private Tween _levelUpTitlePulseTween;
+        private Vector3 _levelUpTitleInitialScale;
+        private bool _levelUpTitleScaleCached;
 
         public event Action<ItemVisualData> ItemRewarded;
         public event Action<int> GoldRewarded;
@@ -71,6 +82,8 @@ namespace UI.FortuneWheel
 
         private void OnEnable()
         {
+            CacheLevelUpTitle();
+
             if (_stopButton != null)
             {
                 _stopButton.onClick.AddListener(StopSpin);
@@ -99,6 +112,9 @@ namespace UI.FortuneWheel
         private void Play()
         {
             CancelSpin();
+            PlayOpenSound();
+            PlayLevelUpTitleEffect();
+
             if (_routine != null)
                 StopCoroutine(_routine);
 
@@ -116,6 +132,8 @@ namespace UI.FortuneWheel
             CancelSpin();
             _isDemo = true;
             gameObject.SetActive(true);
+            PlayOpenSound();
+            PlayLevelUpTitleEffect();
 
             if (_routine != null)
                 StopCoroutine(_routine);
@@ -125,7 +143,8 @@ namespace UI.FortuneWheel
 
         private void OnDisable()
         {
-            CancelSpin();
+            CancelSpin(true);
+            StopLevelUpTitleEffect();
             if (_routine != null)
                 StopCoroutine(_routine);
 
@@ -135,6 +154,76 @@ namespace UI.FortuneWheel
 
             if (_tutorialCloseButton != null)
                 _tutorialCloseButton.onClick.RemoveListener(CloseDemo);
+        }
+
+        private void CacheLevelUpTitle()
+        {
+            if (_levelUpTitle == null)
+            {
+                for (int i = 0; i < transform.childCount; i++)
+                {
+                    Transform child = transform.GetChild(i);
+                    if (child.GetComponent<TMP_Text>() == null)
+                        continue;
+
+                    _levelUpTitle = child as RectTransform;
+                    break;
+                }
+            }
+
+            if (_levelUpTitle != null && !_levelUpTitleScaleCached)
+            {
+                _levelUpTitleInitialScale = _levelUpTitle.localScale;
+                _levelUpTitleScaleCached = true;
+            }
+        }
+
+        private void PlayLevelUpTitleEffect()
+        {
+            CacheLevelUpTitle();
+            if (_levelUpTitle == null || !_levelUpTitleScaleCached)
+                return;
+
+            StopLevelUpTitleEffect();
+            _levelUpTitle.gameObject.SetActive(true);
+            _levelUpTitle.localScale = _levelUpTitleInitialScale * 0.8f;
+
+            _levelUpTitleIntroTween = DOTween.Sequence()
+                .Append(_levelUpTitle.DOScale(
+                    _levelUpTitleInitialScale * 1.14f,
+                    Mathf.Max(0.01f, _levelUpTitleIntroDuration))
+                    .SetEase(Ease.OutBack))
+                .Append(_levelUpTitle.DOScale(_levelUpTitleInitialScale, 0.14f)
+                    .SetEase(Ease.InOutSine))
+                .SetUpdate(true)
+                .OnComplete(StartLevelUpTitlePulse);
+        }
+
+        private void StartLevelUpTitlePulse()
+        {
+            _levelUpTitleIntroTween = null;
+            if (_levelUpTitle == null || !_levelUpTitleScaleCached)
+                return;
+
+            _levelUpTitlePulseTween = _levelUpTitle
+                .DOScale(
+                    _levelUpTitleInitialScale * _levelUpTitlePulseScale,
+                    Mathf.Max(0.01f, _levelUpTitlePulseDuration))
+                .SetEase(Ease.InOutSine)
+                .SetLoops(-1, LoopType.Yoyo)
+                .SetUpdate(true);
+        }
+
+        private void StopLevelUpTitleEffect()
+        {
+            _levelUpTitleIntroTween?.Kill();
+            _levelUpTitleIntroTween = null;
+
+            _levelUpTitlePulseTween?.Kill();
+            _levelUpTitlePulseTween = null;
+
+            if (_levelUpTitle != null && _levelUpTitleScaleCached)
+                _levelUpTitle.localScale = _levelUpTitleInitialScale;
         }
 
         private void StartButtonPulse()
@@ -161,7 +250,7 @@ namespace UI.FortuneWheel
 
         public void StopDemo()
         {
-            CancelSpin();
+            CancelSpin(true);
             if (_routine != null)
             {
                 StopCoroutine(_routine);
@@ -309,38 +398,56 @@ namespace UI.FortuneWheel
         private AudioSource GetAudioSource()
         {
             if (_audioSource == null)
-            {
-                _audioSource = gameObject.AddComponent<AudioSource>();
-                _audioSource.playOnAwake = false;
-                _audioSource.spatialBlend = 0f;
-            }
+                _audioSource = GetComponent<AudioSource>();
 
+            if (_audioSource == null)
+                _audioSource = gameObject.AddComponent<AudioSource>();
+
+            _audioSource.playOnAwake = false;
+            _audioSource.spatialBlend = 0f;
             return _audioSource;
+        }
+
+        private void PlayOpenSound()
+        {
+            if (_openClip != null)
+                GetAudioSource().PlayOneShot(_openClip);
         }
 
         private void StartSpinSound()
         {
             StopSpinSound();
-            if (_spinClip != null)
-                _spinSoundRoutine = StartCoroutine(PlaySpinSoundRoutine());
+            if (_spinClip == null)
+                return;
+
+            AudioSource source = GetSpinAudioSource();
+            source.clip = _spinClip;
+            source.loop = true;
+            source.Play();
         }
 
-        private IEnumerator PlaySpinSoundRoutine()
+        private AudioSource GetSpinAudioSource()
         {
-            while (_isSpinning)
+            AudioSource mainSource = GetAudioSource();
+
+            if (_spinAudioSource == null)
             {
-                GetAudioSource().PlayOneShot(_spinClip);
-                yield return new WaitForSecondsRealtime(Mathf.Max(0.01f, _spinSoundInterval));
+                _spinAudioSource = gameObject.AddComponent<AudioSource>();
+                _spinAudioSource.outputAudioMixerGroup = mainSource.outputAudioMixerGroup;
             }
+
+            _spinAudioSource.playOnAwake = false;
+            _spinAudioSource.spatialBlend = 0f;
+            return _spinAudioSource;
         }
 
         private void StopSpinSound()
         {
-            if (_spinSoundRoutine != null)
-                StopCoroutine(_spinSoundRoutine);
+            if (_spinAudioSource == null)
+                return;
 
-            _spinSoundRoutine = null;
-            _audioSource?.Stop();
+            _spinAudioSource.Stop();
+            _spinAudioSource.loop = false;
         }
 
         private void PlayStopSound()
@@ -349,13 +456,17 @@ namespace UI.FortuneWheel
                 GetAudioSource().PlayOneShot(_stopClip);
         }
 
-        private void CancelSpin()
+        private void CancelSpin(bool playStopSound = false)
         {
+            bool wasSpinning = _isSpinning;
             _spinTween?.Kill();
             _spinTween = null;
             _isSpinning = false;
             StopSpinSound();
             StopButtonPulse();
+
+            if (playStopSound && wasSpinning)
+                PlayStopSound();
         }
 
         private bool IsNewItem(WheelReward reward)
