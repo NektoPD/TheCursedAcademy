@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using CharacterLogic.Initializer;
@@ -45,6 +46,8 @@ namespace UI.Applicators
         private Vector3 _selectButtonImageScale;
         private Vector3 _characterImageScale;
 
+        public event Action<CharacterVisualData> Selected;
+
         private void Awake()
         {
             _selectButtonImageScale = _playerSelectButtonImage.transform.localScale;
@@ -77,6 +80,7 @@ namespace UI.Applicators
 
         protected override void OnItemSelected(CharacterVisualData data)
         {
+            Selected?.Invoke(data);
             _characterSelectionTween?.Kill();
             _image.transform.localScale = _characterImageScale;
             _characterSelectionTween = _image.transform.DOScale(_characterImageScale * 1.15f, 0.18f)
