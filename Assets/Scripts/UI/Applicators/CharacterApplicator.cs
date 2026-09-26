@@ -98,19 +98,29 @@ namespace UI.Applicators
 
             Dictionary<PerkType, float> m = _perkController.GetFinalPerkValues();
 
-            _attackPower.text = (data.Data.AttackPower * GetM(m, PerkType.Power)).ToString("0.##");
-            _armor.text = (data.Data.Armor * GetM(m, PerkType.Armor)).ToString("0.##");
-            _hp.text = (data.Data.Hp * GetM(m, PerkType.MaxHp)).ToString("0.##");
-            _hpRegen.text = (data.Data.HpRegenerationSpeed * GetM(m, PerkType.HpRegeneration)).ToString("0.##");
-            _attackCooldown.text =
-                (data.Data.AttackRegenerationSpeed * GetM(m, PerkType.AttackCooldown)).ToString("0.##");
-            _speed.text = (data.Data.MoveSpeed * GetM(m, PerkType.Speed)).ToString("0.##");
+            SetStat(_attackPower, data.Data.AttackPower * GetM(m, PerkType.Power),
+                "Сила атаки", "Attack power", "Saldırı gücü");
+            SetStat(_armor, data.Data.Armor * GetM(m, PerkType.Armor),
+                "Броня", "Armor", "Zırh");
+            SetStat(_hp, data.Data.Hp * GetM(m, PerkType.MaxHp),
+                "Здоровье", "Health", "Can");
+            SetStat(_hpRegen, data.Data.HpRegenerationSpeed * GetM(m, PerkType.HpRegeneration),
+                "Реген. HP/с", "HP regen/s", "Can yen./sn");
+            SetStat(_attackCooldown, data.Data.AttackRegenerationSpeed * GetM(m, PerkType.AttackCooldown),
+                "Интервал атак (с)", "Attack interval (s)", "Atak aralığı (sn)");
+            SetStat(_speed, data.Data.MoveSpeed * GetM(m, PerkType.Speed),
+                "Скорость бега", "Move speed", "Hareket hızı");
 
             _playerSelectButtonImage.sprite = IsCharacterAvailable() ? _playSprite : _buySprite;
         }
 
         private float GetM(Dictionary<PerkType, float> m, PerkType t)
             => m != null && m.TryGetValue(t, out var v) ? v : 1f;
+
+        private static void SetStat(TextMeshProUGUI text, float value, string ru, string en, string tr)
+        {
+            text.text = $"{value:0.##}\n{Translator.Translate(ru, en, tr)}";
+        }
 
         private void OnCharacterSelectButtonClick()
         {
