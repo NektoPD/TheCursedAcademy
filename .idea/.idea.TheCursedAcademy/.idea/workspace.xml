@@ -5,17 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2352e6f7-7a00-4256-b434-98f90d0b0896" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.TheCursedAcademy/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TheCursedAcademy/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Animations/EnemyAnimations/Common/Pop.anim" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Animations/EnemyAnimations/Common/Pop.anim" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Configs/CharacterAbilities/FireblastAbility.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Configs/CharacterAbilities/FireblastAbility.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Configs/CharacterAbilities/PoisonThrowAbility.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Configs/CharacterAbilities/PoisonThrowAbility.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Configs/CharacterAbilities/RagemodeAbility.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Configs/CharacterAbilities/RagemodeAbility.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/PluginYourGames/Editor/BuildLogYG2.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/PluginYourGames/Editor/BuildLogYG2.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/PluginYourGames/Editor/SavesEditorYG2.json" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/PluginYourGames/Editor/SavesEditorYG2.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/PlayerSoundController.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/PlayerSoundController.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/Menu.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/Menu.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/TestGameScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/TestGameScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Textures/EnemySprites/PopAnimation/greenbloodsplash2-Sheet.png.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Textures/EnemySprites/PopAnimation/greenbloodsplash2-Sheet.png.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/PluginYourGames/Editor/ServerInfoYG2.json" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/PluginYourGames/Editor/ServerInfoYG2.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PickableItems/ExpPoint.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/PickableItems/ExpPoint.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PickableItems/Heal.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/PickableItems/Heal.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PickableItems/Magnet.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/PickableItems/Magnet.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/PickableItems/Money.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/PickableItems/Money.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -344,6 +339,7 @@
       <workItem from="1789886571452" duration="3941000" />
       <workItem from="1789926585676" duration="2598000" />
       <workItem from="1790102162894" duration="1854000" />
+      <workItem from="1790427140976" duration="801000" />
     </task>
     <servers />
   </component>
