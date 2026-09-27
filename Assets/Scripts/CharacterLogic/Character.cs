@@ -767,6 +767,7 @@ namespace CharacterLogic
         private void OnAbilityReady()
         {
             _view.ShowAbilityReady();
+            _characterSoundController?.EnableSoundByType(SoundType.AbilityReady);
             AbilityReady?.Invoke();
         }
 

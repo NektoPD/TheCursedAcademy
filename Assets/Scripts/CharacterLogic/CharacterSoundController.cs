@@ -61,6 +61,7 @@ namespace CharacterLogic
         Ragemode,
         PoisonThrow,
         CherryBombExplosion,
-        CatMeow
+        CatMeow,
+        AbilityReady
     }
 }
