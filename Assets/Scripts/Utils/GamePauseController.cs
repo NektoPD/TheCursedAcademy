@@ -8,6 +8,7 @@ namespace Utils
     {
         private static GamePauseController _instance;
         private static bool _isPauseHeld;
+        private static bool _muteAudio;
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         private static void Create()
@@ -20,10 +21,11 @@ namespace Utils
             _instance = gameObject.AddComponent<GamePauseController>();
         }
 
-        public static void HoldPause()
+        public static void HoldPause(bool muteAudio = true)
         {
             EnsureCreated();
             _isPauseHeld = true;
+            _muteAudio = muteAudio;
             ApplyPause();
         }
 
@@ -43,7 +45,7 @@ namespace Utils
         private static void ApplyPause()
         {
             Time.timeScale = 0f;
-            YG2.PauseGameNoEditEventSystem(true);
+            YG2.PauseGame(true, editTimeScale: true, editAudioPause: _muteAudio, editCursor: true, editEventSystem: false);
         }
 
         private void OnEnable()

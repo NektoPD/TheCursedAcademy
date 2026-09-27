@@ -76,6 +76,7 @@ namespace UI
         private FortuneWheel.WheelBuffData _pendingBuff;
         private int _pendingLevelUps;
         private bool _rewardPauseHeld;
+        private bool _swapPauseHeld;
 
         private void OnEnable()
         {
@@ -107,6 +108,12 @@ namespace UI
                 GamePauseController.ReleasePause();
             }
 
+            if (_swapPauseHeld)
+            {
+                _swapPauseHeld = false;
+                GamePauseController.ReleasePause();
+            }
+
             if (_character == null)
                 return;
 
@@ -135,6 +142,8 @@ namespace UI
                 _rewardPopup.Confirmed -= OnRewardPopupConfirmed;
             if (_rewardPopup != null)
                 _rewardPopup.Closed -= OnRewardPopupClosed;
+            if (_inventoryFullWindow != null)
+                _inventoryFullWindow.Closed -= OnInventoryFullWindowClosed;
 
             _character = null;
         }
@@ -215,7 +224,11 @@ namespace UI
             }
 
             if (_inventoryFullWindow != null)
+            {
                 _inventoryFullWindow.Initialize(character.Inventory);
+                _inventoryFullWindow.Closed -= OnInventoryFullWindowClosed;
+                _inventoryFullWindow.Closed += OnInventoryFullWindowClosed;
+            }
 
             _character.MaxLevelReached += OnItemMaxLevelReached;
             _character.StatisticCollected += StatisticApplicate;
@@ -323,7 +336,7 @@ namespace UI
                 return;
 
             _rewardPauseHeld = true;
-            GamePauseController.HoldPause();
+            GamePauseController.HoldPause(muteAudio: false);
         }
 
         private void OnRewardPopupClosed()
@@ -332,6 +345,20 @@ namespace UI
                 return;
 
             _rewardPauseHeld = false;
+
+            if (_swapPauseHeld)
+                return;
+
+            GamePauseController.ReleasePause();
+            OpenPendingLevelUp();
+        }
+
+        private void OnInventoryFullWindowClosed()
+        {
+            if (!_swapPauseHeld)
+                return;
+
+            _swapPauseHeld = false;
             GamePauseController.ReleasePause();
             OpenPendingLevelUp();
         }
@@ -341,6 +368,7 @@ namespace UI
             if (_rewardPopup != null)
                 _rewardPopup.CloseUnscaledTime();
 
+            _swapPauseHeld = true;
             _inventoryFullWindow.OpenUnscaledTime();
         }
 
