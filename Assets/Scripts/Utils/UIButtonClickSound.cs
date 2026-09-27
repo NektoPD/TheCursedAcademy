@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+using Data;
+using UI.Applicators.ClickHandlers;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class UIButtonClickSound : MonoBehaviour
@@ -6,6 +8,8 @@ public class UIButtonClickSound : MonoBehaviour
     [SerializeField] private AudioSource _audioSource;
 
     private Button[] _buttons;
+    private PerkClickHandler[] _perkClickHandlers;
+    private CharacterClickHandler[] _characterClickHandlers;
 
     private void Awake()
     {
@@ -16,6 +20,8 @@ public class UIButtonClickSound : MonoBehaviour
         }
 
         _buttons = FindObjectsOfType<Button>(true);
+        _perkClickHandlers = FindObjectsOfType<PerkClickHandler>(true);
+        _characterClickHandlers = FindObjectsOfType<CharacterClickHandler>(true);
         Subscribe();
     }
 
@@ -37,6 +43,14 @@ public class UIButtonClickSound : MonoBehaviour
             button.onClick.RemoveListener(PlayClickSound);
             button.onClick.AddListener(PlayClickSound);
         }
+
+        if (_perkClickHandlers != null)
+            foreach (var handler in _perkClickHandlers)
+                handler.Clicked += OnPerkClicked;
+
+        if (_characterClickHandlers != null)
+            foreach (var handler in _characterClickHandlers)
+                handler.Clicked += OnCharacterClicked;
     }
 
     private void Unsubscribe()
@@ -51,6 +65,24 @@ public class UIButtonClickSound : MonoBehaviour
 
             button.onClick.RemoveListener(PlayClickSound);
         }
+
+        if (_perkClickHandlers != null)
+            foreach (var handler in _perkClickHandlers)
+                handler.Clicked -= OnPerkClicked;
+
+        if (_characterClickHandlers != null)
+            foreach (var handler in _characterClickHandlers)
+                handler.Clicked -= OnCharacterClicked;
+    }
+
+    private void OnPerkClicked(PerkVisualData data)
+    {
+        PlayClickSound();
+    }
+
+    private void OnCharacterClicked(CharacterVisualData data)
+    {
+        PlayClickSound();
     }
 
     private void PlayClickSound()
