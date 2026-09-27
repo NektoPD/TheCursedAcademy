@@ -5191,6 +5191,8 @@ MonoBehaviour:
   _flashCooldown: 0.25
   _damageColor: {r: 1, g: 0, b: 0, a: 1}
   _healColor: {r: 0, g: 1, b: 0, a: 1}
+  _deathIntensity: 0.65
+  _reviveIntensity: 0.4
   _rageModeIntensity: 0.6
   _rageModeColor: {r: 1, g: 0.010550404, b: 0, a: 1}
 --- !u!4 &433544583
@@ -11834,6 +11836,50 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1c281003edb2edb4c941bd241bd373ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &900000001
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 900000002}
+  - component: {fileID: 900000003}
+  m_Layer: 0
+  m_Name: TestGameSceneDebugPanel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &900000002
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 900000001}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &900000003
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 900000001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2f299c5347e46109f9b224e74e8a019, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &913768688
@@ -22783,8 +22829,8 @@ MonoBehaviour:
   m_VerticalScrollbar: {fileID: 0}
   m_HorizontalScrollbarVisibility: 2
   m_VerticalScrollbarVisibility: 2
-  m_HorizontalScrollbarSpacing: -1.2383176
-  m_VerticalScrollbarSpacing: -1.2383176
+  m_HorizontalScrollbarSpacing: -1.4953274
+  m_VerticalScrollbarSpacing: -1.4953274
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -28951,6 +28997,10 @@ MonoBehaviour:
   - {fileID: 346164629}
   - {fileID: 913768690}
   - {fileID: 895288185}
+  _levelUpTitle: {fileID: 0}
+  _levelUpTitleIntroDuration: 0.28
+  _levelUpTitlePulseDuration: 0.65
+  _levelUpTitlePulseScale: 1.08
   _itemSlots: 4
   _goldSlots: 2
   _goldAmounts: 19000000320000004b00000064000000
@@ -33420,6 +33470,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerSoundController
       objectReference: {fileID: 0}
+    - target: {fileID: 8696095976256119214, guid: f788d5cc85793b24f94fd86479094548, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 4c7787f1395fa3a44a1373d07e397a0d, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -33928,50 +33982,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!1 &900000001
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 900000002}
-  - component: {fileID: 900000003}
-  m_Layer: 0
-  m_Name: TestGameSceneDebugPanel
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &900000002
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 900000001}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &900000003
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 900000001}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f2f299c5347e46109f9b224e74e8a019, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
