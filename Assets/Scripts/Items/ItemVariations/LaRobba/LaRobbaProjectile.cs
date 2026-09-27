@@ -27,6 +27,7 @@ namespace Items.ItemVariations.LaRobba
         private float _defaultColliderRadius;
 
         public event Action<LaRobbaProjectile> Finished;
+        public event Action Hit;
 
         protected override void Awake()
         {
@@ -139,6 +140,7 @@ namespace Items.ItemVariations.LaRobba
                 HitEnemies.Add(damageable))
             {
                 DealDamage(damageable);
+                Hit?.Invoke();
 
                 if (_phase == Phase.Falling)
                 {

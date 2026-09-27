@@ -62,6 +62,9 @@ namespace CharacterLogic
         PoisonThrow,
         CherryBombExplosion,
         CatMeow,
-        AbilityReady
+        AbilityReady,
+        LaRobbaHit,
+        Mirror,
+        Ruler
     }
 }

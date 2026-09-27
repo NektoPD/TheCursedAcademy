@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Linq;
+using CharacterLogic;
 using Items.BaseClass;
 using Items.Pools;
 using UnityEngine;
@@ -40,6 +41,8 @@ namespace Items.ItemVariations
         {
             Transform[] targets = FindNearestEnemies(_projectileCount);
             if (targets.Length == 0) return;
+
+            CharacterSoundController.EnableSoundByType(SoundType.Mirror);
 
             for (int i = 0; i < _projectileCount; i++)
             {
