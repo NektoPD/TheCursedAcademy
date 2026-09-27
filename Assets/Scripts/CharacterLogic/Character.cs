@@ -371,6 +371,12 @@ namespace CharacterLogic
             _characterSessionWallet.AddMoney(amount);
         }
 
+        public void LevelUpImmediately()
+        {
+            _characterLevelController.IncreaseExp(
+                _characterLevelController.RequiredExpForNextLevel - _characterLevelController.CurrentExp);
+        }
+
         private void OnRoundCoinsChanged(int coins)
         {
             RoundCoinsChanged?.Invoke(coins);

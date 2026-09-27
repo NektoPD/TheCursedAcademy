@@ -37,7 +37,7 @@ namespace CharacterLogic
             _characterCollisionHandler.GotExpPoint += IncreaseExp;
         }
 
-        private void LevelUp()
+        public void LevelUp()
         {
             _currentLevel++;
 

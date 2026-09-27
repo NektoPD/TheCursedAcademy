@@ -13,6 +13,21 @@ public class UIButtonClickSound : MonoBehaviour
 
     private void Awake()
     {
+        FindTargets();
+    }
+
+    private void OnEnable()
+    {
+        Subscribe();
+    }
+
+    private void OnDisable()
+    {
+        Unsubscribe();
+    }
+
+    private void FindTargets()
+    {
         if (_audioSource == null)
         {
             Debug.LogError($"{nameof(UIButtonClickSound)}: AudioSource не назначен");
@@ -22,12 +37,6 @@ public class UIButtonClickSound : MonoBehaviour
         _buttons = FindObjectsOfType<Button>(true);
         _perkClickHandlers = FindObjectsOfType<PerkClickHandler>(true);
         _characterClickHandlers = FindObjectsOfType<CharacterClickHandler>(true);
-        Subscribe();
-    }
-
-    private void OnDisable()
-    {
-        Unsubscribe();
     }
 
     private void Subscribe()
@@ -46,11 +55,17 @@ public class UIButtonClickSound : MonoBehaviour
 
         if (_perkClickHandlers != null)
             foreach (var handler in _perkClickHandlers)
+            {
+                handler.Clicked -= OnPerkClicked;
                 handler.Clicked += OnPerkClicked;
+            }
 
         if (_characterClickHandlers != null)
             foreach (var handler in _characterClickHandlers)
+            {
+                handler.Clicked -= OnCharacterClicked;
                 handler.Clicked += OnCharacterClicked;
+            }
     }
 
     private void Unsubscribe()
