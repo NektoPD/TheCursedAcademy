@@ -142,7 +142,7 @@ namespace Items.ItemVariations.Cats
         private void OnGetCatFromPool(CatsProjectile cat)
         {
             cat.gameObject.SetActive(true);
-            CharacterSoundController.EnableSoundByType(SoundType.Cats);
+            CharacterSoundController.EnableSoundByType(SoundType.CatMeow);
             Vector2 randomDirection = Random.insideUnitCircle.normalized * Random.Range(1f, _maxDistanceFromPlayer);
             cat.Transform.position = _transform.position + (Vector3)randomDirection;
             cat.ClearHitEnemies();
@@ -153,6 +153,7 @@ namespace Items.ItemVariations.Cats
         {
             cat.gameObject.SetActive(false);
             _activeCats.Remove(cat);
+            CharacterSoundController.EnableSoundByType(SoundType.Cats);
 
             if (_activeCats.Count == 0)
             {

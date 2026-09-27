@@ -60,6 +60,7 @@ namespace CharacterLogic
         Fireblast,
         Ragemode,
         PoisonThrow,
-        CherryBombExplosion
+        CherryBombExplosion,
+        CatMeow
     }
 }
