@@ -105,13 +105,13 @@ namespace UI
             if (_rewardPauseHeld)
             {
                 _rewardPauseHeld = false;
-                GamePauseController.ReleasePause();
+                GameTimeScale.SetPauseActive(false);
             }
 
             if (_swapPauseHeld)
             {
                 _swapPauseHeld = false;
-                GamePauseController.ReleasePause();
+                GameTimeScale.SetPauseActive(false);
             }
 
             if (_character == null)
@@ -336,7 +336,7 @@ namespace UI
                 return;
 
             _rewardPauseHeld = true;
-            GamePauseController.HoldPause(muteAudio: false);
+            GameTimeScale.SetPauseActive(true);
         }
 
         private void OnRewardPopupClosed()
@@ -349,7 +349,7 @@ namespace UI
             if (_swapPauseHeld)
                 return;
 
-            GamePauseController.ReleasePause();
+            GameTimeScale.SetPauseActive(false);
             OpenPendingLevelUp();
         }
 
@@ -359,7 +359,7 @@ namespace UI
                 return;
 
             _swapPauseHeld = false;
-            GamePauseController.ReleasePause();
+            GameTimeScale.SetPauseActive(false);
             OpenPendingLevelUp();
         }
 

@@ -64,6 +64,8 @@ namespace Utils
         {
             if (_isPauseHeld)
                 ApplyPause();
+            else if (YG2.isPauseGame)
+                YG2.PauseGame(false);
         }
 
         private void LateUpdate()

@@ -9,8 +9,7 @@ namespace Utils
         public static void SetPauseActive(bool isActive)
         {
             IsPauseActive = isActive;
-            if (isActive)
-                Time.timeScale = 0f;
+            Time.timeScale = isActive ? 0f : 1f;
         }
 
         public static void Set(float value)

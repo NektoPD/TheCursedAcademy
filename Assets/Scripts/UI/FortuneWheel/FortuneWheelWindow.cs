@@ -405,6 +405,7 @@ namespace UI.FortuneWheel
 
             _audioSource.playOnAwake = false;
             _audioSource.spatialBlend = 0f;
+            _audioSource.ignoreListenerPause = true;
             return _audioSource;
         }
 
@@ -438,6 +439,7 @@ namespace UI.FortuneWheel
 
             _spinAudioSource.playOnAwake = false;
             _spinAudioSource.spatialBlend = 0f;
+            _spinAudioSource.ignoreListenerPause = true;
             return _spinAudioSource;
         }
 
