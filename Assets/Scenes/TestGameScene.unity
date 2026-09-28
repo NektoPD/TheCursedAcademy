@@ -29017,7 +29017,7 @@ MonoBehaviour:
   _openClip: {fileID: 8300000, guid: 5f6897f92037d404ab4b81d94d8ce8ca, type: 3}
   _stopClip: {fileID: 8300000, guid: 6288f63c91de1ff498536c13c80c9229, type: 3}
   _audioSource: {fileID: 1747386212}
-  _spinClip: {fileID: 8300000, guid: eb120cd61c73a224f9af340ba5df6d2e, type: 3}
+  _spinClip: {fileID: 8300000, guid: f5ad0950e4acc134a8611b44938c3f4b, type: 3}
   _stopButton: {fileID: 1770054752}
   _tutorialCloseButton: {fileID: 0}
   _stopButtonPulseScale: 1.1
@@ -29048,7 +29048,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 1335508433073256545, guid: 08b10bfb530ac9b41bc21ef5814da2f1, type: 2}
-  m_audioClip: {fileID: 8300000, guid: eb120cd61c73a224f9af340ba5df6d2e, type: 3}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
