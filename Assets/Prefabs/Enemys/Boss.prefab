@@ -656,6 +656,7 @@ GameObject:
   - component: {fileID: 5615465203886490938}
   - component: {fileID: 8074965241382905773}
   - component: {fileID: 3459352209344829258}
+  - component: {fileID: -5341064166923933644}
   m_Layer: 8
   m_Name: Boss
   m_TagString: Untagged
@@ -993,6 +994,51 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _duration: 2
   _color: {r: 0, g: 0, b: 1, a: 1}
+--- !u!114 &-5341064166923933644
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8312350747381259285}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e52de21a22b6dd44c9cc19f810c65059, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Events:
+    m_Signals:
+    - {fileID: 11400000, guid: b5802147001965a4192f9482941c6188, type: 2}
+    - {fileID: 11400000, guid: 66eb3352b6b91ad4b832c0bd2d996657, type: 2}
+    m_Events:
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 3819176153829004169}
+          m_TargetAssemblyTypeName: UnityEngine.Animator, UnityEngine
+          m_MethodName: Play
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: Attack_1
+            m_BoolArgument: 0
+          m_CallState: 2
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 2432711954375845169}
+          m_TargetAssemblyTypeName: EnemyLogic.EnemyAnimator, Assembly-CSharp
+          m_MethodName: SetFloatSpeed
+          m_Mode: 4
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 1
+            m_StringArgument: Attack_1
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &9098398211362268403
 GameObject:
   m_ObjectHideFlags: 0
