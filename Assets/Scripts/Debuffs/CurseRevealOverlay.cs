@@ -186,8 +186,8 @@ namespace Debuffs
                 return;
 
             _acceptButtonText.text = Translator.Translate(
-                $"Нажми, чтобы усилить отрицательные эффекты на {negativeEffectIncreasePercent:0}%\nНаграда: +{coinBonusPercent:0}% монет",
-                $"Click to increase negative effects by {negativeEffectIncreasePercent:0}%\nReward: +{coinBonusPercent:0}% coins",
+                $"Усилить отрицательные эффекты на {negativeEffectIncreasePercent:0}%\nНаграда: +{coinBonusPercent:0}% монет",
+                $"Increase negative effects by {negativeEffectIncreasePercent:0}%\nReward: +{coinBonusPercent:0}% coins",
                 $"Olumsuz etkileri %{negativeEffectIncreasePercent:0} artırmak için tıkla\nÖdül: %{coinBonusPercent:0} daha fazla jeton");
         }
 

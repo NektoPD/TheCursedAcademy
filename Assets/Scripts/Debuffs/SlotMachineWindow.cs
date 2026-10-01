@@ -67,21 +67,8 @@ namespace Debuffs
 
             float timingScale = 1f;
             float initialSpinDuration = Mathf.Max(0f, _spinDuration);
-            float defaultDuration = initialSpinDuration
-                + _columns.Sum(column => column.SettleDuration)
-                + Mathf.Max(0f, _delayBetweenStops) * Mathf.Max(0, _columns.Count - 1);
 
-            if (_spinSound != null && _spinSound.clip != null && Mathf.Abs(_spinSound.pitch) > 0f)
-            {
-                float soundDuration = _spinSound.clip.length / Mathf.Abs(_spinSound.pitch);
-                if (defaultDuration > 0f)
-                    timingScale = soundDuration / defaultDuration;
-                else
-                    initialSpinDuration = soundDuration;
-
-                _spinSound.loop = false;
-                _spinSound.Play();
-            }
+            _spinSound.Play();
 
             float startedAt = Time.unscaledTime;
             float stopAt = initialSpinDuration * timingScale;

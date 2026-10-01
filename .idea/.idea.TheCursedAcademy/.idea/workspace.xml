@@ -7,6 +7,8 @@
     <list default="true" id="2352e6f7-7a00-4256-b434-98f90d0b0896" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/Assets/PluginYourGames/Editor/SavesEditorYG2.json" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/PluginYourGames/Editor/SavesEditorYG2.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/TestGameScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/TestGameScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Debuffs/CurseRevealOverlay.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Debuffs/CurseRevealOverlay.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Debuffs/SlotMachineWindow.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Debuffs/SlotMachineWindow.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -337,6 +339,7 @@
       <workItem from="1790102162894" duration="1854000" />
       <workItem from="1790427140976" duration="3296000" />
       <workItem from="1790503512714" duration="1498000" />
+      <workItem from="1790750654284" duration="868000" />
     </task>
     <servers />
   </component>
