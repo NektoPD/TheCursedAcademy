@@ -25,7 +25,7 @@ namespace Tutorial
 
         private void Start()
         {
-            _damageTracker.Initialize(_maxHp, _immuneTime);
+            _damageTracker.Initialize(_maxHp, _immuneTime, null);
             _enemyEjector.Initialize(_expPoint, _money, _moneyDropChancePerProcent);
         }
     }

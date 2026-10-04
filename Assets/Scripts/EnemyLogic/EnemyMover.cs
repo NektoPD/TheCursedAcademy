@@ -83,6 +83,10 @@ namespace EnemyLogic
             _enemyView.SetFloatSpeed(_speed);
         }
 
+        public void Disable() => _canMove = false;
+
+        public void Enable() => _canMove = true;
+
         public void Initialize(float speed)
         {
             _canMove = true;
@@ -96,10 +100,6 @@ namespace EnemyLogic
             _attackRange = range;
             _attackRangeSqr = range * range;
         }
-
-        private void Disable() => _canMove = false;
-
-        private void Enable() => _canMove = true;
         
         private void SetAnimatorSpeed(float speed)
         {

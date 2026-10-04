@@ -1,14 +1,17 @@
 using Data;
 using Data.EnemesData;
+using HealthSystem;
 using Items.Interfaces;
 using Pools;
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace EnemyLogic
 {
-    [RequireComponent(typeof(EnemyMover), typeof(EnemyAnimator), typeof(EnemyEjector))]
+[RequireComponent(typeof(EnemyMover), typeof(EnemyAnimator), typeof(EnemyEjector))]
     [RequireComponent(typeof(EnemyDamageTaker), typeof(EnemyAttacker))]
+    [RequireComponent(typeof(EnemyDamageView))]
     public class Enemy : MonoBehaviour, IPoolEntity
     {
         private EnemyMover _mover;
@@ -51,18 +54,20 @@ namespace EnemyLogic
             _isBoss = enemyData.IsBoss;
             _name = enemyData.Name;
             _animator.Initialize(enemyData.AnimatorController);
-            _damageTaker.Initialize(enemyData.Health, enemyData.ImmuneTime);
+            _damageTaker.Initialize(enemyData.Health, enemyData.ImmuneTime, this);
             _mover.Initialize(enemyData.Speed);
             _attacker.Initialize(enemyData.Attacks);
             _ejector.Initialize(enemyData.ExpPointData, enemyData.Money, enemyData.MoneyDropChancePerProcent);
             _damageView.Initialize(enemyData.Id);
 
             _pool = pool;
+            _mover.Enable();
         }
+
+        public void DiedIventInvoke() => Died?.Invoke();
 
         public void Despawn()
         {
-            Died?.Invoke();
             gameObject.SetActive(false);
             _pool.ReturnEntity(this);
         }

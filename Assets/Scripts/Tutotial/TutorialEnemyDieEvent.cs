@@ -16,12 +16,12 @@ namespace Tutorial
         
         private void OnEnable()
         {
-            _damageTacker.Health.Died += Die;
+            _damageTacker.Died += Die;
         }
 
         private void OnDisable()
         {
-            _damageTacker.Health.Died -= Die;
+            _damageTacker.Died -= Die;
         }
 
         private void Die()

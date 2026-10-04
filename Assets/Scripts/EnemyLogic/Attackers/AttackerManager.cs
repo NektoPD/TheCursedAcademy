@@ -20,6 +20,9 @@ namespace EnemyLogic.Attackers
 
         public void ExecuteAttack(AttackData data, EnemyAttacker enemyAttacker)
         {
+            if (data == null) 
+                return;
+
             if (_attackers.TryGetValue(data.GetType(), out var attacker))
             {
                 attacker.SetBaseAttacker(enemyAttacker);

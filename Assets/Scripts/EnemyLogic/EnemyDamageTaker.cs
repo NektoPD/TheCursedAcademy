@@ -8,7 +8,7 @@ using System;
 
 namespace EnemyLogic
 {
-    [RequireComponent(typeof(HealthBar), typeof(EnemyAnimator))]
+    [RequireComponent(typeof(HealthBar), typeof(EnemyAnimator), typeof(EnemyMover))]
     [RequireComponent(typeof(EnemyDamageView), typeof(EnemyEjector))]
     public class EnemyDamageTaker : MonoBehaviour, IDamageable
     {
@@ -18,16 +18,18 @@ namespace EnemyLogic
         private HealthBar _healthBar;
         private EnemyAnimator _enemyAnimator;
         private EnemyEjector _ejector;
+        private EnemyMover _mover;
         private EnemyDamageView _damageView;
         private Coroutine _coroutine;
         private AudioSource _deathSound;
         private float _immuneTime;
+        private Enemy _enemy;
         
         private bool _isDied = false;
         private bool _inImmune = false;
         private CharacterInitializer _initializer;
 
-        public Health Health => _health;
+        public event Action Died;
 
         public bool IsDied => _isDied;
 
@@ -44,6 +46,7 @@ namespace EnemyLogic
             _enemyAnimator = GetComponent<EnemyAnimator>();
             _ejector = GetComponent<EnemyEjector>();
             _damageView = GetComponent<EnemyDamageView>();
+            _mover = GetComponent<EnemyMover>();
         }
 
         private void OnDisable()
@@ -55,11 +58,12 @@ namespace EnemyLogic
                 StopCoroutine(_coroutine);
         }
 
-        public void Initialize(float maxHealth, float immuneTime)
+        public void Initialize(float maxHealth, float immuneTime, Enemy enemy)
         {
             _isDied = false;
             _inImmune = false;
             _enemyAnimator.SetDeadBool(false);
+            _enemy = enemy;
 
             _health = new Health(maxHealth);
             _healthBar.SetHealth(_health);
@@ -89,6 +93,12 @@ namespace EnemyLogic
 
         private void Die()
         {
+            if (_enemy != null)
+                _enemy.DiedIventInvoke();
+            else
+                Died?.Invoke();
+
+            _mover.Disable();
             _isDied = true;
 
             if (_deathSound != null)

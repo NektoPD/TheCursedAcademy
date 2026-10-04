@@ -1,24 +1,24 @@
-using Cinemachine;
+using System;
 using Difficulties;
+using Timelines;
 using UnityEngine;
+using UnityEngine.Playables;
+using UnityEngine.Timeline;
 
 namespace EnemyLogic.BossArenaLogic
 {
-    [RequireComponent(typeof(BossArenaCutscenesActivator))]
     public class BossArena : MonoBehaviour
     {
-        [SerializeField] private float _teleportDistanceFromCenter = 3f;
-        [SerializeField] private CinemachineConfiner2D _confinerCamera;
-        [SerializeField] private PolygonCollider2D _cameraBounds;
+        private const string BossTrackName = "Boss";
+
         [SerializeField] private Difficulty _difficulty;
+        [SerializeField] private PlayableDirector _spawnCutscene;
+        [SerializeField] private PlayableDirector _deadCutscene;
+        [SerializeField] private Transform _placeholderBoss;
+        [SerializeField] private Transform _bossCamera;
 
-        private BossArenaCutscenesActivator _cutscensActivator;
         private Enemy _boss = null;
-
-        private void Awake()
-        {
-            _cutscensActivator = GetComponent<BossArenaCutscenesActivator>();
-        }
+        private Action _deadCutsceneHandler = null;
 
         private void OnEnable()
         {
@@ -30,37 +30,56 @@ namespace EnemyLogic.BossArenaLogic
             _difficulty.BossSpawned -= Activate;
         }
 
-        private void Activate(Enemy boss)
+        public void Deactivate()
         {
-            Vector3 center = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width / 2, Screen.height / 2, Camera.main.nearClipPlane));
+            if (_boss != null && _deadCutsceneHandler != null)
+                _boss.Died -= _deadCutsceneHandler;
 
-            if (_boss == null)
-                transform.position = center;
-            else
-               _boss.Died -= _cutscensActivator.DeadCutsceneActivate;
-
-            _boss = boss;
-            _boss.Died += _cutscensActivator.DeadCutsceneActivate;
-            SetupCameraBounds();
-
-            _cutscensActivator.SpawnCutsceneActivate(_boss);
-        }
-
-        private void Deactivate()
-        {
-            _confinerCamera.m_BoundingShape2D = null;
-            _confinerCamera.InvalidateCache();
-            _cameraBounds.gameObject.SetActive(false);
-
-            _boss.Died -= _cutscensActivator.DeadCutsceneActivate;
+            _deadCutsceneHandler = null;
             _boss = null;
         }
 
-        private void SetupCameraBounds()
+        private void Activate(Enemy boss)
         {
-            _cameraBounds.gameObject.SetActive(true);
+            bool needActivateCutscene = _boss == null;
 
-            _confinerCamera.m_BoundingShape2D = _cameraBounds;
+            if (_boss != null && _deadCutsceneHandler != null)
+                _boss.Died -= _deadCutsceneHandler;
+
+            _boss = boss;
+
+            if (needActivateCutscene)
+            {
+                _boss.transform.SetParent(transform);
+                _boss.transform.localPosition = _placeholderBoss.localPosition;
+                CutsceneStart(_spawnCutscene);
+            }
+
+            _boss.Died += _deadCutsceneHandler = () => 
+            {        
+                _bossCamera.position = new Vector3(_boss.transform.position.x, _boss.transform.position.y, _bossCamera.position.z);
+                CutsceneStart(_deadCutscene);
+            };
+        }
+
+        public void CutsceneStart(PlayableDirector cutscene)
+        {
+            cutscene.Stop();
+            cutscene.time = 0;
+            cutscene.Evaluate();
+            BindTrack(BossTrackName, _boss.EnemyAnimator, cutscene);
+            cutscene.Play();
+        }
+
+        private void BindTrack(string trackName, Animator animator, PlayableDirector cutscene)
+        {
+            var timeline = cutscene.playableAsset as TimelineAsset;
+
+            foreach (var track in timeline.GetOutputTracks())
+            {
+                if (track.name == trackName)
+                    cutscene.SetGenericBinding(track, animator);
+            }
         }
     }
 }
