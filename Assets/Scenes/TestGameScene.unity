@@ -22832,13 +22832,8 @@ MonoBehaviour:
   m_VerticalScrollbar: {fileID: 0}
   m_HorizontalScrollbarVisibility: 2
   m_VerticalScrollbarVisibility: 2
-<<<<<<< Updated upstream
-  m_HorizontalScrollbarSpacing: -0.7873832
-  m_VerticalScrollbarSpacing: -0.7873832
-=======
   m_HorizontalScrollbarSpacing: -1.4112148
   m_VerticalScrollbarSpacing: -1.4112148
->>>>>>> Stashed changes
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -33884,11 +33879,7 @@ MonoBehaviour:
   - {fileID: 84937494}
   - {fileID: 1867587651}
   _openDelay: 1
-<<<<<<< Updated upstream
-  _spinDuration: 1
-=======
   _spinDuration: 1.6
->>>>>>> Stashed changes
   _spinSound: {fileID: 8679567519223357706}
   _delayBetweenStops: 0.5
   _holdDelayBeforeClose: 1
