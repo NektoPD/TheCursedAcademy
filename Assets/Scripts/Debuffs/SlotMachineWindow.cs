@@ -5,10 +5,11 @@ using System.Linq;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace Debuffs
 {
-    public class SlotMachineWindow : UI.Window
+    public class SlotMachineWindow : UI.Window, IPointerDownHandler
     {
         private const int ColumnsCount = 3;
 
@@ -47,6 +48,24 @@ namespace Debuffs
 
             _spinSound?.Stop();
             _routine = StartCoroutine(PlayRoutine());
+        }
+
+        public void OnPointerDown(PointerEventData eventData)
+        {
+            if (eventData.button != PointerEventData.InputButton.Left || _routine == null)
+                return;
+
+            StopCoroutine(_routine);
+            _routine = null;
+            _spinSound?.Stop();
+
+            for (int i = 0; i < _columns.Count; i++)
+            {
+                _columns[i].StopImmediately(_selected[i]);
+                ShowResult(i);
+            }
+
+            Finished?.Invoke(_selected);
         }
 
         private void OnDisable()
@@ -90,11 +109,7 @@ namespace Debuffs
                 while (!_columns[i].IsStopped)
                     yield return null;
 
-                if (i < _resultTexts.Count && _resultTexts[i] != null)
-                {
-                    _resultTexts[i].text = _selected[i].Name;
-                    PulseText(_resultTexts[i]);
-                }
+                ShowResult(i);
 
                 stopAt += settleDuration + Mathf.Max(0f, _delayBetweenStops) * timingScale;
             }
@@ -103,12 +118,22 @@ namespace Debuffs
             yield return new WaitForSecondsRealtime(_delayBetweenStops);
             yield return new WaitForSecondsRealtime(_holdDelayBeforeClose);
 
-            Finished?.Invoke(_selected);
             _routine = null;
+            Finished?.Invoke(_selected);
+        }
+
+        private void ShowResult(int index)
+        {
+            if (index >= _resultTexts.Count || _resultTexts[index] == null)
+                return;
+
+            _resultTexts[index].text = _selected[index].Name;
+            PulseText(_resultTexts[index]);
         }
 
         private void PulseText(TMP_Text text)
         {
+            text.rectTransform.DOKill();
             text.rectTransform.localScale = Vector3.one;
             text.rectTransform
                 .DOScale(_pulseScale, _pulseDuration)

@@ -45,6 +45,17 @@ namespace Debuffs
             _spinRoutine = StartCoroutine(SettleRoutine(result, settleDuration ?? SettleDuration));
         }
 
+        public void StopImmediately(DebuffRoll result)
+        {
+            if (_spinRoutine != null)
+                StopCoroutine(_spinRoutine);
+
+            _spinRoutine = null;
+            _result = result;
+            AlignToCenter(result);
+            _isStopped = true;
+        }
+
         private IEnumerator SpinRoutine()
         {
             while (true)
