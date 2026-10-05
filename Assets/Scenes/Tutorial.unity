@@ -8297,7 +8297,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 393.097, y: -71.622}
+  m_AnchoredPosition: {x: 393.097, y: -71.62201}
   m_SizeDelta: {x: 686.194, y: 83.244}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &737272225
@@ -9075,6 +9075,8 @@ MonoBehaviour:
   _flashCooldown: 0.25
   _damageColor: {r: 1, g: 0, b: 0, a: 1}
   _healColor: {r: 0, g: 1, b: 0, a: 1}
+  _deathIntensity: 0.65
+  _reviveIntensity: 0.4
   _rageModeIntensity: 0.5
   _rageModeColor: {r: 1, g: 0.3, b: 0, a: 1}
 --- !u!4 &795323722
@@ -13737,7 +13739,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 481.8, y: -68.55}
+  m_AnchoredPosition: {x: 481.8, y: -68.54999}
   m_SizeDelta: {x: 873.6, y: 77.1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1432163642
@@ -18430,6 +18432,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: FortuneWheel
       objectReference: {fileID: 0}
+    - target: {fileID: 539309199926739548, guid: a8a9ddac68af85c4c9611c1fe1395dc7, type: 3}
+      propertyPath: _spinClip
+      value: 
+      objectReference: {fileID: 8300000, guid: f5ad0950e4acc134a8611b44938c3f4b, type: 3}
     - target: {fileID: 539309199926739548, guid: a8a9ddac68af85c4c9611c1fe1395dc7, type: 3}
       propertyPath: _stopButton
       value: 
