@@ -861,7 +861,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59715aca675b36d47b6ab273ec50c9f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DamageColor: {r: 1, g: 0.5, b: 0.5, a: 1}
+  _damageColor: {r: 1, g: 0.5, b: 0.5, a: 1}
+  _flashHoldPart: 0.35
+  _impulseDuration: 0.12
+  _knockbackDistance: 0.25
+  _jumpHeight: 0.12
+  _impulseEase: 6
+  _impulseCooldown: 0.35
+  _minDistanceForFullKnockback: 0.8
+  _minKnockbackMultiplier: 0.15
+  _disableHorizontalKnockbackWhenVeryClose: 1
+  _veryCloseDistance: 0.25
+  _impulseCooldownNormal: 0.35
+  _impulseCooldownBoss: 0.7
+  _useSquash: 1
+  _squashAmount: 0.18
+  _squashDuration: 0.16
+  _damageFont: {fileID: 11400000, guid: 6c14c2ba6ed92a14d8263c05a70b1641, type: 2}
+  _damageNumberColor: {r: 1, g: 1, b: 1, a: 1}
+  _damageNumberFontSize: 15
+  _damageNumberStartHeight: 0.55
+  _damageNumberArcHeight: 0.45
+  _damageNumberHorizontalSpread: 0.35
+  _damageNumberEndDrop: 0.15
+  _damageNumberDuration: 0.75
+  _damageNumberPopDuration: 0.1
+  _damageNumberSortingOrder: 10
 --- !u!114 &8074965241382905773
 MonoBehaviour:
   m_ObjectHideFlags: 0

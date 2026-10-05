@@ -1,3 +1,4 @@
+using CharacterLogic;
 using Items.BaseClass;
 using Items.Enums;
 using Items.Pools;
@@ -79,6 +80,8 @@ namespace Items.ItemVariations.LaRobba
             projectile.Initialize(RuntimeDamage, this);
             projectile.ClearHitEnemies();
             projectile.Launch(enemyPos, _projectileSpeed);
+            projectile.Hit -= OnProjectileHit;
+            projectile.Hit += OnProjectileHit;
             projectile.Finished += OnProjectileFinished;
         }
 
@@ -90,8 +93,14 @@ namespace Items.ItemVariations.LaRobba
             return new Vector2(x, topEdge + _spawnOffsetAboveScreen);
         }
 
+        private void OnProjectileHit()
+        {
+            CharacterSoundController?.EnableSoundByType(SoundType.LaRobbaHit);
+        }
+
         private void OnProjectileFinished(LaRobbaProjectile projectile)
         {
+            projectile.Hit -= OnProjectileHit;
             projectile.Finished -= OnProjectileFinished;
             projectile.Transform.SetParent(_projectilePool.transform);
             _projectilePool.ReturnToPool(projectile);

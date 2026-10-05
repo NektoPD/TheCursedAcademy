@@ -1,15 +1,11 @@
-using System;
-using System.Collections;
 using DG.Tweening;
 using HealthSystem;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace CharacterLogic.Abilities
 {
     public class PoisonProjectile : AbilityProjectile
     {
-        private const int PoisonTicks = 5;
         private const float MaxLifetime = 3f;
 
         [SerializeField] private float _spawnScaleDuration = 0.3f;
@@ -66,7 +62,15 @@ namespace CharacterLogic.Abilities
 
         protected override void ApplyEffect(IDamageable target)
         {
-            StartCoroutine(ApplyPoison(target));
+            if (target is Component component)
+            {
+                PoisonEffect poison = component.GetComponent<PoisonEffect>();
+                if (poison == null)
+                    poison = component.gameObject.AddComponent<PoisonEffect>();
+
+                poison.Apply(target, Damage, _poisonDuration);
+            }
+
             ShowHitEffect();
         }
 
@@ -86,19 +90,6 @@ namespace CharacterLogic.Abilities
                         .SetEase(Ease.InBack)
                         .OnComplete(() => Destroy(effect));
                 });
-        }
-
-        private IEnumerator ApplyPoison(IDamageable target)
-        {
-            float tickDamage = Damage / PoisonTicks;
-            float tickInterval = _poisonDuration / PoisonTicks;
-
-            for (int i = 0; i < PoisonTicks; i++)
-            {
-                if ((target as Object) == null) yield break;
-                target.TakeDamage(tickDamage);
-                yield return new WaitForSeconds(tickInterval);
-            }
         }
 
         private void OnDestroy()

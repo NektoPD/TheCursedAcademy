@@ -1424,7 +1424,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 0
-  m_Spacing: 2.7187502
+  m_Spacing: 5.2083325
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
@@ -1875,7 +1875,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 0
-  m_Spacing: 2.7187502
+  m_Spacing: 5.2083325
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
@@ -4007,10 +4007,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Slot
       objectReference: {fileID: 0}
-    - target: {fileID: 811767749054877829, guid: fc15954434d01a549aab655e26dcdcde, type: 3}
-      propertyPath: m_Layer
-      value: 10
-      objectReference: {fileID: 0}
     - target: {fileID: 3489627331781116228, guid: fc15954434d01a549aab655e26dcdcde, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -4090,10 +4086,6 @@ PrefabInstance:
     - target: {fileID: 3489627331781116228, guid: fc15954434d01a549aab655e26dcdcde, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8105362859009543459, guid: fc15954434d01a549aab655e26dcdcde, type: 3}
-      propertyPath: m_Layer
-      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

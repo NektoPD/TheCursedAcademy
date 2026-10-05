@@ -8,6 +8,8 @@ namespace CharacterLogic
 {
     public class CharacterCollisionHandler : MonoBehaviour
     {
+        private const float PickupReachAtHundredPercentBonus = 2f;
+
         [SerializeField] private float _duration = 1f;
         [SerializeField] private float _maxRiseHeight = 1f;
         [SerializeField] private float _maxPushDistance = 2f;
@@ -21,11 +23,37 @@ namespace CharacterLogic
 
         private readonly Dictionary<IPickable, AttractedItem> _items = new();
         private readonly List<IPickable> _iterationBuffer = new();
+        private BoxCollider2D _pickupCollider;
+        private Vector2 _basePickupColliderSize;
 
         public event Action<int> GotMoney;
         public event Action<int> GotExpPoint;
         public event Action<int> GotHeal;
         public event Action GotMagnet;
+
+        private void Awake()
+        {
+            _pickupCollider = GetComponent<BoxCollider2D>();
+            if (_pickupCollider != null)
+                _basePickupColliderSize = _pickupCollider.size;
+        }
+
+        private void OnEnable() => ApplyPickupRadius();
+
+        public void ApplyPickupRadius()
+        {
+            if (_pickupCollider == null)
+            {
+                Debug.LogWarning("[Magnet perk] Pickup BoxCollider2D not found; cannot apply pickup radius.", this);
+                return;
+            }
+
+            float extraReach = (PickupRadius.Scale - 1f) * PickupReachAtHundredPercentBonus;
+            _pickupCollider.size = _basePickupColliderSize + Vector2.one * (extraReach * 2f);
+            Debug.Log($"[Magnet perk] Pickup collider initial size: {_basePickupColliderSize}; " +
+                      $"after bonus +{(PickupRadius.Scale - 1f) * 100f:0}% " +
+                      $"(+{extraReach:0.##} units per side): {_pickupCollider.size}", this);
+        }
 
         private void Update()
         {

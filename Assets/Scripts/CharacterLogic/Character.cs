@@ -34,6 +34,7 @@ namespace CharacterLogic
     {
         private const string TutorialSceneName = "Tutorial";
         private const int MaxLevelCoinReward = 30;
+        private const float NeutralAttackPower = 15f;
         
         [SerializeField] private CharacterInventoryUI _inventoryUI;
         [SerializeField] private bool _cameraOnCharacter;
@@ -55,6 +56,7 @@ namespace CharacterLogic
         [SerializeField] private float _hitSquashDuration = 0.18f;
 
         private Coroutine _deathSequenceCoroutine;
+        private float _timeScaleBeforeDeath;
         private Coroutine _reviveInvincibilityCoroutine;
         private Coroutine _abilityChargeFillCoroutine;
         private CharacterData _characterData;
@@ -77,6 +79,7 @@ namespace CharacterLogic
         private float _armor;
         private float _hp;
         private float _hpRegenerationSpeed;
+        private float _healthRegenerationElapsed;
         private float _attackCooldown;
         private float _moveSpeed;
         private Item _startItem;
@@ -91,13 +94,15 @@ namespace CharacterLogic
         private float _abilityChargeLevel;
         private AbilityBase _ability;
         private AbilityType _abilityType;
-        private float _baseAttackPower;
-        private float _baseArmor;
-        private float _baseMoveSpeed;
+        private float _rageDamageMultiplier = 1f;
+        private float _rageArmorMultiplier = 1f;
+        private float _rageSpeedMultiplier = 1f;
         private bool _isRageModeActive;
         public event Action<float, float> HealthChanged;
         public event Action<float, float> Damaged;
         public event Action<float, float> Healed;
+        public event Action DeathStarted;
+        public event Action Revived;
         public event Action<Statistics> StatisticCollected;
         public event Action LevelUp;
         public event Action InventoryLimitReached;
@@ -108,6 +113,7 @@ namespace CharacterLogic
         public event Action RageModeActivated;
         public event Action RageModeDeactivated;
         public event Action AbilityUsed;
+        public event Action<int> RoundCoinsChanged;
         public AbilityType CurrentAbilityType => _abilityType;
         public CharacterInventory Inventory => _inventory;
         public bool IsDied => _isDied;
@@ -173,6 +179,7 @@ namespace CharacterLogic
         private void OnDisable()
         {
             _hitSquashTween?.Kill();
+            _healthRegenerationElapsed = 0f;
 
             if (_abilityChargeFillCoroutine != null)
             {
@@ -201,6 +208,7 @@ namespace CharacterLogic
 
             if (_characterLevelController != null) _characterLevelController.LeveledUp -= OnLeveledUp;
             _characterLevelController?.Dispose();
+            if (_characterSessionWallet != null) _characterSessionWallet.MoneyChanged -= OnRoundCoinsChanged;
             _characterSessionWallet?.Dispose();
             _levelUpItemApplicator.ItemSelected -= OnLevelUpItemSelected;
 
@@ -227,9 +235,28 @@ namespace CharacterLogic
         private void Update()
         {
             HandleMovementAnimations();
+            RegenerateHealth();
 
             if (_ability != null && _ability.IsReady && Input.GetKeyDown(KeyCode.F))
                 ActivateAbility();
+        }
+
+        private void RegenerateHealth()
+        {
+            if (_health == null || _isDied || _hpRegenerationSpeed <= 0f ||
+                _health.CurrentHealth <= 0f || _health.CurrentHealth >= _health.MaxHealth)
+            {
+                _healthRegenerationElapsed = 0f;
+                return;
+            }
+
+            _healthRegenerationElapsed += Time.deltaTime;
+            if (_healthRegenerationElapsed < 1f)
+                return;
+
+            _health.TakeHeal(_hpRegenerationSpeed * _healthRegenerationElapsed);
+            _healthRegenerationElapsed = 0f;
+            HealthChanged?.Invoke(_health.CurrentHealth, _hp);
         }
 
         private void OnExperienceGained(int value)
@@ -261,21 +288,22 @@ namespace CharacterLogic
         private IEnumerator DeathSequenceRoutine()
         {
             _isDied = true;
+            DeathStarted?.Invoke();
             DisableCharacter();
             CameraShake.Instance?.StopShake();
             _isInvincible = true;
-            float previousTimeScale = Time.timeScale;
-            Time.timeScale = 0f;
+            _timeScaleBeforeDeath = Time.timeScale;
+            GameTimeScale.Set(0f);
             if (CameraDeathZoom.Instance != null)
             {
                 CameraDeathZoom.Instance.SetTarget(_transform);
                 CameraDeathZoom.Instance.PlayDeathZoom();
             }
 
-            Coroutine fade = _spriteHolder.PlayDeathFade(this);
+            Coroutine fade = _spriteHolder.PlayDeathFade();
             yield return fade;
             CameraDeathZoom.Instance?.ResetZoom(_deathZoomResetDuration);
-            Time.timeScale = previousTimeScale;
+            GameTimeScale.Set(_timeScaleBeforeDeath);
             OnPlayerDied();
             _deathSequenceCoroutine = null;
         }
@@ -343,6 +371,17 @@ namespace CharacterLogic
             _characterSessionWallet.AddMoney(amount);
         }
 
+        public void LevelUpImmediately()
+        {
+            _characterLevelController.IncreaseExp(
+                _characterLevelController.RequiredExpForNextLevel - _characterLevelController.CurrentExp);
+        }
+
+        private void OnRoundCoinsChanged(int coins)
+        {
+            RoundCoinsChanged?.Invoke(coins);
+        }
+
         public void ApplyTemporaryBuff(PerkType type, float multiplier, float durationSeconds)
         {
             if (multiplier <= 0f || durationSeconds <= 0f)
@@ -364,11 +403,14 @@ namespace CharacterLogic
 
         private void RefreshStats()
         {
-            _health.SetMaxHealth(_hp);
-            UpdateHealthView(_hp);
+            _health.SetMaxHealthPreservingCurrent(_hp);
+            UpdateHealthView(_health.CurrentHealth);
             _attacker.SetAttackRegenerationSpeed(_attackCooldown);
             _movementHandler.SetSpeed(_moveSpeed);
         }
+
+        private float _itemAreaMultiplier = 1f;
+        private float _itemEffectDurationMultiplier = 1f;
 
         private void SetupNewItem(ItemVariations selectedItemVariation)
         {
@@ -397,13 +439,21 @@ namespace CharacterLogic
             }
 
             newItem.transform.position = _transform.position;
-            newItem.Initialize(_movementHandler, _characterSoundController, () => _isRageModeActive);
+            newItem.Initialize(_movementHandler, _characterSoundController, () => _isRageModeActive,
+                GetAttackDamageMultiplier, _itemAreaMultiplier, _itemEffectDurationMultiplier);
             _inventory.AddItem(newItem);
+        }
+
+        private float GetAttackDamageMultiplier()
+        {
+            return Mathf.Max(0f, _attackPower / NeutralAttackPower);
         }
 
         private void OnLeveledUp()
         {
             UpdateExperienceView(_characterLevelController.CurrentExp);
+            _view.PlayLevelUpPulse();
+            _spriteHolder.PlayLevelUpFlash();
             _characterSoundController.EnableSoundByType(SoundType.LevelUp);
             LevelUp?.Invoke();
         }
@@ -413,7 +463,7 @@ namespace CharacterLogic
             _movementHandler.EnableMovement();
             _movementHandler.SetSpeed(_moveSpeed);
             _attacker.EnableAttack();
-            CameraShake.Instance.SetTarget(_transform);
+            CameraShake.Instance?.SetTarget(_transform);
             _view.SetHudVisible(true);
             if (_characterCanvas != null) _characterCanvas.gameObject.SetActive(true);
         }
@@ -439,8 +489,8 @@ namespace CharacterLogic
                     ApplyStatModifier(modifier.Type, modifier.Multiplier);
             }
 
-            _health.SetMaxHealth(_hp);
-            UpdateHealthView(_hp);
+            _health.SetMaxHealthPreservingCurrent(_hp);
+            UpdateHealthView(_health.CurrentHealth);
             _attacker.SetAttackRegenerationSpeed(_attackCooldown);
             _movementHandler.SetSpeed(_moveSpeed);
         }
@@ -483,23 +533,31 @@ namespace CharacterLogic
             if (_characterCanvas != null) _characterCanvas.gameObject.SetActive(true);
         }
 
-        public void TakeDamage(float damage, bool isFromBerserk = false)
+        public float TakeDamage(float damage, bool isFromBerserk = false)
         {
-            if (_isInvincible) return;
+            if (_isInvincible || _isDied || damage <= 0f) return 0f;
 
-            float reducedDamage = damage / (1f + _armor);
+            float reducedDamage = damage / (1f + Mathf.Max(0f, _armor) / 100f);
 
-            float severity = _hp > 0f ? Mathf.Clamp01(reducedDamage / (_hp * 0.25f)) : 1f;
+            float appliedDamage = _health.TakeDamage(reducedDamage);
+            if (appliedDamage <= 0f)
+                return 0f;
+
+            float severity = _hp > 0f ? Mathf.Clamp01(appliedDamage / (_hp * 0.25f)) : 1f;
             float shakeIntensity = Mathf.Lerp(_hitShakeMinIntensity, _hitShakeMaxIntensity, severity);
             float shakeDuration = Mathf.Lerp(_hitShakeMinDuration, _hitShakeMaxDuration, severity);
 
-            CameraShake.Instance.ShakeCamera(shakeIntensity, _hitShakeFrequency, shakeDuration);
-            PlayHitSquash();
+            if (!_isDied)
+            {
+                CameraShake.Instance?.ShakeCamera(shakeIntensity, _hitShakeFrequency, shakeDuration);
+                PlayHitSquash();
+            }
 
-            _health.TakeDamage(reducedDamage);
             _characterSoundController.EnableSoundByType(SoundType.Hit);
             Damaged?.Invoke(_health.CurrentHealth, _hp);
             HealthChanged?.Invoke(_health.CurrentHealth, _hp);
+
+            return appliedDamage;
         }
 
         private void PlayHitSquash()
@@ -537,8 +595,15 @@ namespace CharacterLogic
 
         public void Revive()
         {
+            if (_deathSequenceCoroutine != null)
+            {
+                StopCoroutine(_deathSequenceCoroutine);
+                _deathSequenceCoroutine = null;
+                CameraDeathZoom.Instance?.ResetZoom(_deathZoomResetDuration);
+                GameTimeScale.Set(_timeScaleBeforeDeath);
+            }
+
             _isDied = false;
-            Time.timeScale = 1f;
             _health.TakeHeal(_hp);
             UpdateHealthView(_hp);
             _characterSoundController.EnableSoundByType(SoundType.Heal);
@@ -546,8 +611,10 @@ namespace CharacterLogic
             HealthChanged?.Invoke(_health.CurrentHealth, _hp);
             ActivateCharacter();
             _spriteHolder.ResetVisual();
+            Revived?.Invoke();
             if (_reviveInvincibilityCoroutine != null) StopCoroutine(_reviveInvincibilityCoroutine);
             _reviveInvincibilityCoroutine = StartCoroutine(ReviveInvincibilityRoutine());
+            _spriteHolder.PlayReviveAppear();
         }
 
         private IEnumerator ReviveInvincibilityRoutine()
@@ -582,12 +649,19 @@ namespace CharacterLogic
             _characterSessionWallet = new CharacterSessionWallet();
             _characterLevelController = new CharacterLevelController();
             _characterSessionWallet.Initialize(_collisionHandler);
+            _characterSessionWallet.MoneyChanged += OnRoundCoinsChanged;
             _characterLevelController.Initialize(_collisionHandler);
             _characterLevelController.LeveledUp += OnLeveledUp;
         }
 
         private void InitializeCharacterData(CharacterData characterData, Dictionary<PerkType, float> perkBonuses)
         {
+            _itemAreaMultiplier = Mathf.Max(1f, GetPerkBonus(perkBonuses, PerkType.Area));
+            _itemEffectDurationMultiplier = Mathf.Max(1f, GetPerkBonus(perkBonuses, PerkType.Duration));
+            _characterSessionWallet.SetPerkMultiplier(GetPerkBonus(perkBonuses, PerkType.Greed));
+            _characterLevelController.SetExpMultiplier(GetPerkBonus(perkBonuses, PerkType.Growth));
+            PickupRadius.Set(GetPerkBonus(perkBonuses, PerkType.Magnet));
+            _collisionHandler.ApplyPickupRadius();
             _attackPower = characterData.AttackPower * GetPerkBonus(perkBonuses, PerkType.Power);
             _armor = characterData.Armor * GetPerkBonus(perkBonuses, PerkType.Armor);
             _hp = characterData.Hp * GetPerkBonus(perkBonuses, PerkType.MaxHp);
@@ -661,7 +735,7 @@ namespace CharacterLogic
             if (abilityPrefab == null) return;
 
             _ability = abilityPrefab;
-            _ability.Initialize(config, _transform, _characterSoundController);
+            _ability.Initialize(config, _transform);
 
             SimpleSpriteAnimator activationEffect = config.Type switch
             {
@@ -679,9 +753,6 @@ namespace CharacterLogic
 
             if (_ability is RagemodeAbility rage)
             {
-                _baseAttackPower = _attackPower;
-                _baseArmor = _armor;
-                _baseMoveSpeed = _moveSpeed;
                 rage.RageModeStarted += OnRageModeStarted;
                 rage.RageModeEnded += OnRageModeEnded;
             }
@@ -702,13 +773,16 @@ namespace CharacterLogic
         private void OnAbilityReady()
         {
             _view.ShowAbilityReady();
+            _characterSoundController?.EnableSoundByType(SoundType.AbilityReady);
             AbilityReady?.Invoke();
         }
 
         public void ActivateAbility()
         {
-            if (_ability == null || !_ability.IsReady) return;
+            if (_ability == null || !_ability.IsReady || _ability.IsActive) return;
             _ability.Activate();
+            AbilityConfig config = _characterData.AbilityConfig;
+            _characterSoundController?.PlayAbilitySound(config.ActivationClip, config.ActivationSound);
             _view.HideAbilityUI();
             AbilityUsed?.Invoke();
         }
@@ -748,20 +822,30 @@ namespace CharacterLogic
 
         private void OnRageModeStarted(float damageMult, float speedMult, float armorMult)
         {
+            if (_isRageModeActive) return;
+
             _isRageModeActive = true;
-            _attackPower = _baseAttackPower * damageMult;
-            _armor = _baseArmor * armorMult;
-            _moveSpeed = _baseMoveSpeed * speedMult;
+            _rageDamageMultiplier = damageMult;
+            _rageArmorMultiplier = armorMult;
+            _rageSpeedMultiplier = speedMult;
+            _attackPower *= _rageDamageMultiplier;
+            _armor *= _rageArmorMultiplier;
+            _moveSpeed *= _rageSpeedMultiplier;
             _movementHandler.SetSpeed(_moveSpeed);
             RageModeActivated?.Invoke();
         }
 
         private void OnRageModeEnded()
         {
+            if (!_isRageModeActive) return;
+
             _isRageModeActive = false;
-            _attackPower = _baseAttackPower;
-            _armor = _baseArmor;
-            _moveSpeed = _baseMoveSpeed;
+            _attackPower /= _rageDamageMultiplier;
+            _armor /= _rageArmorMultiplier;
+            _moveSpeed /= _rageSpeedMultiplier;
+            _rageDamageMultiplier = 1f;
+            _rageArmorMultiplier = 1f;
+            _rageSpeedMultiplier = 1f;
             _movementHandler.SetSpeed(_moveSpeed);
             RageModeDeactivated?.Invoke();
         }

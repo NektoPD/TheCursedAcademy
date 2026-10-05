@@ -8,9 +8,12 @@ namespace CharacterLogic
         private CharacterCollisionHandler _characterCollisionHandler;
         private bool _disposed;
         private float _multiplier = 1f;
+        private float _perkMultiplier = 1f;
         private float _fractionalMoney;
 
         public int CollectedMoney { get; private set; }
+
+        public event Action<int> MoneyChanged;
 
         public void Initialize(CharacterCollisionHandler characterCollisionHandler)
         {
@@ -23,10 +26,11 @@ namespace CharacterLogic
             if (value <= 0)
                 return;
 
-            float rewardedMoney = value * _multiplier + _fractionalMoney;
+            float rewardedMoney = value * _perkMultiplier * _multiplier + _fractionalMoney;
             int wholeMoney = Mathf.FloorToInt(rewardedMoney);
             _fractionalMoney = rewardedMoney - wholeMoney;
             CollectedMoney += wholeMoney;
+            MoneyChanged?.Invoke(CollectedMoney);
         }
 
         public void SetMultiplier(float multiplier)
@@ -34,10 +38,16 @@ namespace CharacterLogic
             _multiplier = Mathf.Max(1f, multiplier);
         }
 
+        public void SetPerkMultiplier(float multiplier)
+        {
+            _perkMultiplier = Mathf.Max(1f, multiplier);
+        }
+
         public void ClearWallet()
         {
             CollectedMoney = 0;
             _fractionalMoney = 0f;
+            MoneyChanged?.Invoke(CollectedMoney);
         }
 
         public void Dispose()

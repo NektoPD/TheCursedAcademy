@@ -1,4 +1,5 @@
 using System.Linq;
+using CharacterLogic;
 using HealthSystem;
 using Items.BaseClass;
 using Items.Enums;
@@ -11,6 +12,7 @@ namespace Items.ItemVariations.Cross
     public class CrossItem : Item
     {
         [SerializeField] private CrossProjectile _projectilePrefab;
+        [SerializeField] private AudioClip _launchClip;
         [SerializeField] private float _projectileSpeed = 9f;
         [SerializeField] private float _maxTravelDistance = 4f;
         [SerializeField] private float _detectionRadius = 12f;
@@ -64,6 +66,8 @@ namespace Items.ItemVariations.Cross
             projectile.Initialize(RuntimeDamage, this);
             projectile.ClearHitEnemies();
             projectile.Launch(direction, _projectileSpeed, _maxTravelDistance, _transform);
+            CharacterSoundController?.PlayAbilitySound(_launchClip, SoundType.Cross);
+
             projectile.Finished += OnProjectileFinished;
         }
 

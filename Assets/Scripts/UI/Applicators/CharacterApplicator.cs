@@ -1,7 +1,9 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using CharacterLogic.Initializer;
 using Data;
+using DG.Tweening;
 using PlayerPerksController;
 using TMPro;
 using UI.Animation;
@@ -39,6 +41,18 @@ namespace UI.Applicators
 
         private PerkController _perkController;
         private Wallet _wallet;
+        private Tween _purchaseTween;
+        private Tween _characterSelectionTween;
+        private Vector3 _selectButtonImageScale;
+        private Vector3 _characterImageScale;
+
+        public event Action<CharacterVisualData> Selected;
+
+        private void Awake()
+        {
+            _selectButtonImageScale = _playerSelectButtonImage.transform.localScale;
+            _characterImageScale = _image.transform.localScale;
+        }
 
         [Inject]
         public void Construct(PerkController perkController, Wallet wallet)
@@ -58,6 +72,21 @@ namespace UI.Applicators
         {
             base.OnDisable();
             _playerSelectButton.onClick.RemoveListener(OnCharacterSelectButtonClick);
+            _purchaseTween?.Kill();
+            _characterSelectionTween?.Kill();
+            _playerSelectButtonImage.transform.localScale = _selectButtonImageScale;
+            _image.transform.localScale = _characterImageScale;
+        }
+
+        protected override void OnItemSelected(CharacterVisualData data)
+        {
+            Selected?.Invoke(data);
+            _characterSelectionTween?.Kill();
+            _image.transform.localScale = _characterImageScale;
+            _characterSelectionTween = _image.transform.DOScale(_characterImageScale * 1.15f, 0.18f)
+                .SetEase(Ease.OutQuad)
+                .SetLoops(2, LoopType.Yoyo)
+                .SetUpdate(true);
         }
 
         protected override void Applicate(CharacterVisualData data)
@@ -69,19 +98,29 @@ namespace UI.Applicators
 
             Dictionary<PerkType, float> m = _perkController.GetFinalPerkValues();
 
-            _attackPower.text = (data.Data.AttackPower * GetM(m, PerkType.Power)).ToString("0.##");
-            _armor.text = (data.Data.Armor * GetM(m, PerkType.Armor)).ToString("0.##");
-            _hp.text = (data.Data.Hp * GetM(m, PerkType.MaxHp)).ToString("0.##");
-            _hpRegen.text = (data.Data.HpRegenerationSpeed * GetM(m, PerkType.HpRegeneration)).ToString("0.##");
-            _attackCooldown.text =
-                (data.Data.AttackRegenerationSpeed * GetM(m, PerkType.AttackCooldown)).ToString("0.##");
-            _speed.text = (data.Data.MoveSpeed * GetM(m, PerkType.Speed)).ToString("0.##");
+            SetStat(_attackPower, data.Data.AttackPower * GetM(m, PerkType.Power),
+                "Сила атаки", "Attack power", "Saldırı gücü");
+            SetStat(_armor, data.Data.Armor * GetM(m, PerkType.Armor),
+                "Броня", "Armor", "Zırh");
+            SetStat(_hp, data.Data.Hp * GetM(m, PerkType.MaxHp),
+                "Здоровье", "Health", "Can");
+            SetStat(_hpRegen, data.Data.HpRegenerationSpeed * GetM(m, PerkType.HpRegeneration),
+                "Реген. HP/с", "HP regen/s", "Can yen./sn");
+            SetStat(_attackCooldown, data.Data.AttackRegenerationSpeed * GetM(m, PerkType.AttackCooldown),
+                "Интервал атак (с)", "Attack interval (s)", "Atak aralığı (sn)");
+            SetStat(_speed, data.Data.MoveSpeed * GetM(m, PerkType.Speed),
+                "Скорость бега", "Move speed", "Hareket hızı");
 
             _playerSelectButtonImage.sprite = IsCharacterAvailable() ? _playSprite : _buySprite;
         }
 
         private float GetM(Dictionary<PerkType, float> m, PerkType t)
             => m != null && m.TryGetValue(t, out var v) ? v : 1f;
+
+        private static void SetStat(TextMeshProUGUI text, float value, string ru, string en, string tr)
+        {
+            text.text = $"{value:0.##}\n{Translator.Translate(ru, en, tr)}";
+        }
 
         private void OnCharacterSelectButtonClick()
         {
@@ -108,6 +147,13 @@ namespace UI.Applicators
             if (!_characterPurchaseController.TryUnlockCharacter(CurrentItem.Data.Type)) return;
             _wallet.RemoveMoney(CurrentItem.Data.UnlockPrice);
             Applicate(CurrentItem);
+            _purchaseTween?.Kill();
+            _playerSelectButtonImage.transform.localScale = _selectButtonImageScale;
+            _purchaseTween = _playerSelectButtonImage.transform
+                .DOScale(_selectButtonImageScale * 1.18f, 0.18f)
+                .SetEase(Ease.OutBack)
+                .SetLoops(2, LoopType.Yoyo)
+                .SetUpdate(true);
         }
 
         private bool IsCharacterAvailable()

@@ -18,7 +18,7 @@ namespace Debuffs
         [SerializeField] private Button _acceptButton;
         [SerializeField] private TMP_Text _acceptButtonText;
         [SerializeField] private List<Image> _icons = new();
-        [SerializeField] private string _header = "Your Curses are:";
+        private string Header => Translator.Translate("Твои проклятия:", "Your Curses are:", "Lanetlerin:");
         [SerializeField] private float _charInterval = 0.04f;
         [SerializeField] private float _acceptButtonPulseScale = 1.08f;
         [SerializeField] private float _acceptButtonPulseDuration = 0.65f;
@@ -160,7 +160,7 @@ namespace Debuffs
             _revealAt.Clear();
 
             var builder = new StringBuilder();
-            builder.AppendLine(_header);
+            builder.AppendLine(Header);
 
             if (debuffs != null)
             {
@@ -186,8 +186,8 @@ namespace Debuffs
                 return;
 
             _acceptButtonText.text = Translator.Translate(
-                $"Нажми, чтобы усилить отрицательные эффекты на {negativeEffectIncreasePercent:0}%\nНаграда: +{coinBonusPercent:0}% монет",
-                $"Click to increase negative effects by {negativeEffectIncreasePercent:0}%\nReward: +{coinBonusPercent:0}% coins",
+                $"Усилить отрицательные эффекты на {negativeEffectIncreasePercent:0}%\nНаграда: +{coinBonusPercent:0}% монет",
+                $"Increase negative effects by {negativeEffectIncreasePercent:0}%\nReward: +{coinBonusPercent:0}% coins",
                 $"Olumsuz etkileri %{negativeEffectIncreasePercent:0} artırmak için tıkla\nÖdül: %{coinBonusPercent:0} daha fazla jeton");
         }
 

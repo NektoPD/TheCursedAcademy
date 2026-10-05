@@ -51,6 +51,9 @@ namespace Tutorial
                 _levelUpMain.Opened += PlayFortuneWheelDemo;
                 _levelUpMain.Closed += HideFortuneWheelDemo;
             }
+
+            if (_fortuneWheelDemo != null)
+                _fortuneWheelDemo.DemoClosed += OnFortuneWheelDemoClosed;
             
             _fortuneWheelDemo.PrepareWheel();
         }
@@ -71,6 +74,9 @@ namespace Tutorial
                 _levelUpMain.Opened -= PlayFortuneWheelDemo;
                 _levelUpMain.Closed -= HideFortuneWheelDemo;
             }
+
+            if (_fortuneWheelDemo != null)
+                _fortuneWheelDemo.DemoClosed -= OnFortuneWheelDemoClosed;
 
             if (_character != null)
                 _character.AbilityUsed -= OnAbilityUsed;
@@ -200,6 +206,14 @@ namespace Tutorial
             if (_fortuneWheelDemo != null)
                 _fortuneWheelDemo.StopDemo();
             
+            _taskController.ShowNextTask();
+        }
+
+        private void OnFortuneWheelDemoClosed()
+        {
+            if (_fortuneWheelDemo != null)
+                _fortuneWheelDemo.StopDemo();
+
             _taskController.ShowNextTask();
         }
     }

@@ -27,6 +27,7 @@ namespace Items.ItemVariations.LaRobba
         private float _defaultColliderRadius;
 
         public event Action<LaRobbaProjectile> Finished;
+        public event Action Hit;
 
         protected override void Awake()
         {
@@ -138,8 +139,8 @@ namespace Items.ItemVariations.LaRobba
                 !collision.TryGetComponent(out Character character) &&
                 HitEnemies.Add(damageable))
             {
-                damageable.TakeDamage(Damage, IsBerserkDamage);
-                Owner?.RaiseDamageDealt(Damage);
+                DealDamage(damageable);
+                Hit?.Invoke();
 
                 if (_phase == Phase.Falling)
                 {

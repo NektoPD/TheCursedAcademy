@@ -311,7 +311,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c788cb8fdf921f043b70dd82d7ed3901, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _menuIdSecene: 2
+  _menuIdSecene: 1
   _tutorialIdSecene: 2
   _type: 0
 --- !u!4 &168348300
@@ -483,9 +483,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d833d1343546fd4d9831136c618bee3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _menu: {fileID: 8300000, guid: 1e6add7d2f6db424c953fe16a3278a61, type: 3}
-  _level: {fileID: 8300000, guid: a3a4d32759bb8d04aaa5ed946c07592c, type: 3}
-  _tutorial: {fileID: 8300000, guid: eb2c7dabab9603a4caeb5a6d4e0bda11, type: 3}
+  _menu: {fileID: 8300000, guid: 537e3e34486084c4290b9a454dad42fa, type: 3}
+  _level: {fileID: 8300000, guid: 3b3c835f2569acd49b8cfb0a183a2756, type: 3}
+  _tutorial: {fileID: 8300000, guid: ef9c7f9994b828c4ea01e436fd92e695, type: 3}
   _idMenuScene: 1
   _idTutorialScene: 2
   _idGameScene: 3
@@ -501,7 +501,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 4849394176892090638, guid: 08b10bfb530ac9b41bc21ef5814da2f1, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.8
   m_Pitch: 1
   Loop: 1
   Mute: 0

@@ -50,7 +50,7 @@ namespace Items.ItemHolder
 
         private bool IsUnavailableItem(ItemVisualData data)
         {
-            return data == data.Variation is Enums.ItemVariations.CherryBombs or Enums.ItemVariations.Cross or Enums.ItemVariations.LaRobba;
+            return data.Variation is Enums.ItemVariations.CherryBombs or Enums.ItemVariations.Cross or Enums.ItemVariations.LaRobba;
         }
 
         private void CreateAllItems()

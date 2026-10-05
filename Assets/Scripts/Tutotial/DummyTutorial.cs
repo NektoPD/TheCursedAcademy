@@ -44,21 +44,22 @@ namespace Tutorial
             _animator = GetComponent<Animator>();
         }
 
-        public void TakeDamage(float damage, bool isFromBerserk = false)
+        public float TakeDamage(float damage, bool isFromBerserk = false)
         {
             _animator.SetTrigger(HitTrigger);
 
             if (_completed)
-                return;
+                return 0f;
 
             _hitCount++;
             HitRegistered?.Invoke(_hitCount, _hitsToComplete);
 
             if (_hitCount < _hitsToComplete)
-                return;
+                return damage;
 
             _completed = true;
             HitsCompleted?.Invoke();
+            return damage;
         }
 
         public void EjectRewards()

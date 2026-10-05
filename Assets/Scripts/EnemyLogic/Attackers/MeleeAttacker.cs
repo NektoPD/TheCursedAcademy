@@ -1,3 +1,4 @@
+using CharacterLogic;
 using Data.AttacksData;
 using HealthSystem;
 using UnityEngine;
@@ -10,11 +11,31 @@ namespace EnemyLogic.Attackers
         {
             if (data is MeleeAttackData meleeData)
             {
-                Collider2D[] hits = Physics2D.OverlapCircleAll(EnemyAttacker.transform.position, meleeData.AttackRange);
+                Vector2 attackCenter = EnemyAttacker.transform.position;
+                foreach (Collider2D collider in EnemyAttacker.GetComponentsInChildren<Collider2D>())
+                {
+                    if (collider.isTrigger)
+                        continue;
+
+                    attackCenter = collider.bounds.center;
+                    break;
+                }
+
+                Collider2D[] hits = Physics2D.OverlapCircleAll(attackCenter, meleeData.AttackRange);
 
                 foreach (var hit in hits)
-                    if (hit.TryGetComponent(out IDamageable damageable) && hit.TryGetComponent(out Enemy _) == false)
-                        damageable.TakeDamage(meleeData.Damage);
+                {
+                    if (hit.TryGetComponent<CharacterCollisionHandler>(out _))
+                        continue;
+
+                    if (hit.GetComponentInParent<Enemy>() != null)
+                        continue;
+
+                    IDamageable damageable = hit.GetComponent<IDamageable>();
+                    damageable ??= hit.GetComponentInParent<Character>();
+
+                    damageable?.TakeDamage(meleeData.Damage);
+                }
             }
         }
     }

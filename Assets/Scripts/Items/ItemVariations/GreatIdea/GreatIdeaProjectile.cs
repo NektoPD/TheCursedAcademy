@@ -35,7 +35,7 @@ namespace Items.ItemVariations
             if (collision.TryGetComponent(out IDamageable damageable) && HitEnemies.Add(damageable) &&
                 !collision.TryGetComponent(out Character character))
             {
-                damageable?.TakeDamage(Damage, IsBerserkDamage);
+                DealDamage(damageable);
 
                 if (_animator != null)
                 {

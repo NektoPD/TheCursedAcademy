@@ -14,6 +14,8 @@ namespace Items.ItemVariations.Cross
             Returning
         }
 
+        [SerializeField] private SpriteRenderer _shadow;
+
         private Vector2 _direction;
         private float _speed;
         private float _maxTravelDistance;
@@ -36,6 +38,7 @@ namespace Items.ItemVariations.Cross
 
             float angle = Mathf.Atan2(_direction.y, _direction.x) * Mathf.Rad2Deg;
             Transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+            UpdateShadow();
         }
 
         private void OnEnable()
@@ -55,6 +58,20 @@ namespace Items.ItemVariations.Cross
             }
 
             MoveReturning();
+        }
+
+        private void LateUpdate()
+        {
+            UpdateShadow();
+        }
+
+        private void UpdateShadow()
+        {
+            if (_shadow == null)
+                return;
+
+            _shadow.transform.position = Transform.position + Vector3.down * 0.35f;
+            _shadow.transform.rotation = Quaternion.identity;
         }
 
         private void MoveOutbound()
@@ -110,8 +127,7 @@ namespace Items.ItemVariations.Cross
                 !collision.TryGetComponent(out Character character) &&
                 HitEnemies.Add(damageable))
             {
-                damageable.TakeDamage(Damage, IsBerserkDamage);
-                Owner?.RaiseDamageDealt(Damage);
+                DealDamage(damageable);
             }
         }
     }

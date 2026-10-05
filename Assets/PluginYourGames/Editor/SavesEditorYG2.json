@@ -7,7 +7,7 @@
     false,
     false
   ],
-  "idSave": 687,
+  "idSave": 866,
   "money": 1,
   "newPlayerName": "Hello!",
   "openLevels": [
@@ -20,13 +20,18 @@
       "Power": 4,
       "Armor": 4,
       "MaxHp": 3,
-      "HpRegeneration": 0,
-      "AttackCooldown": 1,
-      "Speed": 0
+      "HpRegeneration": 1,
+      "AttackCooldown": 2,
+      "Speed": 1,
+      "Greed": 3,
+      "Growth": 4,
+      "Magnet": 4,
+      "Area": 2,
+      "Duration": 1
     }
   },
   "WalletWrapper": {
-    "Money": 6537
+    "Money": 397
   },
   "IsTutorialCompleted": true,
   "CharacterUnlockDatas": {

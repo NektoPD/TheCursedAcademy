@@ -33,12 +33,15 @@ namespace UI.Applicators
 
         protected abstract void Applicate(T data);
 
+        protected virtual void OnItemSelected(T data) { }
+
         public void SetDefaultItem(T item) => _defaultItem = item;
 
         private void OnClick(T data)
         {
             CurrentItem = data;
             Applicate(data);
+            OnItemSelected(data);
         }
     }
 }

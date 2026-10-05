@@ -108,6 +108,7 @@
         let ygGameInstance = null;
         let ysdk = null;
         let initYSDK = false;
+        let initSDKMessageSent = false;
         let initGame = false;
         let syncInit = false;
         let isVisibility = true;
@@ -220,6 +221,8 @@
                     progressBarFull.style.width = `${100 * adjustedProgress}%`;
                 }).then((unityInstance) => {
                     ygGameInstance = unityInstance;
+                    SendInitSDKComplete();
+
                     loadingCover.style.background = "";
                     loadingCover.style.display = "none";
                     FocusGame();
@@ -243,20 +246,39 @@
 
         function IsLocalHost() {
             try {
-                if (window.top !== window) {
+                if (window.top !== window)
                     return false;
-                }
 
                 const host = window.location.hostname;
-                if (host === "localhost" || host === "127.0.0.1" || host.endsWith(".local")) {
-                    LogStyledMessage("Local Host");
+                const isLocalAddress = window.location.protocol === "file:" ||
+                    host === "localhost" ||
+                    host === "127.0.0.1" ||
+                    host === "::1" ||
+                    host.endsWith(".local");
+
+                if (isLocalAddress && !IsYandexSDKAvailable()) {
+                    LogStyledMessage("Local Host Without Yandex SDK");
                     return true;
                 }
-            } 
+
+                return false;
+            }
             catch (error) {
                 console.error("Error checking the local host:", error);
                 return false;
             }
+        }
+
+        function IsYandexSDKAvailable() {
+            return typeof YaGames !== "undefined" && typeof YaGames.init === "function";
+        }
+
+        function SendInitSDKComplete() {
+            if (!initYSDK || ygGameInstance == null || initSDKMessageSent)
+                return;
+
+            ygGameInstance.SendMessage('YG2Instance', 'InitSDKComplete');
+            initSDKMessageSent = true;
         }
 
         function YG2Instance(method) {
@@ -309,8 +331,7 @@
                 // Additional init modules
 
                 initYSDK = true;
-                if (ygGameInstance != null)
-                    ygGameInstance.SendMessage('YG2Instance', 'InitSDKComplete');
+                SendInitSDKComplete();
 
                 LogStyledMessage('Init YandexSDK Success');
 

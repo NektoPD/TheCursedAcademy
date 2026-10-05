@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using CharacterLogic;
 using Items.BaseClass;
 using UnityEngine;
 using Items.Pools;
@@ -35,6 +36,8 @@ namespace Items.ItemVariations.MagicRuller
         {
             if (MovementHandler == null)
                 return;
+
+            CharacterSoundController.EnableSoundByType(SoundType.Ruler);
 
             float x = MovementHandler.IsMovingLeft() ? -1f : 1f;
             Vector2 baseDirection = new Vector2(x, 0);

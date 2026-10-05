@@ -131,9 +131,13 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 8860bf3f966fffd458fe7f3e6ac044e5, type: 2}
   _openDelay: 0.8
   _fullSpins: 5
-  _spinDuration: 3
+  _spinDuration: 0.4
   _spinEase: 9
   _holdDelayBeforeClose: 1.5
+  _openClip: {fileID: 8300000, guid: 5f6897f92037d404ab4b81d94d8ce8ca, type: 3}
+  _stopClip: {fileID: 8300000, guid: 6288f63c91de1ff498536c13c80c9229, type: 3}
+  _audioSource: {fileID: 0}
+  _spinClip: {fileID: 8300000, guid: eb120cd61c73a224f9af340ba5df6d2e, type: 3}
 --- !u!1 &904692675749574108
 GameObject:
   m_ObjectHideFlags: 0

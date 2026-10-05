@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+using Data;
+using UI.Applicators.ClickHandlers;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class UIButtonClickSound : MonoBehaviour
@@ -6,8 +8,25 @@ public class UIButtonClickSound : MonoBehaviour
     [SerializeField] private AudioSource _audioSource;
 
     private Button[] _buttons;
+    private PerkClickHandler[] _perkClickHandlers;
+    private CharacterClickHandler[] _characterClickHandlers;
 
     private void Awake()
+    {
+        FindTargets();
+    }
+
+    private void OnEnable()
+    {
+        Subscribe();
+    }
+
+    private void OnDisable()
+    {
+        Unsubscribe();
+    }
+
+    private void FindTargets()
     {
         if (_audioSource == null)
         {
@@ -16,12 +35,8 @@ public class UIButtonClickSound : MonoBehaviour
         }
 
         _buttons = FindObjectsOfType<Button>(true);
-        Subscribe();
-    }
-
-    private void OnDisable()
-    {
-        Unsubscribe();
+        _perkClickHandlers = FindObjectsOfType<PerkClickHandler>(true);
+        _characterClickHandlers = FindObjectsOfType<CharacterClickHandler>(true);
     }
 
     private void Subscribe()
@@ -37,6 +52,20 @@ public class UIButtonClickSound : MonoBehaviour
             button.onClick.RemoveListener(PlayClickSound);
             button.onClick.AddListener(PlayClickSound);
         }
+
+        if (_perkClickHandlers != null)
+            foreach (var handler in _perkClickHandlers)
+            {
+                handler.Clicked -= OnPerkClicked;
+                handler.Clicked += OnPerkClicked;
+            }
+
+        if (_characterClickHandlers != null)
+            foreach (var handler in _characterClickHandlers)
+            {
+                handler.Clicked -= OnCharacterClicked;
+                handler.Clicked += OnCharacterClicked;
+            }
     }
 
     private void Unsubscribe()
@@ -51,6 +80,24 @@ public class UIButtonClickSound : MonoBehaviour
 
             button.onClick.RemoveListener(PlayClickSound);
         }
+
+        if (_perkClickHandlers != null)
+            foreach (var handler in _perkClickHandlers)
+                handler.Clicked -= OnPerkClicked;
+
+        if (_characterClickHandlers != null)
+            foreach (var handler in _characterClickHandlers)
+                handler.Clicked -= OnCharacterClicked;
+    }
+
+    private void OnPerkClicked(PerkVisualData data)
+    {
+        PlayClickSound();
+    }
+
+    private void OnCharacterClicked(CharacterVisualData data)
+    {
+        PlayClickSound();
     }
 
     private void PlayClickSound()

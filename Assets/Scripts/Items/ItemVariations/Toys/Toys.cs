@@ -107,7 +107,7 @@ namespace Items.ItemVariations.Toys
                     projectile,
                     initialAngle,
                     _delayBeforeNextAttack,
-                    _rotationRadius * _radiusMultiplier));
+                    _rotationRadius * AreaMultiplier * _radiusMultiplier));
             }
         }
 

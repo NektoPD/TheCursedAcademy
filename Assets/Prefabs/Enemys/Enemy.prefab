@@ -417,7 +417,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.71, y: 0.64}
+    oldSize: {x: 1.775, y: 1.6}
     newSize: {x: 0.71, y: 0.64}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -584,6 +584,16 @@ MonoBehaviour:
   _useSquash: 1
   _squashAmount: 0.18
   _squashDuration: 0.16
+  _damageFont: {fileID: 11400000, guid: 6c14c2ba6ed92a14d8263c05a70b1641, type: 2}
+  _damageNumberColor: {r: 1, g: 1, b: 1, a: 1}
+  _damageNumberFontSize: 15
+  _damageNumberStartHeight: 0.55
+  _damageNumberArcHeight: 0.45
+  _damageNumberHorizontalSpread: 0.35
+  _damageNumberEndDrop: 0.15
+  _damageNumberDuration: 0.75
+  _damageNumberPopDuration: 0.1
+  _damageNumberSortingOrder: 10
 --- !u!114 &8074965241382905773
 MonoBehaviour:
   m_ObjectHideFlags: 0

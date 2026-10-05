@@ -9,7 +9,6 @@ namespace CharacterLogic.Abilities
         protected AbilityConfig Config;
         protected Transform OwnerTransform;
         protected SimpleSpriteAnimator ActivationEffect;
-        private CharacterSoundController _soundController;
 
         private float _currentCharge;
         private bool _isReady;
@@ -20,11 +19,10 @@ namespace CharacterLogic.Abilities
         public event Action AbilityReady;
         public event Action<float, float> ChargeChanged;
 
-        public virtual void Initialize(AbilityConfig config, Transform ownerTransform, CharacterSoundController soundController)
+        public virtual void Initialize(AbilityConfig config, Transform ownerTransform)
         {
             Config = config;
             OwnerTransform = ownerTransform;
-            _soundController = soundController;
             _currentCharge = 0f;
             _isReady = false;
             IsActive = false;
@@ -63,9 +61,6 @@ namespace CharacterLogic.Abilities
             _isReady = false;
             _currentCharge = 0f;
             ChargeChanged?.Invoke(_currentCharge, Config.KillsToCharge);
-
-            if (_soundController != null)
-                _soundController.EnableSoundByType(Config.ActivationSound);
 
             Execute();
         }
