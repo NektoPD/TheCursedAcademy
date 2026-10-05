@@ -1,4 +1,5 @@
 using System.Linq;
+using CharacterLogic;
 using HealthSystem;
 using Items.BaseClass;
 using Items.Enums;
@@ -7,7 +8,7 @@ using UnityEngine;
 
 namespace Items.ItemVariations.Cross
 {
-    [RequireComponent(typeof(ItemProjectilePool), typeof(AudioSource))]
+    [RequireComponent(typeof(ItemProjectilePool))]
     public class CrossItem : Item
     {
         [SerializeField] private CrossProjectile _projectilePrefab;
@@ -20,7 +21,6 @@ namespace Items.ItemVariations.Cross
         [SerializeField] private int _initialPoolSize = 6;
 
         private ItemProjectilePool _projectilePool;
-        private AudioSource _launchAudioSource;
         private Transform _transform;
         private float _currentDetectionRadius;
 
@@ -34,7 +34,6 @@ namespace Items.ItemVariations.Cross
         {
             _projectilePool = GetComponent<ItemProjectilePool>();
             _projectilePool.Initialize(_projectilePrefab, _initialPoolSize);
-            _launchAudioSource = GetComponent<AudioSource>();
             _transform = transform;
             _currentDetectionRadius = _detectionRadius;
         }
@@ -67,8 +66,7 @@ namespace Items.ItemVariations.Cross
             projectile.Initialize(RuntimeDamage, this);
             projectile.ClearHitEnemies();
             projectile.Launch(direction, _projectileSpeed, _maxTravelDistance, _transform);
-            if (_launchClip != null)
-                _launchAudioSource.PlayOneShot(_launchClip);
+            CharacterSoundController?.PlayAbilitySound(_launchClip, SoundType.Cross);
 
             projectile.Finished += OnProjectileFinished;
         }

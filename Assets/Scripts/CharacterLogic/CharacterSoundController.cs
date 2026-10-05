@@ -65,6 +65,7 @@ namespace CharacterLogic
         AbilityReady,
         LaRobbaHit,
         Mirror,
-        Ruler
+        Ruler,
+        Cross
     }
 }
