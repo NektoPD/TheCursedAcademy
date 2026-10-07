@@ -56,7 +56,7 @@ Rigidbody2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 1024
+    m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
@@ -570,6 +570,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _damageColor: {r: 1, g: 0.5, b: 0.5, a: 1}
   _flashHoldPart: 0.35
+  _poisonColor: {r: 0.2, g: 1, b: 0.2, a: 1}
   _impulseDuration: 0.12
   _knockbackDistance: 0.25
   _jumpHeight: 0.12
@@ -586,7 +587,6 @@ MonoBehaviour:
   _squashDuration: 0.16
   _damageFont: {fileID: 11400000, guid: 6c14c2ba6ed92a14d8263c05a70b1641, type: 2}
   _damageNumberColor: {r: 1, g: 1, b: 1, a: 1}
-  _damageNumberFontSize: 15
   _damageNumberStartHeight: 0.55
   _damageNumberArcHeight: 0.45
   _damageNumberHorizontalSpread: 0.35

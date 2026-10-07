@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6225786358518053357}
   - component: {fileID: 9208260638859512005}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: CatsItem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -62,3 +62,4 @@ MonoBehaviour:
   _maxDetectionRadius: 10
   _poolDefaultCapacity: 30
   _poolMaxSize: 60
+  _baseCatMovementSpeed: 3

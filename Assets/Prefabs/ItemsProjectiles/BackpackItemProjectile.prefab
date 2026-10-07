@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6421818752567359275}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: SpawnPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 5556191979742748160}
   - component: {fileID: 2084972543453576663}
   - component: {fileID: 6561051405164203202}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: BackpackItemProjectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}

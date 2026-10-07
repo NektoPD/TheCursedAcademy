@@ -3,6 +3,7 @@ using EnemyLogic.Attackers;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using Zenject;
 
@@ -66,7 +67,9 @@ namespace EnemyLogic
 
         private void TryAttack(Transform target)
         {
-            if (_blocked) return;
+            if (_blocked) 
+                return;
+
             _target = target;
 
             if (_currentAttack != null)
@@ -84,7 +87,9 @@ namespace EnemyLogic
 
         private void AttackToggle()
         {
-            if (_blocked) return;
+            if (_blocked) 
+                return;
+
             _attackerManager.ExecuteAttack(_lastAttack, this);
         }
 

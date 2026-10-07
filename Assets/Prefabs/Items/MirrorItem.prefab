@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1737164662912088835}
   - component: {fileID: 4116023999278531465}
   - component: {fileID: -6103936023128041688}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: MirrorItem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -68,3 +68,4 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   _enableTargeting: 1
+  _baseDetectionRadius: 10

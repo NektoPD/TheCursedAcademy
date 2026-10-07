@@ -422,12 +422,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _cooldown: 1
-  _maxEnemy: 100
+  _maxEnemy: 1
   _dataList:
   - _playTimeInSeconds: 5
     _enemyIds: e9030000
-  - _playTimeInSeconds: 10
-    _enemyIds: ea030000
 --- !u!4 &365949379
 Transform:
   m_ObjectHideFlags: 0

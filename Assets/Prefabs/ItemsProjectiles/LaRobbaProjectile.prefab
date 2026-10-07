@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8200000000000000004}
   - component: {fileID: 8200000000000000005}
   - component: {fileID: 3897126594865106777}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: LaRobbaProjectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -107,7 +107,6 @@ MonoBehaviour:
   - {fileID: -272399317, guid: 87e20b1cd83bd6043983bb1796a77e5d, type: 3}
   _gravity: 3
   _bounceForce: 2
-  _colliderEnableDelay: 1
 --- !u!58 &8200000000000000005
 CircleCollider2D:
   m_ObjectHideFlags: 0

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8300000000000000003}
   - component: {fileID: 8300000000000000005}
   - component: {fileID: 33356874385277218}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: CrossProjectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -132,8 +132,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4a5b24942d9e1e4cb0b14bc531cf5a2, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
+  m_Name: 
+  m_EditorClassIdentifier: 
   _shadow: {fileID: 8300000000000000008}
 --- !u!1 &8300000000000000006
 GameObject:
@@ -145,7 +145,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8300000000000000007}
   - component: {fileID: 8300000000000000008}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Shadow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -158,6 +158,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8300000000000000006}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -0.395, z: 0}

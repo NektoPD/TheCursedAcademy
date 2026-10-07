@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5113746917866798130}
   - component: {fileID: 6764668458291255966}
   - component: {fileID: 4926017351302155643}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: BookItem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -68,3 +68,6 @@ MonoBehaviour:
   _initialPoolSize: 20
   _damageMultiplier: 1
   _projectileSpawnInterval: 0.1
+  _baseProjectileSpeed: 5
+  _baseProjectileLifetime: 5
+  _baseProjectileCount: 2

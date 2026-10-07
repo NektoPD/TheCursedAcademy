@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2817790392206307502}
   - component: {fileID: 8020736970391017714}
   - component: {fileID: 1061429294413127759}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: RulerProjectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -248,6 +248,10 @@ PrefabInstance:
     - target: {fileID: 7097592164904198365, guid: ee3b19b42c6695e4dba717ea2869eb1e, type: 3}
       propertyPath: m_Name
       value: Shadow (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7097592164904198365, guid: ee3b19b42c6695e4dba717ea2869eb1e, type: 3}
+      propertyPath: m_Layer
+      value: 13
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

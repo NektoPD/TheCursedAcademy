@@ -7,7 +7,7 @@
     false,
     false
   ],
-  "idSave": 904,
+  "idSave": 956,
   "money": 1,
   "newPlayerName": "Hello!",
   "openLevels": [
@@ -27,11 +27,11 @@
       "Growth": 4,
       "Magnet": 4,
       "Area": 2,
-      "Duration": 1
+      "Duration": 2
     }
   },
   "WalletWrapper": {
-    "Money": 142
+    "Money": 134
   },
   "IsTutorialCompleted": true,
   "CharacterUnlockDatas": {
