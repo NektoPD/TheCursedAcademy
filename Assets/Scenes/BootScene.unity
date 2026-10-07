@@ -701,26 +701,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _dataList:
-  - _enemyIds: 010000000200000003000000
+  - _enemyIds: 030000000400000001000000
     _count: 10
-    _playTimeInSeconds: 30
-    _cooldown: 30
+    _playTimeInSeconds: 120
+    _cooldown: 60
   - _enemyIds: 03000000040000000500000006000000070000000800000009000000
     _count: 15
-    _playTimeInSeconds: 60
-    _cooldown: 30
+    _playTimeInSeconds: 960
+    _cooldown: 60
   - _enemyIds: 0a0000000b0000000c0000000d000000
     _count: 15
-    _playTimeInSeconds: 180
-    _cooldown: 30
+    _playTimeInSeconds: 1680
+    _cooldown: 60
   - _enemyIds: 0100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d000000
     _count: 15
-    _playTimeInSeconds: 360
-    _cooldown: 15
+    _playTimeInSeconds: 1920
+    _cooldown: 30
   - _enemyIds: 65000000660000006700000068000000690000006a0000006b0000006c0000006e0000006f0000007000000071000000
     _count: 3
-    _playTimeInSeconds: 520
-    _cooldown: 30
+    _playTimeInSeconds: 2160
+    _cooldown: 60
 --- !u!1 &1798631337
 GameObject:
   m_ObjectHideFlags: 0

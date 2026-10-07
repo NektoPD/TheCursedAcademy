@@ -9060,6 +9060,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82a403aae920b4b42961aa9b5f3f795e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _levelUpWindow: {fileID: 1095507680}
   _fortuneWheelWindow: {fileID: 0}
   _rewardPopup: {fileID: 0}
   _inventoryFullWindow: {fileID: 0}
@@ -9072,6 +9073,8 @@ MonoBehaviour:
   _lowHealthMaxIntensity: 0.45
   _flashMaxAddIntensity: 0.35
   _flashDuration: 0.3
+  _damageColor: {r: 1, g: 0, b: 0, a: 1}
+  _healColor: {r: 0, g: 1, b: 0, a: 1}
   _flashCooldown: 0.25
   _damageColor: {r: 1, g: 0, b: 0, a: 1}
   _healColor: {r: 0, g: 1, b: 0, a: 1}
