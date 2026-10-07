@@ -37,8 +37,6 @@ namespace Tutorial
 
         private void OnEnable()
         {
-            _damageTacker.Died += Die;
-            
             if (_initializer != null)
                 _initializer.CharacterCreated += OnCharacterCreated;
 
@@ -62,8 +60,6 @@ namespace Tutorial
 
         private void OnDestroy()
         {
-            _damageTacker.Died -= Die;
-
             if (_initializer != null)
                 _initializer.CharacterCreated -= OnCharacterCreated;
 
