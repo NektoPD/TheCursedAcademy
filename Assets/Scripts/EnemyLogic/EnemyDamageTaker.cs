@@ -12,7 +12,7 @@ namespace EnemyLogic
     [RequireComponent(typeof(EnemyDamageView), typeof(EnemyEjector))]
     public class EnemyDamageTaker : MonoBehaviour, IDamageable
     {
-        private readonly int _duration = 1;
+        private readonly float _duration = 0.14f;
 
         private Health _health;
         private HealthBar _healthBar;
@@ -27,6 +27,7 @@ namespace EnemyLogic
         
         private bool _isDied = false;
         private bool _inImmune = false;
+        private bool _wasKilledByBerserk;
         private CharacterInitializer _initializer;
 
         public event Action Died;
@@ -64,6 +65,8 @@ namespace EnemyLogic
             _inImmune = false;
             _enemyAnimator.SetDeadBool(false);
             _enemy = enemy;
+            _wasKilledByBerserk = false;
+            _enemyAnimator.ResetDeathState();
 
             _health = new Health(maxHealth);
             _healthBar.SetHealth(_health);
@@ -72,15 +75,23 @@ namespace EnemyLogic
             _health.Died += Die;
         }
 
-        public void TakeDamage(float damage)
+        public float TakeDamage(float damage, bool isFromBerserk = false)
         {
             if (_isDied)
-                return;
+                return 0f;
 
-            _health.TakeDamage(damage);
+            _wasKilledByBerserk = isFromBerserk;
+            float appliedDamage = _health.TakeDamage(damage);
+            if (appliedDamage <= 0f)
+                return 0f;
 
-            if (_inImmune == false)
+            _damageView.ShowDamageNumber(appliedDamage);
+
+            if (!_isDied && _inImmune == false)
             {
+                if (_coroutine != null)
+                    StopCoroutine(_coroutine);
+
                 _coroutine = StartCoroutine(Countdown());
                 _enemyAnimator.SetHurtTigger();
             }
@@ -89,6 +100,8 @@ namespace EnemyLogic
                 _damageView.StartFlash(_duration, _initializer.PlayerTransform.position);
             else
                 _damageView.StartFlash(_duration);
+
+            return appliedDamage;
         }
 
         private void Die()
@@ -105,7 +118,10 @@ namespace EnemyLogic
                 _deathSound.Play();
 
             _ejector.Eject();
-            _enemyAnimator.SetDeadBool(true);
+            if (_wasKilledByBerserk)
+                _enemyAnimator.PlayPopDeathAnimation();
+            else
+                _enemyAnimator.SetDeadBool(true);
         }
 
         private IEnumerator Countdown()

@@ -1,19 +1,19 @@
 #if UNITY_EDITOR
 using UnityEngine;
-using YG.Localization;
+using UnityEngine.Serialization;
 
 namespace YG.Insides
 {
     public partial class PlatformInfo
     {
-        [HeaderYG(LocalProdLocalization.header)]
-        [Platform("YandexGames"), Tooltip(LocalProdLocalization.gameIdTooltip)]
+        [HeaderYG(LocalProdLangs.header)]
+        [Platform("YandexGames"), Tooltip(LocalProdLangs.gameIdTooltip)]
         public string localProdGameId;
 
-        [Platform("YandexGames"), Tooltip(LocalProdLocalization.portTooltip)]
+        [Platform("YandexGames"), Tooltip(LocalProdLangs.portTooltip)]
         public int localProdPort = 8080;
 
-        [Platform("YandexGames"), Tooltip(LocalProdLocalization.useCspTooltip)]
+        [Platform("YandexGames"), Tooltip(LocalProdLangs.useCspTooltip)]
         public bool localProdUseCsp = true;
 
     }

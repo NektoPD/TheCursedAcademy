@@ -19,10 +19,16 @@ namespace InventorySystem
 
         public int InventoryLimit { get; private set; }
 
+        public ItemVariations StartVariation { get; private set; }
+
         public CharacterInventory(int inventoryLimit)
         {
-            Debug.Log(inventoryLimit);
             InventoryLimit = inventoryLimit;
+        }
+
+        public void SetStartVariation(ItemVariations startVariation)
+        {
+            StartVariation = startVariation;
         }
 
         public event Action<Item> ItemAdded;
@@ -69,6 +75,12 @@ namespace InventorySystem
                 return;
             }
 
+            if (itemToRemove.VisualData.Variation == StartVariation)
+            {
+                Debug.LogWarning("Start weapon cannot be removed");
+                return;
+            }
+
             _collectedItems.Remove(itemToRemove);
 
             var variation = itemToRemove.Data.ItemVariation;
@@ -90,7 +102,7 @@ namespace InventorySystem
         {
             if (_collectedItems.Count <= 0)
             {
-                return null;
+                return new List<ItemStatistics>();
             }
 
             var currentTime = Time.timeSinceLevelLoad;

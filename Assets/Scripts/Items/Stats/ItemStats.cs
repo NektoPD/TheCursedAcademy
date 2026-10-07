@@ -9,6 +9,8 @@ namespace Items.Stats
     {
         private readonly List<Stat> _stats;
 
+        public string Item;
+
         public ItemStats(IReadOnlyList<Stat> templateStats)
         {
             if (templateStats == null) throw new ArgumentNullException(nameof(templateStats));
@@ -31,6 +33,6 @@ namespace Items.Stats
 
         private Stat GetStat(StatVariations variation) =>
             _stats.FirstOrDefault(s => s.Variation == variation)
-            ?? throw new ArgumentException($"Stat {variation} not found!");
+            ?? throw new ArgumentException($"Stat {variation} {Item} not found!");
     }
 }

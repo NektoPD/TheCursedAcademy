@@ -5,10 +5,11 @@ namespace CharacterLogic
 {
     public class CharacterLevelController : IDisposable
     {
-        private const int InitialExperienceRequirement = 5;
+        private const int InitialExperienceRequirement = 8;
         private const double ExpGrowthFactor = 1.5;
 
         private int _experienceIncreaseValue = 10;
+        private float _expMultiplier = 1f;
         private int _currentLevel = 1;
         private int _requiredExpForNextLevel = InitialExperienceRequirement;
         private CharacterCollisionHandler _characterCollisionHandler;
@@ -22,7 +23,7 @@ namespace CharacterLogic
 
         public void IncreaseExp(int value)
         {
-            CurrentExp += value;
+            CurrentExp += Mathf.Max(1, Mathf.RoundToInt(value * _expMultiplier));
 
             while (CurrentExp >= _requiredExpForNextLevel)
             {
@@ -36,7 +37,7 @@ namespace CharacterLogic
             _characterCollisionHandler.GotExpPoint += IncreaseExp;
         }
 
-        private void LevelUp()
+        public void LevelUp()
         {
             _currentLevel++;
 
@@ -56,6 +57,11 @@ namespace CharacterLogic
         public int GetExperienceIncreaseValue()
         {
             return _experienceIncreaseValue;
+        }
+
+        public void SetExpMultiplier(float multiplier)
+        {
+            _expMultiplier = Mathf.Max(1f, multiplier);
         }
 
         public void ResetCharacter()

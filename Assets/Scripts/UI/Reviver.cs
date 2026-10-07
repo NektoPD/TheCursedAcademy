@@ -19,6 +19,7 @@ namespace UI
         private CharacterInitializer _initializer;
 
         private bool _isShowing = false;
+        private bool _deathPauseHeld;
 
         private void OnEnable()
         {
@@ -30,6 +31,7 @@ namespace UI
         {
             _revive.onClick.RemoveListener(Ads);
             YandexGame.RewardVideoEvent -= Revive;
+            ReleaseDeathPause();
         }
 
         public void Inizialize(Character character, CharacterInitializer initializer)
@@ -46,6 +48,15 @@ namespace UI
 
             bool canRevive = _initializer != null && _initializer.WasRevivedThisSession == false;
             _revive.interactable = canRevive;
+        }
+
+        public void HoldDeathPause()
+        {
+            if (_deathPauseHeld)
+                return;
+
+            _deathPauseHeld = true;
+            GamePauseController.HoldPause();
         }
 
         private void Ads()
@@ -72,14 +83,23 @@ namespace UI
             }
 
             _window.Close();
-            _window.StartTime();
             _character.Revive();
+            ReleaseDeathPause();
 
             if (_initializer != null)
                 _initializer.MarkRevived();
 
             _isShowing = false;
             UpdateButtonState();
+        }
+
+        private void ReleaseDeathPause()
+        {
+            if (!_deathPauseHeld)
+                return;
+
+            _deathPauseHeld = false;
+            GamePauseController.ReleasePause();
         }
     }
 }

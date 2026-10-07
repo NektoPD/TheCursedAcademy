@@ -9,8 +9,6 @@ namespace Tutorial
     {
         [SerializeField] private int _menuIdScene;
         [SerializeField] private SceneChanger _changer;
-
-        
         
         private void OnTriggerEnter2D(Collider2D collision)
         {
@@ -19,6 +17,8 @@ namespace Tutorial
                 _changer.ChangeScene(_menuIdScene);
                 YandexGame.savesData.IsTutorialCompleted = true;
                 YandexGame.SaveProgress();
+                
+                Off();
             }
         }
 

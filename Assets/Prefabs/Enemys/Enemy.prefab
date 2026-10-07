@@ -349,15 +349,15 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 1753033348, guid: c1718c3459dde984bb625ee55557c27f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1.1, y: 1.28}
+  m_Size: {x: 0.71, y: 0.64}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!95 &3819176153829004169
@@ -370,7 +370,7 @@ Animator:
   m_GameObject: {fileID: 8312350747381259285}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 324c7224053cd624f9a4d533ec712424, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -417,8 +417,8 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.28, y: 1.28}
-    newSize: {x: 1.1, y: 1.28}
+    oldSize: {x: 1.775, y: 1.6}
+    newSize: {x: 0.71, y: 0.64}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
@@ -569,6 +569,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _damageColor: {r: 1, g: 0.5, b: 0.5, a: 1}
+  _flashHoldPart: 0.35
   _impulseDuration: 0.12
   _knockbackDistance: 0.25
   _jumpHeight: 0.12
@@ -580,6 +581,19 @@ MonoBehaviour:
   _veryCloseDistance: 0.25
   _impulseCooldownNormal: 0.35
   _impulseCooldownBoss: 0.7
+  _useSquash: 1
+  _squashAmount: 0.18
+  _squashDuration: 0.16
+  _damageFont: {fileID: 11400000, guid: 6c14c2ba6ed92a14d8263c05a70b1641, type: 2}
+  _damageNumberColor: {r: 1, g: 1, b: 1, a: 1}
+  _damageNumberFontSize: 15
+  _damageNumberStartHeight: 0.55
+  _damageNumberArcHeight: 0.45
+  _damageNumberHorizontalSpread: 0.35
+  _damageNumberEndDrop: 0.15
+  _damageNumberDuration: 0.75
+  _damageNumberPopDuration: 0.1
+  _damageNumberSortingOrder: 10
 --- !u!114 &8074965241382905773
 MonoBehaviour:
   m_ObjectHideFlags: 0

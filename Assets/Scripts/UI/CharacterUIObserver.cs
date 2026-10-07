@@ -1,15 +1,20 @@
+using System.Linq;
 using DG.Tweening;
 using CharacterLogic;
 using CharacterLogic.Initializer;
+using Items.BaseClass;
 using StatistiscSystem;
+using UI.FortuneWheel;
 using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
+using Utils;
 
 namespace UI
 {
     public class CharacterUIObserver : MonoBehaviour
     {
-        [SerializeField] private LevelUpWindow _levelUpWindow;
+        [SerializeField] private FortuneWheelWindow _fortuneWheelWindow;
+        [SerializeField] private WheelRewardPopup _rewardPopup;
         [SerializeField] private InventoryFullWindow _inventoryFullWindow;
         [SerializeField] private StatisticsApplicator _statisticApplicator;
         [SerializeField] private CharacterInitializer _initializer;
@@ -24,9 +29,11 @@ namespace UI
         private float _lowHealthMaxIntensity = 0.45f;
 
         [Header("Vignette: Flash")] [SerializeField, Range(0f, 1f)]
-        private float _flashMaxAddIntensity = 0.35f;
+        private float _flashMaxAddIntensity = 0.18f;
 
-        [SerializeField] private float _flashDuration = 0.30f;
+        [SerializeField] private float _flashDuration = 0.45f;
+
+        [SerializeField] private float _flashCooldown = 0.25f;
 
         [Header("Vignette Colors (HDR allowed)")] [ColorUsage(false, true)] [SerializeField]
         private Color _damageColor = Color.red;
@@ -34,15 +41,42 @@ namespace UI
         [ColorUsage(false, true)] [SerializeField]
         private Color _healColor = Color.green;
 
+        [Header("Vignette: Death and Revive")]
+        [SerializeField, Range(0f, 1f)] private float _deathIntensity = 0.65f;
+        [SerializeField, Range(0f, 1f)] private float _reviveIntensity = 0.4f;
+
+        [Header("Vignette: Ragemode")] [SerializeField, Range(0f, 1f)]
+        private float _rageModeIntensity = 0.5f;
+
+        [ColorUsage(false, true)] [SerializeField]
+        private Color _rageModeColor = new Color(1f, 0.3f, 0f);
+
         private Character _character;
         private Vignette _vignette;
 
         private float _baseIntensity;
+        private float _rageModeIntensityAdd;
 
         private float _flashIntensityAdd;
+        private float _transitionIntensityAdd;
+        private float _nextFlashTime;
+        private bool _lastFlashWasHeal;
 
+        private bool _isRageModeActive;
         private Tween _flashTween;
         private Tween _colorTween;
+        private Tween _rageFadeTween;
+        private Tween _transitionTween;
+
+        private enum PendingRewardKind { None, Item, Gold, Buff }
+
+        private PendingRewardKind _pendingKind;
+        private Data.ItemVisualData _pendingItem;
+        private int _pendingGold;
+        private FortuneWheel.WheelBuffData _pendingBuff;
+        private int _pendingLevelUps;
+        private bool _rewardPauseHeld;
+        private bool _swapPauseHeld;
 
         private void OnEnable()
         {
@@ -55,6 +89,30 @@ namespace UI
             _initializer.CharacterCreated -= Inizialize;
 
             KillTweens();
+            _flashIntensityAdd = 0f;
+            _transitionIntensityAdd = 0f;
+            _rageModeIntensityAdd = 0f;
+            _baseIntensity = 0f;
+            _isRageModeActive = false;
+            _nextFlashTime = 0f;
+            _lastFlashWasHeal = false;
+            if (_vignette != null)
+            {
+                _vignette.color.value = _damageColor;
+                UpdateVignette();
+            }
+
+            if (_rewardPauseHeld)
+            {
+                _rewardPauseHeld = false;
+                GameTimeScale.SetPauseActive(false);
+            }
+
+            if (_swapPauseHeld)
+            {
+                _swapPauseHeld = false;
+                GameTimeScale.SetPauseActive(false);
+            }
 
             if (_character == null)
                 return;
@@ -63,26 +121,47 @@ namespace UI
             _character.LevelUp -= LevelUp;
             _character.Damaged -= OnDamaged;
             _character.Healed -= OnHealed;
+            _character.DeathStarted -= OnDeathStarted;
+            _character.Revived -= OnRevived;
             _character.HealthChanged -= OnHealthChanged;
             _character.InventoryLimitReached -= InventoryLimitReached;
             _character.NewItemAdded -= OnNewItemAdded;
             _character.ItemSwapped -= OnItemSwapped;
             _character.MaxLevelReached -= OnItemMaxLevelReached;
+            _character.RageModeActivated -= OnRageModeActivated;
+            _character.RageModeDeactivated -= OnRageModeDeactivated;
+
+            if (_fortuneWheelWindow != null)
+            {
+                _fortuneWheelWindow.ItemRewarded -= OnWheelItemRewarded;
+                _fortuneWheelWindow.GoldRewarded -= OnWheelGoldRewarded;
+                _fortuneWheelWindow.BuffRewarded -= OnWheelBuffRewarded;
+            }
+
+            if (_rewardPopup != null)
+                _rewardPopup.Confirmed -= OnRewardPopupConfirmed;
+            if (_rewardPopup != null)
+                _rewardPopup.Closed -= OnRewardPopupClosed;
+            if (_inventoryFullWindow != null)
+                _inventoryFullWindow.Closed -= OnInventoryFullWindowClosed;
 
             _character = null;
         }
 
-        private void OnNewItemAdded() => _levelUpWindow.CloseWindow();
+        private void OnNewItemAdded()
+        {
+            _rewardPopup.CloseWindow();
+        }
 
         private void OnItemSwapped()
         {
-            _levelUpWindow.CloseWindow();
+            _rewardPopup.CloseWindow();
             _inventoryFullWindow.CloseWindow();
         }
 
         private void OnItemMaxLevelReached()
         {
-            _levelUpWindow.CloseUnscaledTime();
+            _rewardPopup.CloseUnscaledTime();
             _itemMaxLevelReachedWindow.OpenWindow();
         }
 
@@ -114,11 +193,15 @@ namespace UI
                 _character.LevelUp -= LevelUp;
                 _character.Damaged -= OnDamaged;
                 _character.Healed -= OnHealed;
+                _character.DeathStarted -= OnDeathStarted;
+                _character.Revived -= OnRevived;
                 _character.HealthChanged -= OnHealthChanged;
                 _character.InventoryLimitReached -= InventoryLimitReached;
                 _character.NewItemAdded -= OnNewItemAdded;
                 _character.ItemSwapped -= OnItemSwapped;
                 _character.MaxLevelReached -= OnItemMaxLevelReached;
+                _character.RageModeActivated -= OnRageModeActivated;
+                _character.RageModeDeactivated -= OnRageModeDeactivated;
             }
 
             _character = character;
@@ -126,35 +209,174 @@ namespace UI
             if (_reviver != null)
                 _reviver.Inizialize(character, _initializer);
 
-            if (_levelUpWindow != null)
-                _levelUpWindow.Initialize(character.Inventory);
+            if (_fortuneWheelWindow != null)
+            {
+                _fortuneWheelWindow.Initialize(character.Inventory);
+                _fortuneWheelWindow.ItemRewarded += OnWheelItemRewarded;
+                _fortuneWheelWindow.GoldRewarded += OnWheelGoldRewarded;
+                _fortuneWheelWindow.BuffRewarded += OnWheelBuffRewarded;
+            }
+
+            if (_rewardPopup != null)
+            {
+                _rewardPopup.Confirmed += OnRewardPopupConfirmed;
+                _rewardPopup.Closed += OnRewardPopupClosed;
+            }
 
             if (_inventoryFullWindow != null)
+            {
                 _inventoryFullWindow.Initialize(character.Inventory);
+                _inventoryFullWindow.Closed -= OnInventoryFullWindowClosed;
+                _inventoryFullWindow.Closed += OnInventoryFullWindowClosed;
+            }
 
             _character.MaxLevelReached += OnItemMaxLevelReached;
             _character.StatisticCollected += StatisticApplicate;
             _character.LevelUp += LevelUp;
             _character.Damaged += OnDamaged;
             _character.Healed += OnHealed;
+            _character.DeathStarted += OnDeathStarted;
+            _character.Revived += OnRevived;
             _character.HealthChanged += OnHealthChanged;
             _character.InventoryLimitReached += InventoryLimitReached;
             _character.NewItemAdded += OnNewItemAdded;
             _character.ItemSwapped += OnItemSwapped;
+            _character.RageModeActivated += OnRageModeActivated;
+            _character.RageModeDeactivated += OnRageModeDeactivated;
 
             if (_vignette == null)
                 CacheVignette();
         }
 
-        private void LevelUp() => _levelUpWindow.OpenWindow();
+        private void LevelUp()
+        {
+            if (_fortuneWheelWindow.gameObject.activeSelf || _pendingKind != PendingRewardKind.None)
+            {
+                _pendingLevelUps++;
+                return;
+            }
+
+            HoldRewardPause();
+            _fortuneWheelWindow.OpenWindow();
+        }
+
+        private void OpenPendingLevelUp()
+        {
+            if (_pendingLevelUps <= 0 || _pendingKind != PendingRewardKind.None)
+                return;
+
+            _pendingLevelUps--;
+            _fortuneWheelWindow.OpenWindow();
+        }
+
+        private void OnWheelItemRewarded(Data.ItemVisualData item)
+        {
+            if (item == null)
+            {
+                _fortuneWheelWindow.CloseWindow();
+                OpenPendingLevelUp();
+                return;
+            }
+
+            _pendingKind = PendingRewardKind.Item;
+            _pendingItem = item;
+            _fortuneWheelWindow.CloseUnscaledTime();
+            Item existingItem = _character.Inventory.Items.FirstOrDefault(
+                inventoryItem => inventoryItem.VisualData.Variation == item.Variation);
+            _rewardPopup.ShowItem(item, existingItem);
+        }
+
+        private void OnWheelGoldRewarded(int amount)
+        {
+            _pendingKind = PendingRewardKind.Gold;
+            _pendingGold = amount;
+            _fortuneWheelWindow.CloseUnscaledTime();
+            _rewardPopup.ShowGold(amount);
+        }
+
+        private void OnWheelBuffRewarded(FortuneWheel.WheelBuffData buff)
+        {
+            if (buff == null)
+            {
+                _fortuneWheelWindow.CloseWindow();
+                OpenPendingLevelUp();
+                return;
+            }
+
+            _pendingKind = PendingRewardKind.Buff;
+            _pendingBuff = buff;
+            _fortuneWheelWindow.CloseUnscaledTime();
+            _rewardPopup.ShowBuff(buff);
+        }
+
+        private void OnRewardPopupConfirmed()
+        {
+            switch (_pendingKind)
+            {
+                case PendingRewardKind.Item:
+                    _pendingKind = PendingRewardKind.None;
+                    _character.SelectWheelItem(_pendingItem.Variation);
+                    break;
+                case PendingRewardKind.Gold:
+                    _pendingKind = PendingRewardKind.None;
+                    _character.AddWheelGold(_pendingGold);
+                    _rewardPopup.CloseWindow();
+                    break;
+                case PendingRewardKind.Buff:
+                    _pendingKind = PendingRewardKind.None;
+                    _character.ApplyTemporaryBuff(_pendingBuff.Type, _pendingBuff.Multiplier, _pendingBuff.DurationSeconds);
+                    _rewardPopup.CloseWindow();
+                    break;
+            }
+        }
+
+        private void HoldRewardPause()
+        {
+            if (_rewardPauseHeld)
+                return;
+
+            _rewardPauseHeld = true;
+            GameTimeScale.SetPauseActive(true);
+        }
+
+        private void OnRewardPopupClosed()
+        {
+            if (!_rewardPauseHeld)
+                return;
+
+            _rewardPauseHeld = false;
+
+            if (_swapPauseHeld)
+                return;
+
+            GameTimeScale.SetPauseActive(false);
+            OpenPendingLevelUp();
+        }
+
+        private void OnInventoryFullWindowClosed()
+        {
+            if (!_swapPauseHeld)
+                return;
+
+            _swapPauseHeld = false;
+            GameTimeScale.SetPauseActive(false);
+            OpenPendingLevelUp();
+        }
 
         private void InventoryLimitReached()
         {
+            if (_rewardPopup != null)
+                _rewardPopup.CloseUnscaledTime();
+
+            _swapPauseHeld = true;
             _inventoryFullWindow.OpenUnscaledTime();
         }
 
         private void StatisticApplicate(Statistics statistics)
         {
+            if (_reviver != null)
+                _reviver.HoldDeathPause();
+
             if (_statisticApplicator != null)
                 _statisticApplicator.Applicate(statistics);
 
@@ -177,18 +399,73 @@ namespace UI
 
         private void OnDamaged(float current, float max)
         {
-            PlayFlash(_damageColor);
+            if (_character != null && _character.IsDied)
+                return;
+
+            PlayFlash(_damageColor, false);
         }
 
         private void OnHealed(float current, float max)
         {
-            PlayFlash(_healColor);
+            PlayFlash(_healColor, true);
         }
 
-        private void PlayFlash(Color flashColor)
+        private void OnDeathStarted()
         {
             if (_vignette == null)
                 return;
+
+            KillTweens();
+            _isRageModeActive = false;
+            _rageModeIntensityAdd = 0f;
+            _flashIntensityAdd = 0f;
+            _vignette.color.value = _damageColor;
+            _transitionTween = DOTween.To(
+                    () => _transitionIntensityAdd,
+                    value =>
+                    {
+                        _transitionIntensityAdd = value;
+                        UpdateVignette();
+                    },
+                    _deathIntensity, 0.3f)
+                .SetEase(Ease.OutSine).SetUpdate(true);
+        }
+
+        private void OnRevived()
+        {
+            if (_vignette == null)
+                return;
+
+            KillTweens();
+            _isRageModeActive = false;
+            _rageModeIntensityAdd = 0f;
+            _flashIntensityAdd = 0f;
+            _transitionIntensityAdd = _reviveIntensity;
+            _vignette.color.value = _healColor;
+            UpdateVignette();
+            _transitionTween = DOTween.To(
+                    () => _transitionIntensityAdd,
+                    value =>
+                    {
+                        _transitionIntensityAdd = value;
+                        UpdateVignette();
+                    },
+                    0f, 0.75f)
+                .SetEase(Ease.OutSine)
+                .OnComplete(ReturnToDamageColor)
+                .SetUpdate(true);
+        }
+
+        private void PlayFlash(Color flashColor, bool isHeal)
+        {
+            if (_vignette == null || _isRageModeActive)
+                return;
+
+            if (Time.unscaledTime < _nextFlashTime && (isHeal || !_lastFlashWasHeal))
+                return;
+
+            _nextFlashTime = Time.unscaledTime + _flashCooldown;
+            _lastFlashWasHeal = isHeal;
 
             _flashTween?.Kill();
             _colorTween?.Kill();
@@ -204,7 +481,7 @@ namespace UI
                         UpdateVignette();
                     },
                     _flashMaxAddIntensity,
-                    _flashDuration * 0.5f).SetEase(Ease.OutSine))
+                    _flashDuration * 0.35f).SetEase(Ease.OutSine))
                 .Append(DOTween.To(
                     () => _flashIntensityAdd,
                     x =>
@@ -213,8 +490,9 @@ namespace UI
                         UpdateVignette();
                     },
                     0f,
-                    _flashDuration * 0.5f).SetEase(Ease.InSine))
-                .OnComplete(ReturnToDamageColor);
+                    _flashDuration * 0.65f).SetEase(Ease.InOutSine))
+                .OnComplete(ReturnToDamageColor)
+                .SetUpdate(true);
         }
 
         private void ReturnToDamageColor()
@@ -227,7 +505,8 @@ namespace UI
                     c => _vignette.color.value = c,
                     _damageColor,
                     0.15f)
-                .SetEase(Ease.OutSine);
+                .SetEase(Ease.OutSine)
+                .SetUpdate(true);
         }
 
         private void UpdateVignette()
@@ -235,7 +514,7 @@ namespace UI
             if (_vignette == null)
                 return;
 
-            float total = Mathf.Clamp01(_baseIntensity + _flashIntensityAdd);
+            float total = Mathf.Clamp01(_baseIntensity + _flashIntensityAdd + _rageModeIntensityAdd + _transitionIntensityAdd);
 
             _vignette.intensity.value = total;
             _vignette.enabled.value = total > 0.001f;
@@ -248,6 +527,56 @@ namespace UI
 
             _colorTween?.Kill();
             _colorTween = null;
+
+            _rageFadeTween?.Kill();
+            _rageFadeTween = null;
+
+            _transitionTween?.Kill();
+            _transitionTween = null;
+        }
+
+        private void OnRageModeActivated()
+        {
+            if (_vignette == null) return;
+
+            _isRageModeActive = true;
+            _rageFadeTween?.Kill();
+            _flashTween?.Kill();
+            _colorTween?.Kill();
+            _flashIntensityAdd = 0f;
+            _vignette.color.value = _rageModeColor;
+            UpdateVignette();
+
+            _rageFadeTween = DOTween.To(
+                () => _rageModeIntensityAdd,
+                x =>
+                {
+                    _rageModeIntensityAdd = x;
+                    UpdateVignette();
+                },
+                _rageModeIntensity,
+                0.4f).SetEase(Ease.OutSine).SetUpdate(true);
+        }
+
+        private void OnRageModeDeactivated()
+        {
+            if (_vignette == null) return;
+
+            _isRageModeActive = false;
+            _rageFadeTween?.Kill();
+
+            _rageFadeTween = DOTween.To(
+                () => _rageModeIntensityAdd,
+                x =>
+                {
+                    _rageModeIntensityAdd = x;
+                    UpdateVignette();
+                },
+                0f,
+                0.4f)
+                .SetEase(Ease.InSine)
+                .OnComplete(() => _vignette.color.value = _damageColor)
+                .SetUpdate(true);
         }
     }
 }

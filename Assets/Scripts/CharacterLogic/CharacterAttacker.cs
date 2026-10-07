@@ -21,6 +21,11 @@ namespace CharacterLogic
             _attackRegenerationSpeed = attackRegenerationSpeed;
         }
 
+        public void SetAttackRegenerationSpeed(float attackRegenerationSpeed)
+        {
+            _attackRegenerationSpeed = attackRegenerationSpeed;
+        }
+
         private void OnEnable()
         {
             if (!_isAttacking && _inventory != null && !_isTutorial)
@@ -58,6 +63,8 @@ namespace CharacterLogic
             _isAttacking = true;
 
             WaitForSeconds interval = new WaitForSeconds(_attackRegenerationSpeed);
+
+            yield return null;
 
             while (enabled && _inventory != null)
             {

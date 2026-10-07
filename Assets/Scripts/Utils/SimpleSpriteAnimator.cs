@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -14,6 +14,9 @@ namespace Utils
         private SpriteRenderer _spriteRenderer;
 
         private Coroutine _spriteChangeCoroutine;
+
+        public event Action Finished;
+        public event Action HalfwayReached;
 
         private void Awake()
         {
@@ -66,10 +69,14 @@ namespace Utils
             
             for (var i = 0; i < _sprites.Length; i++)
             {
+                if (i == _sprites.Length / 2)
+                    HalfwayReached?.Invoke();
+
                 _spriteRenderer.sprite = _sprites[i];
                 yield return interval;
             }
             
+            Finished?.Invoke();
             gameObject.SetActive(false);
         }
     }

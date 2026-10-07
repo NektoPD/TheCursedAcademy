@@ -18,7 +18,7 @@ namespace Utils
 
         public void ChangeScene(int idScene)
         {
-            Time.timeScale = 1f;
+            GameTimeScale.Set(1f);
 
             _loadingSceneOperation = SceneManager.LoadSceneAsync(idScene);
             _loadingSceneOperation.allowSceneActivation = false;

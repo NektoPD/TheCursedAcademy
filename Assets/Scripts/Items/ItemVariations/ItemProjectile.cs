@@ -13,6 +13,7 @@ namespace Items.ItemVariations
         protected float Damage;
         protected Item Owner;
         protected readonly HashSet<IDamageable> HitEnemies = new HashSet<IDamageable>();
+        protected bool IsBerserkDamage => Owner != null && Owner.IsBerserkActive;
 
         public SpriteRenderer SpriteRenderer { get; private set; }
         public Transform Transform { get; private set; }
@@ -34,15 +35,26 @@ namespace Items.ItemVariations
             HitEnemies.Clear();
         }
 
+        protected float DealDamage(IDamageable damageable)
+        {
+            if (damageable == null)
+                return 0f;
+
+            float damage = Damage * (Owner?.DamageMultiplier ?? 1f);
+            float appliedDamage = damageable.TakeDamage(damage, IsBerserkDamage);
+
+            if (appliedDamage > 0f)
+                Owner?.RaiseDamageDealt(appliedDamage);
+
+            return appliedDamage;
+        }
+
         protected virtual void OnTriggerEnter2D(Collider2D collision)
         {
             if (collision.TryGetComponent(out IDamageable damageable) &&
                 !collision.TryGetComponent(out Character character))
             {
-                damageable?.TakeDamage(Damage);
-                
-                if (Owner != null)
-                    Owner.RaiseDamageDealt(Damage);
+                DealDamage(damageable);
             }
         }
     }

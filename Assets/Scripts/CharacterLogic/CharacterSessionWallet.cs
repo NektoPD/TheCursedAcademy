@@ -1,13 +1,19 @@
-﻿using System;
+using System;
+using UnityEngine;
 
 namespace CharacterLogic
 {
     public class CharacterSessionWallet : IDisposable
     {
         private CharacterCollisionHandler _characterCollisionHandler;
-        private bool _disposed = false;
+        private bool _disposed;
+        private float _multiplier = 1f;
+        private float _perkMultiplier = 1f;
+        private float _fractionalMoney;
 
         public int CollectedMoney { get; private set; }
+
+        public event Action<int> MoneyChanged;
 
         public void Initialize(CharacterCollisionHandler characterCollisionHandler)
         {
@@ -20,12 +26,28 @@ namespace CharacterLogic
             if (value <= 0)
                 return;
 
-            CollectedMoney += value;
+            float rewardedMoney = value * _perkMultiplier * _multiplier + _fractionalMoney;
+            int wholeMoney = Mathf.FloorToInt(rewardedMoney);
+            _fractionalMoney = rewardedMoney - wholeMoney;
+            CollectedMoney += wholeMoney;
+            MoneyChanged?.Invoke(CollectedMoney);
+        }
+
+        public void SetMultiplier(float multiplier)
+        {
+            _multiplier = Mathf.Max(1f, multiplier);
+        }
+
+        public void SetPerkMultiplier(float multiplier)
+        {
+            _perkMultiplier = Mathf.Max(1f, multiplier);
         }
 
         public void ClearWallet()
         {
             CollectedMoney = 0;
+            _fractionalMoney = 0f;
+            MoneyChanged?.Invoke(CollectedMoney);
         }
 
         public void Dispose()
@@ -35,16 +57,16 @@ namespace CharacterLogic
 
         protected virtual void Dispose(bool disposing)
         {
-            if (!_disposed)
-            {
-                if (disposing && _characterCollisionHandler != null)
-                {
-                    _characterCollisionHandler.GotMoney -= AddMoney;
-                    _characterCollisionHandler = null;
-                }
+            if (_disposed)
+                return;
 
-                _disposed = true;
+            if (disposing && _characterCollisionHandler != null)
+            {
+                _characterCollisionHandler.GotMoney -= AddMoney;
+                _characterCollisionHandler = null;
             }
+
+            _disposed = true;
         }
     }
 }

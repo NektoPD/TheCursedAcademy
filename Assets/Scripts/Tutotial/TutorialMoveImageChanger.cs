@@ -13,9 +13,17 @@ namespace Tutorial
         [SerializeField] private TMP_Text _joystickText;
         [SerializeField] private TMP_Text _keyboardText;
 
+        [SerializeField] private bool _forceMobileMode;
+
         private void Start()
         {
-            if (YandexGame.EnvironmentData.isDesktop)
+            bool  isDesktop = true;
+#if UNITY_EDITOR
+             isDesktop = !_forceMobileMode;
+#else
+isDesktop = YandexGame.EnvironmentData.isDesktop;
+#endif
+            if (isDesktop)
             {
                 _image.sprite = _wasd;
                 _joystickText.gameObject.SetActive(false);

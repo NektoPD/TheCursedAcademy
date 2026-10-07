@@ -24,10 +24,14 @@ namespace Tutorial
             if (_currentTasks.Count == 0)
                 return;
 
+            Debug.Log("show task");
+            
             _task.gameObject.SetActive(false);
 
             _task = _currentTasks.First();
             _currentTasks.Remove(_task);
+            
+            Debug.Log($"show task {_currentTask}");
 
             _task.gameObject.SetActive(true);
         }

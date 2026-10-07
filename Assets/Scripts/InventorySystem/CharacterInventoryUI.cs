@@ -15,20 +15,41 @@ namespace InventorySystem
 
         public void Initialize(CharacterInventory inventory)
         {
+            Unsubscribe();
+
             _inventory = inventory;
 
+            Subscribe();
+        }
+
+        private void OnEnable()
+        {
+            Subscribe();
+        }
+
+        private void OnDisable()
+        {
+            Unsubscribe();
+        }
+
+        private void Subscribe()
+        {
+            if (_inventory == null)
+                return;
+
+            _inventory.ItemAdded -= EnableItemSlot;
+            _inventory.ItemRemoved -= DisableItemSlot;
             _inventory.ItemAdded += EnableItemSlot;
             _inventory.ItemRemoved += DisableItemSlot;
         }
 
-
-        private void OnDisable()
+        private void Unsubscribe()
         {
-            if (_inventory != null)
-            {
-                _inventory.ItemAdded -= EnableItemSlot;
-                _inventory.ItemRemoved -= DisableItemSlot;
-            }
+            if (_inventory == null)
+                return;
+
+            _inventory.ItemAdded -= EnableItemSlot;
+            _inventory.ItemRemoved -= DisableItemSlot;
         }
 
         public void DisableAllSlots()
@@ -44,7 +65,7 @@ namespace InventorySystem
             InventoryUISlot slotToEnable = _uiSlots.FirstOrDefault(slot => !slot.IsActive);
 
             slotToEnable.Enable();
-            slotToEnable.SetItem(item.Data.ItemIcon, item.VisualData.Variation);
+            slotToEnable.SetItem(item);
         }
 
         private void DisableItemSlot(Item item)

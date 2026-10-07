@@ -321,7 +321,7 @@ namespace Items.ItemVariations.Cats
                 {
                     if (_targetEnemy.TryGetComponent(out IDamageable damageable))
                     {
-                        damageable.TakeDamage(Damage);
+                        DealDamage(damageable);
                     }
 
                     StartCoroutine(AttackCooldown());

@@ -2,13 +2,10 @@
 using System;
 using System.Diagnostics;
 using System.IO;
-using System.Net.Sockets;
 using System.Text;
-using System.Threading;
 using UnityEditor;
 using YG.EditorScr.BuildModify;
 using YG.Insides;
-using YG.Localization;
 using Debug = UnityEngine.Debug;
 
 namespace YG.EditorScr
@@ -20,14 +17,16 @@ namespace YG.EditorScr
         private const string PROCESS_ID_KEY = "YG2.LocalProd.ProcessId";
         private const string PROCESS_START_TIME_KEY = "YG2.LocalProd.ProcessStartTime";
         private const string AUTO_RUN_KEY = "YG2.LocalProd.AutoRunAfterBuild";
-        private const string SUPPRESS_BROWSER_SCRIPT = "Assets/PluginYourGames/Platforms/YandexGames/Scripts/LocalProd/Editor/SuppressProxyBrowser.cjs";
         private const string MENU_ROOT = "Tools/YG2/";
-        private const string RUN_MENU_PATH = MENU_ROOT + LocalProdLocalization.runLocalBuildInYandexGames;
-        private const string AUTO_RUN_MENU_PATH = MENU_ROOT + LocalProdLocalization.enableAutorunAfterBuild;
-        private static int launchVersion;
+        private const string RUN_MENU_PATH = MENU_ROOT + "Run Local Build in Yandex Games";
+        private const string AUTO_RUN_MENU_PATH = MENU_ROOT + "Auto Run After Build";
+        private const double OPEN_PAGE_DELAY = 2d;
+        private static string productionUrl;
+        private static double openPageTime;
 
         static LocalProd()
         {
+            ModifyBuild.onModifyComplete -= OnBuildComplete;
             ModifyBuild.onModifyComplete += OnBuildComplete;
         }
 
@@ -41,7 +40,7 @@ namespace YG.EditorScr
 
                 if (string.IsNullOrWhiteSpace(buildPath) || !Directory.Exists(buildPath))
                 {
-                    Debug.LogError($"{LocalProdLocalization.buildFolderNotFound}\n{buildPath}");
+                    Debug.LogError($"{LocalProdLangs.buildFolderNotFound}\n{buildPath}");
                     return;
                 }
 
@@ -50,134 +49,82 @@ namespace YG.EditorScr
 
                 if (!File.Exists(indexPath))
                 {
-                    Debug.LogError($"{LocalProdLocalization.indexNotFound}\n{indexPath}");
+                    Debug.LogError($"{LocalProdLangs.indexNotFound}\n{indexPath}");
                     return;
                 }
 
                 if (!long.TryParse(settings.localProdGameId, out long gameId) || gameId <= 0)
                 {
-                    Debug.LogError(LocalProdLocalization.invalidGameId);
+                    Debug.LogError(LocalProdLangs.invalidGameId);
                     return;
                 }
 
                 if (settings.localProdPort < 1 || settings.localProdPort > 65535)
                 {
-                    Debug.LogError(LocalProdLocalization.invalidPort);
+                    Debug.LogError(LocalProdLangs.invalidPort);
                     return;
                 }
 
                 if (!IsNpxAvailable())
                 {
-                    Debug.LogError(LocalProdLocalization.nodeNotFound);
+                    Debug.LogError(LocalProdLangs.nodeNotFound);
                     return;
                 }
 
+                WarnAboutCompressedBuild(buildPath);
                 StopPreviousServer();
 
                 string command = BuildCommand(buildPath, gameId, settings);
-                Debug.Log(string.Format(LocalProdLocalization.launchInfo,
+                Debug.Log(string.Format(LocalProdLangs.launchInfo,
                     gameId, buildPath, settings.localProdPort, settings.localProdUseCsp, command));
 
                 StartServer(command);
-                OpenProductionPageWhenReady(gameId, settings.localProdPort);
+                // With --app-id, sdk-dev-proxy opens the draft page itself.
+                if (!settings.localProdUseCsp)
+                    ScheduleProductionPage(gameId, settings.localProdPort);
             }
             catch (Exception exception)
             {
-                Debug.LogError($"{LocalProdLocalization.launchFailed}\n{exception}\n\n{LocalProdLocalization.nodeNotFound}");
+                Debug.LogError($"{LocalProdLangs.launchFailed}\n{exception}\n\n{LocalProdLangs.nodeNotFound}");
             }
         }
 
         [MenuItem(AUTO_RUN_MENU_PATH, false, 31)]
         private static void ToggleAutoRun()
         {
-            bool enabled = !IsAutoRunEnabled();
-            PluginPrefs.SetInt(AUTO_RUN_KEY, enabled ? 1 : 0);
+            bool enabled = !EditorPrefs.GetBool(AUTO_RUN_KEY, false);
+            EditorPrefs.SetBool(AUTO_RUN_KEY, enabled);
             Menu.SetChecked(AUTO_RUN_MENU_PATH, enabled);
         }
 
         [MenuItem(AUTO_RUN_MENU_PATH, true)]
         private static bool ValidateAutoRun()
         {
-            Menu.SetChecked(AUTO_RUN_MENU_PATH, IsAutoRunEnabled());
+            Menu.SetChecked(AUTO_RUN_MENU_PATH, EditorPrefs.GetBool(AUTO_RUN_KEY, false));
             return true;
-        }
-
-        private static bool IsAutoRunEnabled()
-        {
-            int value = PluginPrefs.GetInt(AUTO_RUN_KEY, -1);
-            if (value >= 0)
-                return value != 0;
-
-            if (!EditorPrefs.HasKey(AUTO_RUN_KEY))
-                return false;
-
-            bool enabled = EditorPrefs.GetBool(AUTO_RUN_KEY, false);
-            PluginPrefs.SetInt(AUTO_RUN_KEY, enabled ? 1 : 0);
-            EditorPrefs.DeleteKey(AUTO_RUN_KEY);
-            return enabled;
         }
 
         private static void OnBuildComplete()
         {
-            if (!UnityEngine.Application.isBatchMode && IsAutoRunEnabled())
+            if (!UnityEngine.Application.isBatchMode && EditorPrefs.GetBool(AUTO_RUN_KEY, false))
                 Run();
         }
 
         private static string BuildCommand(string buildPath, long gameId, PlatformInfo settings)
         {
-            string path = buildPath.Replace("\"", "\\\"");
-            string command = $"npx --yes {PACKAGE_NAME} -p \"{path}\" --port={settings.localProdPort} --app-id={gameId}";
+            StringBuilder command = new StringBuilder();
+            // --yes lets npx download the official package without an installation prompt.
+            command.Append($"npx --yes {PACKAGE_NAME} -p \"{buildPath.Replace("\"", "\\\"")}\"");
+            command.Append($" --port={settings.localProdPort}");
 
             if (settings.localProdUseCsp)
-                command += " --csp";
-
-            return command;
-        }
-
-        private static void OpenProductionPageWhenReady(long gameId, int port)
-        {
-            int version = Interlocked.Increment(ref launchVersion);
-            string localGameUrl = Uri.EscapeDataString($"https://localhost:{port}");
-            string url = $"https://yandex.ru/games/app/{gameId}?draft=true&game_url={localGameUrl}";
-
-            ThreadPool.QueueUserWorkItem(_ =>
             {
-                for (int attempt = 0; attempt < 120 && version == Interlocked.CompareExchange(ref launchVersion, 0, 0); attempt++)
-                {
-                    try
-                    {
-                        using (TcpClient client = new TcpClient())
-                        {
-                            client.Connect("127.0.0.1", port);
-                            if (version == Interlocked.CompareExchange(ref launchVersion, 0, 0))
-                                OpenUrl(url);
-                            return;
-                        }
-                    }
-                    catch (SocketException)
-                    {
-                        // The proxy has not started listening yet.
-                    }
-                    catch (Exception exception)
-                    {
-                        Debug.LogError($"{LocalProdLocalization.launchFailed}\n{exception}");
-                        return;
-                    }
+                // Version 0.0.2 needs the app ID to fetch this draft's CSP rules.
+                command.Append($" --app-id={gameId}");
+                command.Append(" --csp");
+            }
 
-                    Thread.Sleep(500);
-                }
-            });
-        }
-
-        private static void OpenUrl(string url)
-        {
-#if UNITY_EDITOR_WIN
-            Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
-#elif UNITY_EDITOR_OSX
-            Process.Start("open", url);
-#else
-            Process.Start("xdg-open", url);
-#endif
+            return command.ToString();
         }
 
         private static bool IsNpxAvailable()
@@ -206,19 +153,11 @@ namespace YG.EditorScr
 
         private static void StartServer(string command)
         {
-            string browserScript = Path.GetFullPath(SUPPRESS_BROWSER_SCRIPT).Replace('\\', '/');
-            string nodeOptions = Environment.GetEnvironmentVariable("NODE_OPTIONS") ?? string.Empty;
-
 #if UNITY_EDITOR_WIN
-            string batchPath = Path.GetFullPath("Library/PluginYG/LocalProd.cmd");
-            Directory.CreateDirectory(Path.GetDirectoryName(batchPath));
-            File.WriteAllText(batchPath,
-                $"@echo off\r\nset \"NODE_OPTIONS={nodeOptions} --require=\"{browserScript}\"\"\r\n{command}\r\n");
-
             ProcessStartInfo startInfo = new ProcessStartInfo
             {
                 FileName = "cmd.exe",
-                Arguments = $"/k \"{batchPath}\"",
+                Arguments = $"/k \"{command}\"",
                 UseShellExecute = true,
                 CreateNoWindow = false
             };
@@ -231,15 +170,11 @@ namespace YG.EditorScr
                 UseShellExecute = false,
                 CreateNoWindow = false
             };
-            // sdk-dev-proxy 0.0.2 opens its own browser tab when --app-id is set.
-            // Keep --app-id for the draft's CSP, but let Unity open the tested draft URL once.
-            startInfo.EnvironmentVariables["NODE_OPTIONS"] = $"{nodeOptions} --require \"{browserScript}\"".Trim();
 #endif
-
             Process process = Process.Start(startInfo);
 
             if (process == null)
-                throw new InvalidOperationException(LocalProdLocalization.processNotStarted);
+                throw new InvalidOperationException(LocalProdLangs.processNotStarted);
 
             SessionState.SetInt(PROCESS_ID_KEY, process.Id);
             SessionState.SetString(PROCESS_START_TIME_KEY, process.StartTime.ToUniversalTime().Ticks.ToString());
@@ -274,12 +209,12 @@ namespace YG.EditorScr
                     using (Process stopProcess = Process.Start(stopInfo))
                     {
                         if (stopProcess == null)
-                            throw new InvalidOperationException(LocalProdLocalization.processNotStopped);
+                            throw new InvalidOperationException(LocalProdLangs.processNotStopped);
 
                         stopProcess.WaitForExit();
 
                         if (stopProcess.ExitCode != 0 && !process.HasExited)
-                            throw new InvalidOperationException(LocalProdLocalization.processNotStopped);
+                            throw new InvalidOperationException(LocalProdLangs.processNotStopped);
                     }
 #else
                     process.Kill();
@@ -297,6 +232,39 @@ namespace YG.EditorScr
         {
             SessionState.EraseInt(PROCESS_ID_KEY);
             SessionState.EraseString(PROCESS_START_TIME_KEY);
+        }
+
+        private static void WarnAboutCompressedBuild(string buildPath)
+        {
+            string buildDirectory = Path.Combine(buildPath, "Build");
+
+            if (!Directory.Exists(buildDirectory))
+                return;
+
+            bool hasBrotliFiles = Directory.GetFiles(buildDirectory, "*.br").Length > 0;
+            bool hasGzipFiles = Directory.GetFiles(buildDirectory, "*.gz").Length > 0;
+
+            if ((hasBrotliFiles || hasGzipFiles) && !UnityEditor.PlayerSettings.WebGL.decompressionFallback)
+                Debug.LogWarning(LocalProdLangs.compressionWarning);
+        }
+
+        private static void ScheduleProductionPage(long gameId, int port)
+        {
+            string localGameUrl = Uri.EscapeDataString($"https://localhost:{port}");
+            productionUrl = $"https://yandex.ru/games/app/{gameId}?draft=true&game_url={localGameUrl}";
+            openPageTime = EditorApplication.timeSinceStartup + OPEN_PAGE_DELAY;
+
+            EditorApplication.update -= OpenProductionPage;
+            EditorApplication.update += OpenProductionPage;
+        }
+
+        private static void OpenProductionPage()
+        {
+            if (EditorApplication.timeSinceStartup < openPageTime)
+                return;
+
+            EditorApplication.update -= OpenProductionPage;
+            UnityEngine.Application.OpenURL(productionUrl);
         }
 
     }

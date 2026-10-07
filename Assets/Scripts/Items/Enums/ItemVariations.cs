@@ -15,6 +15,9 @@ namespace Items.Enums
         BellRing,
         Backpack,
         MultiSlingshot,
-        Cats
+        Cats,
+        CherryBombs,
+        LaRobba,
+        Cross
     }
 }

@@ -22,31 +22,52 @@ namespace Items.BaseClass
 
         private bool _canAttack = true;
         private IEnumerator _attackCoroutine;
+        private float _reloadStartedAt;
+        private float _reloadDuration;
 
         protected int Level = 1;
         protected float RuntimeCooldown;
         protected float RuntimeDamage;
+        private Func<bool> _isBerserkActive;
+        private Func<float> _damageMultiplier;
         
         protected StatModifiers Mods = new();
+        protected float AreaMultiplier = 1f;
+        protected float EffectDurationMultiplier = 1f;
         public IReadOnlyList<Stat> UiStats => ItemStats.Stats;
 
         [field: SerializeField] public ItemDataConfig Data { get; private set; }
         [field: SerializeField] public ItemVisualData VisualData { get; private set; }
 
         public int CurrentLevel => Level;
+
+        public bool IsBerserkActive => _isBerserkActive?.Invoke() == true;
+        public float DamageMultiplier => _damageMultiplier?.Invoke() ?? 1f;
+        public bool IsReloading => !_canAttack;
+        public float ReloadProgress => IsReloading && _reloadDuration > 0f
+            ? Mathf.Clamp01((Time.time - _reloadStartedAt) / _reloadDuration)
+            : 0f;
         public event Action<Enums.ItemVariations, float> DamageDealt;
         public event Action MaxLevelReached;
 
         public void Initialize(CharacterMovementHandler movementHandler,
-            CharacterSoundController characterSoundController)
+            CharacterSoundController characterSoundController, Func<bool> isBerserkActive,
+            Func<float> damageMultiplier, float areaMultiplier = 1f, float effectDurationMultiplier = 1f)
         {
             MovementHandler = movementHandler;
             ItemStats = new ItemStats(VisualData.Stats);
+            ItemStats.Item = VisualData.Name;
             StatVariations = VisualData.Stats.Select(stat => stat.Variation);
             CharacterSoundController = characterSoundController;
+            _isBerserkActive = isBerserkActive;
+            _damageMultiplier = damageMultiplier;
             RuntimeCooldown = Data.Cooldown;
             RuntimeDamage = Data.Damage;
-            
+            AreaMultiplier = Mathf.Max(1f, areaMultiplier);
+            EffectDurationMultiplier = Mathf.Max(1f, effectDurationMultiplier);
+            Mods.Multiply(Enums.StatVariations.Radius, AreaMultiplier);
+            Mods.Multiply(Enums.StatVariations.Duration, EffectDurationMultiplier);
+
             UpdateStatsValues();
         }
         
@@ -104,7 +125,9 @@ namespace Items.BaseClass
         private IEnumerator AttackCooldown()
         {
             _canAttack = false;
-            yield return new WaitForSeconds(RuntimeCooldown);
+            _reloadStartedAt = Time.time;
+            _reloadDuration = Mathf.Max(0f, RuntimeCooldown);
+            yield return new WaitForSeconds(_reloadDuration);
             _canAttack = true;
         }
     }
