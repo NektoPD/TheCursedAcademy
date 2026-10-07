@@ -120,6 +120,9 @@ namespace Items.ItemVariations.Cats
 
         private void OnDestroyEffectObject(ParticleSystem effect)
         {
+            if (effect == null)
+                return;
+
             Destroy(effect.gameObject);
         }
 

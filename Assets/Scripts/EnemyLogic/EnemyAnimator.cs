@@ -65,7 +65,7 @@ namespace EnemyLogic
                 return;
             }
 
-            _animator.Play(popStateHash);
+            _animator.SetTrigger(popStateHash);
             IsDeadAnimationStarted = true;
             DeadAnimationStarted?.Invoke();
         }
