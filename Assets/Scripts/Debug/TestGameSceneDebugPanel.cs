@@ -41,6 +41,9 @@ namespace Debugging
 
         private void Start()
         {
+            if (_characterInitializer != null && _characterInitializer.PlayerTransform != null)
+                SetCharacter(_characterInitializer.PlayerTransform.GetComponent<Character>());
+
             ItemsHolder itemsHolder = FindFirstObjectByType<ItemsHolder>();
 
             if (itemsHolder == null)
@@ -89,6 +92,7 @@ namespace Debugging
         {
             GameObject canvasObject = new GameObject("DebugItemsCanvas",
                 typeof(Canvas), typeof(CanvasScaler), typeof(GraphicRaycaster));
+            canvasObject.transform.SetParent(transform, false);
 
             Canvas canvas = canvasObject.GetComponent<Canvas>();
             canvas.renderMode = RenderMode.ScreenSpaceOverlay;
@@ -240,6 +244,7 @@ namespace Debugging
             label.fontStyle = FontStyles.Bold;
             label.color = new Color(1f, 0.85f, 0.3f);
             label.alignment = TextAlignmentOptions.Center;
+            label.text = title;
 
             button.onClick.AddListener(() => onPressed());
         }
@@ -320,7 +325,7 @@ namespace Debugging
                 if (ownedItem == null)
                 {
                     itemButton.Label.text = itemButton.Source.VisualData.Name;
-                    itemButton.Button.interactable = true;
+                    itemButton.Button.interactable = _character != null;
                 }
                 else if (ownedItem.IsMaxLevelReached())
                 {
