@@ -15,6 +15,6 @@ MonoBehaviour:
   <NameInAnimator>k__BackingField: Attack
   <Cooldown>k__BackingField: 5
   <AttackRange>k__BackingField: 2
-  <Damage>k__BackingField: 7
+  <Damage>k__BackingField: 20
   <CountProjectiles>k__BackingField: 1
   <ProjectileData>k__BackingField: {fileID: 11400000, guid: 3db51c95f96d5024680840f4e32d8656, type: 2}

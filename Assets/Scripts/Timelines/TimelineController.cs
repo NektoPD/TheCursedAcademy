@@ -14,6 +14,10 @@ namespace Timelines
                 cutscene.CutsceneObject.SetActive(false);
         }
 
+        public void OnCutsceneStart() => Time.timeScale = 0f;
+
+        public void OnCutsceneEnd() => Time.timeScale = 1f;
+
         public void StartCutscene(string name)
         {
             foreach(var cutscene in _cutscens)
