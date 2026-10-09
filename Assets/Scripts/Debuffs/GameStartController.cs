@@ -3,6 +3,7 @@ using CharacterLogic;
 using CharacterLogic.Initializer;
 using Difficulties;
 using UnityEngine;
+using Utils;
 
 namespace Debuffs
 {
@@ -20,12 +21,14 @@ namespace Debuffs
         private Character _character;
         private IReadOnlyList<DebuffRoll> _debuffs;
         private bool _choiceHandled;
+        private bool _pauseHeld;
 
         private void OnEnable()
         {
             _characterInitializer.CharacterCreated += OnCharacterCreated;
             _slotMachineWindow.Finished += OnSlotFinished;
             _curseRevealOverlay.Confirmed += OnCurseRevealConfirmed;
+            _curseRevealOverlay.Closed += OnCurseRevealClosed;
         }
 
         private void OnDisable()
@@ -33,12 +36,17 @@ namespace Debuffs
             _characterInitializer.CharacterCreated -= OnCharacterCreated;
             _slotMachineWindow.Finished -= OnSlotFinished;
             _curseRevealOverlay.Confirmed -= OnCurseRevealConfirmed;
+            _curseRevealOverlay.Closed -= OnCurseRevealClosed;
+            _slotMachineWindow.Closed -= OnSlotClosed;
+            ReleasePause();
         }
 
         private void OnCharacterCreated(Character character)
         {
             _character = character;
             _choiceHandled = false;
+            _pauseHeld = true;
+            GamePauseController.HoldPause(muteAudio: false);
             _character.DisableCharacter();
             _slotMachineWindow.OpenUnscaledTime();
         }
@@ -72,6 +80,14 @@ namespace Debuffs
 
             _character.ApplyDebuffs(_debuffs, negativeEffectMultiplier);
             _character.SetCoinMultiplier(coinMultiplier);
+        }
+
+        private void OnCurseRevealClosed()
+        {
+            if (!_choiceHandled || !_pauseHeld || _character == null)
+                return;
+
+            ReleasePause();
             _character.ActivateCharacter();
             _difficulty.StartSpawning();
 
@@ -80,6 +96,15 @@ namespace Debuffs
 
             if (_timeView != null)
                 _timeView.StartTimer();
+        }
+
+        private void ReleasePause()
+        {
+            if (!_pauseHeld)
+                return;
+
+            _pauseHeld = false;
+            GamePauseController.ReleasePause();
         }
     }
 }

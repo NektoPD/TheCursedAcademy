@@ -209,8 +209,8 @@ namespace Debuffs
             _choiceMade = true;
             SetButtonsInteractable(false);
             StopAcceptButtonPulse();
-            CloseUnscaledTime();
             Confirmed?.Invoke(accepted);
+            CloseUnscaledTime();
         }
 
         private void SetButtonsVisible(bool visible)
