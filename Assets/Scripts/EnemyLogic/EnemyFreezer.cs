@@ -14,6 +14,7 @@ namespace EnemyLogic
         private EnemyAttacker _attacker;
         private EnemyMover _mover;
         private Rigidbody2D _rb;
+        private RigidbodyConstraints2D _constraintsBeforeFreeze;
 
         private Coroutine _immuneCoroutine;
         private bool _inImmune;
@@ -41,9 +42,10 @@ namespace EnemyLogic
 
             if (_rb != null)
             {
+                _constraintsBeforeFreeze = _rb.constraints;
                 _rb.velocity = Vector2.zero;
                 _rb.angularVelocity = 0f;
-                _rb.simulated = false;
+                _rb.constraints = RigidbodyConstraints2D.FreezeAll;
             }
 
             _view.SetState(false);
@@ -66,7 +68,7 @@ namespace EnemyLogic
             _isFrozen = false;
 
             if (_rb != null)
-                _rb.simulated = true;
+                _rb.constraints = _constraintsBeforeFreeze;
 
             _animator.ResetSpeed();
             _view.SetState(true);

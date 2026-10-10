@@ -112,12 +112,18 @@ namespace EnemyLogic
 
         public void StartFlash(float duration)
         {
+            if (!isActiveAndEnabled)
+                return;
+
             RestartFlash(duration);
             ApplySquash();
         }
 
         public void StartFlash(float duration, Vector2 hitFromWorldPos)
         {
+            if (!isActiveAndEnabled)
+                return;
+
             RestartFlash(duration);
             ApplySquash();
             ApplyHitImpulse(hitFromWorldPos);
