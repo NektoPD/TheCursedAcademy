@@ -112,6 +112,9 @@ namespace Debuffs
             _selected.Clear();
             _selected.AddRange(PickDistinct(ColumnsCount));
 
+            foreach (SlotColumn column in _columns)
+                column.Initialize(_debuffLibrary);
+
             yield return new WaitForSecondsRealtime(_openDelay);
 
             float timingScale = 1f;
@@ -124,7 +127,6 @@ namespace Debuffs
 
             for (int i = 0; i < _columns.Count; i++)
             {
-                _columns[i].Initialize(_debuffLibrary);
                 _columns[i].StartSpin();
             }
 
