@@ -98,8 +98,6 @@ namespace Items.ItemVariations.Cross
             _direction = (returnTarget - (Vector2)Transform.position).normalized;
             float angle = Mathf.Atan2(_direction.y, _direction.x) * Mathf.Rad2Deg;
             Transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-
-            SpriteRenderer.flipX = true;
         }
 
         private void MoveReturning()
