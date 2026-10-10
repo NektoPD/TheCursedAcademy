@@ -3862,7 +3862,7 @@ MonoBehaviour:
   m_FillRect: {fileID: 1177368021}
   m_HandleRect: {fileID: 1570135417}
   m_Direction: 0
-  m_MinValue: 0.01
+  m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
   m_Value: 1
@@ -8038,7 +8038,7 @@ MonoBehaviour:
   _item: {fileID: 0}
   _cost: {fileID: 254179699}
   _buy: {fileID: 407568147}
-  _error: {fileID: 1927609713}
+  _error: {fileID: 1927609717}
   _upgradeSound: {fileID: 793007061}
 --- !u!82 &793007061
 AudioSource:
@@ -17516,7 +17516,7 @@ MonoBehaviour:
   m_FillRect: {fileID: 236577908}
   m_HandleRect: {fileID: 1105097789}
   m_Direction: 0
-  m_MinValue: 0.01
+  m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
   m_Value: 1
@@ -20683,7 +20683,7 @@ MonoBehaviour:
   m_FillRect: {fileID: 852255899}
   m_HandleRect: {fileID: 718887291}
   m_Direction: 0
-  m_MinValue: 0.01
+  m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
   m_Value: 1
