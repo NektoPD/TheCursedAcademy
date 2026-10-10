@@ -32988,6 +32988,8 @@ MonoBehaviour:
   - {fileID: 913768690}
   - {fileID: 895288185}
   _levelUpTitle: {fileID: 1514784190}
+  _pauseButton: {fileID: 527282768}
+  _rewardPopup: {fileID: 135126563}
   _levelUpTitleIntroDuration: 0.28
   _levelUpTitlePulseDuration: 0.65
   _levelUpTitlePulseScale: 1.08

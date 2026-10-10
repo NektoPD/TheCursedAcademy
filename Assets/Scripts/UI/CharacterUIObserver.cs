@@ -6,6 +6,7 @@ using Items.BaseClass;
 using StatistiscSystem;
 using UI.FortuneWheel;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.Rendering.PostProcessing;
 using Utils;
 
@@ -15,6 +16,7 @@ namespace UI
     {
         [SerializeField] private FortuneWheelWindow _fortuneWheelWindow;
         [SerializeField] private WheelRewardPopup _rewardPopup;
+        [SerializeField] private Button _pauseButton;
         [SerializeField] private InventoryFullWindow _inventoryFullWindow;
         [SerializeField] private StatisticsApplicator _statisticApplicator;
         [SerializeField] private CharacterInitializer _initializer;
@@ -82,6 +84,22 @@ namespace UI
         {
             _initializer.CharacterCreated += Inizialize;
             CacheVignette();
+        }
+
+        private void LateUpdate()
+        {
+            if (_pauseButton == null)
+                return;
+
+            _pauseButton.interactable = !IsWindowActive(_fortuneWheelWindow)
+                && !IsWindowActive(_rewardPopup)
+                && !IsWindowActive(_inventoryFullWindow)
+                && !IsWindowActive(_itemMaxLevelReachedWindow);
+        }
+
+        private static bool IsWindowActive(Window window)
+        {
+            return window != null && window.gameObject.activeInHierarchy;
         }
 
         private void OnDisable()
@@ -267,6 +285,8 @@ namespace UI
 
             _pendingLevelUps--;
             if (_pauseButton != null)
+                _pauseButton.interactable = false;
+
             _fortuneWheelWindow.OpenWindow();
         }
 
@@ -333,6 +353,9 @@ namespace UI
 
         private void HoldRewardPause()
         {
+            if (_pauseButton != null)
+                _pauseButton.interactable = false;
+
             if (_rewardPauseHeld)
                 return;
 

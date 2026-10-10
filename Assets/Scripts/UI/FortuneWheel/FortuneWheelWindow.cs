@@ -23,6 +23,10 @@ namespace UI.FortuneWheel
         [SerializeField] private RectTransform _pointer;
         [SerializeField] private List<WheelSlot> _slots = new();
 
+        [Header("Pause Button")]
+        [SerializeField] private Button _pauseButton;
+        [SerializeField] private WheelRewardPopup _rewardPopup;
+
         [Header("Level Up Effect")]
         [SerializeField] private RectTransform _levelUpTitle;
         [SerializeField, Min(0.01f)] private float _levelUpTitleIntroDuration = 0.28f;
@@ -65,6 +69,7 @@ namespace UI.FortuneWheel
         private Tween _levelUpTitlePulseTween;
         private Vector3 _levelUpTitleInitialScale;
         private bool _levelUpTitleScaleCached;
+        private bool _pauseButtonWasVisible;
 
         public event Action<ItemVisualData> ItemRewarded;
         public event Action<int> GoldRewarded;
@@ -82,6 +87,18 @@ namespace UI.FortuneWheel
 
         private void OnEnable()
         {
+            if (_rewardPopup != null)
+            {
+                _rewardPopup.Closed -= RestorePauseButton;
+                _rewardPopup.Closed += RestorePauseButton;
+            }
+
+            if (_pauseButton != null)
+            {
+                _pauseButtonWasVisible |= _pauseButton.gameObject.activeSelf;
+                _pauseButton.gameObject.SetActive(false);
+            }
+
             CacheLevelUpTitle();
 
             if (_stopButton != null)
@@ -154,6 +171,26 @@ namespace UI.FortuneWheel
 
             if (_tutorialCloseButton != null)
                 _tutorialCloseButton.onClick.RemoveListener(CloseDemo);
+
+            RestorePauseButton();
+        }
+
+        private void OnDestroy()
+        {
+            if (_rewardPopup != null)
+                _rewardPopup.Closed -= RestorePauseButton;
+        }
+
+        private void RestorePauseButton()
+        {
+            if (_pauseButton == null || !_pauseButtonWasVisible || gameObject.activeInHierarchy)
+                return;
+
+            if (_rewardPopup != null && _rewardPopup.gameObject.activeInHierarchy)
+                return;
+
+            _pauseButtonWasVisible = false;
+            _pauseButton.gameObject.SetActive(true);
         }
 
         private void CacheLevelUpTitle()
