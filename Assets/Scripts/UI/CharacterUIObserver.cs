@@ -1,9 +1,7 @@
-using System.Linq;
 using DG.Tweening;
 using CharacterLogic;
 using CharacterLogic.Initializer;
 using Debuffs;
-using Items.BaseClass;
 using StatistiscSystem;
 using UI.FortuneWheel;
 using UnityEngine;
@@ -13,7 +11,7 @@ using Utils;
 
 namespace UI
 {
-    public class CharacterUIObserver : MonoBehaviour
+    public partial class CharacterUIObserver : MonoBehaviour
     {
         [SerializeField] private FortuneWheelWindow _fortuneWheelWindow;
         [SerializeField] private WheelRewardPopup _rewardPopup;
@@ -72,16 +70,6 @@ namespace UI
         private Tween _rageFadeTween;
         private Tween _transitionTween;
 
-        private enum PendingRewardKind { None, Item, Gold, Buff }
-
-        private PendingRewardKind _pendingKind;
-        private Data.ItemVisualData _pendingItem;
-        private int _pendingGold;
-        private FortuneWheel.WheelBuffData _pendingBuff;
-        private int _pendingLevelUps;
-        private bool _rewardPauseHeld;
-        private bool _swapPauseHeld;
-
         private void OnEnable()
         {
             _initializer.CharacterCreated += Inizialize;
@@ -93,7 +81,8 @@ namespace UI
             if (_pauseButton == null)
                 return;
 
-            _pauseButton.interactable = !IsWindowActive(_fortuneWheelWindow)
+            _pauseButton.interactable = !_rewardPauseHeld && !_swapPauseHeld
+                && !IsWindowActive(_fortuneWheelWindow)
                 && !IsWindowActive(_rewardPopup)
                 && !IsWindowActive(_inventoryFullWindow)
                 && !IsWindowActive(_itemMaxLevelReachedWindow);
@@ -141,6 +130,12 @@ namespace UI
                 GameTimeScale.SetPauseActive(false);
             }
 
+            _wheelRewards.Clear();
+            _pendingLevelUps = 0;
+            _nextRewardIndex = 0;
+            _isGrantingRewards = false;
+            _waitingForItemWindow = false;
+
             if (_character == null)
                 return;
 
@@ -163,6 +158,8 @@ namespace UI
                 _fortuneWheelWindow.ItemRewarded -= OnWheelItemRewarded;
                 _fortuneWheelWindow.GoldRewarded -= OnWheelGoldRewarded;
                 _fortuneWheelWindow.BuffRewarded -= OnWheelBuffRewarded;
+                _fortuneWheelWindow.Finished -= OnWheelFinished;
+                _fortuneWheelWindow.Closed -= OnWheelClosed;
             }
 
             if (_rewardPopup != null)
@@ -171,19 +168,26 @@ namespace UI
                 _rewardPopup.Closed -= OnRewardPopupClosed;
             if (_inventoryFullWindow != null)
                 _inventoryFullWindow.Closed -= OnInventoryFullWindowClosed;
+            if (_itemMaxLevelReachedWindow != null)
+                _itemMaxLevelReachedWindow.Closed -= OnMaxLevelReachedWindowClosed;
 
             _character = null;
         }
 
         private void OnNewItemAdded()
         {
+            if (_isGrantingRewards)
+                return;
+
             _rewardPopup.CloseWindow();
         }
 
         private void OnItemSwapped()
         {
-            _rewardPopup.CloseWindow();
-            _inventoryFullWindow.CloseWindow();
+            if (!_isGrantingRewards)
+                _rewardPopup.CloseWindow();
+
+            _inventoryFullWindow.CloseUnscaledTime();
         }
 
         private void OnItemMaxLevelReached()
@@ -191,7 +195,11 @@ namespace UI
             if (_pauseButton != null)
                 _pauseButton.gameObject.SetActive(false);
 
-            _rewardPopup.CloseUnscaledTime();
+            if (_isGrantingRewards)
+                _waitingForItemWindow = true;
+            else
+                _rewardPopup.CloseUnscaledTime();
+
             _itemMaxLevelReachedWindow.OpenWindow();
         }
 
@@ -242,13 +250,22 @@ namespace UI
             if (_fortuneWheelWindow != null)
             {
                 _fortuneWheelWindow.Initialize(character.Inventory);
+                _fortuneWheelWindow.ItemRewarded -= OnWheelItemRewarded;
+                _fortuneWheelWindow.GoldRewarded -= OnWheelGoldRewarded;
+                _fortuneWheelWindow.BuffRewarded -= OnWheelBuffRewarded;
                 _fortuneWheelWindow.ItemRewarded += OnWheelItemRewarded;
                 _fortuneWheelWindow.GoldRewarded += OnWheelGoldRewarded;
                 _fortuneWheelWindow.BuffRewarded += OnWheelBuffRewarded;
+                _fortuneWheelWindow.Finished -= OnWheelFinished;
+                _fortuneWheelWindow.Finished += OnWheelFinished;
+                _fortuneWheelWindow.Closed -= OnWheelClosed;
+                _fortuneWheelWindow.Closed += OnWheelClosed;
             }
 
             if (_rewardPopup != null)
             {
+                _rewardPopup.Confirmed -= OnRewardPopupConfirmed;
+                _rewardPopup.Closed -= OnRewardPopupClosed;
                 _rewardPopup.Confirmed += OnRewardPopupConfirmed;
                 _rewardPopup.Closed += OnRewardPopupClosed;
             }
@@ -258,6 +275,12 @@ namespace UI
                 _inventoryFullWindow.Initialize(character.Inventory);
                 _inventoryFullWindow.Closed -= OnInventoryFullWindowClosed;
                 _inventoryFullWindow.Closed += OnInventoryFullWindowClosed;
+            }
+
+            if (_itemMaxLevelReachedWindow != null)
+            {
+                _itemMaxLevelReachedWindow.Closed -= OnMaxLevelReachedWindowClosed;
+                _itemMaxLevelReachedWindow.Closed += OnMaxLevelReachedWindowClosed;
             }
 
             _character.MaxLevelReached += OnItemMaxLevelReached;
@@ -276,139 +299,6 @@ namespace UI
 
             if (_vignette == null)
                 CacheVignette();
-        }
-
-        private void LevelUp()
-        {
-            if (_fortuneWheelWindow.gameObject.activeSelf || _pendingKind != PendingRewardKind.None)
-            {
-                _pendingLevelUps++;
-                return;
-            }
-
-            HoldRewardPause();
-            _fortuneWheelWindow.OpenWindow();
-        }
-
-        private void OpenPendingLevelUp()
-        {
-            if (_pendingLevelUps <= 0 || _pendingKind != PendingRewardKind.None)
-                return;
-
-            _pendingLevelUps--;
-            if (_pauseButton != null)
-                _pauseButton.interactable = false;
-
-            _fortuneWheelWindow.OpenWindow();
-        }
-
-        private void OnWheelItemRewarded(Data.ItemVisualData item)
-        {
-            if (item == null)
-            {
-                _fortuneWheelWindow.CloseWindow();
-                OpenPendingLevelUp();
-                return;
-            }
-
-            _pendingKind = PendingRewardKind.Item;
-            _pendingItem = item;
-            _fortuneWheelWindow.CloseUnscaledTime();
-            Item existingItem = _character.Inventory.Items.FirstOrDefault(
-                inventoryItem => inventoryItem.VisualData.Variation == item.Variation);
-            _rewardPopup.ShowItem(item, existingItem);
-        }
-
-        private void OnWheelGoldRewarded(int amount)
-        {
-            _pendingKind = PendingRewardKind.Gold;
-            _pendingGold = amount;
-            _fortuneWheelWindow.CloseUnscaledTime();
-            _rewardPopup.ShowGold(amount);
-        }
-
-        private void OnWheelBuffRewarded(FortuneWheel.WheelBuffData buff)
-        {
-            if (buff == null)
-            {
-                _fortuneWheelWindow.CloseWindow();
-                OpenPendingLevelUp();
-                return;
-            }
-
-            _pendingKind = PendingRewardKind.Buff;
-            _pendingBuff = buff;
-            _fortuneWheelWindow.CloseUnscaledTime();
-            _rewardPopup.ShowBuff(buff);
-        }
-
-        private void OnRewardPopupConfirmed()
-        {
-            switch (_pendingKind)
-            {
-                case PendingRewardKind.Item:
-                    _pendingKind = PendingRewardKind.None;
-                    _character.SelectWheelItem(_pendingItem.Variation);
-                    break;
-                case PendingRewardKind.Gold:
-                    _pendingKind = PendingRewardKind.None;
-                    _character.AddWheelGold(_pendingGold);
-                    _rewardPopup.CloseWindow();
-                    break;
-                case PendingRewardKind.Buff:
-                    _pendingKind = PendingRewardKind.None;
-                    _character.ApplyTemporaryBuff(_pendingBuff.Type, _pendingBuff.Multiplier, _pendingBuff.DurationSeconds);
-                    _rewardPopup.CloseWindow();
-                    break;
-            }
-        }
-
-        private void HoldRewardPause()
-        {
-            if (_pauseButton != null)
-                _pauseButton.interactable = false;
-
-            if (_rewardPauseHeld)
-                return;
-
-            _rewardPauseHeld = true;
-            GameTimeScale.SetPauseActive(true);
-        }
-
-        private void OnRewardPopupClosed()
-        {
-            if (!_rewardPauseHeld)
-                return;
-
-            _rewardPauseHeld = false;
-
-            if (_swapPauseHeld)
-                return;
-
-            GameTimeScale.SetPauseActive(false);
-            OpenPendingLevelUp();
-        }
-
-        private void OnInventoryFullWindowClosed()
-        {
-            if (!_swapPauseHeld)
-                return;
-
-            _swapPauseHeld = false;
-            GameTimeScale.SetPauseActive(false);
-            OpenPendingLevelUp();
-        }
-
-        private void InventoryLimitReached()
-        {
-            if (_pauseButton != null)
-                _pauseButton.gameObject.SetActive(false);
-
-            if (_rewardPopup != null)
-                _rewardPopup.CloseUnscaledTime();
-
-            _swapPauseHeld = true;
-            _inventoryFullWindow.OpenUnscaledTime();
         }
 
         private void StatisticApplicate(Statistics statistics)
