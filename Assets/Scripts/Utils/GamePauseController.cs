@@ -10,6 +10,8 @@ namespace Utils
         private static bool _isPauseHeld;
         private static bool _muteAudio;
 
+        private static bool IsPauseHeld => _isPauseHeld || GameTimeScale.IsPauseActive;
+
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         private static void Create()
         {
@@ -32,8 +34,9 @@ namespace Utils
         public static void ReleasePause()
         {
             _isPauseHeld = false;
-            Time.timeScale = 1f;
+
             YG2.PauseGame(false);
+            GameTimeScale.Set(1f);
         }
 
         private static void EnsureCreated()
@@ -45,7 +48,12 @@ namespace Utils
         private static void ApplyPause()
         {
             Time.timeScale = 0f;
-            YG2.PauseGame(true, editTimeScale: true, editAudioPause: _muteAudio, editCursor: true, editEventSystem: false);
+
+            if (!_isPauseHeld)
+                return;
+
+            YG2.PauseGame(true, editTimeScale: true, editAudioPause: _muteAudio,
+                editCursor: true, editEventSystem: false);
         }
 
         private void OnEnable()
@@ -62,16 +70,18 @@ namespace Utils
 
         private void Update()
         {
-            if (_isPauseHeld)
+            if (IsPauseHeld)
                 ApplyPause();
-            else if (YG2.isPauseGame)
+            else if (YG2.isPauseGame && YG2.isFocusWindowGame && !YG2.nowAdsShow)
                 YG2.PauseGame(false);
         }
 
         private void LateUpdate()
         {
-            if (!_isPauseHeld)
+            if (!IsPauseHeld)
                 return;
+
+            ApplyPause();
 
             foreach (EventSystem eventSystem in FindObjectsByType<EventSystem>(FindObjectsSortMode.None))
                 eventSystem.enabled = true;
@@ -79,14 +89,14 @@ namespace Utils
 
         private void OnFocusWindowGame(bool isFocused)
         {
-            if (_isPauseHeld && isFocused)
+            if (IsPauseHeld && isFocused)
                 ApplyPause();
         }
 
         private void OnPauseGame(bool isPaused)
         {
-            if (_isPauseHeld && isPaused == false)
-                ApplyPause();
+            if (IsPauseHeld && isPaused == false)
+                Time.timeScale = 0f;
         }
     }
 }
