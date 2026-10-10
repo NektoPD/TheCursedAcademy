@@ -266,6 +266,7 @@ namespace UI
                 return;
 
             _pendingLevelUps--;
+            if (_pauseButton != null)
             _fortuneWheelWindow.OpenWindow();
         }
 

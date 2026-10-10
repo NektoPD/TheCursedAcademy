@@ -205,7 +205,7 @@ MonoBehaviour:
   m_FillRect: {fileID: 1088758272}
   m_HandleRect: {fileID: 668732510}
   m_Direction: 0
-  m_MinValue: 0.01
+  m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
   m_Value: 1
@@ -5178,6 +5178,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _fortuneWheelWindow: {fileID: 1747386210}
   _rewardPopup: {fileID: 135126563}
+  _pauseButton: {fileID: 527282768}
   _inventoryFullWindow: {fileID: 326313262}
   _statisticApplicator: {fileID: 592951846}
   _initializer: {fileID: 475003801}
@@ -25282,7 +25283,7 @@ MonoBehaviour:
   m_FillRect: {fileID: 1478841062}
   m_HandleRect: {fileID: 193691169}
   m_Direction: 0
-  m_MinValue: 0.01
+  m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
   m_Value: 1
@@ -25981,7 +25982,7 @@ MonoBehaviour:
   m_FillRect: {fileID: 365953443}
   m_HandleRect: {fileID: 1706793348}
   m_Direction: 0
-  m_MinValue: 0.01
+  m_MinValue: 0
   m_MaxValue: 1
   m_WholeNumbers: 0
   m_Value: 1
@@ -31167,6 +31168,7 @@ MonoBehaviour:
   _timeView: {fileID: 1609013580}
   _slotMachineWindow: {fileID: 8679567519223357705}
   _curseRevealOverlay: {fileID: 1446347549}
+  _pauseButton: {fileID: 527282768}
   _negativeEffectIncreasePercent: 25
   _coinBonusPercent: 25
 --- !u!4 &1673244302

@@ -3,6 +3,7 @@ using CharacterLogic;
 using CharacterLogic.Initializer;
 using Difficulties;
 using UnityEngine;
+using UnityEngine.UI;
 using Utils;
 
 namespace Debuffs
@@ -15,6 +16,7 @@ namespace Debuffs
         [SerializeField] private UI.TimeView _timeView;
         [SerializeField] private SlotMachineWindow _slotMachineWindow;
         [SerializeField] private CurseRevealOverlay _curseRevealOverlay;
+        [SerializeField] private Button _pauseButton;
         [SerializeField, Min(0f)] private float _negativeEffectIncreasePercent = 25f;
         [SerializeField, Min(0f)] private float _coinBonusPercent = 25f;
 
@@ -22,6 +24,12 @@ namespace Debuffs
         private IReadOnlyList<DebuffRoll> _debuffs;
         private bool _choiceHandled;
         private bool _pauseHeld;
+
+        private void Awake()
+        {
+            if (_pauseButton != null)
+                _pauseButton.gameObject.SetActive(false);
+        }
 
         private void OnEnable()
         {
@@ -96,6 +104,9 @@ namespace Debuffs
 
             if (_timeView != null)
                 _timeView.StartTimer();
+
+            if (_pauseButton != null)
+                _pauseButton.gameObject.SetActive(true);
         }
 
         private void ReleasePause()
