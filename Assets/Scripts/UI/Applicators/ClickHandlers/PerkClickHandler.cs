@@ -19,13 +19,16 @@ namespace UI.Applicators.ClickHandlers
         private Tween _selectionTween;
         private Tween _cardTween;
         private Tween _levelTween;
+        private Tween _maxTween;
         private Image _lastBoughtLevel;
         private Vector3 _lastLevelScale;
         private Vector3 _cardScale;
+        private Vector3 _maxScale;
 
         private void Awake()
         {
             _cardScale = transform.localScale;
+            _maxScale = _maxImage.transform.localScale;
             _background = GetComponent<Image>();
             if (_background != null)
                 _backgroundColor = _background.color;
@@ -44,13 +47,16 @@ namespace UI.Applicators.ClickHandlers
                 level.sprite = _on;
             }
 
-            _maxImage.enabled = _currentLevels.Count == 0;
+            UpdateMaxIndicator();
         }
 
         private void OnEnable()
         {
             _applicator.Buyed += Up;
             _applicator.Selected += OnSelected;
+
+            if (_currentLevels != null)
+                UpdateMaxIndicator();
         }
 
         private void OnDisable()
@@ -60,6 +66,9 @@ namespace UI.Applicators.ClickHandlers
             _selectionTween?.Kill();
             _cardTween?.Kill();
             _levelTween?.Kill();
+            _maxTween?.Kill();
+            _maxTween = null;
+            _maxImage.transform.localScale = _maxScale;
             transform.localScale = _cardScale;
             if (_background != null)
                 _background.color = _backgroundColor;
@@ -106,6 +115,24 @@ namespace UI.Applicators.ClickHandlers
             _lastLevelScale = level.transform.localScale;
             _levelTween = level.transform.DOScale(_lastLevelScale * 1.35f, 0.2f)
                 .SetEase(Ease.OutBack).SetLoops(2, LoopType.Yoyo).SetUpdate(true);
+
+            UpdateMaxIndicator();
+        }
+
+        private void UpdateMaxIndicator()
+        {
+            _maxTween?.Kill();
+            _maxTween = null;
+            _maxImage.transform.localScale = _maxScale;
+            _maxImage.enabled = _currentLevels.Count == 0;
+
+            if (!_maxImage.enabled)
+                return;
+
+            _maxTween = _maxImage.transform.DOScale(_maxScale * 1.1f, 0.65f)
+                .SetEase(Ease.InOutSine)
+                .SetLoops(-1, LoopType.Yoyo)
+                .SetUpdate(true);
         }
     }
 }
