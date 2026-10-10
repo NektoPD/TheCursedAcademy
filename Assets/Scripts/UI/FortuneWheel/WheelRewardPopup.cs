@@ -7,6 +7,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Utils;
+using YG.LanguageLegacy;
 
 namespace UI.FortuneWheel
 {
@@ -19,6 +20,7 @@ namespace UI.FortuneWheel
         [SerializeField] private Sprite _goldIcon;
         [SerializeField] private AudioClip _showClip;
         [SerializeField] private AudioSource _audioSource;
+        [SerializeField] private GameObject _rewardCardPrefab;
 
         public event Action Confirmed;
 
@@ -28,6 +30,7 @@ namespace UI.FortuneWheel
         private TMP_Text _batchButtonLabel;
         private Vector2 _singleButtonSize;
         private Vector2 _singleButtonPosition;
+        private Quaternion _singleButtonRotation;
         private readonly List<KeyValuePair<GameObject, bool>> _singleButtonVisuals =
             new List<KeyValuePair<GameObject, bool>>();
 
@@ -114,19 +117,17 @@ namespace UI.FortuneWheel
 
             EnsureRewardsScroll();
             BeginShow(true);
-            Canvas.ForceUpdateCanvases();
-
-            float height = 0f;
 
             foreach (var reward in displayRewards)
             {
-                AddRewardRow(reward, ref height);
+                AddRewardCard(reward);
             }
 
-            _rewardsContent.sizeDelta = new Vector2(0f, height);
+            Canvas.ForceUpdateCanvases();
+            LayoutRebuilder.ForceRebuildLayoutImmediate(_rewardsContent);
             _rewardsScroll.StopMovement();
             _rewardsContent.anchoredPosition = Vector2.zero;
-            _rewardsScroll.verticalNormalizedPosition = 1f;
+            _rewardsScroll.horizontalNormalizedPosition = 0f;
         }
 
         private static bool IsDisplayable(WheelReward reward)
@@ -198,6 +199,7 @@ namespace UI.FortuneWheel
 
                 _singleButtonSize = buttonRect.sizeDelta;
                 _singleButtonPosition = buttonRect.anchoredPosition;
+                _singleButtonRotation = buttonRect.localRotation;
 
                 foreach (Transform child in buttonRect)
                 {
@@ -206,6 +208,9 @@ namespace UI.FortuneWheel
                 }
 
                 _batchButtonLabel = Instantiate(_title, buttonRect, false);
+                DisablePlaceholderTranslations(_batchButtonLabel.gameObject);
+                _batchButtonLabel.transform.localScale = Vector3.one;
+                _batchButtonLabel.transform.localRotation = Quaternion.identity;
                 _batchButtonLabel.raycastTarget = false;
                 _batchButtonLabel.alignment = TextAlignmentOptions.Center;
                 _batchButtonLabel.enableAutoSizing = true;
@@ -227,11 +232,11 @@ namespace UI.FortuneWheel
                 ? Translator.Translate("Получить всё", "Claim all", "Hepsini al")
                 : string.Empty;
 
-            float extraWidth = batch ? Mathf.Max(0f, 260f - _singleButtonSize.x) : 0f;
-            buttonRect.sizeDelta = _singleButtonSize + new Vector2(extraWidth, 0f);
-            // Keep the right edge fixed, leaving the list and the button in separate areas.
-            buttonRect.anchoredPosition = _singleButtonPosition -
-                new Vector2(extraWidth * (1f - buttonRect.pivot.x), 0f);
+            buttonRect.localRotation = batch ? Quaternion.identity : _singleButtonRotation;
+            buttonRect.sizeDelta = batch ? new Vector2(260f, _singleButtonSize.y) : _singleButtonSize;
+            buttonRect.anchoredPosition = batch
+                ? new Vector2(-20f - 260f * (1f - buttonRect.pivot.x), _singleButtonPosition.y)
+                : _singleButtonPosition;
         }
 
         private void EnsureRewardsScroll()
@@ -241,7 +246,7 @@ namespace UI.FortuneWheel
 
             // Use the existing description panel, not the popup root (only 100 x 100 in the scene).
             var viewport = CreateRect("RewardsScroll", _description.transform.parent);
-            viewport.anchorMin = new Vector2(0.04f, 0.04f);
+            viewport.anchorMin = new Vector2(0.04f, 0.28f);
             viewport.anchorMax = new Vector2(0.96f, 0.96f);
             viewport.offsetMin = Vector2.zero;
             viewport.offsetMax = Vector2.zero;
@@ -252,77 +257,59 @@ namespace UI.FortuneWheel
             viewport.gameObject.AddComponent<RectMask2D>();
 
             _rewardsContent = CreateRect("Content", viewport);
-            _rewardsContent.anchorMin = new Vector2(0f, 1f);
-            _rewardsContent.anchorMax = Vector2.one;
-            _rewardsContent.pivot = new Vector2(0.5f, 1f);
+            _rewardsContent.anchorMin = Vector2.zero;
+            _rewardsContent.anchorMax = new Vector2(0f, 1f);
+            _rewardsContent.pivot = new Vector2(0f, 1f);
             _rewardsContent.sizeDelta = Vector2.zero;
+
+            var layout = _rewardsContent.gameObject.AddComponent<HorizontalLayoutGroup>();
+            layout.spacing = 10f;
+            layout.childAlignment = TextAnchor.UpperLeft;
+            layout.childControlWidth = true;
+            layout.childControlHeight = true;
+            layout.childForceExpandWidth = false;
+            layout.childForceExpandHeight = true;
+
+            var fitter = _rewardsContent.gameObject.AddComponent<ContentSizeFitter>();
+            fitter.horizontalFit = ContentSizeFitter.FitMode.PreferredSize;
+            fitter.verticalFit = ContentSizeFitter.FitMode.Unconstrained;
 
             _rewardsScroll = viewport.gameObject.AddComponent<ScrollRect>();
             _rewardsScroll.viewport = viewport;
             _rewardsScroll.content = _rewardsContent;
-            _rewardsScroll.horizontal = false;
-            _rewardsScroll.vertical = true;
+            _rewardsScroll.horizontal = true;
+            _rewardsScroll.vertical = false;
             _rewardsScroll.scrollSensitivity = 120f;
             _rewardsScroll.movementType = ScrollRect.MovementType.Clamped;
             _rewardsScroll.inertia = false;
             viewport.gameObject.SetActive(false);
         }
 
-        private void AddRewardRow(WheelReward reward, ref float contentHeight)
+        private void AddRewardCard(WheelReward reward)
         {
-            const float padding = 12f;
-            const float iconSize = 72f;
-            const float textLeft = iconSize + padding * 2f;
-            const float spacing = 8f;
+            var card = Instantiate(_rewardCardPrefab, _rewardsContent, false);
+            card.name = "Reward";
 
-            var row = CreateRect("Reward", _rewardsContent);
-            row.anchorMin = new Vector2(0f, 1f);
-            row.anchorMax = Vector2.one;
-            row.pivot = new Vector2(0.5f, 1f);
-            row.anchoredPosition = new Vector2(0f, -contentHeight);
+            DisablePlaceholderTranslations(card);
 
-            if (_icon != null)
+            string title = reward.Type == WheelRewardType.Gold
+                ? Translator.Translate("Золото", "Gold", "Altın")
+                : reward.Label;
+            string description = reward.Type switch
             {
-                var icon = Instantiate(_icon, row, false);
-                icon.gameObject.SetActive(true);
-                icon.sprite = reward.Type == WheelRewardType.Gold ? _goldIcon : reward.Sprite;
-                icon.enabled = icon.sprite != null;
-                icon.preserveAspect = true;
-                icon.raycastTarget = false;
-                icon.rectTransform.anchorMin = new Vector2(0f, 0.5f);
-                icon.rectTransform.anchorMax = new Vector2(0f, 0.5f);
-                icon.rectTransform.pivot = new Vector2(0f, 0.5f);
-                icon.rectTransform.anchoredPosition = new Vector2(padding, 0f);
-                icon.rectTransform.sizeDelta = new Vector2(iconSize, iconSize);
-            }
-
-            var label = Instantiate(_title, row, false);
-            label.gameObject.SetActive(true);
-            label.raycastTarget = false;
-            label.enableAutoSizing = false;
-            label.fontSize = _title.fontSize;
-            label.alignment = TextAlignmentOptions.MidlineLeft;
-            label.enableWordWrapping = true;
-            label.overflowMode = TextOverflowModes.Overflow;
-            label.margin = Vector4.zero;
-            label.text = reward.Type switch
-            {
-                WheelRewardType.Gold => Translator.Translate("Золото", "Gold", "Altın") + "\n+" + reward.GoldAmount,
-                WheelRewardType.Buff => reward.Buff.Name + "\n" + GetBuffDescription(reward.Buff),
-                _ => reward.Item.Name
+                WheelRewardType.Gold => "+" + reward.GoldAmount,
+                WheelRewardType.Buff => GetBuffDescription(reward.Buff),
+                _ => reward.Item.Description
             };
+            Sprite sprite = reward.Type == WheelRewardType.Gold ? _goldIcon : reward.Sprite;
+            card.GetComponentInChildren<ItemView>().ShowReward(title, description, sprite);
+        }
 
-            var textRect = label.rectTransform;
-            textRect.anchorMin = Vector2.zero;
-            textRect.anchorMax = Vector2.one;
-            textRect.offsetMin = new Vector2(textLeft, padding);
-            textRect.offsetMax = new Vector2(-padding, -padding);
-
-            float width = Mathf.Max(1f, _rewardsScroll.viewport.rect.width - textLeft - padding);
-            float textHeight = label.GetPreferredValues(label.text, width, Mathf.Infinity).y;
-            float rowHeight = Mathf.Max(iconSize, textHeight) + padding * 2f;
-            row.sizeDelta = new Vector2(0f, rowHeight);
-            contentHeight += rowHeight + spacing;
+        private static void DisablePlaceholderTranslations(GameObject visual)
+        {
+            // Dynamic labels must not be replaced by the prefab's placeholder translations.
+            foreach (var translation in visual.GetComponentsInChildren<LanguageYG>(true))
+                translation.enabled = false;
         }
 
         private static RectTransform CreateRect(string name, Transform parent)

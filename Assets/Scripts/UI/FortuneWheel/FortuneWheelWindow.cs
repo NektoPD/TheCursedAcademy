@@ -135,7 +135,7 @@ namespace UI.FortuneWheel
 
         public void PlayNextSpin()
         {
-            Play(false);
+            Play(true);
         }
 
         private void Play(bool waitForManualStop)
@@ -143,7 +143,7 @@ namespace UI.FortuneWheel
             CancelSpin();
 
             if (_stopButton != null)
-                _stopButton.interactable = waitForManualStop;
+                _stopButton.interactable = false;
 
             PlayOpenSound();
             PlayLevelUpTitleEffect();
@@ -165,7 +165,7 @@ namespace UI.FortuneWheel
             CancelSpin();
             _isDemo = true;
             if (_stopButton != null)
-                _stopButton.interactable = true;
+                _stopButton.interactable = false;
 
             gameObject.SetActive(true);
             PlayOpenSound();
@@ -396,6 +396,9 @@ namespace UI.FortuneWheel
             float finalAngle = _fullSpins * 360f + randomOffset;
 
             _isSpinning = true;
+            if (_stopButton != null)
+                _stopButton.interactable = waitForManualStop;
+
             StartSpinSound();
             StartButtonPulse();
 

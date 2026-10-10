@@ -34,5 +34,23 @@ namespace UI
 
             _clickHandler.SetData(visualData);
         }
+
+        public void ShowReward(string title, string description, Sprite sprite)
+        {
+            _textName.text = title;
+            _textDescription.text = description;
+            _image.sprite = sprite;
+            _image.enabled = sprite != null;
+            _image.preserveAspect = true;
+
+            foreach (var text in GetComponentsInChildren<TextMeshProUGUI>(true))
+            {
+                if (text != _textName && text != _textDescription)
+                    text.gameObject.SetActive(false);
+            }
+
+            _new.gameObject.SetActive(false);
+            _clickHandler.enabled = false;
+        }
     }
 }

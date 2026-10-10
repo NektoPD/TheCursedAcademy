@@ -1,6 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
-using Items.BaseClass;
 using UI.FortuneWheel;
 using Utils;
 
@@ -69,30 +67,8 @@ namespace UI
 
             _fortuneWheelWindow.CloseUnscaledTime();
 
-            if (_wheelRewards.Count > 1)
-            {
+            if (_wheelRewards.Count > 0)
                 _rewardPopup.ShowRewards(_wheelRewards);
-                return;
-            }
-
-            if (_wheelRewards.Count == 0)
-                return;
-
-            WheelReward reward = _wheelRewards[0];
-            switch (reward.Type)
-            {
-                case WheelRewardType.Item:
-                    Item existingItem = _character.Inventory.Items.FirstOrDefault(
-                        item => item.VisualData.Variation == reward.Item.Variation);
-                    _rewardPopup.ShowItem(reward.Item, existingItem);
-                    break;
-                case WheelRewardType.Gold:
-                    _rewardPopup.ShowGold(reward.GoldAmount);
-                    break;
-                case WheelRewardType.Buff:
-                    _rewardPopup.ShowBuff(reward.Buff);
-                    break;
-            }
         }
 
         private void OnWheelClosed()
