@@ -26,17 +26,32 @@ namespace Debuffs
 
         private readonly List<DebuffRoll> _selected = new();
         private Coroutine _routine;
+        private bool _hasOpened;
+        private bool _isFinishing;
 
         public event Action<IReadOnlyList<DebuffRoll>> Finished;
 
+        private void OnEnable()
+        {
+            _hasOpened = false;
+            Opened += OnOpened;
+        }
+
+        private void OnOpened()
+        {
+            _hasOpened = true;
+        }
+
         public override void OpenWindow()
         {
+            _hasOpened = false;
             base.OpenWindow();
             Play();
         }
 
         public override void OpenUnscaledTime()
         {
+            _hasOpened = false;
             base.OpenUnscaledTime();
             Play();
         }
@@ -47,16 +62,19 @@ namespace Debuffs
                 StopCoroutine(_routine);
 
             _spinSound?.Stop();
+            _isFinishing = false;
             _routine = StartCoroutine(PlayRoutine());
         }
 
         public void OnPointerDown(PointerEventData eventData)
         {
-            if (eventData.button != PointerEventData.InputButton.Left || _routine == null)
+            if (eventData.button != PointerEventData.InputButton.Left || _routine == null
+                || !_hasOpened || _isFinishing)
                 return;
 
             StopCoroutine(_routine);
             _routine = null;
+            _isFinishing = true;
             _spinSound?.Stop();
 
             for (int i = 0; i < _columns.Count; i++)
@@ -65,11 +83,23 @@ namespace Debuffs
                 ShowResult(i);
             }
 
+            _routine = StartCoroutine(FinishAfterSkip());
+        }
+
+        private IEnumerator FinishAfterSkip()
+        {
+            yield return new WaitForSecondsRealtime(Mathf.Max(0f, _holdDelayBeforeClose));
+
+            _routine = null;
             Finished?.Invoke(_selected);
         }
 
         private void OnDisable()
         {
+            Opened -= OnOpened;
+            _hasOpened = false;
+            _isFinishing = false;
+
             if (_routine != null)
                 StopCoroutine(_routine);
 
@@ -115,6 +145,7 @@ namespace Debuffs
             }
 
             _spinSound?.Stop();
+            _isFinishing = true;
             yield return new WaitForSecondsRealtime(_delayBetweenStops);
             yield return new WaitForSecondsRealtime(_holdDelayBeforeClose);
 

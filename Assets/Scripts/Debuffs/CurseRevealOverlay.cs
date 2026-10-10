@@ -54,6 +54,14 @@ namespace Debuffs
 
             StopAcceptButtonPulse();
             Opened -= OnOpened;
+
+            if (_routine != null)
+            {
+                StopCoroutine(_routine);
+                _routine = null;
+            }
+
+            _isRevealing = false;
         }
 
         public void Show(IReadOnlyList<DebuffRoll> debuffs, float negativeEffectIncreasePercent,
@@ -66,6 +74,7 @@ namespace Debuffs
             }
 
             _choiceMade = false;
+            _isRevealing = false;
             SetButtonsInteractable(true);
             _text.text = BuildText(debuffs);
             SetAcceptButtonText(negativeEffectIncreasePercent, coinBonusPercent);
