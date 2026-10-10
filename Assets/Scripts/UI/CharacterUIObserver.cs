@@ -2,6 +2,7 @@ using System.Linq;
 using DG.Tweening;
 using CharacterLogic;
 using CharacterLogic.Initializer;
+using Debuffs;
 using Items.BaseClass;
 using StatistiscSystem;
 using UI.FortuneWheel;
@@ -17,6 +18,7 @@ namespace UI
         [SerializeField] private FortuneWheelWindow _fortuneWheelWindow;
         [SerializeField] private WheelRewardPopup _rewardPopup;
         [SerializeField] private Button _pauseButton;
+        [SerializeField] private GameStartController _gameStartController;
         [SerializeField] private InventoryFullWindow _inventoryFullWindow;
         [SerializeField] private StatisticsApplicator _statisticApplicator;
         [SerializeField] private CharacterInitializer _initializer;
@@ -95,6 +97,13 @@ namespace UI
                 && !IsWindowActive(_rewardPopup)
                 && !IsWindowActive(_inventoryFullWindow)
                 && !IsWindowActive(_itemMaxLevelReachedWindow);
+
+            if (_gameStartController != null)
+            {
+                bool visible = _gameStartController.IsGameStarted && _pauseButton.interactable;
+                if (_pauseButton.gameObject.activeSelf != visible)
+                    _pauseButton.gameObject.SetActive(visible);
+            }
         }
 
         private static bool IsWindowActive(Window window)
@@ -179,6 +188,9 @@ namespace UI
 
         private void OnItemMaxLevelReached()
         {
+            if (_pauseButton != null)
+                _pauseButton.gameObject.SetActive(false);
+
             _rewardPopup.CloseUnscaledTime();
             _itemMaxLevelReachedWindow.OpenWindow();
         }
@@ -389,6 +401,9 @@ namespace UI
 
         private void InventoryLimitReached()
         {
+            if (_pauseButton != null)
+                _pauseButton.gameObject.SetActive(false);
+
             if (_rewardPopup != null)
                 _rewardPopup.CloseUnscaledTime();
 

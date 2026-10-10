@@ -25,6 +25,8 @@ namespace Debuffs
         private bool _choiceHandled;
         private bool _pauseHeld;
 
+        public bool IsGameStarted { get; private set; }
+
         private void Awake()
         {
             if (_pauseButton != null)
@@ -52,6 +54,7 @@ namespace Debuffs
         private void OnCharacterCreated(Character character)
         {
             _character = character;
+            IsGameStarted = false;
             _choiceHandled = false;
             _pauseHeld = true;
             GamePauseController.HoldPause(muteAudio: false);
@@ -97,6 +100,7 @@ namespace Debuffs
 
             ReleasePause();
             _character.ActivateCharacter();
+            IsGameStarted = true;
             _difficulty.StartSpawning();
 
             if (_eventStarter != null)

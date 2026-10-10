@@ -3715,7 +3715,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0.25882354, g: 0.25490198, b: 0.32941177, a: 1}
-  m_RaycastTarget: 0
+  m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -5179,6 +5179,7 @@ MonoBehaviour:
   _fortuneWheelWindow: {fileID: 1747386210}
   _rewardPopup: {fileID: 135126563}
   _pauseButton: {fileID: 527282768}
+  _gameStartController: {fileID: 1673244301}
   _inventoryFullWindow: {fileID: 326313262}
   _statisticApplicator: {fileID: 592951846}
   _initializer: {fileID: 475003801}
@@ -26812,7 +26813,7 @@ MonoBehaviour:
   m_Elasticity: 0
   m_Inertia: 1
   m_DecelerationRate: 0.135
-  m_ScrollSensitivity: 4
+  m_ScrollSensitivity: 120
   m_Viewport: {fileID: 1039906887}
   m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 0}
