@@ -38584,21 +38584,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6db1a2c308e4c02b78ac1f938bc5d17, type: 3}
   m_Name:
   m_EditorClassIdentifier:
-  _statsRoot: {fileID: 1909000001}
-  _fontSource: {fileID: 1209417638}
   _startLabel: {fileID: 1909000013}
-  _visuals:
-  - {fileID: 11400000, guid: 3b14ab686847484d8184aa55e7889b37, type: 2}
-  - {fileID: 11400000, guid: fa0d5875f1a792a4a93668167ba8aca4, type: 2}
-  - {fileID: 11400000, guid: 808e3f8ec9d970e43a1a3a0fede500fe, type: 2}
-  - {fileID: 11400000, guid: 67ec39d801eb471d9b9eca13eac4947d, type: 2}
-  - {fileID: 11400000, guid: faa33dac1deb47c599a225d9d2168f79, type: 2}
-  - {fileID: 11400000, guid: db6c2d7a04b7474dbb196d733b4526f8, type: 2}
-  - {fileID: 11400000, guid: cc61c38338e40ad47b3a0c82b639b23e, type: 2}
-  - {fileID: 11400000, guid: 9dd5e52a7a2f4028b43c64abd2418ec0, type: 2}
-  - {fileID: 11400000, guid: 7a607e4be72d3a3418d078581e210176, type: 2}
-  - {fileID: 11400000, guid: b5f7fbca6c2e06f4c9213feeed247efd, type: 2}
-  - {fileID: 11400000, guid: 86bcfe43026ef504ea51ebb37dd4fa16, type: 2}
+  _statViews: []
 --- !u!1 &1909000020
 GameObject:
   m_ObjectHideFlags: 0

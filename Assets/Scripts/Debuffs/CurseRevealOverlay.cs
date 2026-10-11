@@ -100,10 +100,9 @@ namespace Debuffs
         {
             bool boosted = _boostToggle != null && _boostToggle.isOn;
             float negativeEffectMultiplier = boosted ? 1f + _negativeEffectIncreasePercent / 100f : 1f;
-            float coinMultiplier = boosted ? 1f + _coinBonusPercent / 100f : 1f;
 
             if (_statsView != null)
-                _statsView.Show(_baseStats, _debuffs, negativeEffectMultiplier, coinMultiplier);
+                _statsView.Show(_baseStats, _debuffs, negativeEffectMultiplier);
 
             if (_boostDescription != null)
             {
