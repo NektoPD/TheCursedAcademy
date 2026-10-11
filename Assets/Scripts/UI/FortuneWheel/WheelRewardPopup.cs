@@ -11,7 +11,7 @@ using Utils;
 
 namespace UI.FortuneWheel
 {
-    public class WheelRewardPopup : UI.Window
+    public partial class WheelRewardPopup : UI.Window
     {
         [SerializeField] private Image _icon;
         [SerializeField] private TMP_Text _title;
@@ -32,14 +32,29 @@ namespace UI.FortuneWheel
 
         private void OnEnable()
         {
+            Opened += OnPopupOpened;
             if (_claimButton != null)
                 _claimButton.onClick.AddListener(OnClaimPressed);
         }
 
         private void OnDisable()
         {
+            Opened -= OnPopupOpened;
+            StopPresentation();
             if (_claimButton != null)
                 _claimButton.onClick.RemoveListener(OnClaimPressed);
+        }
+
+        public override void CloseWindow()
+        {
+            StopPresentation();
+            base.CloseWindow();
+        }
+
+        public override void CloseUnscaledTime()
+        {
+            StopPresentation();
+            base.CloseUnscaledTime();
         }
 
         public void ShowItem(ItemVisualData item)
@@ -122,33 +137,7 @@ namespace UI.FortuneWheel
                 return;
 
             BeginShow(true);
-            foreach (var reward in displayRewards)
-            {
-                var card = Instantiate(_rewardCardPrefab, _rewardsContent, false);
-                _spawnedRewards.Add(card);
-
-                string title = reward.Type == WheelRewardType.Gold
-                    ? Translator.Translate("Золото", "Gold", "Altın")
-                    : reward.Label;
-                string description = reward.Type switch
-                {
-                    WheelRewardType.Gold => "+" + reward.GoldAmount,
-                    WheelRewardType.Buff => GetBuffDescription(reward.Buff),
-                    _ => reward.Item.Description
-                };
-                Sprite sprite = reward.Type == WheelRewardType.Gold ? _goldIcon : reward.Sprite;
-                card.gameObject.SetActive(true);
-                card.Initialize(title, description, sprite);
-            }
-
-            Canvas.ForceUpdateCanvases();
-            LayoutRebuilder.ForceRebuildLayoutImmediate(_rewardsContent);
-            if (_rewardsScroll != null)
-            {
-                _rewardsScroll.StopMovement();
-                _rewardsScroll.horizontalNormalizedPosition = 0f;
-                _rewardsScroll.verticalNormalizedPosition = 1f;
-            }
+            _presentationRoutine = StartCoroutine(RevealRewards(displayRewards));
         }
 
         private static bool IsDisplayable(WheelReward reward)
@@ -175,6 +164,9 @@ namespace UI.FortuneWheel
 
         private void BeginShow(bool batch)
         {
+            StopPresentation();
+            _isShowingRewards = batch;
+            _isPopupOpen = false;
             foreach (var card in _spawnedRewards)
             {
                 if (card == null)
@@ -208,7 +200,7 @@ namespace UI.FortuneWheel
 
             SetIcon(null);
             _confirmationPending = true;
-            _claimButton.interactable = true;
+            _claimButton.interactable = !batch;
             OpenUnscaledTime();
             PlayShowSound();
         }
@@ -240,12 +232,13 @@ namespace UI.FortuneWheel
                 _audioSource.spatialBlend = 0f;
             }
 
+            _audioSource.ignoreListenerPause = true;
             return _audioSource;
         }
 
         private void OnClaimPressed()
         {
-            if (!_confirmationPending)
+            if (!_confirmationPending || _presentationRoutine != null)
                 return;
 
             _confirmationPending = false;

@@ -46,13 +46,13 @@ namespace UI
             Animation.StopTime();
         }
 
-        public void CloseWindow()
+        public virtual void CloseWindow()
         {
             Animation.Close();
             Animation.StartTime();
         }
 
-        public void CloseUnscaledTime()
+        public virtual void CloseUnscaledTime()
         {
             Animation.Close();
         }
