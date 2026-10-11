@@ -39,6 +39,7 @@ namespace CharacterLogic
         [SerializeField] private CharacterInventoryUI _inventoryUI;
         [SerializeField] private bool _cameraOnCharacter;
         [SerializeField] private Canvas _characterCanvas;
+        [SerializeField] private Collider2D _damageCollider;
         [SerializeField] private float _reviveInvincibilityDuration = 3f;
         [SerializeField] private float _deathZoomResetDuration = 0.15f;
         [SerializeField] private SimpleSpriteAnimator _fireblastActivationEffect;
@@ -116,6 +117,7 @@ namespace CharacterLogic
         public event Action<int> RoundCoinsChanged;
         public AbilityType CurrentAbilityType => _abilityType;
         public CharacterInventory Inventory => _inventory;
+        public Collider2D DamageCollider => _damageCollider;
         public bool IsDied => _isDied;
 
         public void Construct(CharacterData characterData, Dictionary<PerkType, float> perkBonuses,

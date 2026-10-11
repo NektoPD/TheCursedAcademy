@@ -942,6 +942,7 @@ MonoBehaviour:
   _inventoryUI: {fileID: 2580118717468051458}
   _cameraOnCharacter: 0
   _characterCanvas: {fileID: 5711995442308141049}
+  _damageCollider: {fileID: 2718928499359159171}
   _reviveInvincibilityDuration: 3
   _deathZoomResetDuration: 0.15
   _fireblastActivationEffect: {fileID: 0}
