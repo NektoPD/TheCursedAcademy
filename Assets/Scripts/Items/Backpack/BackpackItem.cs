@@ -21,7 +21,6 @@ namespace Items.ItemVariations
 
         [SerializeField] private float _cooldownReductionPerLevel = 0.9f;
 
-        private int _level = 1;
         private float _durationMultiplier = 1f;
         private ItemProjectilePool _projectilePool;
         private BackpackItemProjectile _activeProjectile;

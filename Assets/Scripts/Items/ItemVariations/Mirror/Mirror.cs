@@ -16,13 +16,11 @@ namespace Items.ItemVariations
         [SerializeField] private float _projectileLifetime = 3f;
         [SerializeField] private float _projectileSpeed = 5f;
         [SerializeField] private int _initialPoolSize = 3;
-        [SerializeField] private float _detectionRadius = 10f;
         [SerializeField] private LayerMask _enemyLayer;
         [SerializeField] private bool _enableTargeting = true;
         [SerializeField] private float _baseDetectionRadius = 10f;
         private float _currentDetectionRadius;
         
-        private float _damageMultiplier = 1f;
         private ItemProjectilePool _projectilePool;
         private int _projectileCount = 1;
         private float _damageIncreasePerLevel = 1.25f;

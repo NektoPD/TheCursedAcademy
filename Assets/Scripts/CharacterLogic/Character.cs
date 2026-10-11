@@ -45,7 +45,6 @@ namespace CharacterLogic
         [SerializeField] private SimpleSpriteAnimator _fireblastActivationEffect;
         [SerializeField] private SimpleSpriteAnimator _ragemodeActivationEffect;
         [SerializeField] private SimpleSpriteAnimator _poisonThrowActivationEffect;
-        [SerializeField] private float _deathFadeDuration = 0.7f;
 
         [Header("Hit Feedback")]
         [SerializeField] private float _hitShakeMinIntensity = 1.2f;
