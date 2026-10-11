@@ -504,6 +504,24 @@ namespace CharacterLogic
             _characterSessionWallet.SetMultiplier(multiplier);
         }
 
+        public IReadOnlyDictionary<PerkType, float> GetStatsSnapshot()
+        {
+            return new Dictionary<PerkType, float>
+            {
+                [PerkType.Power] = _attackPower,
+                [PerkType.Armor] = _armor,
+                [PerkType.MaxHp] = _hp,
+                [PerkType.HpRegeneration] = _hpRegenerationSpeed,
+                [PerkType.AttackCooldown] = _attackCooldown,
+                [PerkType.Speed] = _moveSpeed,
+                [PerkType.Greed] = _characterSessionWallet.CoinMultiplier,
+                [PerkType.Growth] = _characterLevelController.ExperienceMultiplier,
+                [PerkType.Magnet] = PickupRadius.Scale,
+                [PerkType.Area] = _itemAreaMultiplier,
+                [PerkType.Duration] = _itemEffectDurationMultiplier
+            };
+        }
+
         private void ApplyStatModifier(PerkType type, float multiplier)
         {
             switch (type)

@@ -24,6 +24,8 @@ namespace Debuffs
         private IReadOnlyList<DebuffRoll> _debuffs;
         private bool _choiceHandled;
         private bool _pauseHeld;
+        private float _selectedNegativeEffectIncreasePercent;
+        private float _selectedCoinBonusPercent;
 
         public bool IsGameStarted { get; private set; }
 
@@ -72,7 +74,10 @@ namespace Debuffs
         private void OnSlotClosed()
         {
             _slotMachineWindow.Closed -= OnSlotClosed;
-            _curseRevealOverlay.Show(_debuffs, _negativeEffectIncreasePercent, _coinBonusPercent);
+            _selectedNegativeEffectIncreasePercent = Mathf.Max(0f, _negativeEffectIncreasePercent);
+            _selectedCoinBonusPercent = Mathf.Max(0f, _coinBonusPercent);
+            _curseRevealOverlay.Show(_debuffs, _selectedNegativeEffectIncreasePercent, _selectedCoinBonusPercent,
+                _character.GetStatsSnapshot());
         }
 
         private void OnCurseRevealConfirmed(bool dealAccepted)
@@ -83,10 +88,10 @@ namespace Debuffs
             _choiceHandled = true;
 
             float negativeEffectMultiplier = dealAccepted
-                ? 1f + _negativeEffectIncreasePercent / 100f
+                ? 1f + _selectedNegativeEffectIncreasePercent / 100f
                 : 1f;
             float coinMultiplier = dealAccepted
-                ? 1f + _coinBonusPercent / 100f
+                ? 1f + _selectedCoinBonusPercent / 100f
                 : 1f;
 
             _character.ApplyDebuffs(_debuffs, negativeEffectMultiplier);

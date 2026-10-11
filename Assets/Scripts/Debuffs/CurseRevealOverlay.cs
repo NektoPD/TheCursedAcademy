@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
-using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -15,22 +14,22 @@ namespace Debuffs
     {
         [SerializeField] private TMP_Text _text;
         [SerializeField] private Button _closeButton;
-        [SerializeField] private Button _acceptButton;
-        [SerializeField] private TMP_Text _acceptButtonText;
+        [SerializeField] private Toggle _boostToggle;
+        [SerializeField] private TMP_Text _boostDescription;
+        [SerializeField] private CurseRevealStatsView _statsView;
         [SerializeField] private List<Image> _icons = new();
-        private string Header => Translator.Translate("Твои проклятия:", "Your Curses are:", "Lanetlerin:");
         [SerializeField] private float _charInterval = 0.04f;
-        [SerializeField] private float _acceptButtonPulseScale = 1.08f;
-        [SerializeField] private float _acceptButtonPulseDuration = 0.65f;
 
         private readonly List<int> _revealAt = new();
-
+        private IReadOnlyList<DebuffRoll> _debuffs;
+        private IReadOnlyDictionary<PerkType, float> _baseStats;
+        private float _negativeEffectIncreasePercent;
+        private float _coinBonusPercent;
         private Coroutine _routine;
-        private Tween _acceptButtonPulseTween;
-        private Vector3 _acceptButtonInitialScale;
-        private bool _acceptButtonScaleSaved;
         private bool _isRevealing;
         private bool _choiceMade;
+
+        private string Header => Translator.Translate("Твои проклятия:", "Your Curses are:", "Lanetlerin:");
 
         public event Action<bool> Confirmed;
 
@@ -38,10 +37,9 @@ namespace Debuffs
         {
             _closeButton.onClick.AddListener(OnClosePressed);
 
-            if (_acceptButton != null)
-                _acceptButton.onClick.AddListener(OnAcceptPressed);
+            if (_boostToggle != null)
+                _boostToggle.onValueChanged.AddListener(OnBoostChanged);
 
-            SetButtonsInteractable(true);
             Opened += OnOpened;
         }
 
@@ -49,10 +47,9 @@ namespace Debuffs
         {
             _closeButton.onClick.RemoveListener(OnClosePressed);
 
-            if (_acceptButton != null)
-                _acceptButton.onClick.RemoveListener(OnAcceptPressed);
+            if (_boostToggle != null)
+                _boostToggle.onValueChanged.RemoveListener(OnBoostChanged);
 
-            StopAcceptButtonPulse();
             Opened -= OnOpened;
 
             if (_routine != null)
@@ -65,7 +62,7 @@ namespace Debuffs
         }
 
         public void Show(IReadOnlyList<DebuffRoll> debuffs, float negativeEffectIncreasePercent,
-            float coinBonusPercent)
+            float coinBonusPercent, IReadOnlyDictionary<PerkType, float> baseStats)
         {
             if (_routine != null)
             {
@@ -73,17 +70,49 @@ namespace Debuffs
                 _routine = null;
             }
 
+            _debuffs = debuffs;
+            _baseStats = baseStats;
+            _negativeEffectIncreasePercent = Mathf.Max(0f, negativeEffectIncreasePercent);
+            _coinBonusPercent = Mathf.Max(0f, coinBonusPercent);
             _choiceMade = false;
             _isRevealing = false;
+
+            if (_boostToggle != null)
+                _boostToggle.SetIsOnWithoutNotify(false);
+
+            RefreshPreview();
             SetButtonsInteractable(true);
             _text.text = BuildText(debuffs);
-            SetAcceptButtonText(negativeEffectIncreasePercent, coinBonusPercent);
             _text.ForceMeshUpdate();
             _text.maxVisibleCharacters = 0;
             PrepareIcons(debuffs);
             SetButtonsVisible(false);
-
             OpenUnscaledTime();
+        }
+
+        private void OnBoostChanged(bool enabled)
+        {
+            if (!_choiceMade)
+                RefreshPreview();
+        }
+
+        private void RefreshPreview()
+        {
+            bool boosted = _boostToggle != null && _boostToggle.isOn;
+            float negativeEffectMultiplier = boosted ? 1f + _negativeEffectIncreasePercent / 100f : 1f;
+            float coinMultiplier = boosted ? 1f + _coinBonusPercent / 100f : 1f;
+
+            if (_statsView != null)
+                _statsView.Show(_baseStats, _debuffs, negativeEffectMultiplier, coinMultiplier);
+
+            if (_boostDescription != null)
+            {
+                string state = boosted ? "ON" : "OFF";
+                _boostDescription.text = Translator.Translate(
+                    $"Усиление: {state}\nШтрафы +{_negativeEffectIncreasePercent:0}% · Монеты +{_coinBonusPercent:0}%",
+                    $"Stronger curses: {state}\nPenalties +{_negativeEffectIncreasePercent:0}% · Coins +{_coinBonusPercent:0}%",
+                    $"Güçlü lanetler: {state}\nCezalar +%{_negativeEffectIncreasePercent:0} · Jeton +%{_coinBonusPercent:0}");
+            }
         }
 
         private void OnOpened()
@@ -99,7 +128,6 @@ namespace Debuffs
             _isRevealing = true;
             _text.ForceMeshUpdate();
             int totalCharacters = _text.textInfo.characterCount;
-
             var wait = new WaitForSecondsRealtime(_charInterval);
 
             for (int i = 0; i <= totalCharacters; i++)
@@ -136,9 +164,7 @@ namespace Debuffs
             for (int i = 0; i < _icons.Count; i++)
             {
                 Image icon = _icons[i];
-                Sprite sprite = debuffs != null && i < debuffs.Count ? debuffs[i]?.Icon : null;
-
-                icon.sprite = sprite;
+                icon.sprite = debuffs != null && i < debuffs.Count ? debuffs[i]?.Icon : null;
                 icon.gameObject.SetActive(false);
             }
         }
@@ -147,9 +173,6 @@ namespace Debuffs
         {
             for (int i = 0; i < _icons.Count && i < _revealAt.Count; i++)
             {
-                if (_icons[i].gameObject.activeSelf)
-                    continue;
-
                 if (_icons[i].sprite != null && visibleCharacters >= _revealAt[i])
                     _icons[i].gameObject.SetActive(true);
             }
@@ -167,7 +190,6 @@ namespace Debuffs
         private string BuildText(IReadOnlyList<DebuffRoll> debuffs)
         {
             _revealAt.Clear();
-
             var builder = new StringBuilder();
             builder.AppendLine(Header);
 
@@ -180,94 +202,47 @@ namespace Debuffs
 
                     _revealAt.Add(builder.Length);
                     builder.AppendLine("- " + debuff.Name);
-
-                    if (!string.IsNullOrEmpty(debuff.Description))
-                        builder.AppendLine("   " + debuff.Description);
                 }
             }
 
             return builder.ToString();
         }
 
-        private void SetAcceptButtonText(float negativeEffectIncreasePercent, float coinBonusPercent)
-        {
-            if (_acceptButtonText == null)
-                return;
-
-            _acceptButtonText.text = Translator.Translate(
-                $"Усилить отрицательные эффекты на {negativeEffectIncreasePercent:0}%\nНаграда: +{coinBonusPercent:0}% монет",
-                $"Increase negative effects by {negativeEffectIncreasePercent:0}%\nReward: +{coinBonusPercent:0}% coins",
-                $"Olumsuz etkileri %{negativeEffectIncreasePercent:0} artırmak için tıkla\nÖdül: %{coinBonusPercent:0} daha fazla jeton");
-        }
-
         private void OnClosePressed()
         {
-            CompleteChoice(false);
+            CloseUnscaledTime();
         }
 
-        private void OnAcceptPressed()
+        public override void CloseWindow()
         {
-            CompleteChoice(true);
+            CloseUnscaledTime();
         }
 
-        private void CompleteChoice(bool accepted)
+        public override void CloseUnscaledTime()
         {
             if (_choiceMade)
                 return;
 
             _choiceMade = true;
             SetButtonsInteractable(false);
-            StopAcceptButtonPulse();
-            Confirmed?.Invoke(accepted);
-            CloseUnscaledTime();
+            Confirmed?.Invoke(_boostToggle != null && _boostToggle.isOn);
+            base.CloseUnscaledTime();
         }
 
         private void SetButtonsVisible(bool visible)
         {
             _closeButton.gameObject.SetActive(visible);
 
-            if (_acceptButton != null)
-            {
-                _acceptButton.gameObject.SetActive(visible);
-
-                if (visible)
-                    StartAcceptButtonPulse();
-                else
-                    StopAcceptButtonPulse();
-            }
+            if (_boostToggle != null)
+                _boostToggle.gameObject.SetActive(visible);
         }
 
         private void SetButtonsInteractable(bool interactable)
         {
             _closeButton.interactable = interactable;
 
-            if (_acceptButton != null)
-                _acceptButton.interactable = interactable;
-        }
-
-        private void StartAcceptButtonPulse()
-        {
-            StopAcceptButtonPulse();
-
-            Transform buttonTransform = _acceptButton.transform;
-            _acceptButtonInitialScale = buttonTransform.localScale;
-            _acceptButtonScaleSaved = true;
-            _acceptButtonPulseTween = buttonTransform
-                .DOScale(_acceptButtonInitialScale * _acceptButtonPulseScale, _acceptButtonPulseDuration)
-                .SetEase(Ease.InOutSine)
-                .SetLoops(-1, LoopType.Yoyo)
-                .SetUpdate(true);
-        }
-
-        private void StopAcceptButtonPulse()
-        {
-            _acceptButtonPulseTween?.Kill();
-            _acceptButtonPulseTween = null;
-
-            if (_acceptButton != null && _acceptButtonScaleSaved)
-                _acceptButton.transform.localScale = _acceptButtonInitialScale;
-
-            _acceptButtonScaleSaved = false;
+            if (_boostToggle != null)
+                _boostToggle.interactable = interactable;
         }
     }
 }

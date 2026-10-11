@@ -12,6 +12,7 @@ namespace CharacterLogic
         private float _fractionalMoney;
 
         public int CollectedMoney { get; private set; }
+        public float CoinMultiplier => _perkMultiplier * _multiplier;
 
         public event Action<int> MoneyChanged;
 
