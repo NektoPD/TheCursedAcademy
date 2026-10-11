@@ -176,7 +176,7 @@ namespace UI
 
         private void OnNewItemAdded()
         {
-            if (_isGrantingRewards)
+            if (_isGrantingRewards || !IsWindowActive(_rewardPopup))
                 return;
 
             _rewardPopup.CloseWindow();
