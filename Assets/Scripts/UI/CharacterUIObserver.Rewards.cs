@@ -175,7 +175,10 @@ namespace UI
                 return;
             }
 
-            GameTimeScale.SetPauseActive(false);
+            if (_rewardPauseHeld)
+                TryCompleteRewardBatch();
+            else
+                GameTimeScale.SetPauseActive(false);
         }
 
         private void OnMaxLevelReachedWindowClosed()
