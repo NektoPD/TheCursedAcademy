@@ -119,6 +119,9 @@ namespace CharacterLogic
         public CharacterInventory Inventory => _inventory;
         public Collider2D DamageCollider => _damageCollider;
         public bool IsDied => _isDied;
+        public bool IsDebugInvincible { get; private set; }
+
+        public void SetDebugInvincibility(bool enabled) => IsDebugInvincible = enabled;
 
         public void Construct(CharacterData characterData, Dictionary<PerkType, float> perkBonuses,
             ItemsHolder itemsHolder, ItemApplicator levelUpItemApplicator, KilledEnemyCounter killedEnemyCounter,
@@ -537,7 +540,7 @@ namespace CharacterLogic
 
         public float TakeDamage(float damage, bool isFromBerserk = false)
         {
-            if (_isInvincible || _isDied || damage <= 0f) return 0f;
+            if (IsDebugInvincible || _isInvincible || _isDied || damage <= 0f) return 0f;
 
             float reducedDamage = damage / (1f + Mathf.Max(0f, _armor) / 100f);
 
