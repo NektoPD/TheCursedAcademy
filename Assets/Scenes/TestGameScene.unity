@@ -11325,8 +11325,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 994551501}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.080000006, y: 0.09999889}
-  m_AnchorMax: {x: 0.40000004, y: 0.9000011}
+  m_AnchorMin: {x: 0.21, y: 0.12}
+  m_AnchorMax: {x: 0.59, y: 0.88}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -13129,6 +13129,7 @@ GameObject:
   - component: {fileID: 994551504}
   - component: {fileID: 994551503}
   - component: {fileID: 994551502}
+  - component: {fileID: 1909000050}
   m_Layer: 5
   m_Name: StrongerCursesToggle
   m_TagString: Untagged
@@ -13178,7 +13179,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+  m_Transition: 0
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -13201,7 +13202,7 @@ MonoBehaviour:
   m_Interactable: 1
   m_TargetGraphic: {fileID: 994551503}
   toggleTransition: 1
-  graphic: {fileID: 1909000023}
+  graphic: {fileID: 0}
   m_Group: {fileID: 0}
   onValueChanged:
     m_PersistentCalls:
@@ -13220,14 +13221,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.12, g: 0.16, b: 0.23, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: a4a0127f193e0454bb0c8414a4f4f92b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b99133ea3fb2c3f47be0f31b292daf4a, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -35092,7 +35093,7 @@ GameObject:
   - component: {fileID: 1791054115}
   - component: {fileID: 1791054114}
   m_Layer: 5
-  m_Name: CheckboxBackground
+  m_Name: CurseSwitchTrack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -35113,8 +35114,8 @@ RectTransform:
   - {fileID: 1909000021}
   m_Father: {fileID: 994551501}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.009678464, y: 0.22777283}
-  m_AnchorMax: {x: 0.070321545, y: 0.77222717}
+  m_AnchorMin: {x: 0.035, y: 0.22}
+  m_AnchorMax: {x: 0.18, y: 0.78}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -35131,16 +35132,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.24, g: 0.29, b: 0.37, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: bb9e14963bf1eea4d9dec4fe54c1d800, type: 3}
-  m_Type: 0
-  m_PreserveAspect: 1
+  m_Sprite: {fileID: 21300000, guid: b99133ea3fb2c3f47be0f31b292daf4a, type: 3}
+  m_Type: 1
+  m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -35916,6 +35917,29 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b5f7fbca6c2e06f4c9213feeed247efd, type: 2}
   - {fileID: 11400000, guid: 808e3f8ec9d970e43a1a3a0fede500fe, type: 2}
   - {fileID: 11400000, guid: 86bcfe43026ef504ea51ebb37dd4fa16, type: 2}
+--- !u!114 &1909000050
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 994551500}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8608e8edc0e44f55aeb18fb81b792c01, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:
+  _toggle: {fileID: 994551502}
+  _panel: {fileID: 994551503}
+  _track: {fileID: 1791054114}
+  _handle: {fileID: 1909000023}
+  _duration: 0.2
+  _panelOff: {r: 0.12, g: 0.16, b: 0.23, a: 1}
+  _panelOn: {r: 0.25, g: 0.15, b: 0.36, a: 1}
+  _trackOff: {r: 0.24, g: 0.29, b: 0.37, a: 1}
+  _trackOn: {r: 0.64, g: 0.35, b: 0.85, a: 1}
+  _handleOff: {r: 0.7, g: 0.76, b: 0.84, a: 1}
+  _handleOn: {r: 1, g: 0.9, b: 0.69, a: 1}
 --- !u!1 &1909000020
 GameObject:
   m_ObjectHideFlags: 0
@@ -35928,7 +35952,7 @@ GameObject:
   - component: {fileID: 1909000022}
   - component: {fileID: 1909000023}
   m_Layer: 5
-  m_Name: Checkmark
+  m_Name: CurseSwitchHandle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -35948,8 +35972,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1791054113}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0.08, y: 0.14}
+  m_AnchorMax: {x: 0.48, y: 0.86}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -35974,15 +35998,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.48, g: 1, b: 0.64, a: 1}
+  m_Color: {r: 0.7, g: 0.76, b: 0.84, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 0ddd7add4d7a82545b7a9d8e26102d78, type: 3}
-  m_Type: 0
+  m_Sprite: {fileID: 21300000, guid: b99133ea3fb2c3f47be0f31b292daf4a, type: 3}
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -36023,8 +36047,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 994551501}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.42967847, y: 0.22777283}
-  m_AnchorMax: {x: 0.49032155, y: 0.77222717}
+  m_AnchorMin: {x: 0.65, y: 0.25}
+  m_AnchorMax: {x: 0.71, y: 0.75}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -36098,8 +36122,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 994551501}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.09999889}
-  m_AnchorMax: {x: 0.7, y: 0.9000011}
+  m_AnchorMin: {x: 0.73, y: 0.12}
+  m_AnchorMax: {x: 0.95, y: 0.88}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
