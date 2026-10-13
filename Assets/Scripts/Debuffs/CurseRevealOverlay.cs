@@ -105,13 +105,7 @@ namespace Debuffs
                 _statsView.Show(_baseStats, _debuffs, negativeEffectMultiplier);
 
             if (_boostDescription != null)
-            {
-                string state = boosted ? "ON" : "OFF";
-                _boostDescription.text = Translator.Translate(
-                    $"Усиление: {state}\nШтрафы +{_negativeEffectIncreasePercent:0}% · Монеты +{_coinBonusPercent:0}%",
-                    $"Stronger curses: {state}\nPenalties +{_negativeEffectIncreasePercent:0}% · Coins +{_coinBonusPercent:0}%",
-                    $"Güçlü lanetler: {state}\nCezalar +%{_negativeEffectIncreasePercent:0} · Jeton +%{_coinBonusPercent:0}");
-            }
+                _boostDescription.text = $"+{_coinBonusPercent:0}%";
         }
 
         private void OnOpened()
