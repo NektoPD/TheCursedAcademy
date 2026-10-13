@@ -16,6 +16,7 @@ namespace Debuffs
         [SerializeField] private Button _closeButton;
         [SerializeField] private Toggle _boostToggle;
         [SerializeField] private TMP_Text _boostDescription;
+        [SerializeField] private TMP_Text _coinBonusText;
         [SerializeField] private CurseRevealStatsView _statsView;
         [SerializeField] private List<Image> _icons = new();
         [SerializeField] private float _charInterval = 0.04f;
@@ -105,7 +106,13 @@ namespace Debuffs
                 _statsView.Show(_baseStats, _debuffs, negativeEffectMultiplier);
 
             if (_boostDescription != null)
-                _boostDescription.text = $"+{_coinBonusPercent:0}%";
+                _boostDescription.text = Translator.Translate(
+                    $"Проклятия +{_negativeEffectIncreasePercent:0}%",
+                    $"Curses +{_negativeEffectIncreasePercent:0}%",
+                    $"Lanetler +%{_negativeEffectIncreasePercent:0}");
+
+            if (_coinBonusText != null)
+                _coinBonusText.text = $"+{_coinBonusPercent:0}%";
         }
 
         private void OnOpened()
