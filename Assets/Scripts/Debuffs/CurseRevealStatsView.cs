@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Data;
 using TMPro;
 using UnityEngine;
 using Utils;
@@ -7,15 +8,12 @@ namespace Debuffs
 {
     public class CurseRevealStatsView : MonoBehaviour
     {
-        [SerializeField] private TMP_Text _startLabel;
         [SerializeField] private List<CurseRevealStatView> _statViews = new();
+        [SerializeField] private List<PerkVisualData> _visuals = new();
 
         public void Show(IReadOnlyDictionary<PerkType, float> baseStats,
             IReadOnlyList<DebuffRoll> debuffs, float negativeEffectMultiplier)
         {
-            if (_startLabel != null)
-                _startLabel.text = Translator.Translate("Начать", "Start", "Başla");
-
             foreach (CurseRevealStatView view in _statViews)
             {
                 if (view == null)
@@ -25,7 +23,7 @@ namespace Debuffs
                 if (baseStats != null)
                     baseStats.TryGetValue(view.Type, out baseline);
 
-                view.BeginPreview(baseline);
+                view.BeginPreview(baseline, FindStatIcon(view.Type));
 
                 if (debuffs != null)
                 {
@@ -44,6 +42,17 @@ namespace Debuffs
 
                 view.CompletePreview();
             }
+        }
+
+        private Sprite FindStatIcon(PerkType type)
+        {
+            foreach (PerkVisualData visual in _visuals)
+            {
+                if (visual != null && visual.Type == type)
+                    return visual.Sprite;
+            }
+
+            return null;
         }
     }
 }

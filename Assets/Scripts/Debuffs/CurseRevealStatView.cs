@@ -33,16 +33,20 @@ namespace Debuffs
         private float _baseline;
         private float _multiplier;
         private int _effectIndex;
-        private bool _hasNegative;
 
         public PerkType Type => (PerkType)_stat;
 
-        public void BeginPreview(float baseline)
+        public void BeginPreview(float baseline, Sprite statIcon)
         {
             _baseline = baseline;
             _multiplier = 1f;
             _effectIndex = 0;
-            _hasNegative = false;
+
+            if (_icon != null)
+            {
+                _icon.sprite = statIcon;
+                _icon.enabled = statIcon != null;
+            }
 
             foreach (EffectSlot slot in _effectSlots)
                 slot?.Hide();
@@ -54,7 +58,6 @@ namespace Debuffs
         public void AddEffect(Sprite icon, float multiplier)
         {
             _multiplier *= multiplier;
-            _hasNegative |= IsNegative(Type, multiplier);
 
             if (_effectIndex < _effectSlots.Count)
                 _effectSlots[_effectIndex]?.Show(icon, multiplier, Type);
@@ -64,9 +67,6 @@ namespace Debuffs
 
         public void CompletePreview()
         {
-            if (_icon != null)
-                _icon.color = _hasNegative ? Negative : Neutral;
-
             if (_value != null)
             {
                 _value.text = $"{Number(_baseline)} -> {Number(_baseline * _multiplier)} ({Percent(_multiplier)})";
@@ -132,7 +132,6 @@ namespace Debuffs
                 {
                     _icon.sprite = sprite;
                     _icon.enabled = sprite != null;
-                    _icon.color = color;
                 }
 
                 if (_percentage != null)
