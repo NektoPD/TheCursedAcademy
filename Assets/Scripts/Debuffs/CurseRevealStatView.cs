@@ -8,7 +8,7 @@ using Utils;
 
 namespace Debuffs
 {
-    public class CurseRevealStatView : MonoBehaviour
+    public partial class CurseRevealStatView : MonoBehaviour
     {
         public enum MainStat
         {

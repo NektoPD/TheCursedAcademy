@@ -10,7 +10,7 @@ using Utils;
 
 namespace Debuffs
 {
-    public class CurseRevealOverlay : UI.Window, IPointerClickHandler
+    public partial class CurseRevealOverlay : UI.Window, IPointerClickHandler
     {
         [SerializeField] private TMP_Text _text;
         [SerializeField] private Button _closeButton;
@@ -52,6 +52,7 @@ namespace Debuffs
                 _boostToggle.onValueChanged.RemoveListener(OnBoostChanged);
 
             Opened -= OnOpened;
+            StopPresentationAnimations();
 
             if (_routine != null)
             {
@@ -65,6 +66,8 @@ namespace Debuffs
         public void Show(IReadOnlyList<DebuffRoll> debuffs, float negativeEffectIncreasePercent,
             float coinBonusPercent, IReadOnlyDictionary<PerkType, float> baseStats)
         {
+            StopPresentationAnimations();
+
             if (_routine != null)
             {
                 StopCoroutine(_routine);
@@ -82,6 +85,9 @@ namespace Debuffs
                 _boostToggle.SetIsOnWithoutNotify(false);
 
             RefreshPreview();
+            if (_statsView != null)
+                _statsView.PrepareAppearance();
+
             SetButtonsInteractable(true);
             _text.text = BuildText(debuffs);
             _text.ForceMeshUpdate();
@@ -117,6 +123,12 @@ namespace Debuffs
 
         private void OnOpened()
         {
+            if (_choiceMade)
+                return;
+
+            if (_statsView != null)
+                _statsView.PlayAppearance();
+
             if (_routine != null)
                 StopCoroutine(_routine);
 
@@ -164,6 +176,10 @@ namespace Debuffs
             for (int i = 0; i < _icons.Count; i++)
             {
                 Image icon = _icons[i];
+                if (icon == null)
+                    continue;
+
+                PrepareIconAnimation(icon);
                 icon.sprite = debuffs != null && i < debuffs.Count ? debuffs[i]?.Icon : null;
                 icon.gameObject.SetActive(false);
             }
@@ -173,8 +189,8 @@ namespace Debuffs
         {
             for (int i = 0; i < _icons.Count && i < _revealAt.Count; i++)
             {
-                if (_icons[i].sprite != null && visibleCharacters >= _revealAt[i])
-                    _icons[i].gameObject.SetActive(true);
+                if (visibleCharacters >= _revealAt[i])
+                    RevealAnimatedIcon(_icons[i]);
             }
         }
 
@@ -182,8 +198,7 @@ namespace Debuffs
         {
             foreach (Image icon in _icons)
             {
-                if (icon.sprite != null)
-                    icon.gameObject.SetActive(true);
+                RevealAnimatedIcon(icon);
             }
         }
 
@@ -225,6 +240,15 @@ namespace Debuffs
 
             _choiceMade = true;
             SetButtonsInteractable(false);
+            StopPresentationAnimations();
+
+            if (_routine != null)
+            {
+                StopCoroutine(_routine);
+                _routine = null;
+            }
+
+            _isRevealing = false;
             Confirmed?.Invoke(_boostToggle != null && _boostToggle.isOn);
             base.CloseUnscaledTime();
         }
