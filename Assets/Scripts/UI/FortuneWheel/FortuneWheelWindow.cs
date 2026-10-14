@@ -23,6 +23,10 @@ namespace UI.FortuneWheel
         [SerializeField] private RectTransform _pointer;
         [SerializeField] private List<WheelSlot> _slots = new();
 
+        [Header("Pause Button")]
+        [SerializeField] private Button _pauseButton;
+        [SerializeField] private WheelRewardPopup _rewardPopup;
+
         [Header("Level Up Effect")]
         [SerializeField] private RectTransform _levelUpTitle;
         [SerializeField, Min(0.01f)] private float _levelUpTitleIntroDuration = 0.28f;
@@ -39,6 +43,7 @@ namespace UI.FortuneWheel
         [SerializeField] private float _openDelay = 0.6f;
         [SerializeField] private int _fullSpins = 5;
         [SerializeField] private float _spinDuration = 1.2f;
+        [SerializeField, Min(0.01f)] private float _stopDuration = 1.5f;
         [SerializeField] private Ease _spinEase = Ease.InOutCubic;
         [SerializeField] private float _holdDelayBeforeClose = 1.5f;
         [SerializeField] private AudioClip _openClip;
@@ -58,6 +63,7 @@ namespace UI.FortuneWheel
         private Tween _spinTween;
         private AudioSource _spinAudioSource;
         private bool _isSpinning;
+        private bool _isStopping;
         private bool _isDemo;
         private Tween _stopButtonPulseTween;
         private Vector3 _stopButtonInitialScale;
@@ -65,6 +71,7 @@ namespace UI.FortuneWheel
         private Tween _levelUpTitlePulseTween;
         private Vector3 _levelUpTitleInitialScale;
         private bool _levelUpTitleScaleCached;
+        private bool _pauseButtonWasVisible;
 
         public event Action<ItemVisualData> ItemRewarded;
         public event Action<int> GoldRewarded;
@@ -82,6 +89,18 @@ namespace UI.FortuneWheel
 
         private void OnEnable()
         {
+            if (_rewardPopup != null)
+            {
+                _rewardPopup.Closed -= RestorePauseButton;
+                _rewardPopup.Closed += RestorePauseButton;
+            }
+
+            if (_pauseButton != null)
+            {
+                _pauseButtonWasVisible |= _pauseButton.gameObject.activeSelf;
+                _pauseButton.gameObject.SetActive(false);
+            }
+
             CacheLevelUpTitle();
 
             if (_stopButton != null)
@@ -111,14 +130,28 @@ namespace UI.FortuneWheel
 
         private void Play()
         {
+            Play(true);
+        }
+
+        public void PlayNextSpin()
+        {
+            Play(true);
+        }
+
+        private void Play(bool waitForManualStop)
+        {
             CancelSpin();
+
+            if (_stopButton != null)
+                _stopButton.interactable = false;
+
             PlayOpenSound();
             PlayLevelUpTitleEffect();
 
             if (_routine != null)
                 StopCoroutine(_routine);
 
-            _routine = StartCoroutine(PlayRoutine());
+            _routine = StartCoroutine(PlayRoutine(waitForManualStop));
         }
 
         public void PlayDemo(CharacterInventory inventory)
@@ -131,6 +164,9 @@ namespace UI.FortuneWheel
             _demoPlayed = true;
             CancelSpin();
             _isDemo = true;
+            if (_stopButton != null)
+                _stopButton.interactable = false;
+
             gameObject.SetActive(true);
             PlayOpenSound();
             PlayLevelUpTitleEffect();
@@ -154,6 +190,26 @@ namespace UI.FortuneWheel
 
             if (_tutorialCloseButton != null)
                 _tutorialCloseButton.onClick.RemoveListener(CloseDemo);
+
+            RestorePauseButton();
+        }
+
+        private void OnDestroy()
+        {
+            if (_rewardPopup != null)
+                _rewardPopup.Closed -= RestorePauseButton;
+        }
+
+        private void RestorePauseButton()
+        {
+            if (_pauseButton == null || !_pauseButtonWasVisible || gameObject.activeInHierarchy)
+                return;
+
+            if (_rewardPopup != null && _rewardPopup.gameObject.activeInHierarchy)
+                return;
+
+            _pauseButtonWasVisible = false;
+            _pauseButton.gameObject.SetActive(true);
         }
 
         private void CacheLevelUpTitle()
@@ -271,13 +327,13 @@ namespace UI.FortuneWheel
             CloseUnscaledTime();
         }
 
-        private IEnumerator PlayRoutine()
+        private IEnumerator PlayRoutine(bool waitForManualStop)
         {
             PrepareWheel();
 
             yield return new WaitForSecondsRealtime(_openDelay);
 
-            yield return SpinRandom(true);
+            yield return SpinRandom(waitForManualStop);
 
             int winningIndex = DetectWinningSlotIndex();
 
@@ -289,8 +345,8 @@ namespace UI.FortuneWheel
             if (winningIndex >= 0 && winningIndex < _rewards.Count)
                 ApplyReward(_rewards[winningIndex]);
 
-            Finished?.Invoke();
             _routine = null;
+            Finished?.Invoke();
         }
 
         private IEnumerator PlayDemoRoutine()
@@ -340,6 +396,9 @@ namespace UI.FortuneWheel
             float finalAngle = _fullSpins * 360f + randomOffset;
 
             _isSpinning = true;
+            if (_stopButton != null)
+                _stopButton.interactable = waitForManualStop;
+
             StartSpinSound();
             StartButtonPulse();
 
@@ -381,18 +440,33 @@ namespace UI.FortuneWheel
 
         private void StopSpin()
         {
-            if (!_isSpinning || _spinTween == null)
+            if (!_isSpinning || _isStopping || _spinTween == null)
                 return;
 
-            _spinTween.Kill(false);
-            _spinTween = null;
-            _isSpinning = false;
-            StopButtonPulse();
-            StopSpinSound();
-            PlayStopSound();
+            _isStopping = true;
+            if (_stopButton != null)
+                _stopButton.interactable = false;
 
-            if (_isDemo && _tutorialCloseButton != null)
-                _tutorialCloseButton.gameObject.SetActive(true);
+            _spinTween.Kill(false);
+            StopButtonPulse();
+
+            float duration = Mathf.Max(0.01f, _stopDuration);
+            float angularSpeed = 360f / Mathf.Max(0.01f, _spinDuration);
+            // OutCubic starts at three times the average speed and ends at zero.
+            float stoppingAngle = angularSpeed * duration / 3f;
+
+            _spinTween = _wheel
+                .DORotate(new Vector3(0f, 0f, -stoppingAngle), duration, RotateMode.FastBeyond360)
+                .SetRelative()
+                .SetEase(Ease.OutCubic)
+                .SetUpdate(true)
+                .OnComplete(() =>
+                {
+                    _isStopping = false;
+                    _isSpinning = false;
+                    StopSpinSound();
+                    PlayStopSound();
+                });
         }
 
         private AudioSource GetAudioSource()
@@ -464,6 +538,7 @@ namespace UI.FortuneWheel
             _spinTween?.Kill();
             _spinTween = null;
             _isSpinning = false;
+            _isStopping = false;
             StopSpinSound();
             StopButtonPulse();
 

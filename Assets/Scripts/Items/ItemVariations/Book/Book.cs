@@ -12,9 +12,7 @@ namespace Items.ItemVariations.Book
     public class Book : Item
     {
         [SerializeField] private BookProjectile _bookProjectilePrefab;
-        [SerializeField] private float _projectileSpeed = 5f;
         [SerializeField] private float _spawnOffset = 0.5f;
-        [SerializeField] private float _projectileLifetime = 5f;
         [SerializeField] private int _projectileCount = 2;
         [SerializeField] private float _spreadAngle = 30f;
         [SerializeField] private int _initialPoolSize = 6;

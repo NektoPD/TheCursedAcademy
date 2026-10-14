@@ -17,7 +17,6 @@ namespace Items.ItemVariations.Cats
         [SerializeField] private Transform _spawnPoint;
         [SerializeField] private float _catLifetime = 10f;
         [SerializeField] private float _maxDistanceFromPlayer = 3f;
-        [SerializeField] private float _catMovementSpeed = 3f;
         [SerializeField] private int _catsPerSpawn = 3;
         [SerializeField] private float _detectionRadius = 5f;
 

@@ -16,7 +16,6 @@ namespace Items.ItemVariations.MagicRuller
 
         private Transform _transform;
         private ItemProjectilePool _projectilePool;
-        private float _damageMultiplier = 1f;
         private int _projectileCount = 1;
         private float _projectileSpread = 0f;
 

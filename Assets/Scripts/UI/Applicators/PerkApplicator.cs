@@ -4,6 +4,7 @@ using PlayerPerksController;
 using System;
 using System.Linq;
 using TMPro;
+using UI.Animation;
 using UI.Applicators.ClickHandlers;
 using UnityEngine;
 using UnityEngine.UI;
@@ -20,7 +21,7 @@ namespace UI.Applicators
         [SerializeField] private Image _item;
         [SerializeField] private TextMeshProUGUI _cost;
         [SerializeField] private Button _buy;
-        [SerializeField] private GameObject _error;
+        [SerializeField] private WindowAnimation _error;
         [SerializeField] private AudioSource _upgradeSound;
 
         private PerkController _perkController;
@@ -110,7 +111,7 @@ namespace UI.Applicators
 
             if (perkPrice > _wallet.Money)
             {
-                _error.SetActive(true);
+                _error.Open();
                 return;
             }
 

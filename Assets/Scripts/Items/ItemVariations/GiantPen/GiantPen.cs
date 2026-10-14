@@ -17,7 +17,6 @@ namespace Items.ItemVariations
         [SerializeField] private int _initialPoolSize = 3;
         [SerializeField] private float _spawnOffset = 0.5f;
         [SerializeField] private Vector3 _projectileScale = new Vector3(1f, 1.5f, 1.5f);
-        [SerializeField] private float _damageMultiplier = 1f;
         [SerializeField] private float _widthMultiplier = 2f;
 
         private ItemProjectilePool _projectilePool;

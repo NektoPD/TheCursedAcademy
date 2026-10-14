@@ -6,8 +6,6 @@ namespace Utils
     [RequireComponent(typeof(BoxCollider2D), typeof(SpriteRenderer))]
     public class ResizeCollider : MonoBehaviour
     {
-        [SerializeField] private float _offset = 0.1f;
-
         private BoxCollider2D _collider;
         private SpriteRenderer _renderer;
 

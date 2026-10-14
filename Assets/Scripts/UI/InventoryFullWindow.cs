@@ -8,11 +8,12 @@ using Items.ItemHolder;
 using TheraBytes.BetterUi;
 using UI.Applicators;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using Zenject;
 
 namespace UI
 {
-    public class InventoryFullWindow : Window
+    public class InventoryFullWindow : Window, IScrollHandler
     {
         [SerializeField] private List<ItemView> _itemsVisual;
         [SerializeField] private ItemApplicatorCurrentOnly _applicator;
@@ -51,6 +52,12 @@ namespace UI
         {
             float newPos = _betterScrollRect.horizontalNormalizedPosition - _scrollStep;
             _betterScrollRect.horizontalNormalizedPosition = Mathf.Clamp01(newPos);
+        }
+
+        public void OnScroll(PointerEventData eventData)
+        {
+            if (_betterScrollRect != null && _betterScrollRect.isActiveAndEnabled)
+                _betterScrollRect.OnScroll(eventData);
         }
 
         private void ScrollRight()

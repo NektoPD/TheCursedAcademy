@@ -13,7 +13,7 @@ namespace Debugging
 {
     /// <summary>
     /// Debug overlay for TestGameScene: one button per item from ItemsHolder,
-    /// a player level-up button and a hide/show toggle for the whole panel.
+    /// player level-up and invincibility buttons and a hide/show toggle for the whole panel.
     /// First press gives the item to the player, next presses raise its level.
     /// </summary>
     public class TestGameSceneDebugPanel : MonoBehaviour
@@ -30,6 +30,8 @@ namespace Debugging
         private Character _character;
         private RectTransform _panel;
         private TextMeshProUGUI _toggleLabel;
+        private Button _invincibilityButton;
+        private TextMeshProUGUI _invincibilityLabel;
 
         private void Awake()
         {
@@ -75,6 +77,9 @@ namespace Debugging
             {
                 _character.NewItemAdded -= RefreshButtons;
                 _character.ItemSwapped -= RefreshButtons;
+
+                if (_character != character)
+                    _character.SetDebugInvincibility(false);
             }
 
             _character = character;
@@ -102,6 +107,7 @@ namespace Debugging
             CreateToggleButton(canvas.transform);
 
             CreateActionButton(_panel, "Level Up", OnLevelUpPressed);
+            CreateInvincibilityButton(_panel);
 
             foreach (ItemVariations variation in System.Enum.GetValues(typeof(ItemVariations)))
             {
@@ -254,6 +260,23 @@ namespace Debugging
             _character?.LevelUpImmediately();
         }
 
+        private void CreateInvincibilityButton(RectTransform panel)
+        {
+            _invincibilityButton = CreateRowButton(panel, "Invincibility", out _invincibilityLabel);
+            _invincibilityLabel.fontStyle = FontStyles.Bold;
+            _invincibilityLabel.alignment = TextAlignmentOptions.Center;
+            _invincibilityButton.onClick.AddListener(OnInvincibilityPressed);
+        }
+
+        private void OnInvincibilityPressed()
+        {
+            if (_character == null)
+                return;
+
+            _character.SetDebugInvincibility(!_character.IsDebugInvincible);
+            RefreshButtons();
+        }
+
         private void CreateItemButton(RectTransform panel, Item item, ItemVariations variation)
         {
             Button button = CreateRowButton(panel, variation.ToString(), out TextMeshProUGUI label);
@@ -317,6 +340,14 @@ namespace Debugging
 
         private void RefreshButtons()
         {
+            if (_invincibilityButton != null)
+            {
+                bool enabled = _character != null && _character.IsDebugInvincible;
+                _invincibilityButton.interactable = _character != null;
+                _invincibilityLabel.text = enabled ? "Invincibility: ON" : "Invincibility: OFF";
+                _invincibilityLabel.color = enabled ? Color.green : new Color(1f, 0.85f, 0.3f);
+            }
+
             foreach (ItemButton itemButton in _itemButtons)
             {
                 Item ownedItem = _character?.Inventory.Items

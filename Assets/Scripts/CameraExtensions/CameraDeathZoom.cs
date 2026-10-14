@@ -9,9 +9,6 @@ namespace CameraExtensions
     {
         public static CameraDeathZoom Instance { get; private set; }
 
-        [SerializeField] private float _deathZoomSize = 3.5f;   // во что зумим (ортографический размер)
-        [SerializeField] private float _zoomDuration = 0.6f;    // длительность зума (реальное время)
-
         private CinemachineVirtualCamera _virtualCamera;
         private Coroutine _zoomCoroutine;
         private float _defaultOrthoSize;

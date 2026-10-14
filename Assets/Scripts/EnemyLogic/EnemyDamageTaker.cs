@@ -118,6 +118,7 @@ namespace EnemyLogic
                 _deathSound.Play();
 
             _ejector.Eject();
+            _enemyAnimator.ResetSpeed();
             if (_wasKilledByBerserk)
                 _enemyAnimator.PlayPopDeathAnimation();
             else

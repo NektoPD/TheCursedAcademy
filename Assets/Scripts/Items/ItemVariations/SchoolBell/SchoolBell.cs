@@ -21,8 +21,6 @@ namespace Items.ItemVariations.SchoolBell
         [SerializeField] private float _radiusIncreasePerLevel = 0.5f;
         [SerializeField] private float _cooldownReductionPerLevel = 0.9f;
 
-        private float _effectDurationMultiplier = 1f;
-        private float _radiusMultiplier = 1f;
         private ItemProjectilePool _projectilePool;
         private Transform _transform;
         
@@ -35,9 +33,6 @@ namespace Items.ItemVariations.SchoolBell
             _projectilePool.Initialize(_bellProjectilePrefab, _initialPoolSize);
             _transform = transform;
 
-            _effectDurationMultiplier = 1f;
-            _radiusMultiplier = 1f;
-            
             _currentEffectDurationMult = 1f;
             _currentRadiusMult = 1f;
         }

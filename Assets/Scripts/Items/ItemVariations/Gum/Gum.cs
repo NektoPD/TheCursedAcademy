@@ -14,7 +14,6 @@ namespace Items.ItemVariations.Gum
 
         private Transform _transform;
         private ItemProjectilePool _projectilePool;
-        private float _damageMultiplier = 1f;
         private int _projectileDirections = 4;
 
         private readonly Vector2[] _allDirections = new Vector2[]

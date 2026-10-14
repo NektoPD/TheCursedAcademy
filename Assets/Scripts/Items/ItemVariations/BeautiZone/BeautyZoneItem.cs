@@ -16,9 +16,6 @@ namespace Items.ItemVariations.BeautiZone
         [SerializeField] private float _zoneDuration = 2f;
         [SerializeField] private int _initialPoolSize = 2;
         [SerializeField] private float _spawnYOffset = 0.7f;
-        [SerializeField] private float _damageMultiplier = 1f;
-        [SerializeField] private float _radiusMultiplier = 1f;
-        [SerializeField] private float _durationMultiplier = 1f;
         [SerializeField] private float _projectileReturnDelay = 0.5f;
 
         private ItemProjectilePool _projectilePool;

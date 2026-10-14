@@ -18,6 +18,7 @@ namespace CharacterLogic
         public int CurrentExp { get; private set; } = 0;
         public int CurrentLevel => _currentLevel;
         public int RequiredExpForNextLevel => _requiredExpForNextLevel;
+        public float ExperienceMultiplier => _expMultiplier;
 
         public event Action LeveledUp;
 

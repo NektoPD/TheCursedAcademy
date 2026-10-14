@@ -44,15 +44,11 @@ namespace CharacterLogic
         {
             if (_pickupCollider == null)
             {
-                Debug.LogWarning("[Magnet perk] Pickup BoxCollider2D not found; cannot apply pickup radius.", this);
                 return;
             }
 
             float extraReach = (PickupRadius.Scale - 1f) * PickupReachAtHundredPercentBonus;
             _pickupCollider.size = _basePickupColliderSize + Vector2.one * (extraReach * 2f);
-            Debug.Log($"[Magnet perk] Pickup collider initial size: {_basePickupColliderSize}; " +
-                      $"after bonus +{(PickupRadius.Scale - 1f) * 100f:0}% " +
-                      $"(+{extraReach:0.##} units per side): {_pickupCollider.size}", this);
         }
 
         private void Update()

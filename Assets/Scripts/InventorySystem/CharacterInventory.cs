@@ -65,8 +65,6 @@ namespace InventorySystem
 
         public void RemoveItem(ItemVariations itemVariations)
         {
-            if (itemVariations == null) throw new ArgumentNullException(nameof(itemVariations));
-
             Item itemToRemove = _collectedItems.FirstOrDefault(item => item.VisualData.Variation == itemVariations);
 
             if (itemToRemove == null)

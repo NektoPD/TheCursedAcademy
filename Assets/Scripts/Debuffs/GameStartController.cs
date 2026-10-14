@@ -3,6 +3,7 @@ using CharacterLogic;
 using CharacterLogic.Initializer;
 using Difficulties;
 using UnityEngine;
+using UnityEngine.UI;
 using Utils;
 
 namespace Debuffs
@@ -15,6 +16,7 @@ namespace Debuffs
         [SerializeField] private UI.TimeView _timeView;
         [SerializeField] private SlotMachineWindow _slotMachineWindow;
         [SerializeField] private CurseRevealOverlay _curseRevealOverlay;
+        [SerializeField] private Button _pauseButton;
         [SerializeField, Min(0f)] private float _negativeEffectIncreasePercent = 25f;
         [SerializeField, Min(0f)] private float _coinBonusPercent = 25f;
 
@@ -22,6 +24,16 @@ namespace Debuffs
         private IReadOnlyList<DebuffRoll> _debuffs;
         private bool _choiceHandled;
         private bool _pauseHeld;
+        private float _selectedNegativeEffectIncreasePercent;
+        private float _selectedCoinBonusPercent;
+
+        public bool IsGameStarted { get; private set; }
+
+        private void Awake()
+        {
+            if (_pauseButton != null)
+                _pauseButton.gameObject.SetActive(false);
+        }
 
         private void OnEnable()
         {
@@ -44,6 +56,7 @@ namespace Debuffs
         private void OnCharacterCreated(Character character)
         {
             _character = character;
+            IsGameStarted = false;
             _choiceHandled = false;
             _pauseHeld = true;
             GamePauseController.HoldPause(muteAudio: false);
@@ -61,7 +74,10 @@ namespace Debuffs
         private void OnSlotClosed()
         {
             _slotMachineWindow.Closed -= OnSlotClosed;
-            _curseRevealOverlay.Show(_debuffs, _negativeEffectIncreasePercent, _coinBonusPercent);
+            _selectedNegativeEffectIncreasePercent = Mathf.Max(0f, _negativeEffectIncreasePercent);
+            _selectedCoinBonusPercent = Mathf.Max(0f, _coinBonusPercent);
+            _curseRevealOverlay.Show(_debuffs, _selectedNegativeEffectIncreasePercent, _selectedCoinBonusPercent,
+                _character.GetStatsSnapshot());
         }
 
         private void OnCurseRevealConfirmed(bool dealAccepted)
@@ -72,10 +88,10 @@ namespace Debuffs
             _choiceHandled = true;
 
             float negativeEffectMultiplier = dealAccepted
-                ? 1f + _negativeEffectIncreasePercent / 100f
+                ? 1f + _selectedNegativeEffectIncreasePercent / 100f
                 : 1f;
             float coinMultiplier = dealAccepted
-                ? 1f + _coinBonusPercent / 100f
+                ? 1f + _selectedCoinBonusPercent / 100f
                 : 1f;
 
             _character.ApplyDebuffs(_debuffs, negativeEffectMultiplier);
@@ -89,6 +105,7 @@ namespace Debuffs
 
             ReleasePause();
             _character.ActivateCharacter();
+            IsGameStarted = true;
             _difficulty.StartSpawning();
 
             if (_eventStarter != null)
@@ -96,6 +113,9 @@ namespace Debuffs
 
             if (_timeView != null)
                 _timeView.StartTimer();
+
+            if (_pauseButton != null)
+                _pauseButton.gameObject.SetActive(true);
         }
 
         private void ReleasePause()

@@ -52,6 +52,10 @@ namespace Debuffs
 
             _spinRoutine = null;
             _result = result;
+
+            foreach (Image cell in _cells)
+                cell.sprite = GetRandomIcon();
+
             AlignToCenter(result);
             _isStopped = true;
         }
