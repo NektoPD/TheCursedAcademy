@@ -113,9 +113,9 @@ namespace Debuffs
 
             if (_boostDescription != null)
                 _boostDescription.text = Translator.Translate(
-                    $"Проклятия сильнее\nна {_negativeEffectIncreasePercent:0}% за",
-                    $"Stronger curses\n+{_negativeEffectIncreasePercent:0}% for",
-                    $"Lanet gücü +%{_negativeEffectIncreasePercent:0}\nkarşılığında");
+                    $"Проклятия сильнее на {_negativeEffectIncreasePercent:0}% за",
+                    $"Stronger curses +{_negativeEffectIncreasePercent:0}% for",
+                    $"Lanet gücü +%{_negativeEffectIncreasePercent:0}karşılığında");
 
             if (_coinBonusText != null)
                 _coinBonusText.text = $"+{_coinBonusPercent:0}%";
