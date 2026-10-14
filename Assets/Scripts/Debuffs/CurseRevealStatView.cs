@@ -32,7 +32,6 @@ namespace Debuffs
 
         private float _baseline;
         private float _multiplier;
-        private int _effectIndex;
 
         public PerkType Type => (PerkType)_stat;
 
@@ -40,7 +39,6 @@ namespace Debuffs
         {
             _baseline = baseline;
             _multiplier = 1f;
-            _effectIndex = 0;
 
             if (_icon != null)
             {
@@ -55,14 +53,9 @@ namespace Debuffs
                 _name.text = GetName();
         }
 
-        public void AddEffect(Sprite icon, float multiplier)
+        public void AddEffect(float multiplier)
         {
             _multiplier *= multiplier;
-
-            if (_effectIndex < _effectSlots.Count)
-                _effectSlots[_effectIndex]?.Show(icon, multiplier, Type);
-
-            _effectIndex++;
         }
 
         public void CompletePreview()
@@ -115,34 +108,13 @@ namespace Debuffs
         private class EffectSlot
         {
             [SerializeField] private GameObject _root;
-            [SerializeField] private Image _icon;
-            [SerializeField] private TMP_Text _percentage;
 
             public void Hide()
             {
                 if (_root != null)
                     _root.SetActive(false);
             }
-
-            public void Show(Sprite sprite, float multiplier, PerkType type)
-            {
-                Color color = EffectColor(type, multiplier);
-
-                if (_icon != null)
-                {
-                    _icon.sprite = sprite;
-                    _icon.enabled = sprite != null;
-                }
-
-                if (_percentage != null)
-                {
-                    _percentage.text = Percent(multiplier);
-                    _percentage.color = color;
-                }
-
-                if (_root != null)
-                    _root.SetActive(true);
-            }
         }
+
     }
 }

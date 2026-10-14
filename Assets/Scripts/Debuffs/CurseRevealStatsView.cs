@@ -88,7 +88,7 @@ namespace Debuffs
                         foreach (DebuffModifier modifier in roll.GetModifiers(negativeEffectMultiplier))
                         {
                             if (modifier.Type == view.Type && modifier.Multiplier != 1f)
-                                view.AddEffect(roll.Icon, modifier.Multiplier);
+                                view.AddEffect(modifier.Multiplier);
                         }
                     }
                 }
