@@ -27,8 +27,12 @@ namespace EnemyLogic
         private bool _canMove = true;
         private Vector2 _personalOffset;
         private float _noiseSeed;
+        private Vector2 _lastFixedPosition;
+        private Vector2 _velocity;
 
         public event Action<Transform> TargetInRange;
+
+        public Vector2 Velocity => _velocity;
 
         [Inject]
         public void Construct(CharacterInitializer initializer)
@@ -41,6 +45,13 @@ namespace EnemyLogic
             _transform = transform;
             _noiseSeed = UnityEngine.Random.Range(0f, 100f);
             _enemyView = GetComponent<EnemyAnimator>();
+            _lastFixedPosition = _transform.position;
+        }
+
+        private void OnEnable()
+        {
+            _lastFixedPosition = transform.position;
+            _velocity = Vector2.zero;
         }
         
         private void Update()
@@ -56,6 +67,14 @@ namespace EnemyLogic
 
         private void FixedUpdate()
         {
+            Vector2 delta = (Vector2)_transform.position - _lastFixedPosition;
+            float maxStep = _speed * Time.fixedDeltaTime;
+
+            if (delta.sqrMagnitude <= maxStep * maxStep)
+                _velocity = delta / Time.fixedDeltaTime;
+
+            _lastFixedPosition = _transform.position;
+
             if (!_canMove || _initializer == null)
                 return;
 
