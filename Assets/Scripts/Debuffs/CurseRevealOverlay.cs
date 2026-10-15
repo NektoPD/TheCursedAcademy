@@ -22,6 +22,7 @@ namespace Debuffs
         [SerializeField] private float _charInterval = 0.04f;
 
         private readonly List<int> _revealAt = new();
+        private readonly List<int> _revealDebuffIndices = new();
         private IReadOnlyList<DebuffRoll> _debuffs;
         private IReadOnlyDictionary<PerkType, float> _baseStats;
         private float _negativeEffectIncreasePercent;
@@ -53,6 +54,7 @@ namespace Debuffs
 
             Opened -= OnOpened;
             StopPresentationAnimations();
+            ClearEffectIconGroups();
 
             if (_routine != null)
             {
@@ -93,14 +95,21 @@ namespace Debuffs
             _text.ForceMeshUpdate();
             _text.maxVisibleCharacters = 0;
             PrepareIcons(debuffs);
+            PrepareEffectIcons(debuffs, 1f);
             SetButtonsVisible(false);
             OpenUnscaledTime();
         }
 
         private void OnBoostChanged(bool enabled)
         {
-            if (!_choiceMade)
-                RefreshPreview();
+            if (_choiceMade)
+                return;
+
+            RefreshPreview();
+            float multiplier = enabled ? 1f + _negativeEffectIncreasePercent / 100f : 1f;
+            PrepareEffectIcons(_debuffs, multiplier);
+            if (!_isRevealing)
+                RevealAllEffectIcons();
         }
 
         private void RefreshPreview()
@@ -146,6 +155,7 @@ namespace Debuffs
             {
                 _text.maxVisibleCharacters = i;
                 RevealIconsUpTo(i);
+                RevealEffectIconsUpTo(i);
                 yield return wait;
             }
 
@@ -168,6 +178,7 @@ namespace Debuffs
             _isRevealing = false;
             _text.maxVisibleCharacters = int.MaxValue;
             RevealAllIcons();
+            RevealAllEffectIcons();
             SetButtonsVisible(true);
         }
 
@@ -187,10 +198,14 @@ namespace Debuffs
 
         private void RevealIconsUpTo(int visibleCharacters)
         {
-            for (int i = 0; i < _icons.Count && i < _revealAt.Count; i++)
+            for (int i = 0; i < _revealAt.Count; i++)
             {
-                if (visibleCharacters >= _revealAt[i])
-                    RevealAnimatedIcon(_icons[i]);
+                if (visibleCharacters < _revealAt[i])
+                    continue;
+
+                int debuffIndex = _revealDebuffIndices[i];
+                if (debuffIndex < _icons.Count)
+                    RevealAnimatedIcon(_icons[debuffIndex]);
             }
         }
 
@@ -205,17 +220,20 @@ namespace Debuffs
         private string BuildText(IReadOnlyList<DebuffRoll> debuffs)
         {
             _revealAt.Clear();
+            _revealDebuffIndices.Clear();
             var builder = new StringBuilder();
             builder.AppendLine(Header);
 
             if (debuffs != null)
             {
-                foreach (DebuffRoll debuff in debuffs)
+                for (int i = 0; i < debuffs.Count; i++)
                 {
+                    DebuffRoll debuff = debuffs[i];
                     if (debuff == null)
                         continue;
 
                     _revealAt.Add(builder.Length);
+                    _revealDebuffIndices.Add(i);
                     builder.AppendLine("- " + debuff.Name);
                 }
             }
@@ -249,6 +267,7 @@ namespace Debuffs
             }
 
             _isRevealing = false;
+            ClearEffectIconGroups();
             Confirmed?.Invoke(_boostToggle != null && _boostToggle.isOn);
             base.CloseUnscaledTime();
         }

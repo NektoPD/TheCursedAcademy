@@ -63,6 +63,13 @@ namespace Items.ItemVariations.LaRobba
             _rb.gravityScale = _gravity / Physics2D.gravity.magnitude;
         }
 
+        public float EstimateFallTime(float fallDistance, float speed)
+        {
+            float gravity = Mathf.Max(0.01f, _gravity);
+            float discriminant = speed * speed + 2f * gravity * Mathf.Max(0f, fallDistance);
+            return (Mathf.Sqrt(discriminant) - speed) / gravity;
+        }
+
         private void UpdateColliderToSprite(Sprite sprite)
         {
             if (_circleCollider == null || sprite == null) return;

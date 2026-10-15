@@ -107,5 +107,7 @@ namespace Debuffs
 
             return null;
         }
+
+        public Sprite GetStatIcon(PerkType type) => FindStatIcon(type);
     }
 }

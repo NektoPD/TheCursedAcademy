@@ -1,4 +1,5 @@
 using CharacterLogic;
+using EnemyLogic;
 using Items.BaseClass;
 using Items.Enums;
 using Items.Pools;
@@ -57,14 +58,46 @@ namespace Items.ItemVariations.LaRobba
 
             for (int i = 0; i < toSpawn; i++)
             {
-                SpawnProjectileAt(colliders[i].transform.position);
+                SpawnProjectileAt(GetAimPosition(colliders[i]));
             }
 
             for (int i = toSpawn; i < _projectilesPerAttack; i++)
             {
                 int idx = Random.Range(0, validCount);
-                SpawnProjectileAt(colliders[idx].transform.position);
+                SpawnProjectileAt(GetAimPosition(colliders[idx]));
             }
+        }
+
+        private Vector2 GetAimPosition(Collider2D enemy)
+        {
+            Vector2 enemyPos = enemy.transform.position;
+            float spawnY = GetSpawnPositionAboveScreen(enemyPos.x).y;
+            float fallTime = _projectilePrefab.EstimateFallTime(spawnY - enemyPos.y, _projectileSpeed);
+
+            if (fallTime <= 0f)
+                return enemyPos;
+
+            Vector2 velocity = GetEnemyVelocity(enemy);
+
+            if (velocity == Vector2.zero)
+                return enemyPos;
+
+            return enemyPos + velocity * fallTime;
+        }
+
+        private static Vector2 GetEnemyVelocity(Collider2D enemy)
+        {
+            EnemyMover mover = enemy.GetComponentInParent<EnemyMover>();
+
+            if (mover != null)
+                return mover.Velocity;
+
+            Rigidbody2D enemyRigidbody = enemy.attachedRigidbody;
+
+            if (enemyRigidbody == null)
+                return Vector2.zero;
+
+            return enemyRigidbody.velocity;
         }
 
         private void SpawnProjectileAt(Vector2 enemyPos)
