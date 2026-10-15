@@ -16,6 +16,7 @@ namespace Debuffs
 
         private sealed class IconMotion
         {
+            public Transform Target;
             public Vector3 InitialScale;
             public Tween Tween;
         }
@@ -26,28 +27,37 @@ namespace Debuffs
             {
                 if (entry.Value.Tween != null
                     && (entry.Key == null || !entry.Key.gameObject.activeInHierarchy))
-                    StopIconAnimation(entry.Key, entry.Value);
+                    StopIconAnimation(entry.Value);
             }
         }
 
-        private static void StopIconAnimation(Image icon, IconMotion motion)
+        private static void StopIconAnimation(IconMotion motion)
         {
             motion.Tween?.Kill(false);
             motion.Tween = null;
 
-            if (icon != null)
-                icon.transform.localScale = motion.InitialScale;
+            if (motion.Target != null)
+                motion.Target.localScale = motion.InitialScale;
         }
 
         private IconMotion PrepareIconAnimation(Image icon)
         {
             if (!_iconMotions.TryGetValue(icon, out IconMotion motion))
             {
-                motion = new IconMotion { InitialScale = icon.transform.localScale };
+                Transform target = icon.transform;
+                Transform parent = target.parent;
+                if (parent != null && parent.TryGetComponent<Image>(out _))
+                    target = parent;
+
+                motion = new IconMotion
+                {
+                    Target = target,
+                    InitialScale = target.localScale
+                };
                 _iconMotions.Add(icon, motion);
             }
 
-            StopIconAnimation(icon, motion);
+            StopIconAnimation(motion);
             return motion;
         }
 
@@ -57,7 +67,8 @@ namespace Debuffs
                 return;
 
             IconMotion motion = PrepareIconAnimation(icon);
-            Transform iconTransform = icon.transform;
+            // Animate the frame as a unit with its child icon, without doubling the scale.
+            Transform iconTransform = motion.Target;
             iconTransform.localScale = motion.InitialScale * _iconAppearStartScale;
             icon.gameObject.SetActive(true);
             motion.Tween = iconTransform
@@ -82,7 +93,7 @@ namespace Debuffs
         {
             foreach (KeyValuePair<Image, IconMotion> entry in _iconMotions)
             {
-                StopIconAnimation(entry.Key, entry.Value);
+                StopIconAnimation(entry.Value);
             }
 
             if (_statsView != null)

@@ -82,7 +82,7 @@ namespace Debuffs
 
         public IEnumerable<DebuffModifier> GetModifiers(float negativeEffectMultiplier = 1f)
         {
-            if (Data == null)
+            if (Data == null || Data.Modifiers == null)
                 yield break;
 
             foreach (DebuffModifier modifier in Data.Modifiers)
