@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Text;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -12,7 +11,6 @@ namespace Debuffs
 {
     public partial class CurseRevealOverlay : UI.Window, IPointerClickHandler
     {
-        [SerializeField] private TMP_Text _text;
         [SerializeField] private Button _closeButton;
         [SerializeField] private Toggle _boostToggle;
         [SerializeField] private TMP_Text _boostDescription;
@@ -21,8 +19,6 @@ namespace Debuffs
         [SerializeField] private List<Image> _icons = new();
         [SerializeField] private float _charInterval = 0.04f;
 
-        private readonly List<int> _revealAt = new();
-        private readonly List<int> _revealDebuffIndices = new();
         private IReadOnlyList<DebuffRoll> _debuffs;
         private IReadOnlyDictionary<PerkType, float> _baseStats;
         private float _negativeEffectIncreasePercent;
@@ -30,8 +26,6 @@ namespace Debuffs
         private Coroutine _routine;
         private bool _isRevealing;
         private bool _choiceMade;
-
-        private string Header => Translator.Translate("Твои проклятия:", "Your Curses are:", "Lanetlerin:");
 
         public event Action<bool> Confirmed;
 
@@ -54,7 +48,7 @@ namespace Debuffs
 
             Opened -= OnOpened;
             StopPresentationAnimations();
-            ClearEffectIconGroups();
+            HideCurseEffectStats();
 
             if (_routine != null)
             {
@@ -91,11 +85,9 @@ namespace Debuffs
                 _statsView.PrepareAppearance();
 
             SetButtonsInteractable(true);
-            _text.text = BuildText(debuffs);
-            _text.ForceMeshUpdate();
-            _text.maxVisibleCharacters = 0;
+            PrepareCurseTitles(debuffs);
             PrepareIcons(debuffs);
-            PrepareEffectIcons(debuffs, 1f);
+            PrepareCurseEffectStats(debuffs, 1f);
             SetButtonsVisible(false);
             OpenUnscaledTime();
         }
@@ -107,9 +99,9 @@ namespace Debuffs
 
             RefreshPreview();
             float multiplier = enabled ? 1f + _negativeEffectIncreasePercent / 100f : 1f;
-            PrepareEffectIcons(_debuffs, multiplier);
+            PrepareCurseEffectStats(_debuffs, multiplier);
             if (!_isRevealing)
-                RevealAllEffectIcons();
+                RevealAllCurseEffectStats();
         }
 
         private void RefreshPreview()
@@ -147,16 +139,31 @@ namespace Debuffs
         private IEnumerator RevealRoutine()
         {
             _isRevealing = true;
-            _text.ForceMeshUpdate();
-            int totalCharacters = _text.textInfo.characterCount;
             var wait = new WaitForSecondsRealtime(_charInterval);
 
-            for (int i = 0; i <= totalCharacters; i++)
+            if (_debuffs != null)
             {
-                _text.maxVisibleCharacters = i;
-                RevealIconsUpTo(i);
-                RevealEffectIconsUpTo(i);
-                yield return wait;
+                for (int curseIndex = 0; curseIndex < _debuffs.Count; curseIndex++)
+                {
+                    if (_debuffs[curseIndex] == null)
+                        continue;
+
+                    if (curseIndex < _icons.Count)
+                        RevealAnimatedIcon(_icons[curseIndex]);
+
+                    CurseRevealCurseSlot slot = curseIndex < _curseSlots.Count
+                        ? _curseSlots[curseIndex]
+                        : null;
+                    if (slot == null)
+                        continue;
+
+                    slot.RevealEffects();
+                    for (int character = 0; character <= slot.TitleCharacterCount; character++)
+                    {
+                        slot.SetTitleVisibleCharacters(character);
+                        yield return wait;
+                    }
+                }
             }
 
             _isRevealing = false;
@@ -176,9 +183,9 @@ namespace Debuffs
             }
 
             _isRevealing = false;
-            _text.maxVisibleCharacters = int.MaxValue;
+            RevealAllCurseTitles();
             RevealAllIcons();
-            RevealAllEffectIcons();
+            RevealAllCurseEffectStats();
             SetButtonsVisible(true);
         }
 
@@ -196,49 +203,12 @@ namespace Debuffs
             }
         }
 
-        private void RevealIconsUpTo(int visibleCharacters)
-        {
-            for (int i = 0; i < _revealAt.Count; i++)
-            {
-                if (visibleCharacters < _revealAt[i])
-                    continue;
-
-                int debuffIndex = _revealDebuffIndices[i];
-                if (debuffIndex < _icons.Count)
-                    RevealAnimatedIcon(_icons[debuffIndex]);
-            }
-        }
-
         private void RevealAllIcons()
         {
             foreach (Image icon in _icons)
             {
                 RevealAnimatedIcon(icon);
             }
-        }
-
-        private string BuildText(IReadOnlyList<DebuffRoll> debuffs)
-        {
-            _revealAt.Clear();
-            _revealDebuffIndices.Clear();
-            var builder = new StringBuilder();
-            builder.AppendLine(Header);
-
-            if (debuffs != null)
-            {
-                for (int i = 0; i < debuffs.Count; i++)
-                {
-                    DebuffRoll debuff = debuffs[i];
-                    if (debuff == null)
-                        continue;
-
-                    _revealAt.Add(builder.Length);
-                    _revealDebuffIndices.Add(i);
-                    builder.AppendLine("- " + debuff.Name);
-                }
-            }
-
-            return builder.ToString();
         }
 
         private void OnClosePressed()
@@ -267,7 +237,7 @@ namespace Debuffs
             }
 
             _isRevealing = false;
-            ClearEffectIconGroups();
+            HideCurseEffectStats();
             Confirmed?.Invoke(_boostToggle != null && _boostToggle.isOn);
             base.CloseUnscaledTime();
         }
