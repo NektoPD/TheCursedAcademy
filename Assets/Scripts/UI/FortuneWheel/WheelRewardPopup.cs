@@ -26,6 +26,7 @@ namespace UI.FortuneWheel
         [SerializeField] private WheelRewardView _rewardCardPrefab;
         [SerializeField] private RectTransform _rewardsContent;
         [SerializeField] private ScrollRect _rewardsScroll;
+        [SerializeField] private WheelRewardStatsView _statsView;
 
         [Header("Reward Appearance")]
         [SerializeField, Min(0.01f)] private float _rewardAppearDuration = 0.3f;
@@ -139,7 +140,8 @@ namespace UI.FortuneWheel
             _description.text = GetBuffDescription(buff);
         }
 
-        public void ShowRewards(IReadOnlyList<WheelReward> rewards)
+        public void ShowRewards(IReadOnlyList<WheelReward> rewards,
+            IReadOnlyDictionary<PerkType, float> baseStats = null)
         {
             if (rewards == null || rewards.Count == 0)
                 return;
@@ -161,7 +163,7 @@ namespace UI.FortuneWheel
             if (displayRewards.Count == 0)
                 return;
 
-            BeginShow(true);
+            BeginShow(true, baseStats);
             _presentationRoutine = StartCoroutine(RevealRewards(displayRewards));
         }
 
@@ -187,9 +189,12 @@ namespace UI.FortuneWheel
                 "x" + buff.Multiplier.ToString("0.##") + " " + buff.DurationSeconds.ToString("0.##") + " sn");
         }
 
-        private void BeginShow(bool batch)
+        private void BeginShow(bool batch, IReadOnlyDictionary<PerkType, float> baseStats = null)
         {
             StopPresentation();
+            if (_statsView != null)
+                _statsView.BeginPreview(baseStats);
+
             _isShowingRewards = batch;
             _isPopupOpen = false;
             foreach (var card in _spawnedRewards)
@@ -290,11 +295,13 @@ namespace UI.FortuneWheel
                 {
                     WheelRewardType.Gold => "+" + reward.GoldAmount,
                     WheelRewardType.Buff => GetBuffDescription(reward.Buff),
-                    _ => reward.Item.Description
+                    _ => reward.ItemUpgradeDescription ?? reward.Item.Description
                 };
                 Sprite sprite = reward.Type == WheelRewardType.Gold ? _goldIcon : reward.Sprite;
                 card.Initialize(title, description, sprite);
                 card.PrepareAppearance();
+                if (reward.Type == WheelRewardType.Buff && _statsView != null)
+                    _statsView.AddBuff(reward.Buff);
                 RebuildRewardLayout();
 
                 if (i == 0 && _rewardsScroll != null)
@@ -394,6 +401,9 @@ namespace UI.FortuneWheel
                 if (card != null)
                     card.StopAppearance();
             }
+
+            if (_statsView != null)
+                _statsView.StopAppearance();
 
             UpdateScrollIndicator();
         }

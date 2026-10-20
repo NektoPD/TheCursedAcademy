@@ -1,4 +1,7 @@
 using System.Collections.Generic;
+using System.Linq;
+using Items.BaseClass;
+using Items.Stats;
 using UI.FortuneWheel;
 using Utils;
 
@@ -7,6 +10,7 @@ namespace UI
     public partial class CharacterUIObserver
     {
         private readonly List<WheelReward> _wheelRewards = new();
+        private readonly List<WheelReward> _wheelItemUpgrades = new();
         private int _nextRewardIndex;
         private bool _isGrantingRewards;
         private bool _waitingForItemWindow;
@@ -68,7 +72,7 @@ namespace UI
             _fortuneWheelWindow.CloseUnscaledTime();
 
             if (_wheelRewards.Count > 0)
-                _rewardPopup.ShowRewards(_wheelRewards);
+                _rewardPopup.ShowRewards(_wheelRewards, _character.GetStatsSnapshot());
         }
 
         private void OnWheelClosed()
@@ -78,7 +82,7 @@ namespace UI
 
         private void OnRewardPopupConfirmed()
         {
-            if (!_rewardPauseHeld || _isGrantingRewards)
+            if (!_rewardPauseHeld)
                 return;
 
             _isGrantingRewards = true;
@@ -98,7 +102,7 @@ namespace UI
                 switch (reward.Type)
                 {
                     case WheelRewardType.Item:
-                        _character.SelectWheelItem(reward.Item.Variation);
+                        GrantWheelItem(reward);
                         break;
                     case WheelRewardType.Gold:
                         _character.AddWheelGold(reward.GoldAmount);
@@ -116,6 +120,28 @@ namespace UI
             TryCompleteRewardBatch();
         }
 
+        private void GrantWheelItem(WheelReward reward)
+        {
+            Item existingItem = _character.Inventory.Items.FirstOrDefault(
+                item => item.Data.ItemVariation == reward.Item.Variation);
+            if (existingItem == null || existingItem.IsMaxLevelReached())
+            {
+                _character.SelectWheelItem(reward.Item.Variation);
+                return;
+            }
+
+            int previousLevel = existingItem.CurrentLevel;
+            var previousStats = existingItem.UiStats
+                .Where(stat => stat != null)
+                .Select(stat => new Stat(stat))
+                .ToList();
+
+            _character.SelectWheelItem(reward.Item.Variation);
+
+            if (existingItem.CurrentLevel > previousLevel)
+                _wheelItemUpgrades.Add(WheelReward.CreateItemUpgrade(existingItem, previousLevel, previousStats));
+        }
+
         private void TryCompleteRewardBatch()
         {
             if (!_rewardPauseHeld || IsWindowActive(_fortuneWheelWindow)
@@ -125,6 +151,13 @@ namespace UI
 
             if (_wheelRewards.Count > 0 && (!_isGrantingRewards || _nextRewardIndex < _wheelRewards.Count))
                 return;
+
+            if (_wheelItemUpgrades.Count > 0)
+            {
+                _rewardPopup.ShowRewards(_wheelItemUpgrades);
+                _wheelItemUpgrades.Clear();
+                return;
+            }
 
             _wheelRewards.Clear();
             _nextRewardIndex = 0;
