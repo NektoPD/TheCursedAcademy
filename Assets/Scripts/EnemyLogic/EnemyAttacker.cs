@@ -3,7 +3,6 @@ using EnemyLogic.Attackers;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 using Zenject;
 
@@ -18,7 +17,6 @@ namespace EnemyLogic
         private EnemyMover _mover;
         private EnemyAnimator _view;
         private AttackerManager _attackerManager;
-        private Transform _target;
         private List<AttackData> _attacksData;
         private AttackData _currentAttack;
         private AttackData _lastAttack;
@@ -70,8 +68,6 @@ namespace EnemyLogic
             if (_blocked) 
                 return;
 
-            _target = target;
-
             if (_currentAttack != null)
             {
                 _lastAttack = _currentAttack;
@@ -92,8 +88,6 @@ namespace EnemyLogic
 
             _attackerManager.ExecuteAttack(_lastAttack, this);
         }
-
-        private void SetProjectileSpawnPointOnTarget() => _projectileSpawnPoints[0] = _target;
 
         private bool TryGetNewAttack(out AttackData attack)
         {

@@ -27,9 +27,8 @@ namespace EnemyLogic.Attackers
                     Projectile projectile = _pool.Get(rangeData.ProjectileData);
 
                     var spawnPoint = EnemyAttacker.ProjectileSpawnPoints[i % EnemyAttacker.ProjectileSpawnPoints.Count];
-                    
-                    projectile.transform.position = spawnPoint.position;
 
+                    projectile.transform.position = spawnPoint.position;
                     projectile.SetDamage(rangeData.Damage);
                     projectile.SetDirection((_initializer.PlayerTransform.position - EnemyAttacker.ProjectileSpawnPoints[i].position).normalized);
                 }
