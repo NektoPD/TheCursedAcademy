@@ -34,7 +34,6 @@ namespace UI.FortuneWheel
         [SerializeField] private AudioClip _rewardAppearClip;
 
         [Header("Reward Scrolling")]
-        [SerializeField] private GameObject _scrollIndicator;
         [SerializeField, Min(0.01f)] private float _autoScrollDuration = 0.45f;
 
         private readonly List<WheelRewardView> _spawnedRewards = new();
@@ -64,11 +63,6 @@ namespace UI.FortuneWheel
         private void OnPopupOpened()
         {
             _isPopupOpen = true;
-        }
-
-        private void LateUpdate()
-        {
-            UpdateScrollIndicator();
         }
 
         public override void CloseWindow()
@@ -148,11 +142,9 @@ namespace UI.FortuneWheel
 
             if (_claimButton == null || _rewardsContent == null || _rewardCardPrefab == null)
             {
-                Debug.LogError("WheelRewardPopup: assign Claim Button, Rewards Content and Reward Card Prefab.", this);
                 return;
             }
 
-            // Snapshot before opening: callbacks may change the parent's mutable list.
             var displayRewards = new List<WheelReward>(rewards.Count);
             foreach (var reward in rewards)
             {
@@ -348,7 +340,6 @@ namespace UI.FortuneWheel
         {
             Canvas.ForceUpdateCanvases();
             LayoutRebuilder.ForceRebuildLayoutImmediate(_rewardsContent);
-            UpdateScrollIndicator();
         }
 
         private bool HasScrollOverflow()
@@ -361,26 +352,6 @@ namespace UI.FortuneWheel
                 : (RectTransform)_rewardsScroll.transform;
             return (_rewardsScroll.horizontal && _rewardsContent.rect.width > viewport.rect.width + 1f)
                 || (_rewardsScroll.vertical && _rewardsContent.rect.height > viewport.rect.height + 1f);
-        }
-
-        private void UpdateScrollIndicator()
-        {
-            GameObject indicator = _scrollIndicator;
-            if (indicator == null && _rewardsScroll != null)
-            {
-                var scrollbar = _rewardsScroll.horizontal
-                    ? _rewardsScroll.horizontalScrollbar
-                    : _rewardsScroll.verticalScrollbar;
-                if (scrollbar != null)
-                    indicator = scrollbar.gameObject;
-            }
-
-            if (indicator == null)
-                return;
-
-            bool visible = _isShowingRewards && HasScrollOverflow();
-            if (indicator.activeSelf != visible)
-                indicator.SetActive(visible);
         }
 
         private void StopPresentation()
@@ -404,8 +375,6 @@ namespace UI.FortuneWheel
 
             if (_statsView != null)
                 _statsView.StopAppearance();
-
-            UpdateScrollIndicator();
         }
     }
 }

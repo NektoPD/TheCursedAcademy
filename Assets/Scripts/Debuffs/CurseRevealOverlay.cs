@@ -62,6 +62,7 @@ namespace Debuffs
         public void Show(IReadOnlyList<DebuffRoll> debuffs, float negativeEffectIncreasePercent,
             float coinBonusPercent, IReadOnlyDictionary<PerkType, float> baseStats)
         {
+            OpenUnscaledTime();
             StopPresentationAnimations();
 
             if (_routine != null)
@@ -89,7 +90,6 @@ namespace Debuffs
             PrepareIcons(debuffs);
             PrepareCurseEffectStats(debuffs, 1f);
             SetButtonsVisible(false);
-            OpenUnscaledTime();
         }
 
         private void OnBoostChanged(bool enabled)
