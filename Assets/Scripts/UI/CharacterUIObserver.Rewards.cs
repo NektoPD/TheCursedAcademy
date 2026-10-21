@@ -10,7 +10,7 @@ namespace UI
     public partial class CharacterUIObserver
     {
         private readonly List<WheelReward> _wheelRewards = new();
-        private readonly List<WheelReward> _wheelItemUpgrades = new();
+        private IReadOnlyDictionary<PerkType, float> _wheelRewardBaseStats;
         private int _nextRewardIndex;
         private bool _isGrantingRewards;
         private bool _waitingForItemWindow;
@@ -69,15 +69,17 @@ namespace UI
                 return;
             }
 
+            _wheelRewardBaseStats = _character.GetStatsSnapshot();
+            _isGrantingRewards = true;
             _fortuneWheelWindow.CloseUnscaledTime();
-
-            if (_wheelRewards.Count > 0)
-                _rewardPopup.ShowRewards(_wheelRewards, _character.GetStatsSnapshot());
         }
 
         private void OnWheelClosed()
         {
-            TryCompleteRewardBatch();
+            if (_isGrantingRewards)
+                GrantNextRewards();
+            else
+                TryCompleteRewardBatch();
         }
 
         private void OnRewardPopupConfirmed()
@@ -85,7 +87,6 @@ namespace UI
             if (!_rewardPauseHeld)
                 return;
 
-            _isGrantingRewards = true;
             _rewardPopup.CloseUnscaledTime();
         }
 
@@ -102,7 +103,7 @@ namespace UI
                 switch (reward.Type)
                 {
                     case WheelRewardType.Item:
-                        GrantWheelItem(reward);
+                        _wheelRewards[_nextRewardIndex - 1] = GrantWheelItem(reward);
                         break;
                     case WheelRewardType.Gold:
                         _character.AddWheelGold(reward.GoldAmount);
@@ -120,14 +121,14 @@ namespace UI
             TryCompleteRewardBatch();
         }
 
-        private void GrantWheelItem(WheelReward reward)
+        private WheelReward GrantWheelItem(WheelReward reward)
         {
             Item existingItem = _character.Inventory.Items.FirstOrDefault(
                 item => item.Data.ItemVariation == reward.Item.Variation);
             if (existingItem == null || existingItem.IsMaxLevelReached())
             {
                 _character.SelectWheelItem(reward.Item.Variation);
-                return;
+                return reward;
             }
 
             int previousLevel = existingItem.CurrentLevel;
@@ -138,8 +139,9 @@ namespace UI
 
             _character.SelectWheelItem(reward.Item.Variation);
 
-            if (existingItem.CurrentLevel > previousLevel)
-                _wheelItemUpgrades.Add(WheelReward.CreateItemUpgrade(existingItem, previousLevel, previousStats));
+            return existingItem.CurrentLevel > previousLevel
+                ? WheelReward.CreateItemUpgrade(existingItem, previousLevel, previousStats)
+                : reward;
         }
 
         private void TryCompleteRewardBatch()
@@ -152,14 +154,14 @@ namespace UI
             if (_wheelRewards.Count > 0 && (!_isGrantingRewards || _nextRewardIndex < _wheelRewards.Count))
                 return;
 
-            if (_wheelItemUpgrades.Count > 0)
+            if (_wheelRewards.Count > 0)
             {
-                _rewardPopup.ShowRewards(_wheelItemUpgrades);
-                _wheelItemUpgrades.Clear();
+                _rewardPopup.ShowRewards(_wheelRewards, _wheelRewardBaseStats);
+                _wheelRewards.Clear();
                 return;
             }
 
-            _wheelRewards.Clear();
+            _wheelRewardBaseStats = null;
             _nextRewardIndex = 0;
             _isGrantingRewards = false;
             _waitingForItemWindow = false;

@@ -25,6 +25,7 @@ namespace UI.FortuneWheel
         [SerializeField] private AudioSource _audioSource;
         [SerializeField] private WheelRewardView _rewardCardPrefab;
         [SerializeField] private RectTransform _rewardsContent;
+        [SerializeField] private RectTransform _rewardsContentWithoutBuffs;
         [SerializeField] private ScrollRect _rewardsScroll;
         [SerializeField] private WheelRewardStatsView _statsView;
 
@@ -37,11 +38,12 @@ namespace UI.FortuneWheel
         [SerializeField, Min(0.01f)] private float _autoScrollDuration = 0.45f;
 
         private readonly List<WheelRewardView> _spawnedRewards = new();
+        private RectTransform _activeRewardsContent;
         private bool _confirmationPending;
         private Coroutine _presentationRoutine;
         private Tween _scrollTween;
         private bool _isPopupOpen;
-        private bool _isShowingRewards;
+        private bool _useRewardsScroll;
 
         public event Action Confirmed;
 
@@ -140,22 +142,25 @@ namespace UI.FortuneWheel
             if (rewards == null || rewards.Count == 0)
                 return;
 
-            if (_claimButton == null || _rewardsContent == null || _rewardCardPrefab == null)
-            {
-                return;
-            }
-
             var displayRewards = new List<WheelReward>(rewards.Count);
+            bool hasBuffs = false;
             foreach (var reward in rewards)
             {
                 if (IsDisplayable(reward))
+                {
                     displayRewards.Add(reward);
+                    hasBuffs |= reward.Type == WheelRewardType.Buff;
+                }
             }
 
             if (displayRewards.Count == 0)
                 return;
 
-            BeginShow(true, baseStats);
+            RectTransform content = hasBuffs ? _rewardsContent : _rewardsContentWithoutBuffs;
+            if (_claimButton == null || content == null || _rewardCardPrefab == null)
+                return;
+
+            BeginShow(true, baseStats, hasBuffs);
             _presentationRoutine = StartCoroutine(RevealRewards(displayRewards));
         }
 
@@ -181,13 +186,17 @@ namespace UI.FortuneWheel
                 "x" + buff.Multiplier.ToString("0.##") + " " + buff.DurationSeconds.ToString("0.##") + " sn");
         }
 
-        private void BeginShow(bool batch, IReadOnlyDictionary<PerkType, float> baseStats = null)
+        private void BeginShow(bool batch, IReadOnlyDictionary<PerkType, float> baseStats = null,
+            bool hasBuffs = false)
         {
             StopPresentation();
-            if (_statsView != null)
-                _statsView.BeginPreview(baseStats);
+            _useRewardsScroll = batch && hasBuffs;
+            if (batch)
+                _activeRewardsContent = _useRewardsScroll ? _rewardsContent : _rewardsContentWithoutBuffs;
 
-            _isShowingRewards = batch;
+            if (_statsView != null)
+                _statsView.BeginPreview(_useRewardsScroll ? baseStats : null);
+
             _isPopupOpen = false;
             foreach (var card in _spawnedRewards)
             {
@@ -202,10 +211,12 @@ namespace UI.FortuneWheel
             if (_rewardsScroll != null)
             {
                 _rewardsScroll.StopMovement();
-                _rewardsScroll.gameObject.SetActive(batch);
+                _rewardsScroll.gameObject.SetActive(_useRewardsScroll);
             }
             if (_rewardsContent != null)
-                _rewardsContent.gameObject.SetActive(batch);
+                _rewardsContent.gameObject.SetActive(_useRewardsScroll);
+            if (_rewardsContentWithoutBuffs != null)
+                _rewardsContentWithoutBuffs.gameObject.SetActive(batch && !_useRewardsScroll);
 
             if (_icon != null)
                 _icon.gameObject.SetActive(!batch);
@@ -276,7 +287,7 @@ namespace UI.FortuneWheel
             for (int i = 0; i < rewards.Count; i++)
             {
                 WheelReward reward = rewards[i];
-                var card = Instantiate(_rewardCardPrefab, _rewardsContent, false);
+                var card = Instantiate(_rewardCardPrefab, _activeRewardsContent, false);
                 _spawnedRewards.Add(card);
                 card.gameObject.SetActive(true);
 
@@ -296,7 +307,7 @@ namespace UI.FortuneWheel
                     _statsView.AddBuff(reward.Buff);
                 RebuildRewardLayout();
 
-                if (i == 0 && _rewardsScroll != null)
+                if (i == 0 && _useRewardsScroll && _rewardsScroll != null)
                 {
                     _rewardsScroll.StopMovement();
                     _rewardsScroll.horizontalNormalizedPosition = 0f;
@@ -339,12 +350,12 @@ namespace UI.FortuneWheel
         private void RebuildRewardLayout()
         {
             Canvas.ForceUpdateCanvases();
-            LayoutRebuilder.ForceRebuildLayoutImmediate(_rewardsContent);
+            LayoutRebuilder.ForceRebuildLayoutImmediate(_activeRewardsContent);
         }
 
         private bool HasScrollOverflow()
         {
-            if (_rewardsScroll == null || _rewardsContent == null)
+            if (!_useRewardsScroll || _rewardsScroll == null || _rewardsContent == null)
                 return false;
 
             RectTransform viewport = _rewardsScroll.viewport != null
@@ -361,7 +372,8 @@ namespace UI.FortuneWheel
             _presentationRoutine = null;
             _scrollTween?.Kill();
             _scrollTween = null;
-            _isShowingRewards = false;
+            _activeRewardsContent = null;
+            _useRewardsScroll = false;
             _isPopupOpen = false;
             _confirmationPending = false;
             if (_claimButton != null)
