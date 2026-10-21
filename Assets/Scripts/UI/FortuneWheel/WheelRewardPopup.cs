@@ -27,6 +27,7 @@ namespace UI.FortuneWheel
         [SerializeField] private RectTransform _rewardsContent;
         [SerializeField] private RectTransform _rewardsContentWithoutBuffs;
         [SerializeField] private ScrollRect _rewardsScroll;
+        [SerializeField] private ScrollRect _rewardsScrollWithoutBuffs;
         [SerializeField] private WheelRewardStatsView _statsView;
 
         [Header("Reward Appearance")]
@@ -39,11 +40,12 @@ namespace UI.FortuneWheel
 
         private readonly List<WheelRewardView> _spawnedRewards = new();
         private RectTransform _activeRewardsContent;
+        private ScrollRect _activeRewardsScroll;
         private bool _confirmationPending;
         private Coroutine _presentationRoutine;
         private Tween _scrollTween;
         private bool _isPopupOpen;
-        private bool _useRewardsScroll;
+        private bool _hasBuffRewards;
 
         public event Action Confirmed;
 
@@ -190,12 +192,15 @@ namespace UI.FortuneWheel
             bool hasBuffs = false)
         {
             StopPresentation();
-            _useRewardsScroll = batch && hasBuffs;
+            _hasBuffRewards = batch && hasBuffs;
             if (batch)
-                _activeRewardsContent = _useRewardsScroll ? _rewardsContent : _rewardsContentWithoutBuffs;
+            {
+                _activeRewardsContent = _hasBuffRewards ? _rewardsContent : _rewardsContentWithoutBuffs;
+                _activeRewardsScroll = _hasBuffRewards ? _rewardsScroll : _rewardsScrollWithoutBuffs;
+            }
 
             if (_statsView != null)
-                _statsView.BeginPreview(_useRewardsScroll ? baseStats : null);
+                _statsView.BeginPreview(_hasBuffRewards ? baseStats : null);
 
             _isPopupOpen = false;
             foreach (var card in _spawnedRewards)
@@ -211,12 +216,17 @@ namespace UI.FortuneWheel
             if (_rewardsScroll != null)
             {
                 _rewardsScroll.StopMovement();
-                _rewardsScroll.gameObject.SetActive(_useRewardsScroll);
+                _rewardsScroll.gameObject.SetActive(_hasBuffRewards);
+            }
+            if (_rewardsScrollWithoutBuffs != null)
+            {
+                _rewardsScrollWithoutBuffs.StopMovement();
+                _rewardsScrollWithoutBuffs.gameObject.SetActive(batch && !_hasBuffRewards);
             }
             if (_rewardsContent != null)
-                _rewardsContent.gameObject.SetActive(_useRewardsScroll);
+                _rewardsContent.gameObject.SetActive(_hasBuffRewards);
             if (_rewardsContentWithoutBuffs != null)
-                _rewardsContentWithoutBuffs.gameObject.SetActive(batch && !_useRewardsScroll);
+                _rewardsContentWithoutBuffs.gameObject.SetActive(batch && !_hasBuffRewards);
 
             if (_icon != null)
                 _icon.gameObject.SetActive(!batch);
@@ -307,11 +317,11 @@ namespace UI.FortuneWheel
                     _statsView.AddBuff(reward.Buff);
                 RebuildRewardLayout();
 
-                if (i == 0 && _useRewardsScroll && _rewardsScroll != null)
+                if (i == 0 && _activeRewardsScroll != null)
                 {
-                    _rewardsScroll.StopMovement();
-                    _rewardsScroll.horizontalNormalizedPosition = 0f;
-                    _rewardsScroll.verticalNormalizedPosition = 1f;
+                    _activeRewardsScroll.StopMovement();
+                    _activeRewardsScroll.horizontalNormalizedPosition = 0f;
+                    _activeRewardsScroll.verticalNormalizedPosition = 1f;
                 }
 
                 AudioClip clip = _rewardAppearClip != null ? _rewardAppearClip : _showClip;
@@ -327,14 +337,14 @@ namespace UI.FortuneWheel
             RebuildRewardLayout();
             if (rewards.Count > 3 && HasScrollOverflow())
             {
-                _rewardsScroll.StopMovement();
-                Vector2 start = _rewardsScroll.normalizedPosition;
+                _activeRewardsScroll.StopMovement();
+                Vector2 start = _activeRewardsScroll.normalizedPosition;
                 Vector2 end = new Vector2(
-                    _rewardsScroll.horizontal ? 1f : start.x,
-                    _rewardsScroll.vertical ? 0f : start.y);
+                    _activeRewardsScroll.horizontal ? 1f : start.x,
+                    _activeRewardsScroll.vertical ? 0f : start.y);
                 _scrollTween = DOTween.To(
-                        () => _rewardsScroll.normalizedPosition,
-                        position => _rewardsScroll.normalizedPosition = position,
+                        () => _activeRewardsScroll.normalizedPosition,
+                        position => _activeRewardsScroll.normalizedPosition = position,
                         end,
                         Mathf.Max(0.01f, _autoScrollDuration))
                     .SetEase(Ease.InOutSine)
@@ -355,14 +365,14 @@ namespace UI.FortuneWheel
 
         private bool HasScrollOverflow()
         {
-            if (!_useRewardsScroll || _rewardsScroll == null || _rewardsContent == null)
+            if (_activeRewardsScroll == null || _activeRewardsContent == null)
                 return false;
 
-            RectTransform viewport = _rewardsScroll.viewport != null
-                ? _rewardsScroll.viewport
-                : (RectTransform)_rewardsScroll.transform;
-            return (_rewardsScroll.horizontal && _rewardsContent.rect.width > viewport.rect.width + 1f)
-                || (_rewardsScroll.vertical && _rewardsContent.rect.height > viewport.rect.height + 1f);
+            RectTransform viewport = _activeRewardsScroll.viewport != null
+                ? _activeRewardsScroll.viewport
+                : (RectTransform)_activeRewardsScroll.transform;
+            return (_activeRewardsScroll.horizontal && _activeRewardsContent.rect.width > viewport.rect.width + 1f)
+                || (_activeRewardsScroll.vertical && _activeRewardsContent.rect.height > viewport.rect.height + 1f);
         }
 
         private void StopPresentation()
@@ -373,7 +383,8 @@ namespace UI.FortuneWheel
             _scrollTween?.Kill();
             _scrollTween = null;
             _activeRewardsContent = null;
-            _useRewardsScroll = false;
+            _activeRewardsScroll = null;
+            _hasBuffRewards = false;
             _isPopupOpen = false;
             _confirmationPending = false;
             if (_claimButton != null)
