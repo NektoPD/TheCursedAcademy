@@ -119,7 +119,7 @@ MonoBehaviour:
   _positionMaintenanceSpeedMultiplier: 0.5
   _walkFrequencyX: 1.5
   _walkFrequencyY: 1.2
-  _disappearEffectPrefab: {fileID: 19848222, guid: e4fc72c1b3da74d4697708bcd2a9db60, type: 3}
+  _disappearEffectPrefab: {fileID: 0}
 --- !u!95 &2787293441361969571
 Animator:
   serializedVersion: 5

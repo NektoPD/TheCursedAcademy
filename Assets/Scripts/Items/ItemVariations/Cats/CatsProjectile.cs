@@ -5,6 +5,7 @@ using Items.BaseClass;
 using Items.ItemVariations;
 using UnityEngine;
 using UnityEngine.Pool;
+using Utils;
 
 namespace Items.ItemVariations.Cats
 {
@@ -47,7 +48,7 @@ namespace Items.ItemVariations.Cats
         [SerializeField] private float _walkFrequencyX = 1.5f;
         [SerializeField] private float _walkFrequencyY = 1.2f;
 
-        [Header("Effects")] [SerializeField] private ParticleSystem _disappearEffectPrefab;
+        [Header("Effects")] [SerializeField] private SimpleSpriteAnimator _disappearEffectPrefab;
 
         private IObjectPool<CatsProjectile> _pool;
         private Transform _playerTransform;
@@ -58,7 +59,7 @@ namespace Items.ItemVariations.Cats
         private CatState _currentState = CatState.Walking;
         private Transform _targetEnemy;
         private float _timeSinceLastStateChange;
-        private ParticleSystem _disappearEffect;
+        private SimpleSpriteAnimator _disappearEffect;
         private CatsItem _catsController;
 
         public void SetPool(IObjectPool<CatsProjectile> pool)
@@ -74,10 +75,10 @@ namespace Items.ItemVariations.Cats
         protected override void Awake()
         {
             base.Awake();
-            InitializeParticleEffect();
+            InitializeDisappearEffect();
         }
 
-        private void InitializeParticleEffect()
+        private void InitializeDisappearEffect()
         {
             if (_disappearEffectPrefab != null && _disappearEffect == null)
             {
@@ -395,13 +396,12 @@ namespace Items.ItemVariations.Cats
         {
             if (_disappearEffect != null)
             {
-                _disappearEffect.gameObject.SetActive(true);
+                _disappearEffect.gameObject.SetActive(false);
                 _disappearEffect.transform.position = transform.position;
-                _disappearEffect.Play();
-
-                ReleaseEnemyTarget();
-                ReturnToPool();
+                _disappearEffect.gameObject.SetActive(true);
             }
+
+            ReturnToPool();
         }
 
         private void ReleaseEnemyTarget()

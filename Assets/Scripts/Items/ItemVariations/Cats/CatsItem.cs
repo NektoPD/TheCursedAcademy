@@ -20,11 +20,6 @@ namespace Items.ItemVariations.Cats
         [SerializeField] private int _catsPerSpawn = 3;
         [SerializeField] private float _detectionRadius = 5f;
 
-        [Header("Particle Effect")] [SerializeField]
-        private ParticleSystem _catDisappearEffectPrefab;
-
-        [SerializeField] private int _effectPoolSize = 10;
-
         [Header("Level Up Settings")] [SerializeField]
         private int _baseCatsPerSpawn = 3;
 
@@ -42,7 +37,6 @@ namespace Items.ItemVariations.Cats
         private float _currentCatMovementSpeed;
 
         private ObjectPool<CatsProjectile> _catPool;
-        private ObjectPool<ParticleSystem> _effectPool;
         private List<CatsProjectile> _activeCats = new List<CatsProjectile>();
         private bool _catsActive = false;
         private Coroutine _respawnCoroutine;
@@ -73,68 +67,11 @@ namespace Items.ItemVariations.Cats
                 defaultCapacity: _poolDefaultCapacity,
                 maxSize: _poolMaxSize
             );
-
-            if (_catDisappearEffectPrefab != null)
-            {
-                _effectPool = new ObjectPool<ParticleSystem>(
-                    createFunc: CreateEffect,
-                    actionOnGet: OnGetEffectFromPool,
-                    actionOnRelease: OnReleaseEffectToPool,
-                    actionOnDestroy: OnDestroyEffectObject,
-                    collectionCheck: false,
-                    defaultCapacity: _effectPoolSize,
-                    maxSize: _effectPoolSize * 2
-                );
-
-                List<ParticleSystem> tempEffects = new List<ParticleSystem>(_effectPoolSize);
-                for (int i = 0; i < _effectPoolSize; i++)
-                {
-                    ParticleSystem effect = _effectPool.Get();
-                    tempEffects.Add(effect);
-                }
-
-                foreach (var effect in tempEffects)
-                {
-                    _effectPool.Release(effect);
-                }
-            }
-        }
-
-        private ParticleSystem CreateEffect()
-        {
-            ParticleSystem effect = Instantiate(_catDisappearEffectPrefab);
-            effect.gameObject.SetActive(false);
-            return effect;
-        }
-
-        private void OnGetEffectFromPool(ParticleSystem effect)
-        {
-            effect.gameObject.SetActive(true);
-        }
-
-        private void OnReleaseEffectToPool(ParticleSystem effect)
-        {
-            effect.gameObject.SetActive(false);
-        }
-
-        private void OnDestroyEffectObject(ParticleSystem effect)
-        {
-            if (effect == null)
-                return;
-
-            Destroy(effect.gameObject);
         }
 
         private CatsProjectile CreateCat()
         {
             CatsProjectile cat = Instantiate(_catPrefab, _spawnPoint.position, Quaternion.identity);
-
-            if (_catDisappearEffectPrefab != null)
-            {
-                ParticleSystem effect = _effectPool.Get();
-
-                _effectPool.Release(effect);
-            }
 
             cat.SetPool(_catPool);
             cat.SetController(this);
