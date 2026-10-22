@@ -9,6 +9,8 @@ namespace Items.ItemVariations.BeautiZone
     public class BeautyZoneItemProjectile : ItemProjectile
     {
         [SerializeField] private float _damageTickInterval = 0.5f;
+        [SerializeField] private SpriteRenderer _effectRenderer;
+        [SerializeField, Min(0f)] private float _effectScaleMultiplier = 1f;
 
         private CircleCollider2D _circleCollider;
         private float _duration;
@@ -33,6 +35,30 @@ namespace Items.ItemVariations.BeautiZone
         {
             Transform.localScale = new Vector3(radius, radius);
             _circleCollider.radius = radius;
+            UpdateEffectScale();
+        }
+
+        private void UpdateEffectScale()
+        {
+            if (_effectRenderer == null || _effectRenderer.sprite == null)
+                return;
+
+            Vector2 spriteSize = _effectRenderer.sprite.rect.size / _effectRenderer.sprite.pixelsPerUnit;
+            Transform effectTransform = _effectRenderer.transform;
+            Vector3 parentScale = effectTransform.parent != null
+                ? effectTransform.parent.lossyScale
+                : Vector3.one;
+            if (spriteSize.x <= 0f || spriteSize.y <= 0f
+                || Mathf.Approximately(parentScale.x, 0f) || Mathf.Approximately(parentScale.y, 0f))
+                return;
+
+            Vector3 zoneScale = Transform.lossyScale;
+            float diameter = _circleCollider.radius * 2f * _effectScaleMultiplier
+                * Mathf.Max(Mathf.Abs(zoneScale.x), Mathf.Abs(zoneScale.y));
+            Vector3 effectScale = effectTransform.localScale;
+            effectScale.x = diameter / (spriteSize.x * Mathf.Abs(parentScale.x));
+            effectScale.y = diameter / (spriteSize.y * Mathf.Abs(parentScale.y));
+            effectTransform.localScale = effectScale;
         }
 
         public void SetDuration(float duration)
@@ -42,6 +68,12 @@ namespace Items.ItemVariations.BeautiZone
 
         public void Activate()
         {
+            if (_effectRenderer != null)
+            {
+                _effectRenderer.gameObject.SetActive(true);
+                UpdateEffectScale();
+            }
+
             _isActive = true;
             _circleCollider.enabled = true;
 
