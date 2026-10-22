@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5758707169459221309}
   - component: {fileID: 8063958105734937759}
   - component: {fileID: 3514944613222080510}
+  - component: {fileID: -211577207865780805}
   m_Layer: 13
   m_Name: SlingshotProjectile
   m_TagString: Untagged
@@ -171,3 +172,16 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &-211577207865780805
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1046597803312571288}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d036355cbfdf7a9419f6ffb3ea6bd9f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _spriteRenderer: {fileID: 6749341170097387654}

@@ -642,6 +642,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d036355cbfdf7a9419f6ffb3ea6bd9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _spriteRenderer: {fileID: 1710362998506426899}
 --- !u!114 &5465350112304248545
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -668,6 +669,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _damageColor: {r: 1, g: 0.5, b: 0.5, a: 1}
   _flashHoldPart: 0.35
+  _poisonColor: {r: 0.2, g: 1, b: 0.2, a: 1}
   _impulseDuration: 0.12
   _knockbackDistance: 0.25
   _jumpHeight: 0.12
@@ -684,7 +686,6 @@ MonoBehaviour:
   _squashDuration: 0.16
   _damageFont: {fileID: 11400000, guid: 6c14c2ba6ed92a14d8263c05a70b1641, type: 2}
   _damageNumberColor: {r: 1, g: 1, b: 1, a: 1}
-  _damageNumberFontSize: 15
   _damageNumberStartHeight: 0.55
   _damageNumberArcHeight: 0.45
   _damageNumberHorizontalSpread: 0.35

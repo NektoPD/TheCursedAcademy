@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 298469901198760834}
   - component: {fileID: 4757360593976681577}
   - component: {fileID: -7653253717303875550}
+  - component: {fileID: -2975574910633369844}
   m_Layer: 13
   m_Name: GumProjectile
   m_TagString: Untagged
@@ -161,3 +162,16 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &-2975574910633369844
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1720525902408558161}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d036355cbfdf7a9419f6ffb3ea6bd9f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _spriteRenderer: {fileID: 1121146288936380946}

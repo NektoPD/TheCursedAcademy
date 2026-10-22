@@ -250,9 +250,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d74689c757443544ea9d4c18b9708ae6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _offset: 0.1
-  _renderer: {fileID: 2249405631865181640}
-  _collider: {fileID: 3396039318906499734}
 --- !u!114 &7069889721409272458
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -265,6 +262,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d036355cbfdf7a9419f6ffb3ea6bd9f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _spriteRenderer: {fileID: 2249405631865181640}
 --- !u!1001 &602729457700078241
 PrefabInstance:
   m_ObjectHideFlags: 0

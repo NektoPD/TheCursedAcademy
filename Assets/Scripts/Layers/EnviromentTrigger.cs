@@ -24,17 +24,23 @@ namespace Layers
 
         private void OnTriggerStay2D(Collider2D collision)
         {
-            if (_collider.bounds.min.y > collision.bounds.min.y)
-                return;
+            if (collision.TryGetComponent(out LayerController _))
+            {
+                if (_collider.bounds.min.y > collision.bounds.min.y)
+                    return;
 
-            foreach (var renderer in _renderers)
-                renderer.color = new Color(_originalColor.r, _originalColor.g, _originalColor.b, _transparencyAmount);
+                foreach (var renderer in _renderers)
+                    renderer.color = new Color(_originalColor.r, _originalColor.g, _originalColor.b, _transparencyAmount);
+            }
         }
 
         private void OnTriggerExit2D(Collider2D collision)
         {
-            foreach (var renderer in _renderers)
-                renderer.color = _originalColor;
+            if (collision.TryGetComponent(out LayerController _))
+            {
+                foreach (var renderer in _renderers)
+                    renderer.color = _originalColor;
+            }
         }
     }
 }
