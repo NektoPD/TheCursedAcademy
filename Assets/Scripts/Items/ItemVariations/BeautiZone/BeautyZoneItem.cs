@@ -26,6 +26,11 @@ namespace Items.ItemVariations.BeautiZone
         private float _radiusMultiplierPerLevel = 1.2f;
         private float _durationMultiplierPerLevel = 1.2f;
 
+        private float BaseZoneDuration =>
+            _beautyZoneProjectilePrefab != null && _beautyZoneProjectilePrefab.AnimationDuration > 0f
+                ? _beautyZoneProjectilePrefab.AnimationDuration
+                : _zoneDuration;
+
         private void Awake()
         {
             _projectilePool = GetComponent<ItemProjectilePool>();
@@ -45,7 +50,7 @@ namespace Items.ItemVariations.BeautiZone
             var zoneProjectile = _projectilePool.GetFromPool<BeautyZoneItemProjectile>(spawnPosition, Quaternion.identity);
 
             float radius   = _zoneRadius   * Mods.GetMult(Enums.StatVariations.Radius);
-            float duration = _zoneDuration * Mods.GetMult(Enums.StatVariations.Duration);
+            float duration = BaseZoneDuration * Mods.GetMult(Enums.StatVariations.Duration);
 
             zoneProjectile.Initialize(RuntimeDamage, this);
             zoneProjectile.ClearHitEnemies();
@@ -54,16 +59,15 @@ namespace Items.ItemVariations.BeautiZone
             zoneProjectile.Activate();
 
             CharacterSoundController.EnableSoundByType(SoundType.Zone);
-            StartCoroutine(EnableProjectile(zoneProjectile, duration));
+            StartCoroutine(ReturnProjectileAfterZone(zoneProjectile));
 
             yield return null;
         }
 
-        private IEnumerator EnableProjectile(ItemProjectile projectile, float lifetime)
+        private IEnumerator ReturnProjectileAfterZone(BeautyZoneItemProjectile projectile)
         {
-            projectile.gameObject.SetActive(true);
-
-            yield return new WaitForSeconds(lifetime + _projectileReturnDelay);
+            yield return new WaitWhile(() => projectile && projectile.IsActive);
+            yield return new WaitForSeconds(_projectileReturnDelay);
 
             if (projectile && projectile.gameObject.activeSelf)
             {
@@ -99,7 +103,8 @@ namespace Items.ItemVariations.BeautiZone
             ItemStats.SetStatCurrentValue(Enums.StatVariations.AttackSpeed, RuntimeCooldown);
             ItemStats.SetStatCurrentValue(Enums.StatVariations.Damage, RuntimeDamage);
             ItemStats.SetStatCurrentValue(Enums.StatVariations.Radius, _zoneRadius * Mods.GetMult(Enums.StatVariations.Radius));
-            ItemStats.SetStatCurrentValue(Enums.StatVariations.Duration, _zoneDuration * Mods.GetMult(Enums.StatVariations.Duration));
+            ItemStats.SetStatCurrentValue(Enums.StatVariations.Duration,
+                BaseZoneDuration * Mods.GetMult(Enums.StatVariations.Duration));
 
             ItemStats.SetStatNextValue(Enums.StatVariations.AttackSpeed,
                 GetBaseStat(Enums.StatVariations.AttackSpeed) * (Mods.GetMult(Enums.StatVariations.AttackSpeed) * _cooldownReductionPerLevel));
@@ -111,7 +116,7 @@ namespace Items.ItemVariations.BeautiZone
                 _zoneRadius * (Mods.GetMult(Enums.StatVariations.Radius) * _radiusMultiplierPerLevel));
 
             ItemStats.SetStatNextValue(Enums.StatVariations.Duration,
-                _zoneDuration * (Mods.GetMult(Enums.StatVariations.Duration) * _durationMultiplierPerLevel));
+                BaseZoneDuration * (Mods.GetMult(Enums.StatVariations.Duration) * _durationMultiplierPerLevel));
         }
     }
 }

@@ -15,6 +15,12 @@ namespace Utils
 
         private Coroutine _spriteChangeCoroutine;
 
+        public bool IsLooped => _isLooped;
+        public float Duration => _sprites != null && _framesPerSecond > 0f
+            ? _sprites.Length / _framesPerSecond
+            : 0f;
+        public float PlaybackSpeed { get; set; } = 1f;
+
         public event Action Finished;
         public event Action HalfwayReached;
 
@@ -45,7 +51,7 @@ namespace Utils
                 yield break;
             }
 
-            WaitForSeconds interval = new WaitForSeconds(1 / _framesPerSecond);
+            WaitForSeconds interval = new WaitForSeconds(1f / (_framesPerSecond * PlaybackSpeed));
             
             while (true)
             {
@@ -65,7 +71,7 @@ namespace Utils
                 yield break;
             }
             
-            WaitForSeconds interval = new WaitForSeconds(1 / _framesPerSecond);
+            WaitForSeconds interval = new WaitForSeconds(1f / (_framesPerSecond * PlaybackSpeed));
             
             for (var i = 0; i < _sprites.Length; i++)
             {

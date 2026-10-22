@@ -247,6 +247,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _damageTickInterval: 0.5
   _effectRenderer: {fileID: 4063386931218193382}
+  _effectAnimator: {fileID: 8158698845775686410}
   _effectScaleMultiplier: 1
 --- !u!50 &-5222937664513329462
 Rigidbody2D:

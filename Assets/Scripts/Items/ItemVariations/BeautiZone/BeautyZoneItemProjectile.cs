@@ -2,6 +2,7 @@ using System.Collections;
 using HealthSystem;
 using Items.BaseClass;
 using UnityEngine;
+using Utils;
 
 namespace Items.ItemVariations.BeautiZone
 {
@@ -10,12 +11,17 @@ namespace Items.ItemVariations.BeautiZone
     {
         [SerializeField] private float _damageTickInterval = 0.5f;
         [SerializeField] private SpriteRenderer _effectRenderer;
+        [SerializeField] private SimpleSpriteAnimator _effectAnimator;
         [SerializeField, Min(0f)] private float _effectScaleMultiplier = 1f;
 
         private CircleCollider2D _circleCollider;
         private float _duration;
         private bool _isActive = false;
-        private Coroutine _damageTickCoroutine;
+
+        public bool IsActive => _isActive;
+        public float AnimationDuration => _effectAnimator != null && !_effectAnimator.IsLooped
+            ? _effectAnimator.Duration
+            : 0f;
 
         protected override void Awake()
         {
@@ -33,7 +39,7 @@ namespace Items.ItemVariations.BeautiZone
 
         public void SetRadius(float radius)
         {
-            Transform.localScale = new Vector3(radius, radius);
+            Transform.localScale = Vector3.one;
             _circleCollider.radius = radius;
             UpdateEffectScale();
         }
@@ -68,37 +74,48 @@ namespace Items.ItemVariations.BeautiZone
 
         public void Activate()
         {
+            Deactivate();
+            _isActive = true;
+            _circleCollider.enabled = true;
+
+            if (AnimationDuration > 0f && _duration > 0f)
+            {
+                _effectAnimator.PlaybackSpeed = AnimationDuration / _duration;
+                _effectAnimator.Finished += Deactivate;
+            }
+            else
+            {
+                StartCoroutine(DeactivateAfterDuration());
+            }
+
+            StartCoroutine(DamageTick());
+
             if (_effectRenderer != null)
             {
                 _effectRenderer.gameObject.SetActive(true);
                 UpdateEffectScale();
             }
-
-            _isActive = true;
-            _circleCollider.enabled = true;
-
-            if (_damageTickCoroutine != null)
-            {
-                StopCoroutine(_damageTickCoroutine);
-            }
-
-            _damageTickCoroutine = StartCoroutine(DamageTick());
-
-            StartCoroutine(DeactivateAfterDuration());
         }
 
         private IEnumerator DeactivateAfterDuration()
         {
             yield return new WaitForSeconds(_duration);
+            Deactivate();
+        }
 
+        private void Deactivate()
+        {
             _isActive = false;
-            _circleCollider.enabled = false;
+            if (_circleCollider != null)
+                _circleCollider.enabled = false;
 
-            if (_damageTickCoroutine != null)
-            {
-                StopCoroutine(_damageTickCoroutine);
-                _damageTickCoroutine = null;
-            }
+            if (_effectAnimator != null)
+                _effectAnimator.Finished -= Deactivate;
+
+            StopAllCoroutines();
+
+            if (_effectRenderer != null)
+                _effectRenderer.gameObject.SetActive(false);
         }
 
         private IEnumerator DamageTick()
@@ -111,6 +128,12 @@ namespace Items.ItemVariations.BeautiZone
 
                 ClearHitEnemies();
             }
+        }
+
+        protected override void OnTriggerEnter2D(Collider2D collision)
+        {
+            if (_isActive)
+                base.OnTriggerEnter2D(collision);
         }
 
         protected void OnTriggerStay2D(Collider2D collision)
@@ -128,7 +151,7 @@ namespace Items.ItemVariations.BeautiZone
 
         private void OnDisable()
         {
-            StopAllCoroutines();
+            Deactivate();
         }
     }
 }
