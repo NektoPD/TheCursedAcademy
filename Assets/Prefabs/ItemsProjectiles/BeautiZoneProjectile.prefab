@@ -135,10 +135,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _damageTickInterval: 0.5
-  _particleEffectPrefab: {fileID: 19895582, guid: 24e29d528f11acf42974643bee14a607, type: 3}
-  _initialPoolSize: 3
-  _particleContainer: {fileID: 7527330696479062514}
-  _particleScaleOffset: 0.5
 --- !u!50 &-5222937664513329462
 Rigidbody2D:
   serializedVersion: 4
