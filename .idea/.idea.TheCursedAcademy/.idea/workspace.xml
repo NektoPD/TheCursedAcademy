@@ -7,11 +7,9 @@
     <list default="true" id="79342e3f-f429-427d-a8dc-fd8a148d8bde" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.TheCursedAcademy/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TheCursedAcademy/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/PluginYourGames/Editor/SavesEditorYG2.json" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/PluginYourGames/Editor/SavesEditorYG2.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/ItemsProjectiles/BeautiZoneProjectile.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/ItemsProjectiles/BeautiZoneProjectile.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/ItemsProjectiles/BellRingProjectile.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/ItemsProjectiles/BellRingProjectile.prefab" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/TestGameScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/TestGameScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Debuffs/CurseRevealOverlay.Animation.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Debuffs/CurseRevealOverlay.Animation.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Debuffs/CurseRevealOverlay.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Debuffs/CurseRevealOverlay.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/FortuneWheel/WheelRewardPopup.Presentation.cs.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/FortuneWheel/WheelRewardPopup.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/FortuneWheel/WheelRewardPopup.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -122,6 +120,8 @@
       <workItem from="1791885032766" duration="2290000" />
       <workItem from="1791920484795" duration="2012000" />
       <workItem from="1792516524253" duration="4089000" />
+      <workItem from="1792610029709" duration="2170000" />
+      <workItem from="1792648766028" duration="660000" />
     </task>
     <servers />
   </component>
