@@ -158,18 +158,20 @@ namespace Items.ItemVariations.Toys
         {
             ItemStats.SetStatCurrentValue(Enums.StatVariations.Damage, _damageMultiplier);
             ItemStats.SetStatCurrentValue(Enums.StatVariations.Radius, _radiusMultiplier);
-            ItemStats.SetStatCurrentValue(Enums.StatVariations.AttackSpeed, Data.Cooldown);
+            ItemStats.SetStatCurrentValue(Enums.StatVariations.AttackSpeed, RuntimeCooldown);
             ItemStats.SetStatCurrentValue(Enums.StatVariations.RotationSpeed, _rotationSpeedMultiplier);
             ItemStats.SetStatCurrentValue(Enums.StatVariations.ProjectilesCount, _currentProjectileCount);
 
             ItemStats.SetStatNextValue(Enums.StatVariations.Damage, _damageMultiplier + _damageIncreasePerLevel);
             ItemStats.SetStatNextValue(Enums.StatVariations.Radius, _radiusMultiplier + _radiusIncreasePerLevel);
-            ItemStats.SetStatNextValue(Enums.StatVariations.AttackSpeed, Data.Cooldown * _cooldownReductionPerLevel);
+            ItemStats.SetStatNextValue(Enums.StatVariations.AttackSpeed, RuntimeCooldown * _cooldownReductionPerLevel);
             ItemStats.SetStatNextValue(Enums.StatVariations.RotationSpeed,
                 _rotationSpeedMultiplier + _rotationSpeedIncreasePerLevel / _rotationSpeed);
 
-            if ((Level + 1) % 2 != 0 || _currentProjectileCount >= _maxProjectileCount) return;
-            ItemStats.SetStatNextValue(Enums.StatVariations.ProjectilesCount, _currentProjectileCount++);
+            int nextProjectileCount = (Level + 1) % 2 == 0 && _currentProjectileCount < _maxProjectileCount
+                ? _currentProjectileCount + 1
+                : _currentProjectileCount;
+            ItemStats.SetStatNextValue(Enums.StatVariations.ProjectilesCount, nextProjectileCount);
         }
 
         private IEnumerator RotateProjectile(ToysProjectile projectile, float initialAngle, float duration,

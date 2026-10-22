@@ -1,8 +1,8 @@
 using System.Collections;
-using System.Collections.Generic;
 using HealthSystem;
 using Items.BaseClass;
 using UnityEngine;
+using Utils;
 
 namespace Items.ItemVariations.BeautiZone
 {
@@ -10,18 +10,18 @@ namespace Items.ItemVariations.BeautiZone
     public class BeautyZoneItemProjectile : ItemProjectile
     {
         [SerializeField] private float _damageTickInterval = 0.5f;
-        [SerializeField] private ParticleSystem _particleEffectPrefab;
-        [SerializeField] private int _initialPoolSize = 3;
-        [SerializeField] private Transform _particleContainer;
-        [SerializeField] private float _particleScaleOffset;
+        [SerializeField] private SpriteRenderer _effectRenderer;
+        [SerializeField] private SimpleSpriteAnimator _effectAnimator;
+        [SerializeField, Min(0f)] private float _effectScaleMultiplier = 1f;
 
         private CircleCollider2D _circleCollider;
         private float _duration;
         private bool _isActive = false;
-        private Coroutine _damageTickCoroutine;
-        private ParticleSystem _activeParticle;
 
-        private readonly Dictionary<int, Queue<ParticleSystem>> _particlePool = new();
+        public bool IsActive => _isActive;
+        public float AnimationDuration => _effectAnimator != null && !_effectAnimator.IsLooped
+            ? _effectAnimator.Duration
+            : 0f;
 
         protected override void Awake()
         {
@@ -29,70 +29,6 @@ namespace Items.ItemVariations.BeautiZone
             _circleCollider = GetComponent<CircleCollider2D>();
             _circleCollider.isTrigger = true;
             _circleCollider.enabled = false;
-        }
-
-        private void InitializeParticlePool(int initialSize)
-        {
-            int prefabID = _particleEffectPrefab.GetInstanceID();
-
-            if (!_particlePool.ContainsKey(prefabID))
-            {
-                _particlePool[prefabID] = new Queue<ParticleSystem>();
-
-                for (int i = 0; i < initialSize; i++)
-                {
-                    CreateNewParticleInPool(prefabID);
-                }
-            }
-        }
-
-        private void CreateNewParticleInPool(int prefabID)
-        {
-            ParticleSystem newParticle = Instantiate(_particleEffectPrefab, _particleContainer);
-            newParticle.gameObject.SetActive(false);
-            _particlePool[prefabID].Enqueue(newParticle);
-        }
-
-        private ParticleSystem GetParticleFromPool()
-        {
-            int prefabID = _particleEffectPrefab.GetInstanceID();
-
-            if (!_particlePool.ContainsKey(prefabID))
-            {
-                InitializeParticlePool(_initialPoolSize);
-            }
-
-            ParticleSystem particle;
-
-            if (_particlePool[prefabID].Count > 0)
-            {
-                particle = _particlePool[prefabID].Dequeue();
-            }
-            else
-            {
-                CreateNewParticleInPool(prefabID);
-                particle = _particlePool[prefabID].Dequeue();
-            }
-
-            particle.gameObject.SetActive(true);
-
-            return particle;
-        }
-
-        private void ReturnParticleToPool(ParticleSystem particle)
-        {
-            if (particle == null) return;
-
-            int prefabID = _particleEffectPrefab.GetInstanceID();
-
-            particle.gameObject.SetActive(false);
-
-            if (!_particlePool.ContainsKey(prefabID))
-            {
-                InitializeParticlePool(_initialPoolSize);
-            }
-
-            _particlePool[prefabID].Enqueue(particle);
         }
 
         public override void Initialize(float damage, Item owner)
@@ -103,8 +39,32 @@ namespace Items.ItemVariations.BeautiZone
 
         public void SetRadius(float radius)
         {
-            Transform.localScale = new Vector3(radius, radius);
+            Transform.localScale = Vector3.one;
             _circleCollider.radius = radius;
+            UpdateEffectScale();
+        }
+
+        private void UpdateEffectScale()
+        {
+            if (_effectRenderer == null || _effectRenderer.sprite == null)
+                return;
+
+            Vector2 spriteSize = _effectRenderer.sprite.rect.size / _effectRenderer.sprite.pixelsPerUnit;
+            Transform effectTransform = _effectRenderer.transform;
+            Vector3 parentScale = effectTransform.parent != null
+                ? effectTransform.parent.lossyScale
+                : Vector3.one;
+            if (spriteSize.x <= 0f || spriteSize.y <= 0f
+                || Mathf.Approximately(parentScale.x, 0f) || Mathf.Approximately(parentScale.y, 0f))
+                return;
+
+            Vector3 zoneScale = Transform.lossyScale;
+            float diameter = _circleCollider.radius * 2f * _effectScaleMultiplier
+                * Mathf.Max(Mathf.Abs(zoneScale.x), Mathf.Abs(zoneScale.y));
+            Vector3 effectScale = effectTransform.localScale;
+            effectScale.x = diameter / (spriteSize.x * Mathf.Abs(parentScale.x));
+            effectScale.y = diameter / (spriteSize.y * Mathf.Abs(parentScale.y));
+            effectTransform.localScale = effectScale;
         }
 
         public void SetDuration(float duration)
@@ -114,72 +74,48 @@ namespace Items.ItemVariations.BeautiZone
 
         public void Activate()
         {
+            Deactivate();
             _isActive = true;
             _circleCollider.enabled = true;
 
-            if (_damageTickCoroutine != null)
+            if (AnimationDuration > 0f && _duration > 0f)
             {
-                StopCoroutine(_damageTickCoroutine);
+                _effectAnimator.PlaybackSpeed = AnimationDuration / _duration;
+                _effectAnimator.Finished += Deactivate;
+            }
+            else
+            {
+                StartCoroutine(DeactivateAfterDuration());
             }
 
-            _damageTickCoroutine = StartCoroutine(DamageTick());
-            PlayParticleEffect(_duration);
+            StartCoroutine(DamageTick());
 
-            StartCoroutine(DeactivateAfterDuration());
-        }
-
-        private void PlayParticleEffect(float duration)
-        {
-            if (_particleEffectPrefab == null) return;
-
-            if (_activeParticle != null)
+            if (_effectRenderer != null)
             {
-                ReturnParticleToPool(_activeParticle);
-                _activeParticle = null;
-            }
-
-            _activeParticle = GetParticleFromPool();
-            _activeParticle.transform.position = transform.position;
-            _activeParticle.transform.localScale = new Vector2(_circleCollider.radius + _particleScaleOffset,
-                _circleCollider.radius + _particleScaleOffset);
-
-            _activeParticle.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
-
-            var main = _activeParticle.main;
-            main.duration = duration;
-
-            _activeParticle.Play();
-
-            StartCoroutine(ReturnParticleAfterDuration(_activeParticle, duration));
-        }
-
-        private IEnumerator ReturnParticleAfterDuration(ParticleSystem particle, float duration)
-        {
-            yield return new WaitForSeconds(duration);
-
-            if (particle != null)
-            {
-                ReturnParticleToPool(particle);
-
-                if (_activeParticle == particle)
-                {
-                    _activeParticle = null;
-                }
+                _effectRenderer.gameObject.SetActive(true);
+                UpdateEffectScale();
             }
         }
 
         private IEnumerator DeactivateAfterDuration()
         {
             yield return new WaitForSeconds(_duration);
+            Deactivate();
+        }
 
+        private void Deactivate()
+        {
             _isActive = false;
-            _circleCollider.enabled = false;
+            if (_circleCollider != null)
+                _circleCollider.enabled = false;
 
-            if (_damageTickCoroutine != null)
-            {
-                StopCoroutine(_damageTickCoroutine);
-                _damageTickCoroutine = null;
-            }
+            if (_effectAnimator != null)
+                _effectAnimator.Finished -= Deactivate;
+
+            StopAllCoroutines();
+
+            if (_effectRenderer != null)
+                _effectRenderer.gameObject.SetActive(false);
         }
 
         private IEnumerator DamageTick()
@@ -192,6 +128,12 @@ namespace Items.ItemVariations.BeautiZone
 
                 ClearHitEnemies();
             }
+        }
+
+        protected override void OnTriggerEnter2D(Collider2D collision)
+        {
+            if (_isActive)
+                base.OnTriggerEnter2D(collision);
         }
 
         protected void OnTriggerStay2D(Collider2D collision)
@@ -209,13 +151,7 @@ namespace Items.ItemVariations.BeautiZone
 
         private void OnDisable()
         {
-            if (_activeParticle != null)
-            {
-                ReturnParticleToPool(_activeParticle);
-                _activeParticle = null;
-            }
-
-            StopAllCoroutines();
+            Deactivate();
         }
     }
 }

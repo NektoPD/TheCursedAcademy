@@ -53,8 +53,6 @@ MonoBehaviour:
   _catMovementSpeed: 3
   _catsPerSpawn: 2
   _detectionRadius: 5
-  _catDisappearEffectPrefab: {fileID: 19848222, guid: e4fc72c1b3da74d4697708bcd2a9db60, type: 3}
-  _effectPoolSize: 10
   _baseCatsPerSpawn: 3
   _catsPerLevelDiv: 2
   _baseDetectionRadius: 5

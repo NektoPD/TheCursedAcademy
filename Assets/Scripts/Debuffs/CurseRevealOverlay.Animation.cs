@@ -67,7 +67,6 @@ namespace Debuffs
                 return;
 
             IconMotion motion = PrepareIconAnimation(icon);
-            // Animate the frame as a unit with its child icon, without doubling the scale.
             Transform iconTransform = motion.Target;
             iconTransform.localScale = motion.InitialScale * _iconAppearStartScale;
             icon.gameObject.SetActive(true);

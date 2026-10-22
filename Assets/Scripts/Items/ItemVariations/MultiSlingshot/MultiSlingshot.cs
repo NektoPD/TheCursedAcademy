@@ -30,7 +30,6 @@ namespace Items.ItemVariations.MultiSlingshot
         private ObjectPool<MultiSlingshotItemProjectile> _projectilePool;
         private Vector2 _lastAttackDirection = Vector2.right;
         private CharacterLogic.InputHandler.CharacterMovementHandler _characterMovementHandler;
-        private float _damageMultiplier = 1f;
         private float _damageIncreasePerLevel = 1.25f;
         private float _cooldownReductionPerLevel = 0.85f;
         private float _projectileSpeedIncreasePerLevel = 1.2f;
@@ -209,14 +208,15 @@ namespace Items.ItemVariations.MultiSlingshot
 
         protected override void UpdateStatsValues()
         {
-            ItemStats.SetStatCurrentValue(Enums.StatVariations.Damage, _damageMultiplier);
-            ItemStats.SetStatCurrentValue(Enums.StatVariations.AttackSpeed, Data.Cooldown);
+            ItemStats.SetStatCurrentValue(Enums.StatVariations.Damage, Mods.GetMult(Enums.StatVariations.Damage));
+            ItemStats.SetStatCurrentValue(Enums.StatVariations.AttackSpeed, RuntimeCooldown);
             ItemStats.SetStatCurrentValue(Enums.StatVariations.ProjectilesCount, _projectilesPerShot);
             ItemStats.SetStatCurrentValue(Enums.StatVariations.ProjectilesSpeed, _projectileSpeed);
 
-            ItemStats.SetStatNextValue(Enums.StatVariations.Damage, _damageMultiplier * _damageIncreasePerLevel);
-            ItemStats.SetStatNextValue(Enums.StatVariations.AttackSpeed, Data.Cooldown * _cooldownReductionPerLevel);
-            ItemStats.SetStatNextValue(Enums.StatVariations.ProjectilesCount, _projectilesPerShot++);
+            ItemStats.SetStatNextValue(Enums.StatVariations.Damage,
+                Mods.GetMult(Enums.StatVariations.Damage) * _damageIncreasePerLevel);
+            ItemStats.SetStatNextValue(Enums.StatVariations.AttackSpeed, RuntimeCooldown * _cooldownReductionPerLevel);
+            ItemStats.SetStatNextValue(Enums.StatVariations.ProjectilesCount, _projectilesPerShot + 1);
             ItemStats.SetStatNextValue(Enums.StatVariations.ProjectilesSpeed,
                 _projectileSpeed * _projectileSpeedIncreasePerLevel);
         }

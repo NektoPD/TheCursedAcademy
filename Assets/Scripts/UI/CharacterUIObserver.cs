@@ -131,6 +131,7 @@ namespace UI
             }
 
             _wheelRewards.Clear();
+            _wheelRewardBaseStats = null;
             _pendingLevelUps = 0;
             _nextRewardIndex = 0;
             _isGrantingRewards = false;
