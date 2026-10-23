@@ -37,6 +37,16 @@ namespace Items.ItemVariations.SchoolBell
             _currentRadiusMult = 1f;
         }
 
+        public override float? GetCurrentStatValue(StatVariations variation)
+        {
+            return variation switch
+            {
+                Enums.StatVariations.Radius => _bellEffectRadius * AreaMultiplier * _currentRadiusMult,
+                Enums.StatVariations.Duration => _freezeDuration * EffectDurationMultiplier * _currentEffectDurationMult,
+                _ => base.GetCurrentStatValue(variation)
+            };
+        }
+
         protected override void PerformAttack()
         {
             SchoolBellProjectile projectile =

@@ -308,7 +308,7 @@ namespace UI.FortuneWheel
                 {
                     WheelRewardType.Gold => "+" + reward.GoldAmount,
                     WheelRewardType.Buff => GetBuffDescription(reward.Buff),
-                    _ => reward.ItemUpgradeDescription ?? reward.Item.Description
+                    _ => reward.ItemDescription ?? reward.Item.Description
                 };
                 Sprite sprite = reward.Type == WheelRewardType.Gold ? _goldIcon : reward.Sprite;
                 card.Initialize(title, description, sprite);

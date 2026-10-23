@@ -72,6 +72,16 @@ namespace Items.BaseClass
         }
         
         public IReadOnlyList<Stat> GetUiStats() => VisualData.Stats;
+
+        public virtual float? GetCurrentStatValue(StatVariations variation)
+        {
+            return variation switch
+            {
+                Enums.StatVariations.Damage => RuntimeDamage,
+                Enums.StatVariations.AttackSpeed => RuntimeCooldown,
+                _ => UiStats.FirstOrDefault(stat => stat != null && stat.Variation == variation)?.CurrentValue
+            };
+        }
         
         public void Attack()
         {

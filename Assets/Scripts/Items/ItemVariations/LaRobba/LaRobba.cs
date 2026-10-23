@@ -34,6 +34,13 @@ namespace Items.ItemVariations.LaRobba
             _transform = transform;
         }
 
+        public override float? GetCurrentStatValue(StatVariations variation)
+        {
+            return variation == Enums.StatVariations.ProjectileLifetime
+                ? null
+                : base.GetCurrentStatValue(variation);
+        }
+
         protected override void PerformAttack()
         {
             Collider2D[] colliders = Physics2D.OverlapCircleAll(_transform.position, _detectionRadius, _enemyLayer);

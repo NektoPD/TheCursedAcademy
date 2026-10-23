@@ -30,6 +30,13 @@ namespace Items.ItemVariations
             _projectilePool.Initialize(_ideaProjectilePrefab, _initialPoolSize);
         }
 
+        public override float? GetCurrentStatValue(StatVariations variation)
+        {
+            return variation == Enums.StatVariations.Radius
+                ? _detectionRadius
+                : base.GetCurrentStatValue(variation);
+        }
+
         protected override void PerformAttack()
         {
             Collider2D[] enemiesInRange = Physics2D.OverlapCircleAll(

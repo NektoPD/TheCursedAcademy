@@ -41,6 +41,14 @@ namespace Items.ItemVariations.CherryBombs
                 _lastFacingDirection = MovementHandler.GetMoveDirection();
         }
 
+        public override float? GetCurrentStatValue(StatVariations variation)
+        {
+            if (variation == Enums.StatVariations.Duration)
+                return _projectilePrefab != null ? _projectilePrefab.ExplosionDelay : null;
+
+            return base.GetCurrentStatValue(variation);
+        }
+
         protected override void PerformAttack()
         {
             Vector2 direction = MovementHandler != null && MovementHandler.IsMoving()

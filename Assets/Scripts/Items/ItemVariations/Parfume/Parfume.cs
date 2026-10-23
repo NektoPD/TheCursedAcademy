@@ -49,6 +49,13 @@ namespace Items.ItemVariations
             transform.SetParent(null);
         }
 
+        public override float? GetCurrentStatValue(StatVariations variation)
+        {
+            return variation == Enums.StatVariations.Duration
+                ? _damageZoneDuration * EffectDurationMultiplier * _durationMultiplier
+                : base.GetCurrentStatValue(variation);
+        }
+
         protected override void PerformAttack()
         {
             for (int i = 0; i < _projectileCount; i++)

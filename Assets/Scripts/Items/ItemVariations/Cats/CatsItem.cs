@@ -110,6 +110,13 @@ namespace Items.ItemVariations.Cats
             Destroy(cat.gameObject);
         }
 
+        public override float? GetCurrentStatValue(StatVariations variation)
+        {
+            return variation == Enums.StatVariations.Radius
+                ? _detectionRadius * AreaMultiplier
+                : base.GetCurrentStatValue(variation);
+        }
+
         protected override void PerformAttack()
         {
             if (!_catsActive && _respawnCoroutine == null)

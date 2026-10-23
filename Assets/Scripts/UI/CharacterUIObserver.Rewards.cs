@@ -12,6 +12,7 @@ namespace UI
         private readonly List<WheelReward> _wheelRewards = new();
         private IReadOnlyDictionary<PerkType, float> _wheelRewardBaseStats;
         private int _nextRewardIndex;
+        private int _pendingNewItemRewardIndex = -1;
         private bool _isGrantingRewards;
         private bool _waitingForItemWindow;
         private int _pendingLevelUps;
@@ -95,6 +96,13 @@ namespace UI
             if (!_isGrantingRewards || _waitingForItemWindow || _character == null)
                 return;
 
+            if (_pendingNewItemRewardIndex >= 0)
+            {
+                _wheelRewards[_pendingNewItemRewardIndex] = CreateNewItemReward(
+                    _wheelRewards[_pendingNewItemRewardIndex]);
+                _pendingNewItemRewardIndex = -1;
+            }
+
             while (_nextRewardIndex < _wheelRewards.Count)
             {
                 WheelReward reward = _wheelRewards[_nextRewardIndex];
@@ -125,7 +133,19 @@ namespace UI
         {
             Item existingItem = _character.Inventory.Items.FirstOrDefault(
                 item => item.Data.ItemVariation == reward.Item.Variation);
-            if (existingItem == null || existingItem.IsMaxLevelReached())
+            if (existingItem == null)
+            {
+                _character.SelectWheelItem(reward.Item.Variation);
+                if (_waitingForItemWindow)
+                {
+                    _pendingNewItemRewardIndex = _nextRewardIndex - 1;
+                    return reward;
+                }
+
+                return CreateNewItemReward(reward);
+            }
+
+            if (existingItem.IsMaxLevelReached())
             {
                 _character.SelectWheelItem(reward.Item.Variation);
                 return reward;
@@ -142,6 +162,13 @@ namespace UI
             return existingItem.CurrentLevel > previousLevel
                 ? WheelReward.CreateItemUpgrade(existingItem, previousLevel, previousStats)
                 : reward;
+        }
+
+        private WheelReward CreateNewItemReward(WheelReward reward)
+        {
+            Item newItem = _character.Inventory.Items.FirstOrDefault(
+                item => item.Data.ItemVariation == reward.Item.Variation);
+            return newItem != null ? WheelReward.CreateNewItem(newItem) : reward;
         }
 
         private void TryCompleteRewardBatch()
@@ -163,6 +190,7 @@ namespace UI
 
             _wheelRewardBaseStats = null;
             _nextRewardIndex = 0;
+            _pendingNewItemRewardIndex = -1;
             _isGrantingRewards = false;
             _waitingForItemWindow = false;
 

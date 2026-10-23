@@ -39,6 +39,13 @@ namespace Items.ItemVariations
             _durationMultiplier = 1f;
         }
 
+        public override float? GetCurrentStatValue(StatVariations variation)
+        {
+            return variation == Enums.StatVariations.Duration
+                ? _effectDuration * _durationMultiplier
+                : base.GetCurrentStatValue(variation);
+        }
+
         protected override void PerformAttack()
         {
             if (_activeEffectCoroutine != null)

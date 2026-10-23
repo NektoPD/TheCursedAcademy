@@ -134,6 +134,7 @@ namespace UI
             _wheelRewardBaseStats = null;
             _pendingLevelUps = 0;
             _nextRewardIndex = 0;
+            _pendingNewItemRewardIndex = -1;
             _isGrantingRewards = false;
             _waitingForItemWindow = false;
 

@@ -58,6 +58,17 @@ namespace Items.ItemVariations.Toys
             _initialAngleStep = 360f / _currentProjectileCount;
         }
 
+        public override float? GetCurrentStatValue(StatVariations variation)
+        {
+            return variation switch
+            {
+                Enums.StatVariations.Damage => Data.Damage * _damageMultiplier,
+                Enums.StatVariations.Radius => _rotationRadius * AreaMultiplier * _radiusMultiplier,
+                Enums.StatVariations.RotationSpeed => _rotationSpeed,
+                _ => base.GetCurrentStatValue(variation)
+            };
+        }
+
         protected override void PerformAttack()
         {
             if (!_isAttackReady) return;

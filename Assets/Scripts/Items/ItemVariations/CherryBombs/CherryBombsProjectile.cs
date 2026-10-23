@@ -33,6 +33,8 @@ namespace Items.ItemVariations.CherryBombs
         private Tween _delayedFinish;
         private Tween _explosionTween;
 
+        public float ExplosionDelay => _explosionDelay;
+
         public event Action Exploded;
         public event Action<CherryBombsProjectile> Finished;
 
