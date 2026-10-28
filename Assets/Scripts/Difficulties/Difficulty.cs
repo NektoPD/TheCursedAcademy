@@ -25,7 +25,7 @@ namespace Difficulties
         [SerializeField] private float _offset = 0.1f;
 
         [Header("Tuning")]
-        [SerializeField] private float _cooldownChangeForWave = 0.1f;
+        [SerializeField] private float _cooldownChangeForWave = 0.01f;
 
         [Header("XP tuning (per wave)")]
         [SerializeField] private float _xpBaseMultiplier = 1f;

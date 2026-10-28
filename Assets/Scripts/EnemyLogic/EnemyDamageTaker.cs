@@ -119,7 +119,7 @@ namespace EnemyLogic
 
             _ejector.Eject();
             _enemyAnimator.ResetSpeed();
-            if (_wasKilledByBerserk)
+            if (_wasKilledByBerserk && _enemy.IsBoss == false)
                 _enemyAnimator.PlayPopDeathAnimation();
             else
                 _enemyAnimator.SetDeadBool(true);
