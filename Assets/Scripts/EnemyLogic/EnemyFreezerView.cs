@@ -39,15 +39,15 @@ namespace EnemyLogic
 
         public void SetState(bool componentEnabled)
         {
-            if (gameObject.activeSelf == false)
-                return;
-
             _mover.enabled = componentEnabled;
             _attacker.enabled = componentEnabled;
             _damageView.enabled = componentEnabled;
 
             if (_coroutine != null)
                 StopCoroutine(_coroutine);
+            
+            if (!gameObject.activeSelf)
+                return;
 
             if (componentEnabled == true)
                 _coroutine = StartCoroutine(ChangeColor(_color, _defaultColor));
