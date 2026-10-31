@@ -7045,8 +7045,8 @@ MonoBehaviour:
   m_VerticalScrollbar: {fileID: 0}
   m_HorizontalScrollbarVisibility: 0
   m_VerticalScrollbarVisibility: 0
-  m_HorizontalScrollbarSpacing: -0.67031246
-  m_VerticalScrollbarSpacing: -0.67031246
+  m_HorizontalScrollbarSpacing: -0.65312505
+  m_VerticalScrollbarSpacing: -0.65312505
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -10500,8 +10500,8 @@ MonoBehaviour:
   m_VerticalScrollbar: {fileID: 0}
   m_HorizontalScrollbarVisibility: 2
   m_VerticalScrollbarVisibility: 0
-  m_HorizontalScrollbarSpacing: -0.67031246
-  m_VerticalScrollbarSpacing: -0.67031246
+  m_HorizontalScrollbarSpacing: -0.65312505
+  m_VerticalScrollbarSpacing: -0.65312505
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -13490,8 +13490,8 @@ MonoBehaviour:
   m_VerticalScrollbar: {fileID: 0}
   m_HorizontalScrollbarVisibility: 2
   m_VerticalScrollbarVisibility: 0
-  m_HorizontalScrollbarSpacing: -0.67031246
-  m_VerticalScrollbarSpacing: -0.67031246
+  m_HorizontalScrollbarSpacing: -0.65312505
+  m_VerticalScrollbarSpacing: -0.65312505
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -28473,7 +28473,7 @@ MonoBehaviour:
   m_HorizontalScrollbarVisibility: 2
   m_VerticalScrollbarVisibility: 2
   m_HorizontalScrollbarSpacing: 0
-  m_VerticalScrollbarSpacing: -1.0023364
+  m_VerticalScrollbarSpacing: -0.97663563
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []

@@ -31,7 +31,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.7400213, y: 0.5219486, z: 0}
-  m_LocalScale: {x: 1.125874, y: 1.125874, z: 1.125874}
+  m_LocalScale: {x: 3.593168, y: 3.593168, z: 1.4244559}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -166,7 +166,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   _projectileSprite: {fileID: 8022614440352221076}
-  _areaRadiusMultiplier: 0.73
+  _areaRadiusMultiplier: 1
 --- !u!114 &8915571347178397460
 MonoBehaviour:
   m_ObjectHideFlags: 0
