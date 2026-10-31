@@ -62,6 +62,27 @@ namespace UI.Animation
             }).Play();
         }
 
+        public void CloseBeforeAnimation()
+        {
+            Closed?.Invoke();
+            
+            if (_currentTween != null && _currentTween.IsActive())
+                _currentTween.Kill();
+
+            var newPosition = new Vector2(_rectTransform.anchoredPosition.x, _startY);
+
+            var suquence = DOTween.Sequence();
+
+            suquence.Append(DoFadeBackground(0, _duration / 2))
+                .Append(_rectTransform.DOAnchorPos(newPosition, _duration))
+                .SetUpdate(true);
+            
+            _currentTween = suquence.OnComplete(() =>
+            {
+                gameObject.SetActive(false);
+            }).Play();
+        }
+
         public void StopTime()
         {
             Utils.GameTimeScale.Set(0f);

@@ -57,6 +57,11 @@ namespace UI
             Animation.Close();
         }
 
+        public void CloseBeforeAnimation()
+        {
+            Animation.CloseBeforeAnimation();
+        }
+
         public virtual void OpenUnscaledTime()
         {
             gameObject.SetActive(true);

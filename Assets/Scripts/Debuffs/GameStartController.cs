@@ -68,7 +68,7 @@ namespace Debuffs
         {
             _debuffs = debuffs;
             _slotMachineWindow.Closed += OnSlotClosed;
-            _slotMachineWindow.CloseUnscaledTime();
+            _slotMachineWindow.CloseBeforeAnimation();
         }
 
         private void OnSlotClosed()
