@@ -19,7 +19,7 @@ namespace UI.FortuneWheel
         public string ItemDescription { get; }
 
         private WheelReward(WheelRewardType type, ItemVisualData item, int goldAmount, WheelBuffData buff,
-            string itemDescription = null)
+            string itemDescription = null, string itemStat = null)
         {
             Type = type;
             Item = item;

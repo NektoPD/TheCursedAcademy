@@ -3,6 +3,7 @@ using System.Linq;
 using Items.BaseClass;
 using Items.Stats;
 using UI.FortuneWheel;
+using UnityEngine;
 using Utils;
 
 namespace UI
@@ -69,10 +70,11 @@ namespace UI
                 OpenPendingLevelUp();
                 return;
             }
-
+            
+            Debug.Log("One pending");
             _wheelRewardBaseStats = _character.GetStatsSnapshot();
             _isGrantingRewards = true;
-            _fortuneWheelWindow.CloseUnscaledTime();
+            _fortuneWheelWindow.CloseBeforeAnimation();
         }
 
         private void OnWheelClosed()
@@ -173,7 +175,7 @@ namespace UI
 
         private void TryCompleteRewardBatch()
         {
-            if (!_rewardPauseHeld || IsWindowActive(_fortuneWheelWindow)
+            if (!_rewardPauseHeld
                 || IsWindowActive(_rewardPopup) || IsWindowActive(_inventoryFullWindow)
                 || IsWindowActive(_itemMaxLevelReachedWindow))
                 return;

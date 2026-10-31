@@ -1,10 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Text;
-using Data;
 using DG.Tweening;
-using Items.BaseClass;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -16,8 +13,6 @@ namespace UI.FortuneWheel
     public class WheelRewardPopup : UI.Window
     {
         [SerializeField] private Image _icon;
-        [SerializeField] private TMP_Text _title;
-        [SerializeField] private TMP_Text _description;
         [FormerlySerializedAs("_closeButton")]
         [SerializeField] private Button _claimButton;
         [SerializeField] private Sprite _goldIcon;
@@ -79,63 +74,6 @@ namespace UI.FortuneWheel
         {
             StopPresentation();
             base.CloseUnscaledTime();
-        }
-
-        public void ShowItem(ItemVisualData item)
-        {
-            ShowItem(item, null);
-        }
-
-        public void ShowItem(ItemVisualData item, Item existingItem)
-        {
-            if (item == null)
-                return;
-
-            BeginShow(false);
-            SetIcon(item.Sprite);
-            _title.text = item.Name;
-
-            var builder = new StringBuilder();
-
-            if (!string.IsNullOrEmpty(item.Description))
-                builder.AppendLine(item.Description);
-
-            var stats = existingItem != null ? existingItem.UiStats : item.Stats;
-
-            if (stats != null)
-            {
-                foreach (var stat in stats)
-                {
-                    if (stat == null)
-                        continue;
-
-                    string value = existingItem != null && !existingItem.IsMaxLevelReached()
-                        ? stat.CurrentValue.ToString("0.##") + " -> " + stat.NextValue.ToString("0.##")
-                        : stat.CurrentValue.ToString("0.##");
-                    builder.AppendLine(stat.Name + ": " + value);
-                }
-            }
-
-            _description.text = builder.ToString();
-        }
-
-        public void ShowGold(int amount)
-        {
-            BeginShow(false);
-            SetIcon(_goldIcon);
-            _title.text = Translator.Translate("Золото", "Gold", "Altın");
-            _description.text = "+" + amount;
-        }
-
-        public void ShowBuff(WheelBuffData buff)
-        {
-            if (buff == null)
-                return;
-
-            BeginShow(false);
-            SetIcon(buff.Icon);
-            _title.text = buff.Name;
-            _description.text = GetBuffDescription(buff);
         }
 
         public void ShowRewards(IReadOnlyList<WheelReward> rewards,
@@ -230,16 +168,6 @@ namespace UI.FortuneWheel
 
             if (_icon != null)
                 _icon.gameObject.SetActive(!batch);
-            if (_title != null)
-            {
-                _title.gameObject.SetActive(!batch);
-                _title.text = string.Empty;
-            }
-            if (_description != null)
-            {
-                _description.gameObject.SetActive(!batch);
-                _description.text = string.Empty;
-            }
 
             SetIcon(null);
             _confirmationPending = true;
