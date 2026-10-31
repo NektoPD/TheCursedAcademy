@@ -770,9 +770,6 @@ namespace CharacterLogic
             if (activationEffect != null)
                 _ability.SetActivationEffect(activationEffect);
 
-            if (_ability is PoisonThrowAbility poison)
-                poison.SetMovementHandler(_movementHandler);
-
             if (_ability is RagemodeAbility rage)
             {
                 rage.RageModeStarted += OnRageModeStarted;
@@ -802,10 +799,10 @@ namespace CharacterLogic
         public void ActivateAbility()
         {
             if (_ability == null || !_ability.IsReady || _ability.IsActive) return;
+            _view.HideAbilityUI();
             _ability.Activate();
             AbilityConfig config = _characterData.AbilityConfig;
             _characterSoundController?.PlayAbilitySound(config.ActivationClip, config.ActivationSound);
-            _view.HideAbilityUI();
             AbilityUsed?.Invoke();
         }
 

@@ -95,7 +95,7 @@ CircleCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3357005790285972705}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -120,9 +120,9 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.1, y: 0}
+  m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.35
+  m_Radius: 0.3504
 --- !u!50 &6632525414703954699
 Rigidbody2D:
   serializedVersion: 4
@@ -131,14 +131,14 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3357005790285972705}
-  m_BodyType: 0
-  m_Simulated: 1
+  m_BodyType: 1
+  m_Simulated: 0
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -162,12 +162,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f7b9afd4a04c234b81393bc66a2389a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _spawnScaleDuration: 0.3
-  _despawnScaleDuration: 0.3
-  _speedMultiplier: 0.5
+  _enemyLayer:
+    serializedVersion: 2
+    m_Bits: 256
   _projectileSprite: {fileID: 8022614440352221076}
-  _hitEffect: {fileID: 0}
-  _hitEffectScaleDuration: 0.2
+  _areaRadiusMultiplier: 0.73
 --- !u!114 &8915571347178397460
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -192,4 +191,4 @@ MonoBehaviour:
   - {fileID: -446574169, guid: d3291d3cb98b5d44798e234d4b521efd, type: 3}
   - {fileID: 1528543953, guid: d3291d3cb98b5d44798e234d4b521efd, type: 3}
   _framesPerSecond: 15
-  _isLooped: 1
+  _isLooped: 0

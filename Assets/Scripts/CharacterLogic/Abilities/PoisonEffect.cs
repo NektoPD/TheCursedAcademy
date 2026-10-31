@@ -29,10 +29,15 @@ namespace CharacterLogic.Abilities
         private IEnumerator PoisonRoutine(IDamageable target, float damage, float duration, int generation)
         {
             float tickDamage = damage / PoisonTicks;
-            float tickInterval = duration / PoisonTicks;
+            WaitForSeconds tickInterval = new WaitForSeconds(duration / PoisonTicks);
 
             for (int i = 0; i < PoisonTicks; i++)
             {
+                yield return tickInterval;
+
+                if (generation != _generation)
+                    yield break;
+
                 if (target is not Component component || component == null ||
                     !component.gameObject.activeInHierarchy || target is EnemyDamageTaker { IsDied: true })
                     break;
@@ -43,8 +48,6 @@ namespace CharacterLogic.Abilities
 
                 if (target is EnemyDamageTaker { IsDied: true })
                     break;
-
-                yield return new WaitForSeconds(tickInterval);
             }
 
             if (generation != _generation)

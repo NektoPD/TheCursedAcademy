@@ -1,100 +1,97 @@
-using DG.Tweening;
+using EnemyLogic;
 using HealthSystem;
 using UnityEngine;
+using Utils;
 
 namespace CharacterLogic.Abilities
 {
+    [RequireComponent(typeof(CircleCollider2D), typeof(SpriteRenderer), typeof(SimpleSpriteAnimator))]
     public class PoisonProjectile : AbilityProjectile
     {
-        private const float MaxLifetime = 3f;
-
-        [SerializeField] private float _spawnScaleDuration = 0.3f;
-        [SerializeField] private float _despawnScaleDuration = 0.3f;
-        [SerializeField] private float _speedMultiplier = 0.5f;
+        [SerializeField] private LayerMask _enemyLayer;
         [SerializeField] private SpriteRenderer _projectileSprite;
-        [SerializeField] private GameObject _hitEffect;
-        [SerializeField] private float _hitEffectScaleDuration = 0.2f;
+        [SerializeField, Range(0f, 1f)] private float _areaRadiusMultiplier = 0.73f;
 
+        private CircleCollider2D _areaCollider;
+        private SimpleSpriteAnimator _spriteAnimator;
         private float _poisonDuration;
-        private float _speed;
-        private Vector3 _targetScale;
-        private Vector3 _hitEffectTargetScale;
+
+        protected override void Awake()
+        {
+            base.Awake();
+            _areaCollider = GetComponent<CircleCollider2D>();
+            _areaCollider.enabled = false;
+            _spriteAnimator = GetComponent<SimpleSpriteAnimator>();
+
+            if (_projectileSprite == null)
+                _projectileSprite = GetComponent<SpriteRenderer>();
+
+            Rb.bodyType = RigidbodyType2D.Kinematic;
+            Rb.simulated = false;
+        }
 
         public override void Launch(Vector2 direction, float speed, float damage, float duration)
         {
-            _speed = speed * _speedMultiplier;
+            base.Launch(Vector2.zero, 0f, damage, duration);
             _poisonDuration = duration;
-            _targetScale = transform.localScale;
+            HitEnemies.Clear();
+            UpdateAreaFromSprite();
+            _spriteAnimator.Finished += OnAnimationFinished;
+            DamageArea();
+        }
 
-            if (_hitEffect != null)
+        private void UpdateAreaFromSprite()
+        {
+            Sprite sprite = _projectileSprite.sprite;
+            if (sprite == null)
+                return;
+
+            Vector2 size = sprite.rect.size / sprite.pixelsPerUnit;
+            _areaCollider.radius = Mathf.Min(size.x, size.y) * 0.5f * _areaRadiusMultiplier;
+            _areaCollider.offset = (sprite.rect.size * 0.5f - sprite.pivot) / sprite.pixelsPerUnit;
+        }
+
+        private void DamageArea()
+        {
+            Vector3 scale = transform.lossyScale;
+            float radius = _areaCollider.radius * Mathf.Max(Mathf.Abs(scale.x), Mathf.Abs(scale.y));
+            Vector2 center = transform.TransformPoint(_areaCollider.offset);
+            Collider2D[] hits = Physics2D.OverlapCircleAll(center, radius, _enemyLayer);
+
+            foreach (Collider2D hit in hits)
             {
-                _hitEffectTargetScale = _hitEffect.transform.localScale;
-                _hitEffect.SetActive(false);
+                EnemyDamageTaker target = hit.GetComponentInParent<EnemyDamageTaker>();
+                if (target == null || target.IsDied || !HitEnemies.Add(target))
+                    continue;
+
+                ApplyEffect(target);
             }
-
-            if (_projectileSprite != null)
-                _projectileSprite.color = new Color(_projectileSprite.color.r, _projectileSprite.color.g, _projectileSprite.color.b, 1f);
-
-            transform.localScale = Vector3.zero;
-            transform.DOScale(_targetScale, _spawnScaleDuration).SetEase(Ease.OutBack);
-
-            base.Launch(direction, _speed, damage, duration);
-
-            float despawnDelay = MaxLifetime - _despawnScaleDuration;
-            if (despawnDelay < 0f) despawnDelay = 0f;
-
-            DOVirtual.DelayedCall(despawnDelay, StartDespawn);
-        }
-
-        public void SetFacing(bool facingLeft)
-        {
-            if (_projectileSprite != null)
-                _projectileSprite.flipX = facingLeft;
-        }
-
-        private void StartDespawn()
-        {
-            if (this == null) return;
-            transform.DOScale(Vector3.zero, _despawnScaleDuration)
-                .SetEase(Ease.InBack)
-                .OnComplete(() => Destroy(gameObject));
         }
 
         protected override void ApplyEffect(IDamageable target)
         {
-            if (target is Component component)
-            {
-                PoisonEffect poison = component.GetComponent<PoisonEffect>();
-                if (poison == null)
-                    poison = component.gameObject.AddComponent<PoisonEffect>();
+            base.ApplyEffect(target);
 
-                poison.Apply(target, Damage, _poisonDuration);
-            }
+            if (target is not Component component || component == null ||
+                !component.gameObject.activeInHierarchy || target is EnemyDamageTaker { IsDied: true })
+                return;
 
-            ShowHitEffect();
+            PoisonEffect poison = component.GetComponent<PoisonEffect>();
+            if (poison == null)
+                poison = component.gameObject.AddComponent<PoisonEffect>();
+
+            poison.Apply(target, Damage, _poisonDuration);
         }
 
-        private void ShowHitEffect()
+        private void OnAnimationFinished()
         {
-            if (_hitEffect == null) return;
-
-            GameObject effect = Instantiate(_hitEffect, transform.position, Quaternion.identity);
-            effect.SetActive(true);
-            effect.transform.localScale = Vector3.zero;
-
-            effect.transform.DOScale(_hitEffectTargetScale, _hitEffectScaleDuration)
-                .SetEase(Ease.OutBack)
-                .OnComplete(() =>
-                {
-                    effect.transform.DOScale(Vector3.zero, _hitEffectScaleDuration)
-                        .SetEase(Ease.InBack)
-                        .OnComplete(() => Destroy(effect));
-                });
+            Destroy(gameObject);
         }
 
-        private void OnDestroy()
+        private void OnDisable()
         {
-            transform.DOKill();
+            if (_spriteAnimator != null)
+                _spriteAnimator.Finished -= OnAnimationFinished;
         }
     }
 }
