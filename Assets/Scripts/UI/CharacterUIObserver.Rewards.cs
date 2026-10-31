@@ -71,7 +71,6 @@ namespace UI
                 return;
             }
             
-            Debug.Log("One pending");
             _wheelRewardBaseStats = _character.GetStatsSnapshot();
             _isGrantingRewards = true;
             _fortuneWheelWindow.CloseBeforeAnimation();
@@ -175,9 +174,8 @@ namespace UI
 
         private void TryCompleteRewardBatch()
         {
-            if (!_rewardPauseHeld
-                || IsWindowActive(_rewardPopup) || IsWindowActive(_inventoryFullWindow)
-                || IsWindowActive(_itemMaxLevelReachedWindow))
+            if (!_rewardPauseHeld || IsWindowActive(_inventoryFullWindow)
+                                  || IsWindowActive(_itemMaxLevelReachedWindow))
                 return;
 
             if (_wheelRewards.Count > 0 && (!_isGrantingRewards || _nextRewardIndex < _wheelRewards.Count))

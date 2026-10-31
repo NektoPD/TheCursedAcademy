@@ -32,8 +32,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 8151706486139764827}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.33362362, y: 0.63774025}
-  m_AnchorMax: {x: 0.6663669, y: 0.95525265}
+  m_AnchorMin: {x: 0.33362347, y: 0.6930163}
+  m_AnchorMax: {x: 0.6663666, y: 0.9552542}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -101,7 +101,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 512929868998378260}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -169,6 +169,7 @@ MonoBehaviour:
   _icon: {fileID: 5011915504409246120}
   _title: {fileID: 2363946155221809035}
   _description: {fileID: 4699843814575343885}
+  _appearStartScale: 0.8
 --- !u!1 &3292371861808593114
 GameObject:
   m_ObjectHideFlags: 0
@@ -201,8 +202,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 8151706486139764827}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.056909084, y: 0.053243876}
-  m_AnchorMax: {x: 0.9224804, y: 0.43374026}
+  m_AnchorMin: {x: 0.056909036, y: 0.053242445}
+  m_AnchorMax: {x: 0.9224803, y: 0.49691117}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -261,7 +262,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 52.45
+  m_fontSize: 43.15
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -336,8 +337,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 8151706486139764827}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.12901133, y: 0.46070594}
-  m_AnchorMax: {x: 0.87098294, y: 0.5986829}
+  m_AnchorMin: {x: 0.11870894, y: 0.528896}
+  m_AnchorMax: {x: 0.86068034, y: 0.6668731}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -388,7 +389,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 44.95
+  m_fontSize: 37
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
