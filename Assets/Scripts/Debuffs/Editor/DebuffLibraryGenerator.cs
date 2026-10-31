@@ -63,65 +63,75 @@ namespace Debuffs.EditorTools
             return new List<Definition>
             {
                 new Definition("Debuff_GlassCannon", "Стеклянная пушка", "Glass Cannon", "Cam Top",
-                    "Урон +35%, но здоровье -30%.", "Damage +35%, but health -30%.", "Hasar +35, can -30.",
+                    "Урон +20%, но здоровье -15%.",
+                    "Damage +20%, but health -15%.",
+                    "Hasar +%20, ancak can -%15.",
                     new List<DebuffModifier>
                     {
-                        new DebuffModifier(PerkType.Power, 1.35f),
-                        new DebuffModifier(PerkType.MaxHp, 0.70f),
+                        new DebuffModifier(PerkType.Power, 1.20f),
+                        new DebuffModifier(PerkType.MaxHp, 0.85f),
                     }),
 
                 new Definition("Debuff_Berserk", "Берсерк", "Berserk", "Berserk",
-                    "Скорость атаки +30%, но броня -35%.", "Attack speed +30%, but armor -35%.", "Saldiri +30, zirh -35.",
+                    "Скорость атаки +10%, но броня -10%.",
+                    "Attack speed +10%, but armor -10%.",
+                    "Saldırı hızı +%10, ancak zırh -%10.",
                     new List<DebuffModifier>
                     {
-                        new DebuffModifier(PerkType.AttackCooldown, 0.70f),
-                        new DebuffModifier(PerkType.Armor, 0.65f),
+                        new DebuffModifier(PerkType.AttackCooldown, 1f / 1.10f),
+                        new DebuffModifier(PerkType.Armor, 0.90f),
                     }),
 
                 new Definition("Debuff_Marathoner", "Марафонец", "Marathoner", "Maratoncu",
-                    "Скорость +25%, но урон -25%.", "Speed +25%, but damage -25%.", "Hiz +25, hasar -25.",
+                    "Скорость передвижения +10%, но урон -10%.",
+                    "Movement speed +10%, but damage -10%.",
+                    "Hareket hızı +%10, ancak hasar -%10.",
                     new List<DebuffModifier>
                     {
-                        new DebuffModifier(PerkType.Speed, 1.25f),
-                        new DebuffModifier(PerkType.Power, 0.75f),
+                        new DebuffModifier(PerkType.Speed, 1.10f),
+                        new DebuffModifier(PerkType.Power, 0.90f),
                     }),
 
                 new Definition("Debuff_Vitality", "Живучесть", "Vitality", "Canlilik",
-                    "Здоровье +35%, но реген -60%.", "Health +35%, but regen -60%.", "Can +35, yenilenme -60.",
+                    "Здоровье +20%, но реген -25%.",
+                    "Health +20%, but regen -25%.",
+                    "Can +%20, ancak yenilenme -%25.",
                     new List<DebuffModifier>
                     {
-                        new DebuffModifier(PerkType.MaxHp, 1.35f),
-                        new DebuffModifier(PerkType.HpRegeneration, 0.40f),
+                        new DebuffModifier(PerkType.MaxHp, 1.20f),
+                        new DebuffModifier(PerkType.HpRegeneration, 0.75f),
                     }),
 
                 new Definition("Debuff_Regenerator", "Регенератор", "Regenerator", "Yenileyici",
-                    "Реген +120%, но здоровье -25%.", "Regen +120%, but health -25%.", "Yenilenme +120, can -25.",
+                    "Реген +40%, но здоровье -12%.",
+                    "Regen +40%, but health -12%.",
+                    "Yenilenme +%40, ancak can -%12.",
                     new List<DebuffModifier>
                     {
-                        new DebuffModifier(PerkType.HpRegeneration, 2.20f),
-                        new DebuffModifier(PerkType.MaxHp, 0.75f),
+                        new DebuffModifier(PerkType.HpRegeneration, 1.40f),
+                        new DebuffModifier(PerkType.MaxHp, 0.88f),
                     }),
 
                 new Definition("Debuff_Turtle", "Черепаха", "Turtle", "Kaplumbaga",
-                    "Броня +45% и здоровье +15%, но скорость -35%.",
-                    "Armor +45% and health +15%, but speed -35%.",
-                    "Zirh +45, can +15, hiz -35.",
+                    "Броня +20% и здоровье +10%, но скорость передвижения -10%.",
+                    "Armor +20% and health +10%, but movement speed -10%.",
+                    "Zırh +%20 ve can +%10, ancak hareket hızı -%10.",
                     new List<DebuffModifier>
                     {
-                        new DebuffModifier(PerkType.Armor, 1.45f),
-                        new DebuffModifier(PerkType.MaxHp, 1.15f),
-                        new DebuffModifier(PerkType.Speed, 0.65f),
+                        new DebuffModifier(PerkType.Armor, 1.20f),
+                        new DebuffModifier(PerkType.MaxHp, 1.10f),
+                        new DebuffModifier(PerkType.Speed, 0.90f),
                     }),
 
                 new Definition("Debuff_Duelist", "Дуэлянт", "Duelist", "Duellocu",
-                    "Скорость атаки +35% и скорость +15%, но здоровье -35%.",
-                    "Attack speed +35% and speed +15%, but health -35%.",
-                    "Saldiri +35, hiz +15, can -35.",
+                    "Скорость атаки +8% и скорость передвижения +5%, но здоровье -12%.",
+                    "Attack speed +8% and movement speed +5%, but health -12%.",
+                    "Saldırı hızı +%8 ve hareket hızı +%5, ancak can -%12.",
                     new List<DebuffModifier>
                     {
-                        new DebuffModifier(PerkType.AttackCooldown, 0.65f),
-                        new DebuffModifier(PerkType.Speed, 1.15f),
-                        new DebuffModifier(PerkType.MaxHp, 0.65f),
+                        new DebuffModifier(PerkType.AttackCooldown, 1f / 1.08f),
+                        new DebuffModifier(PerkType.Speed, 1.05f),
+                        new DebuffModifier(PerkType.MaxHp, 0.88f),
                     }),
             };
         }
