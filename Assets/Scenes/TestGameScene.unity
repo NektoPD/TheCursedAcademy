@@ -7045,8 +7045,8 @@ MonoBehaviour:
   m_VerticalScrollbar: {fileID: 0}
   m_HorizontalScrollbarVisibility: 0
   m_VerticalScrollbarVisibility: 0
-  m_HorizontalScrollbarSpacing: -1.0937501
-  m_VerticalScrollbarSpacing: -1.0937501
+  m_HorizontalScrollbarSpacing: -0.61249995
+  m_VerticalScrollbarSpacing: -0.61249995
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -10425,8 +10425,8 @@ MonoBehaviour:
   m_VerticalScrollbar: {fileID: 0}
   m_HorizontalScrollbarVisibility: 2
   m_VerticalScrollbarVisibility: 0
-  m_HorizontalScrollbarSpacing: -1.0937501
-  m_VerticalScrollbarSpacing: -1.0937501
+  m_HorizontalScrollbarSpacing: -0.61249995
+  m_VerticalScrollbarSpacing: -0.61249995
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -13415,8 +13415,8 @@ MonoBehaviour:
   m_VerticalScrollbar: {fileID: 0}
   m_HorizontalScrollbarVisibility: 2
   m_VerticalScrollbarVisibility: 0
-  m_HorizontalScrollbarSpacing: -1.0937501
-  m_VerticalScrollbarSpacing: -1.0937501
+  m_HorizontalScrollbarSpacing: -0.61249995
+  m_VerticalScrollbarSpacing: -0.61249995
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -28398,7 +28398,7 @@ MonoBehaviour:
   m_HorizontalScrollbarVisibility: 2
   m_VerticalScrollbarVisibility: 2
   m_HorizontalScrollbarSpacing: 0
-  m_VerticalScrollbarSpacing: -1.6355143
+  m_VerticalScrollbarSpacing: -0.91588783
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -28957,7 +28957,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _targetPosition: {x: 0, y: 0, z: 0}
-  _duration: 1
+  _duration: 0.5
   _background: {fileID: 1446347547}
   _alfa: 0.5
 --- !u!114 &1446347547
@@ -40745,7 +40745,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _targetPosition: {x: 0, y: 0, z: 0}
-  _duration: 1
+  _duration: 0.5
   _background: {fileID: 1172812119443277953}
   _alfa: 0.5
 --- !u!114 &8679567519223357705
