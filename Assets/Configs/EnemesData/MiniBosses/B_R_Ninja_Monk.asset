@@ -14,11 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Id>k__BackingField: 107
   <Name>k__BackingField: Boss Range Ninja Monk
-  <Health>k__BackingField: 114
+  <Health>k__BackingField: 84
   <Speed>k__BackingField: 0.35
   <ImmuneTime>k__BackingField: 10
   <Money>k__BackingField: 25
   <MoneyDropChancePerProcent>k__BackingField: 25
+  <IsBoss>k__BackingField: 0
   <Attacks>k__BackingField:
   - {fileID: 11400000, guid: c7fd9bb03fea3aa4b8a7586a181788fc, type: 2}
   - {fileID: 11400000, guid: 32ccc4d02c74be142b7e91b1259262e7, type: 2}
