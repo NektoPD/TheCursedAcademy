@@ -7045,8 +7045,8 @@ MonoBehaviour:
   m_VerticalScrollbar: {fileID: 0}
   m_HorizontalScrollbarVisibility: 0
   m_VerticalScrollbarVisibility: 0
-  m_HorizontalScrollbarSpacing: -0.6968751
-  m_VerticalScrollbarSpacing: -0.6968751
+  m_HorizontalScrollbarSpacing: -1.0937501
+  m_VerticalScrollbarSpacing: -1.0937501
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -10425,8 +10425,8 @@ MonoBehaviour:
   m_VerticalScrollbar: {fileID: 0}
   m_HorizontalScrollbarVisibility: 2
   m_VerticalScrollbarVisibility: 0
-  m_HorizontalScrollbarSpacing: -0.6968751
-  m_VerticalScrollbarSpacing: -0.6968751
+  m_HorizontalScrollbarSpacing: -1.0937501
+  m_VerticalScrollbarSpacing: -1.0937501
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -13415,8 +13415,8 @@ MonoBehaviour:
   m_VerticalScrollbar: {fileID: 0}
   m_HorizontalScrollbarVisibility: 2
   m_VerticalScrollbarVisibility: 0
-  m_HorizontalScrollbarSpacing: -0.6968751
-  m_VerticalScrollbarSpacing: -0.6968751
+  m_HorizontalScrollbarSpacing: -1.0937501
+  m_VerticalScrollbarSpacing: -1.0937501
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -28398,7 +28398,7 @@ MonoBehaviour:
   m_HorizontalScrollbarVisibility: 2
   m_VerticalScrollbarVisibility: 2
   m_HorizontalScrollbarSpacing: 0
-  m_VerticalScrollbarSpacing: -1.0420562
+  m_VerticalScrollbarSpacing: -1.6355143
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -33234,7 +33234,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -0.000017606239, y: 17.314941}
+  m_AnchoredPosition: {x: -0.000017606239, y: 17.315002}
   m_SizeDelta: {x: 104.02, y: 60.578}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1684306497
@@ -34715,7 +34715,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1747386207
 RectTransform:
   m_ObjectHideFlags: 0
@@ -34734,7 +34734,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: -0.00000011533155, y: 0}
   m_AnchorMax: {x: 1.0000119, y: 1.0000001}
-  m_AnchoredPosition: {x: -1.6376953, y: -0.00024414062}
+  m_AnchoredPosition: {x: -1.6376953, y: 1183}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1747386208
