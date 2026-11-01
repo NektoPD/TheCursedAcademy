@@ -5,6 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="79342e3f-f429-427d-a8dc-fd8a148d8bde" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/Assets/Configs/PerlVisualData/Area.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Configs/PerlVisualData/Area.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Configs/PerlVisualData/Armor.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Configs/PerlVisualData/Armor.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Configs/PerlVisualData/Cooldown.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Configs/PerlVisualData/Cooldown.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Configs/PerlVisualData/Duration.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Configs/PerlVisualData/Duration.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Configs/PerlVisualData/Greed.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Configs/PerlVisualData/Greed.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Configs/PerlVisualData/Growth.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Configs/PerlVisualData/Growth.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Configs/PerlVisualData/Health.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Configs/PerlVisualData/Health.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Configs/PerlVisualData/Magnet.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Configs/PerlVisualData/Magnet.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Configs/PerlVisualData/Power.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Configs/PerlVisualData/Power.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Configs/PerlVisualData/Regeneration.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Configs/PerlVisualData/Regeneration.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Configs/PerlVisualData/Speed.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Configs/PerlVisualData/Speed.asset" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/PluginYourGames/Editor/SavesEditorYG2.json" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/PluginYourGames/Editor/SavesEditorYG2.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -36,22 +47,22 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;bug__fixes&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "main",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
     <configuration name="Start Unity" type="RunUnityExe" factoryName="Unity Executable">
-      <option name="EXE_PATH" value="C:\Program Files\Unity\Hub\Editor\2022.3.62f2\Editor\Unity.exe" />
+      <option name="EXE_PATH" value="$PROJECT_DIR$/../../UnityEditor/2022.3.62f2/Unity.app/Contents/MacOS/Unity" />
       <option name="PROGRAM_PARAMETERS" value="-projectPath $PROJECT_DIR$ -debugCodeOptimization" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="PASS_PARENT_ENVS" value="1" />
@@ -63,7 +74,7 @@
       <method v="2" />
     </configuration>
     <configuration name="Unit Tests (batch mode)" type="RunUnityExe" factoryName="Unity Executable">
-      <option name="EXE_PATH" value="C:\Program Files\Unity\Hub\Editor\2022.3.62f2\Editor\Unity.exe" />
+      <option name="EXE_PATH" value="$PROJECT_DIR$/../../UnityEditor/2022.3.62f2/Unity.app/Contents/MacOS/Unity" />
       <option name="PROGRAM_PARAMETERS" value="-runTests -batchmode -projectPath $PROJECT_DIR$ -testResults Logs/results.xml -logFile Logs/Editor.log -testPlatform EditMode -debugCodeOptimization" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="PASS_PARENT_ENVS" value="1" />
@@ -118,6 +129,7 @@
       <workItem from="1792516524253" duration="4089000" />
       <workItem from="1792610029709" duration="2170000" />
       <workItem from="1792648766028" duration="1986000" />
+      <workItem from="1793513429330" duration="591000" />
     </task>
     <servers />
   </component>
