@@ -14,11 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Id>k__BackingField: 110
   <Name>k__BackingField: Boss Samurai
-  <Health>k__BackingField: 240
+  <Health>k__BackingField: 210
   <Speed>k__BackingField: 0.65
   <ImmuneTime>k__BackingField: 10
   <Money>k__BackingField: 30
   <MoneyDropChancePerProcent>k__BackingField: 25
+  <IsBoss>k__BackingField: 0
   <Attacks>k__BackingField:
   - {fileID: 11400000, guid: 928ce67958f872147b4d5bc86980230c, type: 2}
   - {fileID: 11400000, guid: 2421924805fcff0458b4a61f3a3b0af2, type: 2}

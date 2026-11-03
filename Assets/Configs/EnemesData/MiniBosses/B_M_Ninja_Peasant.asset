@@ -14,11 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Id>k__BackingField: 108
   <Name>k__BackingField: Boss Ninja Peasant
-  <Health>k__BackingField: 129
+  <Health>k__BackingField: 99
   <Speed>k__BackingField: 0.65
   <ImmuneTime>k__BackingField: 10
   <Money>k__BackingField: 25
   <MoneyDropChancePerProcent>k__BackingField: 25
+  <IsBoss>k__BackingField: 0
   <Attacks>k__BackingField:
   - {fileID: 11400000, guid: afa6ed638e2d8b24d8ca2456d13613a9, type: 2}
   - {fileID: 11400000, guid: cc73c28abb9dba8489d00d64fdabc2fc, type: 2}
