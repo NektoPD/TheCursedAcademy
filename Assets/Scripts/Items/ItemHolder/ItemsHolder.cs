@@ -30,6 +30,16 @@ namespace Items.ItemHolder
             return _createdItems[randomIndex].VisualData;
         }
 
+        public List<ItemVisualData> GetAvailableVisualDatas()
+        {
+            return _createdItems
+                .Where(item => item != null)
+                .Select(item => item.VisualData)
+                .Where(data => data != null && !IsUnavailableItem(data))
+                .Distinct()
+                .ToList();
+        }
+
         public void GetVisualDatas(int count, out List<ItemVisualData> datas)
         {
             datas = new();

@@ -34805,8 +34805,23 @@ MonoBehaviour:
   _levelUpTitleIntroDuration: 0.28
   _levelUpTitlePulseDuration: 1.2
   _levelUpTitlePulseScale: 1.03
-  _itemSlots: 4
-  _goldSlots: 2
+  _rewardWeightTable:
+  - FromMinute: 0
+    ItemWeight: 75
+    GoldWeight: 15
+    BuffWeight: 10
+  - FromMinute: 5
+    ItemWeight: 50
+    GoldWeight: 25
+    BuffWeight: 25
+  - FromMinute: 10
+    ItemWeight: 30
+    GoldWeight: 35
+    BuffWeight: 35
+  - FromMinute: 15
+    ItemWeight: 20
+    GoldWeight: 40
+    BuffWeight: 40
   _goldAmounts: 19000000320000004b00000064000000
   _buffLibrary:
   - {fileID: 11400000, guid: 81d53237264f4594bbd81c97863dd8fc, type: 2}

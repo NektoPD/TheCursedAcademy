@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Data;
+using Debuffs;
 using DG.Tweening;
 using Items.ItemHolder;
 using InventorySystem;
@@ -35,10 +36,17 @@ namespace UI.FortuneWheel
         [SerializeField, Min(0.01f)] private float _levelUpTitlePulseDuration = 0.65f;
         [SerializeField, Range(1f, 1.25f)] private float _levelUpTitlePulseScale = 1.08f;
 
-        [Header("Reward Pool Weights")] [SerializeField, Range(0, 8)]
-        private int _itemSlots = 4;
+        [Header("Reward Distribution")]
+        [Tooltip("Rows apply from their start minute. Weights are relative and do not need to add up to 100.")]
+        [SerializeField] private List<RewardWeightStage> _rewardWeightTable = new()
+        {
+            new(0f, 75f, 15f, 10f),
+            new(5f, 50f, 25f, 25f),
+            new(10f, 30f, 35f, 35f),
+            new(15f, 20f, 40f, 40f)
+        };
 
-        [SerializeField, Range(0, 8)] private int _goldSlots = 2;
+        [Header("Reward Pool")]
         [SerializeField] private List<int> _goldAmounts = new() { 25, 50, 75, 100 };
         [SerializeField] private List<WheelBuffData> _buffLibrary = new();
 
@@ -60,6 +68,7 @@ namespace UI.FortuneWheel
         private readonly List<WheelReward> _rewards = new();
         private ItemsHolder _itemsHolder;
         private CharacterInventory _inventory;
+        private GameStartController _gameStartController;
         private Coroutine _routine;
         private bool _demoPlayed;
         private Tween _spinTween;
@@ -89,6 +98,12 @@ namespace UI.FortuneWheel
         }
 
         public void Initialize(CharacterInventory inventory) => _inventory = inventory;
+
+        public void Initialize(CharacterInventory inventory, GameStartController gameStartController)
+        {
+            Initialize(inventory);
+            _gameStartController = gameStartController;
+        }
 
         private void OnEnable()
         {
@@ -584,25 +599,67 @@ namespace UI.FortuneWheel
         {
             _rewards.Clear();
 
-            int itemCount = Mathf.Clamp(_itemSlots, 0, SlotsCount);
-            int goldCount = Mathf.Clamp(_goldSlots, 0, SlotsCount - itemCount);
-            int buffCount = SlotsCount - itemCount - goldCount;
+            Vector3 weights = GetRewardWeights();
+            List<ItemVisualData> itemDatas = _itemsHolder != null
+                ? _itemsHolder.GetAvailableVisualDatas()
+                : new List<ItemVisualData>();
+            List<WheelBuffData> buffs = _buffLibrary != null
+                ? _buffLibrary.Where(buff => buff != null).ToList()
+                : new List<WheelBuffData>();
 
-            _itemsHolder.GetVisualDatas(itemCount, out List<ItemVisualData> itemDatas);
+            Shuffle(itemDatas);
 
-            for (int i = 0; i < itemCount; i++)
+            for (int i = 0; i < SlotsCount; i++)
             {
-                ItemVisualData data = i < itemDatas.Count ? itemDatas[i] : _itemsHolder.GetVisualData();
-                _rewards.Add(WheelReward.CreateItem(data));
+                float itemWeight = itemDatas.Count > 0 ? weights.x : 0f;
+                float goldWeight = weights.y;
+                float buffWeight = buffs.Count > 0 ? weights.z : 0f;
+                float totalWeight = itemWeight + buffWeight + goldWeight;
+                float roll = totalWeight > 0f ? UnityEngine.Random.Range(0f, totalWeight) : 0f;
+
+                if (itemWeight > 0f && roll <= itemWeight)
+                {
+                    int index = itemDatas.Count - 1;
+                    _rewards.Add(WheelReward.CreateItem(itemDatas[index]));
+                    itemDatas.RemoveAt(index);
+                }
+                else if (buffWeight > 0f && roll <= itemWeight + buffWeight)
+                {
+                    _rewards.Add(WheelReward.CreateBuff(buffs[UnityEngine.Random.Range(0, buffs.Count)]));
+                }
+                else
+                {
+                    _rewards.Add(WheelReward.CreateGold(PickGold()));
+                }
             }
 
-            for (int i = 0; i < goldCount; i++)
-                _rewards.Add(WheelReward.CreateGold(PickGold()));
-
-            for (int i = 0; i < buffCount; i++)
-                _rewards.Add(WheelReward.CreateBuff(PickBuff()));
-
             Shuffle(_rewards);
+        }
+
+        private Vector3 GetRewardWeights()
+        {
+            if (_rewardWeightTable == null)
+                return Vector3.zero;
+
+            float elapsedMinutes = _gameStartController != null
+                ? _gameStartController.ElapsedGameTime / 60f
+                : 0f;
+            RewardWeightStage selected = default;
+            float selectedMinute = float.NegativeInfinity;
+
+            foreach (RewardWeightStage stage in _rewardWeightTable)
+            {
+                if (stage.FromMinute <= elapsedMinutes && stage.FromMinute >= selectedMinute)
+                {
+                    selected = stage;
+                    selectedMinute = stage.FromMinute;
+                }
+            }
+
+            return new Vector3(
+                Mathf.Max(0f, selected.ItemWeight),
+                Mathf.Max(0f, selected.GoldWeight),
+                Mathf.Max(0f, selected.BuffWeight));
         }
 
         private int PickGold()
@@ -611,14 +668,6 @@ namespace UI.FortuneWheel
                 return 50;
 
             return _goldAmounts[UnityEngine.Random.Range(0, _goldAmounts.Count)];
-        }
-
-        private WheelBuffData PickBuff()
-        {
-            if (_buffLibrary == null || _buffLibrary.Count == 0)
-                return null;
-
-            return _buffLibrary[UnityEngine.Random.Range(0, _buffLibrary.Count)];
         }
 
         private void ApplyReward(WheelReward reward)
@@ -645,6 +694,23 @@ namespace UI.FortuneWheel
             {
                 int j = UnityEngine.Random.Range(0, i + 1);
                 (list[i], list[j]) = (list[j], list[i]);
+            }
+        }
+
+        [Serializable]
+        private struct RewardWeightStage
+        {
+            [Min(0f)] public float FromMinute;
+            [Min(0f)] public float ItemWeight;
+            [Min(0f)] public float GoldWeight;
+            [Min(0f)] public float BuffWeight;
+
+            public RewardWeightStage(float fromMinute, float itemWeight, float goldWeight, float buffWeight)
+            {
+                FromMinute = fromMinute;
+                ItemWeight = itemWeight;
+                GoldWeight = goldWeight;
+                BuffWeight = buffWeight;
             }
         }
     }

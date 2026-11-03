@@ -28,6 +28,7 @@ namespace Debuffs
         private float _selectedCoinBonusPercent;
 
         public bool IsGameStarted { get; private set; }
+        public float ElapsedGameTime => _timeView != null ? _timeView.ElapsedSeconds : 0f;
 
         private void Awake()
         {

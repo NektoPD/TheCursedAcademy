@@ -13,6 +13,8 @@ namespace UI
         private bool _isRunning;
         private float _elapsed;
 
+        public float ElapsedSeconds => _elapsed;
+
         private void Awake()
         {
             _timeText = GetComponent<TextMeshProUGUI>();
