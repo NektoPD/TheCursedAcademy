@@ -35,10 +35,15 @@ namespace Difficulties
         [SerializeField] private float _defaultCooldown = 1f;
         [SerializeField] private int _defaultMaxEnemy = 100;
 
+        [Header("Game start")]
+        [SerializeField] private bool _waitForGameStart = true;
+
         private EnemyPool _enemyPool;
         private TimeTracker<DifficultyData> _timeTracker;
         private List<EnemyData> _enemyDataList;
         private XpWaveScaler _xpWaveScaler;
+
+        private Enemy _currentBoss;
 
         private readonly List<int> _regularIds = new();
         private readonly Queue<int> _bossSpawnQueue = new();
@@ -88,9 +93,6 @@ namespace Difficulties
             _timeTracker.TimeComed += OnWaveChanged;
         }
 
-        [Header("Game start")]
-        [SerializeField] private bool _waitForGameStart = true;
-
         private void Start()
         {
             if (!_waitForGameStart)
@@ -115,6 +117,9 @@ namespace Difficulties
 
             if (_bossRoutine != null)
                 StopCoroutine(_bossRoutine);
+
+            if (_currentBoss != null)
+                _currentBoss.Died -= () => { _canSpawn = true; };
         }
 
         private void Update()
@@ -204,7 +209,20 @@ namespace Difficulties
                 }
 
                 if (enemy.IsBoss)
+                {
                     BossSpawned?.Invoke(enemy);
+
+                    if(_cooldownRoutine != null)
+                        StopCoroutine(_cooldownRoutine);
+
+                    _canSpawn = false;
+
+                    if (_currentBoss != null)
+                        _currentBoss.Died -= () => { _canSpawn = true; };
+
+                    _currentBoss = enemy;
+                    _currentBoss.Died += () => { _canSpawn = true; };
+                }
 
                 enemy.transform.position =
                     OffscreenPositionGenerator.GetRandomPositionOutsideCamera(_offset);

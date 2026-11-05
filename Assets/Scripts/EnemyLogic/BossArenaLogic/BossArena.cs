@@ -1,6 +1,5 @@
 using System;
 using Difficulties;
-using Timelines;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
@@ -20,6 +19,8 @@ namespace EnemyLogic.BossArenaLogic
         private Enemy _boss = null;
         private Action _deadCutsceneHandler = null;
 
+        private Vector3 _defaultBossCameraPosition = Vector3.zero;
+
         private void OnEnable()
         {
             _difficulty.BossSpawned += Activate;
@@ -29,6 +30,8 @@ namespace EnemyLogic.BossArenaLogic
         {
             _difficulty.BossSpawned -= Activate;
         }
+
+        public void SetBossCameraToDefault() => _bossCamera.position = _defaultBossCameraPosition;
 
         public void Deactivate()
         {
@@ -56,7 +59,8 @@ namespace EnemyLogic.BossArenaLogic
             }
 
             _boss.Died += _deadCutsceneHandler = () => 
-            {        
+            {
+                _defaultBossCameraPosition = _bossCamera.transform.position;
                 _bossCamera.position = new Vector3(_boss.transform.position.x, _boss.transform.position.y, _bossCamera.position.z);
                 CutsceneStart(_deadCutscene);
             };

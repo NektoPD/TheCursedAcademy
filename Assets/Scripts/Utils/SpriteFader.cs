@@ -43,9 +43,6 @@ namespace Untils
 
         private void EnsureCache()
         {
-            if (_sprites != null) 
-                return;
-
             _sprites = FindAllSpritestInArea();
             _originalAlphas = new float[_sprites.Count];
 
