@@ -25,6 +25,7 @@ namespace Items.ItemVariations.LaRobba
         private Rigidbody2D _rb;
         private Sprite _defaultSprite;
         private float _defaultColliderRadius;
+        private Camera _camera;
 
         public event Action<LaRobbaProjectile> Finished;
         public event Action Hit;
@@ -42,6 +43,7 @@ namespace Items.ItemVariations.LaRobba
 
             _defaultSprite = SpriteRenderer.sprite;
             _defaultColliderRadius = _circleCollider != null ? _circleCollider.radius : 0.5f;
+            _camera = Camera.main;
         }
 
         public void Launch(Vector2 targetPosition, float speed)
@@ -117,21 +119,19 @@ namespace Items.ItemVariations.LaRobba
         {
             if (!_circleCollider.enabled)
             {
-                Camera camera = Camera.main;
-                if (camera != null)
+                if (_camera != null)
                 {
-                    Vector3 viewportPos = camera.WorldToViewportPoint(Transform.position);
+                    Vector3 viewportPos = _camera.WorldToViewportPoint(Transform.position);
                     if (viewportPos.y <= 1f && viewportPos.y >= 0f)
                         _circleCollider.enabled = true;
                 }
             }
 
-            if (_phase == Phase.Bouncing)
+            if (_circleCollider.enabled == true)
             {
-                Camera camera = Camera.main;
-                if (camera != null)
+                if (_camera != null)
                 {
-                    float bottomEdge = camera.ViewportToWorldPoint(Vector3.zero).y;
+                    float bottomEdge = _camera.ViewportToWorldPoint(Vector3.zero).y;
                     if (Transform.position.y < bottomEdge - 1f)
                     {
                         Finished?.Invoke(this);

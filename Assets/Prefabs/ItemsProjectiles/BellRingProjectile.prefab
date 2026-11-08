@@ -124,6 +124,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _animator: {fileID: 3208877474077955253}
   _ringAnimationTrigger: Ring
+  _bellIconAnimation: {fileID: 6282223932568120831}
 --- !u!58 &-3791584186252765650
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -259,7 +260,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 49
   m_Sprite: {fileID: -1868137061, guid: d48654548b1b0894f9ba94cbd853ff8d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

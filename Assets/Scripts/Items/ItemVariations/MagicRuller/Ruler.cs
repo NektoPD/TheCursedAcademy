@@ -13,6 +13,7 @@ namespace Items.ItemVariations.MagicRuller
         [SerializeField] private RulerProjectile _projectilePrefab;
         [SerializeField] private float _projectileSpeed = 10f;
         [SerializeField] private int _initialPoolSize;
+        [SerializeField] private Transform _spawnPoint;
 
         private Transform _transform;
         private ItemProjectilePool _projectilePool;
@@ -66,6 +67,7 @@ namespace Items.ItemVariations.MagicRuller
                     _projectilePool.GetFromPool<RulerProjectile>(_transform.position, _transform.rotation);
                 if (projectile != null)
                 {
+                    projectile.Transform.SetParent(null);
                     projectile.SetDirection(direction);
                     projectile.SetSpeed(_projectileSpeed);
                     projectile.Initialize(RuntimeDamage, this);
@@ -89,6 +91,7 @@ namespace Items.ItemVariations.MagicRuller
         private void OnProjectileHit(RulerProjectile projectile)
         {
             projectile.Hit -= OnProjectileHit;
+            projectile.Transform.SetParent(_projectilePool.transform);
             _projectilePool.ReturnToPool(projectile);
         }
 

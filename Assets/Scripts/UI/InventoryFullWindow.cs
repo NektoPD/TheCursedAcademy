@@ -19,9 +19,6 @@ namespace UI
         [SerializeField] private ItemApplicatorCurrentOnly _applicator;
         [SerializeField] private BetterScrollRect _betterScrollRect;
 
-        [SerializeField] private UnityEngine.UI.Button _leftButton;
-        [SerializeField] private UnityEngine.UI.Button _rightButton;
-
         [SerializeField, Range(0.05f, 0.5f)] private float _scrollStep = 0.2f;
 
         private ItemsHolder _itemsHolder;
@@ -37,15 +34,6 @@ namespace UI
         private void Start()
         {
             _betterScrollRect.horizontalNormalizedPosition = 0f;
-
-            _leftButton.onClick.AddListener(ScrollLeft);
-            _rightButton.onClick.AddListener(ScrollRight);
-        }
-
-        private void Update()
-        {
-            _leftButton.interactable = _betterScrollRect.horizontalNormalizedPosition > 0f;
-            _rightButton.interactable = _betterScrollRect.horizontalNormalizedPosition < 1f;
         }
 
         private void ScrollLeft()

@@ -47,7 +47,6 @@ namespace Utils
         {
             if (_spriteRenderer == null)
             {
-                Debug.LogError("Sprite Renderer is null");
                 yield break;
             }
 
@@ -67,7 +66,6 @@ namespace Utils
         {
             if (_spriteRenderer == null)
             {
-                Debug.LogError("Sprite Renderer is null");
                 yield break;
             }
             
