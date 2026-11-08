@@ -137,10 +137,6 @@ namespace Items.ItemVariations.LaRobba
                     {
                         Finished?.Invoke(this);
                     }
-                    else
-                    {
-                        Debug.Log(Transform.position.y < bottomEdge - 1f);
-                    }
                 }
             }
         }
