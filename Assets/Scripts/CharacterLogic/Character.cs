@@ -46,6 +46,10 @@ namespace CharacterLogic
         [SerializeField] private SimpleSpriteAnimator _ragemodeActivationEffect;
         [SerializeField] private SimpleSpriteAnimator _poisonThrowActivationEffect;
 
+        [Header("Item Damage")]
+        [Tooltip("Linear item damage bonus for each character level after the first.")]
+        [SerializeField, Min(0f)] private float _itemDamagePerLevelPercent = 2f;
+
         [Header("Hit Feedback")]
         [SerializeField] private float _hitShakeMinIntensity = 1.2f;
         [SerializeField] private float _hitShakeMaxIntensity = 3.5f;
@@ -450,7 +454,11 @@ namespace CharacterLogic
 
         private float GetAttackDamageMultiplier()
         {
-            return Mathf.Max(0f, _attackPower / NeutralAttackPower);
+            int levelsGained = Mathf.Max(0, (_characterLevelController?.CurrentLevel ?? 1) - 1);
+            float damageBonusPerLevel = Mathf.Max(0f, _itemDamagePerLevelPercent) / 100f;
+            float levelMultiplier = 1f + levelsGained * damageBonusPerLevel;
+
+            return Mathf.Max(0f, _attackPower / NeutralAttackPower) * levelMultiplier;
         }
 
         private void OnLeveledUp()
