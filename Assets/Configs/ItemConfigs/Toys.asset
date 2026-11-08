@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7fc2b3813dc710448f98a412d5c29db, type: 3}
   m_Name: Toys
   m_EditorClassIdentifier: 
-  Damage: 2
-  Cooldown: 1
+  Damage: 1.5
+  Cooldown: 2
   MaxLevel: 2
   Rarity: 3
   ItemIcon: {fileID: 21300000, guid: 75c8c86df719cc74b97f05e0e586dae4, type: 3}
