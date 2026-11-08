@@ -135,7 +135,7 @@ MonoBehaviour:
   _enemyLayer:
     serializedVersion: 2
     m_Bits: 256
-  _knockbackRadius: 1.25
-  _knockbackDistance: 0.75
-  _knockbackDuration: 0.15
+  _knockbackRadius: 0.9
+  _knockbackDistance: 0.4
+  _knockbackDuration: 0.1
   _knockbackInterval: 0.3
