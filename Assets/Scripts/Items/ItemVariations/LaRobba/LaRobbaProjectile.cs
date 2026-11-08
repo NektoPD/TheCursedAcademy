@@ -132,7 +132,6 @@ namespace Items.ItemVariations.LaRobba
                 if (_camera != null)
                 {
                     float bottomEdge = _camera.ViewportToWorldPoint(Vector3.zero).y;
-                    Debug.Log(bottomEdge);
                     if (Transform.position.y < bottomEdge - 1f)
                     {
                         Finished?.Invoke(this);

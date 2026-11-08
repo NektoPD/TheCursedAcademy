@@ -6,6 +6,7 @@ using HealthSystem;
 using Items.Interfaces;
 using Items.Pools;
 using UnityEngine;
+using Utils;
 
 namespace Items.ItemVariations.SchoolBell
 {
@@ -13,6 +14,7 @@ namespace Items.ItemVariations.SchoolBell
     {
         [SerializeField] private Animator _animator;
         [SerializeField] private string _ringAnimationTrigger = "Ring";
+        [SerializeField] private SimpleSpriteAnimator _bellIconAnimation;
 
         private float _freezeDuration;
         private float _freezeRadius;
@@ -27,17 +29,16 @@ namespace Items.ItemVariations.SchoolBell
 
         private void OnEnable()
         {
-            if (_animator != null)
+            if (_animator == null) return;
+            _animator.SetTrigger(_ringAnimationTrigger);
+            _bellIconAnimation?.gameObject.SetActive(true);
+
+            AnimatorClipInfo[] clipInfo = _animator.GetCurrentAnimatorClipInfo(0);
+            if (clipInfo.Length > 0)
             {
-                _animator.SetTrigger(_ringAnimationTrigger);
+                float animationLength = clipInfo[0].clip.length;
 
-                AnimatorClipInfo[] clipInfo = _animator.GetCurrentAnimatorClipInfo(0);
-                if (clipInfo.Length > 0)
-                {
-                    float animationLength = clipInfo[0].clip.length;
-
-                    StartCoroutine(DeactivateAfterAnimation(animationLength));
-                }
+                StartCoroutine(DeactivateAfterAnimation(animationLength));
             }
         }
 
@@ -45,16 +46,14 @@ namespace Items.ItemVariations.SchoolBell
         {
             yield return new WaitForSeconds(animationLength);
 
-            if (gameObject.activeSelf)
+            if (!gameObject.activeSelf) yield break;
+            if (Owner && Owner.TryGetComponent(out ItemProjectilePool pool))
             {
-                if (Owner && Owner.TryGetComponent(out ItemProjectilePool pool))
-                {
-                    pool.ReturnToPool(this);
-                }
-                else
-                {
-                    gameObject.SetActive(false);
-                }
+                pool.ReturnToPool(this);
+            }
+            else
+            {
+                gameObject.SetActive(false);
             }
         }
 
