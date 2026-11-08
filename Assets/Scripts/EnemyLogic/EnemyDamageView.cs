@@ -129,6 +129,25 @@ namespace EnemyLogic
             ApplyHitImpulse(hitFromWorldPos);
         }
 
+        public void ApplyKnockback(Vector2 sourcePosition, float distance, float duration)
+        {
+            if (!isActiveAndEnabled || distance <= 0f || duration <= 0f)
+                return;
+
+            _nextImpulseTime = Mathf.Max(_nextImpulseTime, Time.time + duration);
+            _impulseTween?.Kill();
+
+            Vector2 direction = (Vector2)transform.position - sourcePosition;
+            if (direction.sqrMagnitude < 0.0001f)
+                direction = Vector2.right;
+
+            Vector3 target = transform.position + (Vector3)(direction.normalized * distance);
+            _impulseTween = transform
+                .DOMove(target, duration)
+                .SetEase(_impulseEase)
+                .SetUpdate(false);
+        }
+
         public void StartPoisonPulse()
         {
             _isPoisoned = true;

@@ -1,8 +1,7 @@
-﻿using UnityEngine;
-using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using Items.BaseClass;
+using EnemyLogic;
+using UnityEngine;
 
 namespace Items.ItemVariations
 {
@@ -12,15 +11,46 @@ namespace Items.ItemVariations
         [SerializeField] private int _initialPoolSize = 3;
         [SerializeField] private Transform _particleContainer;
 
+        [Header("Knockback")]
+        [SerializeField] private LayerMask _enemyLayer = 1 << 8;
+        [SerializeField, Min(0f)] private float _knockbackRadius = 1.25f;
+        [SerializeField, Min(0f)] private float _knockbackDistance = 0.75f;
+        [SerializeField, Min(0.01f)] private float _knockbackDuration = 0.15f;
+        [SerializeField, Min(0.01f)] private float _knockbackInterval = 0.3f;
+
         private readonly Dictionary<int, Queue<ParticleSystem>> _particlePool =
             new Dictionary<int, Queue<ParticleSystem>>();
 
+        private readonly HashSet<EnemyDamageTaker> _knockedEnemies = new();
         private ParticleSystem _activeParticle;
+        private float _nextKnockbackTime;
 
         protected override void Awake()
         {
             base.Awake();
             InitializeParticlePool(_initialPoolSize);
+        }
+
+        private void FixedUpdate()
+        {
+            if (Time.time < _nextKnockbackTime || _knockbackRadius <= 0f || _knockbackDistance <= 0f)
+                return;
+
+            _nextKnockbackTime = Time.time + _knockbackInterval;
+            _knockedEnemies.Clear();
+
+            Vector2 center = Transform.position;
+            Collider2D[] hits = Physics2D.OverlapCircleAll(center, _knockbackRadius, _enemyLayer);
+
+            foreach (Collider2D hit in hits)
+            {
+                EnemyDamageTaker enemy = hit.GetComponentInParent<EnemyDamageTaker>();
+                if (enemy == null || enemy.IsDied || !enemy.isActiveAndEnabled || !_knockedEnemies.Add(enemy))
+                    continue;
+
+                if (enemy.TryGetComponent(out EnemyDamageView damageView))
+                    damageView.ApplyKnockback(center, _knockbackDistance, _knockbackDuration);
+            }
         }
 
         private void InitializeParticlePool(int initialSize)
@@ -136,6 +166,8 @@ namespace Items.ItemVariations
             }
 
             StopAllCoroutines();
+            _knockedEnemies.Clear();
+            _nextKnockbackTime = 0f;
         }
     }
 }
