@@ -14,6 +14,7 @@ using Items.BaseClass;
 using Items.Enums;
 using Items.ItemHolder;
 using Items.ItemVariations;
+using Items.ItemVariations.Cats;
 using Items.ItemVariations.MultiSlingshot;
 using StatistiscSystem;
 using UI;
@@ -364,7 +365,13 @@ namespace CharacterLogic
 
         private void OnChangeItemSelected(ItemVariations selectedItemForChangeVariation)
         {
+            Item removedItem = _inventory.Items.FirstOrDefault(
+                item => item.VisualData.Variation == selectedItemForChangeVariation);
             _inventory.RemoveItem(selectedItemForChangeVariation);
+
+            if (removedItem is CatsItem catsItem && !_inventory.Items.Contains(removedItem))
+                catsItem.ResetToFirstLevel();
+
             SetupNewItem(_stashedItemForChange);
             ItemSwapped?.Invoke();
         }

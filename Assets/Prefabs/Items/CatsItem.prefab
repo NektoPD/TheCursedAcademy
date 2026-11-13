@@ -58,6 +58,7 @@ MonoBehaviour:
   _baseDetectionRadius: 5
   _detectionRadiusPerLevel: 0.5
   _maxDetectionRadius: 10
+  _catScaleIncreasePerLevel: 0.05
   _poolDefaultCapacity: 30
   _poolMaxSize: 60
   _baseCatMovementSpeed: 3

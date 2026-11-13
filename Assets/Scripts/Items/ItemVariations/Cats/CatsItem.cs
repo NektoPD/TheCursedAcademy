@@ -27,6 +27,7 @@ namespace Items.ItemVariations.Cats
         [SerializeField] private float _baseDetectionRadius = 5f;
         [SerializeField] private float _detectionRadiusPerLevel = 0.5f;
         [SerializeField] private float _maxDetectionRadius = 10f;
+        [SerializeField, Min(0f)] private float _catScaleIncreasePerLevel = 0.05f;
 
         [Header("Pool Settings")] [SerializeField]
         private int _poolDefaultCapacity = 10;
@@ -41,6 +42,9 @@ namespace Items.ItemVariations.Cats
         private bool _catsActive = false;
         private Coroutine _respawnCoroutine;
         private Transform _transform;
+        private int _initialCatsPerSpawn;
+        private float _initialDetectionRadius;
+        private bool _isStoppingCats;
 
         private Dictionary<IDamageable, CatsProjectile>
             _targetedEnemies = new Dictionary<IDamageable, CatsProjectile>();
@@ -52,12 +56,17 @@ namespace Items.ItemVariations.Cats
         private void Awake()
         {
             _transform = transform;
-            
+            _initialCatsPerSpawn = _catsPerSpawn;
+            _initialDetectionRadius = _detectionRadius;
+
             _currentCatMovementSpeed = _baseCatMovementSpeed;
         }
 
         private void OnEnable()
         {
+            if (_catPool != null)
+                return;
+
             _catPool = new ObjectPool<CatsProjectile>(
                 createFunc: CreateCat,
                 actionOnGet: OnGetCatFromPool,
@@ -80,6 +89,7 @@ namespace Items.ItemVariations.Cats
 
         private void OnGetCatFromPool(CatsProjectile cat)
         {
+            cat.SetLevelScale(Level, _catScaleIncreasePerLevel);
             cat.gameObject.SetActive(true);
             CharacterSoundController.EnableSoundByType(SoundType.CatMeow);
             Vector2 randomDirection = Random.insideUnitCircle.normalized * Random.Range(1f, _maxDistanceFromPlayer);
@@ -92,6 +102,10 @@ namespace Items.ItemVariations.Cats
         {
             cat.gameObject.SetActive(false);
             _activeCats.Remove(cat);
+
+            if (_isStoppingCats || !isActiveAndEnabled)
+                return;
+
             CharacterSoundController.EnableSoundByType(SoundType.Cats);
 
             if (_activeCats.Count == 0)
@@ -127,6 +141,9 @@ namespace Items.ItemVariations.Cats
 
         private void SpawnCats()
         {
+            if (_isStoppingCats || !isActiveAndEnabled)
+                return;
+
             _catsActive = true;
 
             for (int i = 0; i < _catsPerSpawn; i++)
@@ -172,8 +189,32 @@ namespace Items.ItemVariations.Cats
             RuntimeCooldown = GetBaseStat(Enums.StatVariations.AttackSpeed) * Mods.GetMult(Enums.StatVariations.AttackSpeed);
 
             UpdateStatsValues();
+            UpdateCatScales();
         }
 
+        public void ResetToFirstLevel()
+        {
+            StopCats();
+            Level = 1;
+            Mods = new();
+            _catsPerSpawn = _initialCatsPerSpawn;
+            _detectionRadius = _initialDetectionRadius;
+            _currentCatMovementSpeed = _baseCatMovementSpeed;
+            RuntimeDamage = Data.Damage;
+            RuntimeCooldown = Data.Cooldown;
+
+            if (ItemStats != null)
+                UpdateStatsValues();
+        }
+
+        private void UpdateCatScales()
+        {
+            foreach (CatsProjectile cat in _activeCats)
+            {
+                if (cat != null)
+                    cat.SetLevelScale(Level, _catScaleIncreasePerLevel);
+            }
+        }
 
         protected override void UpdateStatsValues()
         {
@@ -199,9 +240,10 @@ namespace Items.ItemVariations.Cats
                 Mathf.Min(_baseDetectionRadius + ((Level + 1) * _detectionRadiusPerLevel), _maxDetectionRadius));
         }
 
-
-        private void OnDestroy()
+        private void StopCats()
         {
+            _isStoppingCats = true;
+
             if (_respawnCoroutine != null)
             {
                 StopCoroutine(_respawnCoroutine);
@@ -210,7 +252,7 @@ namespace Items.ItemVariations.Cats
 
             foreach (var cat in _activeCats.ToArray())
             {
-                if (cat != null && cat.gameObject.activeSelf)
+                if (cat != null)
                 {
                     _catPool.Release(cat);
                 }
@@ -218,6 +260,19 @@ namespace Items.ItemVariations.Cats
 
             _activeCats.Clear();
             _targetedEnemies.Clear();
+            _catsActive = false;
+            _isStoppingCats = false;
+        }
+
+        private void OnDisable()
+        {
+            StopCats();
+        }
+
+        private void OnDestroy()
+        {
+            StopCats();
+            _catPool?.Dispose();
         }
 
         public bool IsEnemyTargeted(IDamageable enemy)

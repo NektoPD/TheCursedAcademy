@@ -61,6 +61,7 @@ namespace Items.ItemVariations.Cats
         private float _timeSinceLastStateChange;
         private SimpleSpriteAnimator _disappearEffect;
         private CatsItem _catsController;
+        private Vector3 _initialScale;
 
         public void SetPool(IObjectPool<CatsProjectile> pool)
         {
@@ -75,7 +76,14 @@ namespace Items.ItemVariations.Cats
         protected override void Awake()
         {
             base.Awake();
+            _initialScale = Transform.localScale;
             InitializeDisappearEffect();
+        }
+
+        public void SetLevelScale(int level, float scaleIncreasePerLevel)
+        {
+            float multiplier = 1f + Mathf.Max(0, level - 1) * Mathf.Max(0f, scaleIncreasePerLevel);
+            Transform.localScale = _initialScale * multiplier;
         }
 
         private void InitializeDisappearEffect()
@@ -430,6 +438,9 @@ namespace Items.ItemVariations.Cats
 
         private void OnDisable()
         {
+            Transform.localScale = _initialScale;
+            ReleaseEnemyTarget();
+
             if (_lifetimeCoroutine != null)
             {
                 StopCoroutine(_lifetimeCoroutine);
