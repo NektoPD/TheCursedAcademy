@@ -9,6 +9,8 @@ namespace CharacterLogic.Abilities
         [field: SerializeField] public int KillsToCharge { get; private set; } = 50;
         [field: SerializeField] public float Damage { get; private set; } = 10f;
         [field: SerializeField] public float Duration { get; private set; } = 5f;
+        [field: SerializeField, Min(0f)] public float ActivationAreaRadiusMultiplier { get; private set; } = 0.9f;
+        [field: SerializeField] public Vector2 ActivationAreaOffset { get; private set; }
         [field: SerializeField] public float SpeedMultiplier { get; private set; } = 1.5f;
         [field: SerializeField] public float ArmorMultiplier { get; private set; } = 2f;
         [field: SerializeField] public float ProjectileSpeed { get; private set; } = 8f;

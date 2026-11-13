@@ -1,4 +1,5 @@
 using DG.Tweening;
+using EnemyLogic;
 using HealthSystem;
 using UnityEngine;
 
@@ -20,53 +21,88 @@ namespace CharacterLogic.Abilities
 
         private float _speed;
         private float _lifetime;
-        private Transform _currentTarget;
+        private EnemyDamageTaker _currentTarget;
         private Vector3 _targetScale;
+        private Vector3 _hitEffectScale;
         private bool _isDespawning;
-        private bool _isHit;
         private Tween _pulseTween;
+        private Tween _lifetimeTween;
+
+        protected override void Awake()
+        {
+            base.Awake();
+            _targetScale = transform.localScale;
+
+            if (_hitEffect != null)
+            {
+                _hitEffectScale = _hitEffect.transform.localScale;
+                _hitEffect.SetActive(false);
+            }
+        }
 
         public override void Launch(Vector2 direction, float speed, float damage, float duration)
         {
+            StopAnimations();
+            HitEnemies.Clear();
             _speed = speed * _speedMultiplier;
-            _lifetime = duration;
-            _targetScale = transform.localScale;
+            _lifetime = Mathf.Max(0f, duration);
             _isDespawning = false;
-            _isHit = false;
-
-            if (_hitEffect != null)
-                _hitEffect.SetActive(false);
+            _currentTarget = null;
 
             if (_projectileSprite != null)
                 _projectileSprite.color = new Color(_projectileSprite.color.r, _projectileSprite.color.g, _projectileSprite.color.b, 1f);
 
-            transform.localScale = Vector3.zero;
-            transform.DOScale(_targetScale, _spawnScaleDuration)
-                .SetEase(Ease.OutBack)
-                .OnComplete(StartPulse);
-
             base.Launch(direction, _speed, damage, duration);
             FindRandomTarget();
 
-            float despawnDelay = _lifetime - _despawnScaleDuration;
-            if (despawnDelay < 0f) despawnDelay = 0f;
+            float despawnDuration = Mathf.Min(_lifetime, Mathf.Max(0f, _despawnScaleDuration));
+            float despawnDelay = _lifetime - despawnDuration;
+            float spawnDuration = Mathf.Min(despawnDelay, Mathf.Max(0f, _spawnScaleDuration));
 
-            DOVirtual.DelayedCall(despawnDelay, StartDespawn);
+            if (spawnDuration > 0f)
+            {
+                transform.localScale = Vector3.zero;
+                transform.DOScale(_targetScale, spawnDuration)
+                    .SetEase(Ease.OutBack)
+                    .OnComplete(StartPulse);
+            }
+            else
+            {
+                transform.localScale = _targetScale;
+            }
+
+            if (despawnDelay > 0f)
+                _lifetimeTween = DOVirtual.DelayedCall(despawnDelay, StartDespawn, false);
+            else
+                StartDespawn();
         }
 
         private void StartDespawn()
         {
-            if (this == null || _isHit) return;
+            if (_isDespawning)
+                return;
+
             _isDespawning = true;
             _pulseTween?.Kill();
-            transform.DOScale(Vector3.zero, _despawnScaleDuration)
+            transform.DOKill();
+
+            float duration = Mathf.Min(_lifetime, Mathf.Max(0f, _despawnScaleDuration));
+            if (duration <= 0f)
+            {
+                Destroy(gameObject);
+                return;
+            }
+
+            transform.DOScale(Vector3.zero, duration)
                 .SetEase(Ease.InBack)
                 .OnComplete(() => Destroy(gameObject));
         }
 
         private void StartPulse()
         {
-            if (_isDespawning || _isHit) return;
+            if (_isDespawning)
+                return;
+
             _pulseTween = transform.DOScale(_targetScale * (1f + _pulseStrength), _pulseDuration)
                 .SetEase(Ease.InOutSine)
                 .SetLoops(-1, LoopType.Yoyo);
@@ -74,19 +110,40 @@ namespace CharacterLogic.Abilities
 
         private void Update()
         {
-            if (_isDespawning || _isHit) return;
+            if (_isDespawning)
+                return;
 
-            if (_currentTarget == null || !_currentTarget.gameObject.activeInHierarchy)
+            if (_currentTarget == null || _currentTarget.IsDied || !_currentTarget.gameObject.activeInHierarchy)
             {
                 FindRandomTarget();
-                if (_currentTarget == null) return;
+                if (_currentTarget == null)
+                    return;
             }
 
-            Vector2 dir = ((Vector2)_currentTarget.position - (Vector2)transform.position).normalized;
+            Vector2 dir = (Vector2)_currentTarget.transform.position - (Vector2)transform.position;
+            if (dir.sqrMagnitude <= Mathf.Epsilon)
+                return;
+
+            dir.Normalize();
             Rb.velocity = dir * _speed;
 
             float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
             transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        }
+
+        protected override void OnTriggerEnter2D(Collider2D collision)
+        {
+            if (_isDespawning || !isActiveAndEnabled || (_enemyLayer.value & (1 << collision.gameObject.layer)) == 0)
+                return;
+
+            EnemyDamageTaker target = collision.GetComponentInParent<EnemyDamageTaker>();
+            if (target == null || target.IsDied || !target.gameObject.activeInHierarchy || !HitEnemies.Add(target))
+                return;
+
+            ApplyEffect(target);
+
+            if (_currentTarget == target)
+                _currentTarget = null;
         }
 
         protected override void ApplyEffect(IDamageable target)
@@ -97,63 +154,73 @@ namespace CharacterLogic.Abilities
 
         private void PlayHitEffect()
         {
-            _isHit = true;
-            _pulseTween?.Kill();
-            Rb.velocity = Vector2.zero;
-
             if (_hitEffect == null)
-            {
-                Destroy(gameObject);
                 return;
-            }
 
+            _hitEffect.transform.DOKill();
+            _hitEffect.SetActive(false);
+            _hitEffect.transform.localScale = Vector3.zero;
             _hitEffect.SetActive(true);
 
-            if (_projectileSprite != null)
-                _projectileSprite.color = new Color(_projectileSprite.color.r, _projectileSprite.color.g, _projectileSprite.color.b, 0f);
-
-            Vector3 effectScale = _hitEffect.transform.localScale;
-            _hitEffect.transform.localScale = Vector3.zero;
-
-            _hitEffect.transform.DOScale(effectScale, _hitEffectAppearDuration)
+            _hitEffect.transform.DOScale(_hitEffectScale, _hitEffectAppearDuration)
                 .SetEase(Ease.OutBack)
                 .OnComplete(() =>
                 {
                     _hitEffect.transform.DOScale(Vector3.zero, _hitEffectDisappearDuration)
                         .SetEase(Ease.InBack)
-                        .OnComplete(() => Destroy(gameObject));
+                        .OnComplete(() => _hitEffect.SetActive(false));
                 });
+        }
+
+        private void StopAnimations()
+        {
+            _lifetimeTween?.Kill();
+            _lifetimeTween = null;
+            _pulseTween?.Kill();
+            _pulseTween = null;
+            transform.DOKill();
+
+            if (_hitEffect != null)
+            {
+                _hitEffect.transform.DOKill();
+                _hitEffect.SetActive(false);
+                _hitEffect.transform.localScale = _hitEffectScale;
+            }
+        }
+
+        private void OnDisable()
+        {
+            _isDespawning = true;
+            StopAnimations();
+            HitEnemies.Clear();
+            _currentTarget = null;
+            Rb.velocity = Vector2.zero;
+            transform.localScale = _targetScale;
         }
 
         private void OnDestroy()
         {
-            transform.DOKill();
-            if (_hitEffect != null)
-                _hitEffect.transform.DOKill();
+            StopAnimations();
         }
 
         private void FindRandomTarget()
         {
             Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, _searchRadius, _enemyLayer);
 
+            _currentTarget = null;
             if (hits.Length == 0)
-            {
-                _currentTarget = null;
                 return;
-            }
 
             int startIndex = Random.Range(0, hits.Length);
             for (int i = 0; i < hits.Length; i++)
             {
-                var candidate = hits[(startIndex + i) % hits.Length];
-                if (candidate.transform != _currentTarget)
-                {
-                    _currentTarget = candidate.transform;
-                    return;
-                }
-            }
+                EnemyDamageTaker candidate = hits[(startIndex + i) % hits.Length].GetComponentInParent<EnemyDamageTaker>();
+                if (candidate == null || candidate.IsDied || !candidate.gameObject.activeInHierarchy || HitEnemies.Contains(candidate))
+                    continue;
 
-            _currentTarget = hits[startIndex].transform;
+                _currentTarget = candidate;
+                return;
+            }
         }
     }
 }
