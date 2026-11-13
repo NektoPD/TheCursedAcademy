@@ -47,7 +47,6 @@ namespace CharacterLogic
         [SerializeField] private SimpleSpriteAnimator _poisonThrowActivationEffect;
 
         [Header("Item Damage")]
-        [Tooltip("Linear item damage bonus for each character level after the first.")]
         [SerializeField, Min(0f)] private float _itemDamagePerLevelPercent = 2f;
 
         [Header("Hit Feedback")]
