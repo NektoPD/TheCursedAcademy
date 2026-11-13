@@ -143,8 +143,6 @@ namespace Items.ItemVariations.Toys
                 return;
             }
             
-            Debug.LogError("Next level");
-            
             Level++;
 
             _damageMultiplier += _damageIncreasePerLevel;

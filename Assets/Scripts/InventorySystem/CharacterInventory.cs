@@ -69,13 +69,11 @@ namespace InventorySystem
 
             if (itemToRemove == null)
             {
-                Debug.LogError("Item to remove is null");
                 return;
             }
 
             if (itemToRemove.VisualData.Variation == StartVariation)
             {
-                Debug.LogWarning("Start weapon cannot be removed");
                 return;
             }
 

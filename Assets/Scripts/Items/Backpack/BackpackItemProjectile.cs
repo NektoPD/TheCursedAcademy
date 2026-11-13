@@ -134,7 +134,7 @@ namespace Items.ItemVariations
 
             _activeParticle.Clear();
             _activeParticle.Play();
-
+            
             StartCoroutine(ReturnParticleAfterDuration(_activeParticle, duration));
         }
 

@@ -4050,7 +4050,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.47860172, y: 0.32592595}
   m_AnchorMax: {x: 0.5213983, y: 0.41851854}
-  m_AnchoredPosition: {x: 0, y: 1143}
+  m_AnchoredPosition: {x: 0, y: 1448}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &326313258
@@ -4134,8 +4134,6 @@ MonoBehaviour:
   - {fileID: 192464794}
   _applicator: {fileID: 326313263}
   _betterScrollRect: {fileID: 1432426145}
-  _leftButton: {fileID: 0}
-  _rightButton: {fileID: 0}
   _scrollStep: 0.2
 --- !u!114 &326313263
 MonoBehaviour:
@@ -5904,10 +5902,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 645640415}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0}
-  m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -71.9, y: 72.2}
-  m_SizeDelta: {x: 80, y: 80}
+  m_AnchorMin: {x: 0.9254895, y: 0.075610876}
+  m_AnchorMax: {x: 0.9869416, y: 0.30250067}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &485718140
 MonoBehaviour:
@@ -6430,7 +6428,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 3.36
+  orthographic size: 3
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -7127,8 +7125,8 @@ MonoBehaviour:
   m_VerticalScrollbar: {fileID: 0}
   m_HorizontalScrollbarVisibility: 0
   m_VerticalScrollbarVisibility: 0
-  m_HorizontalScrollbarSpacing: -0.66406256
-  m_VerticalScrollbarSpacing: -0.66406256
+  m_HorizontalScrollbarSpacing: -0.8281249
+  m_VerticalScrollbarSpacing: -0.8281249
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -7857,8 +7855,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 883.2461, y: -99.48218}
-  m_SizeDelta: {x: 1646.492, y: 98.96456}
+  m_AnchoredPosition: {x: 883.55194, y: -99.462585}
+  m_SizeDelta: {x: 1647.1039, y: 98.92518}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &574168414
 MonoBehaviour:
@@ -7927,7 +7925,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 105.55
+  m_fontSize: 105.5
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -10026,7 +10024,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 14214905873108754, guid: 185885d4a7276ca449b420e9fadaad68, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -72.391
+      value: -72.39111
       objectReference: {fileID: 0}
     - target: {fileID: 357990595707052998, guid: 185885d4a7276ca449b420e9fadaad68, type: 3}
       propertyPath: m_VerticalScrollbarSpacing
@@ -10507,8 +10505,8 @@ MonoBehaviour:
   m_VerticalScrollbar: {fileID: 0}
   m_HorizontalScrollbarVisibility: 2
   m_VerticalScrollbarVisibility: 0
-  m_HorizontalScrollbarSpacing: -0.66406256
-  m_VerticalScrollbarSpacing: -0.66406256
+  m_HorizontalScrollbarSpacing: -0.8281249
+  m_VerticalScrollbarSpacing: -0.8281249
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -13580,8 +13578,8 @@ MonoBehaviour:
   m_VerticalScrollbar: {fileID: 0}
   m_HorizontalScrollbarVisibility: 2
   m_VerticalScrollbarVisibility: 0
-  m_HorizontalScrollbarSpacing: -0.66406256
-  m_VerticalScrollbarSpacing: -0.66406256
+  m_HorizontalScrollbarSpacing: -0.8281249
+  m_VerticalScrollbarSpacing: -0.8281249
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -15913,7 +15911,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: -20.055887}
+  m_SizeDelta: {x: 0, y: -19.924637}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1111351416
 MonoBehaviour:
@@ -28563,7 +28561,7 @@ MonoBehaviour:
   m_HorizontalScrollbarVisibility: 2
   m_VerticalScrollbarVisibility: 2
   m_HorizontalScrollbarSpacing: 0
-  m_VerticalScrollbarSpacing: -0.9929908
+  m_VerticalScrollbarSpacing: -1.2383176
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -29955,10 +29953,10 @@ RectTransform:
   - {fileID: 853911966}
   m_Father: {fileID: 645640415}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -35.181976, y: 167.22}
-  m_SizeDelta: {x: -143.6, y: 281.12}
+  m_AnchorMin: {x: 0.02812812, y: 0.07561135}
+  m_AnchorMax: {x: 0.91782176, y: 0.71719265}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1486624955
 MonoBehaviour:
@@ -33399,7 +33397,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -0.000017606239, y: 17.31482}
+  m_AnchoredPosition: {x: -0.000017606239, y: 17.314941}
   m_SizeDelta: {x: 104.02, y: 60.578}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1684306497
@@ -34446,8 +34444,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 883.246, y: -599.56396}
-  m_SizeDelta: {x: 1646.492, y: 841.1987}
+  m_AnchoredPosition: {x: 883.55194, y: -599.3572}
+  m_SizeDelta: {x: 1647.1039, y: 840.864}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1744665825
 MonoBehaviour:
