@@ -14,6 +14,7 @@ namespace Debuffs
         [SerializeField] private float _settleDuration = 0.35f;
 
         private IReadOnlyList<DebuffData> _pool;
+        private Image _centerCell;
         private Coroutine _spinRoutine;
         private DebuffRoll _result;
         private bool _isStopped = true;
@@ -21,6 +22,12 @@ namespace Debuffs
         public bool IsStopped => _isStopped;
         public float SettleDuration => Mathf.Max(0f, _settleDuration);
         public DebuffRoll Result => _result;
+
+        private void Awake()
+        {
+            if (_cells.Count > 0)
+                _centerCell = _cells[_cells.Count / 2];
+        }
 
         public void Initialize(IReadOnlyList<DebuffData> pool)
         {
@@ -118,11 +125,10 @@ namespace Debuffs
         {
             _strip.anchoredPosition = new Vector2(_strip.anchoredPosition.x, 0f);
 
-            if (_cells.Count == 0 || result == null)
+            if (_centerCell == null || result == null)
                 return;
 
-            int center = _cells.Count / 2;
-            _cells[center].sprite = result.Icon;
+            _centerCell.sprite = result.Icon;
         }
 
         private Sprite GetRandomIcon()
