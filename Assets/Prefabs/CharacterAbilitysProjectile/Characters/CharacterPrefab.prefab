@@ -93,7 +93,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7856957337552552848
 RectTransform:
   m_ObjectHideFlags: 0
@@ -481,6 +481,7 @@ MonoBehaviour:
   _fireblastActivationEffect: {fileID: 5721913812371257471}
   _ragemodeActivationEffect: {fileID: 2135827365572909173}
   _poisonThrowActivationEffect: {fileID: 1060067469454579101}
+  _itemDamagePerLevelPercent: 2
   _hitShakeMinIntensity: 1.2
   _hitShakeMaxIntensity: 3.5
   _hitShakeMinDuration: 0.18
@@ -505,8 +506,8 @@ MonoBehaviour:
   _heroImage: {fileID: 2887678550597866198}
   _abilityLevel: {fileID: 3996504703900119424}
   _abilityButton: {fileID: 8246841553029840597}
-  _abilityDesktopPrompt: {fileID: 2539520206134191109}
-  _forceMobileMode: 1
+  _abilityDesktopElement: {fileID: 1995017249253424003}
+  _forceMobileMode: 0
 --- !u!114 &3751574626371838270
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -564,7 +565,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &592428406059757112
 RectTransform:
   m_ObjectHideFlags: 0
@@ -579,8 +580,8 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 8255769805132331588}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.36049363, y: 0.65919244}
-  m_AnchorMax: {x: 0.6899801, y: 0.86314803}
+  m_AnchorMin: {x: 0.36046246, y: 0.8373994}
+  m_AnchorMax: {x: 0.6899489, y: 0.89996886}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -612,7 +613,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Your ability is ready!\nPress F to use it!
+  m_text: Your ability is ready!
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 6c14c2ba6ed92a14d8263c05a70b1641, type: 2}
   m_sharedMaterial: {fileID: -8656508294330169804, guid: 6c14c2ba6ed92a14d8263c05a70b1641, type: 2}
@@ -1426,7 +1427,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 0
-  m_Spacing: 1.8437505
+  m_Spacing: 3.6458337
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
@@ -1693,12 +1694,12 @@ GameObject:
   - component: {fileID: 1522368576441178859}
   - component: {fileID: 1995017249253424003}
   m_Layer: 10
-  m_Name: Image
+  m_Name: AbilityReadyImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6357005370202088741
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1952,7 +1953,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 0
-  m_Spacing: 1.8437505
+  m_Spacing: 3.6458337
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
