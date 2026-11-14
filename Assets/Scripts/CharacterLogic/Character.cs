@@ -22,6 +22,7 @@ using UI.Applicators;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Utils;
+using ItemVisualData = global::Data.ItemVisualData;
 
 namespace CharacterLogic
 {
@@ -94,7 +95,7 @@ namespace CharacterLogic
         private bool _isDied;
         private float _gameStartTime;
         private bool _isTutorial;
-        private ItemVariations _stashedItemForChange;
+        private bool _pendingItemSwapResolved;
         private float _abilityChargeLevel;
         private AbilityBase _ability;
         private AbilityType _abilityType;
@@ -112,6 +113,7 @@ namespace CharacterLogic
         public event Action InventoryLimitReached;
         public event Action NewItemAdded;
         public event Action ItemSwapped;
+        public event Action PendingItemChanged;
         public event Action MaxLevelReached;
         public event Action AbilityReady;
         public event Action RageModeActivated;
@@ -120,6 +122,7 @@ namespace CharacterLogic
         public event Action<int> RoundCoinsChanged;
         public AbilityType CurrentAbilityType => _abilityType;
         public CharacterInventory Inventory => _inventory;
+        public ItemVisualData PendingItemForSwap { get; private set; }
         public Collider2D DamageCollider => _damageCollider;
         public bool IsDied => _isDied;
         public bool IsDebugInvincible { get; private set; }
@@ -334,6 +337,9 @@ namespace CharacterLogic
 
         private void OnLevelUpItemSelected(ItemVariations selectedItemVariation)
         {
+            if (PendingItemForSwap != null)
+                return;
+
             Item existingItem = _inventory.Items.FirstOrDefault(i => i.Data.ItemVariation == selectedItemVariation);
 
             if (existingItem != null)
@@ -351,7 +357,13 @@ namespace CharacterLogic
             {
                 if (!_inventory.CanFitOneMoreItem())
                 {
-                    _stashedItemForChange = selectedItemVariation;
+                    Item offeredItem = _itemsHolder.GetItemByType(selectedItemVariation);
+                    if (offeredItem == null || offeredItem.VisualData == null)
+                        return;
+
+                    PendingItemForSwap = offeredItem.VisualData;
+                    _pendingItemSwapResolved = false;
+                    PendingItemChanged?.Invoke();
                     InventoryLimitReached?.Invoke();
                     return;
                 }
@@ -364,15 +376,48 @@ namespace CharacterLogic
 
         private void OnChangeItemSelected(ItemVariations selectedItemForChangeVariation)
         {
+            if (PendingItemForSwap == null || _pendingItemSwapResolved)
+                return;
+
             Item removedItem = _inventory.Items.FirstOrDefault(
                 item => item.VisualData.Variation == selectedItemForChangeVariation);
+            if (removedItem == null || selectedItemForChangeVariation == _inventory.StartVariation)
+                return;
+
+            _pendingItemSwapResolved = true;
             _inventory.RemoveItem(selectedItemForChangeVariation);
+
+            if (_inventory.Items.Contains(removedItem))
+            {
+                _pendingItemSwapResolved = false;
+                return;
+            }
 
             if (removedItem is CatsItem catsItem && !_inventory.Items.Contains(removedItem))
                 catsItem.ResetToFirstLevel();
 
-            SetupNewItem(_stashedItemForChange);
+            SetupNewItem(PendingItemForSwap.Variation);
             ItemSwapped?.Invoke();
+        }
+
+        public bool DeclinePendingItem(int goldAmount)
+        {
+            if (PendingItemForSwap == null || _pendingItemSwapResolved)
+                return false;
+
+            _pendingItemSwapResolved = true;
+            _characterSessionWallet.AddMoney(Mathf.Max(0, goldAmount));
+            return true;
+        }
+
+        public void FinishPendingItemSwap()
+        {
+            if (PendingItemForSwap == null)
+                return;
+
+            PendingItemForSwap = null;
+            _pendingItemSwapResolved = false;
+            PendingItemChanged?.Invoke();
         }
 
         public void SelectWheelItem(ItemVariations selectedItemVariation)

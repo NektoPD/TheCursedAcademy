@@ -137,6 +137,7 @@ namespace UI
             _pendingNewItemRewardIndex = -1;
             _isGrantingRewards = false;
             _waitingForItemWindow = false;
+            _waitingForWheelClose = false;
 
             if (_character == null)
                 return;
@@ -169,10 +170,14 @@ namespace UI
             if (_rewardPopup != null)
                 _rewardPopup.Closed -= OnRewardPopupClosed;
             if (_inventoryFullWindow != null)
+            {
                 _inventoryFullWindow.Closed -= OnInventoryFullWindowClosed;
+                _inventoryFullWindow.Declined -= OnInventoryFullWindowDeclined;
+            }
             if (_itemMaxLevelReachedWindow != null)
                 _itemMaxLevelReachedWindow.Closed -= OnMaxLevelReachedWindowClosed;
 
+            _character.FinishPendingItemSwap();
             _character = null;
         }
 
@@ -186,10 +191,7 @@ namespace UI
 
         private void OnItemSwapped()
         {
-            if (!_isGrantingRewards)
-                _rewardPopup.CloseWindow();
-
-            _inventoryFullWindow.CloseUnscaledTime();
+            _inventoryFullWindow.CompleteSwap();
         }
 
         private void OnItemMaxLevelReached()
@@ -277,6 +279,8 @@ namespace UI
                 _inventoryFullWindow.Initialize(character.Inventory);
                 _inventoryFullWindow.Closed -= OnInventoryFullWindowClosed;
                 _inventoryFullWindow.Closed += OnInventoryFullWindowClosed;
+                _inventoryFullWindow.Declined -= OnInventoryFullWindowDeclined;
+                _inventoryFullWindow.Declined += OnInventoryFullWindowDeclined;
             }
 
             if (_itemMaxLevelReachedWindow != null)

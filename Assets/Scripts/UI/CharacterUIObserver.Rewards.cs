@@ -16,6 +16,7 @@ namespace UI
         private int _pendingNewItemRewardIndex = -1;
         private bool _isGrantingRewards;
         private bool _waitingForItemWindow;
+        private bool _waitingForWheelClose;
         private int _pendingLevelUps;
         private bool _rewardPauseHeld;
         private bool _swapPauseHeld;
@@ -24,7 +25,7 @@ namespace UI
         {
             _pendingLevelUps++;
 
-            if (_rewardPauseHeld)
+            if (_rewardPauseHeld || _swapPauseHeld)
                 return;
 
             HoldRewardPause();
@@ -33,7 +34,7 @@ namespace UI
 
         private void OpenPendingLevelUp()
         {
-            if (_pendingLevelUps <= 0)
+            if (_pendingLevelUps <= 0 || _swapPauseHeld)
                 return;
 
             _pendingLevelUps--;
@@ -65,7 +66,7 @@ namespace UI
 
         private void OnWheelFinished()
         {
-            if (_pendingLevelUps > 0)
+            if (_pendingLevelUps > 0 && !_swapPauseHeld)
             {
                 OpenPendingLevelUp();
                 return;
@@ -73,11 +74,13 @@ namespace UI
             
             _wheelRewardBaseStats = _character.GetStatsSnapshot();
             _isGrantingRewards = true;
-            _fortuneWheelWindow.CloseBeforeAnimation();
+            _waitingForWheelClose = true;
+            _fortuneWheelWindow.CloseUnscaledTime();
         }
 
         private void OnWheelClosed()
         {
+            _waitingForWheelClose = false;
             if (_isGrantingRewards)
                 GrantNextRewards();
             else
@@ -94,7 +97,9 @@ namespace UI
 
         private void GrantNextRewards()
         {
-            if (!_isGrantingRewards || _waitingForItemWindow || _character == null)
+            if (!_isGrantingRewards || _waitingForItemWindow || _waitingForWheelClose || _swapPauseHeld
+                || IsWindowActive(_inventoryFullWindow) || IsWindowActive(_itemMaxLevelReachedWindow)
+                || IsWindowActive(_rewardPopup) || _character == null)
                 return;
 
             if (_pendingNewItemRewardIndex >= 0)
@@ -174,8 +179,10 @@ namespace UI
 
         private void TryCompleteRewardBatch()
         {
-            if (!_rewardPauseHeld || IsWindowActive(_inventoryFullWindow)
-                                  || IsWindowActive(_itemMaxLevelReachedWindow))
+            if (!_rewardPauseHeld || _swapPauseHeld || _waitingForWheelClose
+                || IsWindowActive(_inventoryFullWindow) || IsWindowActive(_itemMaxLevelReachedWindow)
+                || IsWindowActive(_rewardPopup)
+                || (!_isGrantingRewards && IsWindowActive(_fortuneWheelWindow)))
                 return;
 
             if (_wheelRewards.Count > 0 && (!_isGrantingRewards || _nextRewardIndex < _wheelRewards.Count))
@@ -193,6 +200,7 @@ namespace UI
             _pendingNewItemRewardIndex = -1;
             _isGrantingRewards = false;
             _waitingForItemWindow = false;
+            _waitingForWheelClose = false;
 
             if (_pendingLevelUps > 0)
             {
@@ -230,18 +238,36 @@ namespace UI
                 return;
 
             _swapPauseHeld = false;
+            _character?.FinishPendingItemSwap();
+            _waitingForItemWindow = false;
 
             if (_isGrantingRewards)
             {
-                _waitingForItemWindow = false;
                 GrantNextRewards();
                 return;
             }
 
             if (_rewardPauseHeld)
                 TryCompleteRewardBatch();
+            else if (_pendingLevelUps > 0)
+            {
+                HoldRewardPause();
+                OpenPendingLevelUp();
+            }
             else
                 GameTimeScale.SetPauseActive(false);
+        }
+
+        private void OnInventoryFullWindowDeclined(int goldAmount)
+        {
+            if (_character == null || !_character.DeclinePendingItem(goldAmount))
+                return;
+
+            if (_pendingNewItemRewardIndex >= 0)
+            {
+                _wheelRewards[_pendingNewItemRewardIndex] = WheelReward.CreateGold(Mathf.Max(0, goldAmount));
+                _pendingNewItemRewardIndex = -1;
+            }
         }
 
         private void OnMaxLevelReachedWindowClosed()
@@ -259,16 +285,16 @@ namespace UI
 
         private void InventoryLimitReached()
         {
+            if (_swapPauseHeld || _character == null || _character.PendingItemForSwap == null)
+                return;
+
             if (_pauseButton != null)
                 _pauseButton.gameObject.SetActive(false);
 
-            if (_isGrantingRewards)
-                _waitingForItemWindow = true;
-            else if (_rewardPopup != null)
-                _rewardPopup.CloseUnscaledTime();
-
+            _waitingForItemWindow = true;
             _swapPauseHeld = true;
-            _inventoryFullWindow.OpenUnscaledTime();
+            GameTimeScale.SetPauseActive(true);
+            _inventoryFullWindow.Show(_character.PendingItemForSwap);
         }
     }
 }

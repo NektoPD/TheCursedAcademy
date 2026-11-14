@@ -77,6 +77,7 @@ namespace Debugging
             {
                 _character.NewItemAdded -= RefreshButtons;
                 _character.ItemSwapped -= RefreshButtons;
+                _character.PendingItemChanged -= RefreshButtons;
 
                 if (_character != character)
                     _character.SetDebugInvincibility(false);
@@ -88,6 +89,7 @@ namespace Debugging
             {
                 _character.NewItemAdded += RefreshButtons;
                 _character.ItemSwapped += RefreshButtons;
+                _character.PendingItemChanged += RefreshButtons;
             }
 
             RefreshButtons();
@@ -331,7 +333,7 @@ namespace Debugging
 
         private void OnItemButtonPressed(ItemVariations variation)
         {
-            if (_character == null)
+            if (_character == null || _character.PendingItemForSwap != null)
                 return;
 
             _character.SelectWheelItem(variation);
@@ -356,7 +358,7 @@ namespace Debugging
                 if (ownedItem == null)
                 {
                     itemButton.Label.text = itemButton.Source.VisualData.Name;
-                    itemButton.Button.interactable = _character != null;
+                    itemButton.Button.interactable = _character != null && _character.PendingItemForSwap == null;
                 }
                 else if (ownedItem.IsMaxLevelReached())
                 {
@@ -367,7 +369,7 @@ namespace Debugging
                 {
                     itemButton.Label.text =
                         $"{itemButton.Source.VisualData.Name} {ownedItem.CurrentLevel}/{ownedItem.Data.MaxLevel}";
-                    itemButton.Button.interactable = true;
+                    itemButton.Button.interactable = _character.PendingItemForSwap == null;
                 }
             }
         }
