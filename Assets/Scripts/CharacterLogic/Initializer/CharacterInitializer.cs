@@ -65,7 +65,6 @@ namespace CharacterLogic.Initializer
             if (_disableUntilGameStart) characterToSpawn.DisableCharacter();
             _characterSpawner.Spawn(characterToSpawn);
             PlayerTransform = characterToSpawn.transform;
-            Debug.Log(PlayerTransform);
             CharacterCreated?.Invoke(characterToSpawn);
         }
     }

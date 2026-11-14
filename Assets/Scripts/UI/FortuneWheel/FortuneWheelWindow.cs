@@ -370,7 +370,6 @@ namespace UI.FortuneWheel
             
             _routine = null;
             Finished?.Invoke();
-            Debug.Log("Finished");
         }
 
         public void FastSpinFinish()
@@ -672,8 +671,6 @@ namespace UI.FortuneWheel
 
         private void ApplyReward(WheelReward reward)
         {
-            Debug.Log(reward);
-            
             switch (reward.Type)
             {
                 case WheelRewardType.Item:
