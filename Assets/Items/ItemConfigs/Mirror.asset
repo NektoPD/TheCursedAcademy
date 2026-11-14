@@ -12,11 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7fc2b3813dc710448f98a412d5c29db, type: 3}
   m_Name: Mirror
   m_EditorClassIdentifier: 
-  ItemName: "\u0417\u0435\u0440\u043A\u0430\u043B\u044C\u0446\u0435"
   Damage: 2
-  Cooldown: 1.5
+  Cooldown: 4
   MaxLevel: 3
   Rarity: 1
   ItemIcon: {fileID: 21300000, guid: 743461774431934458037daa5c4f4306, type: 3}
-  Description: "\u0417\u0435\u0440\u043A\u0430\u043B\u044C\u0446\u0435"
   ItemVariation: 1

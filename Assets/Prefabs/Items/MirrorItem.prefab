@@ -63,11 +63,10 @@ MonoBehaviour:
   _projectileLifetime: 3
   _projectileSpeed: 5
   _initialPoolSize: 3
-  _detectionRadius: 10
   _enemyLayer:
     serializedVersion: 2
     m_Bits: 256
   _enableTargeting: 1
   _baseDetectionRadius: 10
   _healPerUse: 1
-  _healIncreasePerLevel: 0.5
+  _healIncreasePerLevel: 0.3
