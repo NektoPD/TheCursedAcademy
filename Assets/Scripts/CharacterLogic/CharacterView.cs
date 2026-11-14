@@ -13,7 +13,7 @@ namespace CharacterLogic
         [SerializeField] private Image _heroImage;
         [SerializeField] private Image _abilityLevel;
         [SerializeField] private Button _abilityButton;
-        [SerializeField] private GameObject _abilityDesktopPrompt;
+        [SerializeField] private Image _abilityDesktopElement;
         [SerializeField] private bool _forceMobileMode;
 
         private Canvas _hudCanvas;
@@ -21,8 +21,11 @@ namespace CharacterLogic
 
         private Tween _abilityPulseTween;
         private Tween _levelPulseTween;
+        private Tween _abilityDesktopTween;
         private Vector3 _abilityButtonInitialScale;
+        private Vector3 _abilityDesktopImageInitialScale;
         private Vector3 _levelBarInitialScale;
+        private bool _isMobile;
 
         public event Action AbilityButtonPressed;
 
@@ -38,6 +41,12 @@ namespace CharacterLogic
                 _abilityButtonInitialScale = _abilityButton.transform.localScale;
             }
 
+            if (_abilityDesktopElement != null)
+            {
+                _abilityDesktopImageInitialScale = _abilityDesktopElement.transform.localScale;
+            }
+
+            SetupMobileMode();
             HideAbilityUI();
         }
 
@@ -68,8 +77,8 @@ namespace CharacterLogic
                 bool isAbilityButton = _abilityButton != null &&
                                        child.gameObject == _abilityButton.gameObject;
 
-                bool isAbilityText = _abilityDesktopPrompt != null &&
-                                     child.gameObject == _abilityDesktopPrompt;
+                bool isAbilityText = _abilityDesktopElement != null &&
+                                     child.gameObject == _abilityDesktopElement;
 
                 bool containsAbilityBar = _abilityLevel != null &&
                                           _abilityLevel.transform.IsChildOf(child);
@@ -79,16 +88,13 @@ namespace CharacterLogic
             }
         }
 
-        private void HideNonAbilityChildren(Transform parent, Transform abilityBar)
+        private void SetupMobileMode()
         {
-            foreach (Transform child in parent)
-            {
-                bool containsAbilityBar = child == abilityBar || abilityBar.IsChildOf(child);
-                child.gameObject.SetActive(containsAbilityBar);
-
-                if (containsAbilityBar && child != abilityBar)
-                    HideNonAbilityChildren(child, abilityBar);
-            }
+#if UNITY_EDITOR
+            _isMobile = _forceMobileMode;
+#else
+            _isMobile = !YandexGame.EnvironmentData.isDesktop;
+#endif
         }
 
         private void CacheHudCanvas()
@@ -133,64 +139,48 @@ namespace CharacterLogic
 
         public void ShowAbilityReady()
         {
-            bool isMobile;
+            _abilityButton.gameObject.SetActive(_isMobile);
+            _abilityDesktopElement.gameObject.SetActive(!_isMobile);
 
-#if UNITY_EDITOR
-            isMobile = _forceMobileMode;
-#else
-            isMobile = !YandexGame.EnvironmentData.isDesktop;
-#endif
-
-            if (_abilityButton != null)
-            {
-                _abilityButton.gameObject.SetActive(isMobile);
-
-                if (isMobile)
-                    StartAbilityPulse();
-                else
-                    StopAbilityPulse();
-            }
-
-            if (_abilityDesktopPrompt != null)
-                _abilityDesktopPrompt.SetActive(!isMobile);
+            if (_isMobile)
+                PlayPulseAnimation(_abilityPulseTween, _abilityButton.transform, _abilityButtonInitialScale);
+            else
+                PlayPulseAnimation(_abilityDesktopTween, _abilityDesktopElement.transform,
+                    _abilityDesktopImageInitialScale);
         }
 
         public void HideAbilityUI()
         {
-            if (_abilityButton != null)
+            if (_isMobile)
             {
                 _abilityButton.gameObject.SetActive(false);
-                StopAbilityPulse();
+                StopPlayingAnimation(_abilityPulseTween, _abilityButton.transform, _abilityButtonInitialScale);
+                return;
             }
 
-            if (_abilityDesktopPrompt != null)
-                _abilityDesktopPrompt.SetActive(false);
+            _abilityDesktopElement.gameObject.SetActive(false);
+            StopPlayingAnimation(_abilityDesktopTween, _abilityDesktopElement.transform,
+                _abilityDesktopImageInitialScale);
         }
 
-        private void StartAbilityPulse()
+        private void PlayPulseAnimation(Tween tween, Transform transform, Vector3 initalScale)
         {
-            if (_abilityButton == null)
-                return;
+            tween ??= transform
+                .DOScale(initalScale * 1.1f, 0.5f)
+                .SetEase(Ease.InOutSine)
+                .SetLoops(-1, LoopType.Yoyo)
+                .SetAutoKill(false);
 
-            if (_abilityPulseTween == null)
-            {
-                _abilityPulseTween = _abilityButton.transform
-                    .DOScale(_abilityButtonInitialScale * 1.1f, 0.5f)
-                    .SetEase(Ease.InOutSine)
-                    .SetLoops(-1, LoopType.Yoyo)
-                    .SetAutoKill(false);
-            }
-
-            _abilityPulseTween.Play();
+            tween.Play();
         }
 
-        private void StopAbilityPulse()
+        private void StopPlayingAnimation(Tween tween, Transform transform, Vector3 initalScale)
         {
-            if (_abilityPulseTween == null)
+            if (tween == null)
                 return;
 
-            _abilityPulseTween.Pause();
-            _abilityButton.transform.localScale = _abilityButtonInitialScale;
+            tween.Pause();
+            transform.transform.localScale = initalScale;
         }
 
         private void OnDestroy()
