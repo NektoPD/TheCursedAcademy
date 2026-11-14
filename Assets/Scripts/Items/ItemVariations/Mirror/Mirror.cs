@@ -19,6 +19,11 @@ namespace Items.ItemVariations
         [SerializeField] private LayerMask _enemyLayer;
         [SerializeField] private bool _enableTargeting = true;
         [SerializeField] private float _baseDetectionRadius = 10f;
+
+        [Header("Healing")]
+        [SerializeField, Min(0f)] private float _healPerUse = 1f;
+        [SerializeField, Min(0f)] private float _healIncreasePerLevel = 0.5f;
+
         private float _currentDetectionRadius;
         
         private ItemProjectilePool _projectilePool;
@@ -41,6 +46,7 @@ namespace Items.ItemVariations
             if (targets.Length == 0) return;
 
             CharacterSoundController.EnableSoundByType(SoundType.Mirror);
+            bool firedProjectile = false;
 
             for (int i = 0; i < _projectileCount; i++)
             {
@@ -68,6 +74,15 @@ namespace Items.ItemVariations
                 mirrorProjectile.ClearHitEnemies();
 
                 StartCoroutine(EnableProjectile(mirrorProjectile, _projectileLifetime));
+                firedProjectile = true;
+            }
+
+            if (firedProjectile && MovementHandler != null &&
+                MovementHandler.TryGetComponent(out Character character))
+            {
+                float healing = Mathf.Max(0f, _healPerUse) +
+                    Mathf.Max(0, Level - 1) * Mathf.Max(0f, _healIncreasePerLevel);
+                character.RestoreHealth(healing);
             }
         }
 

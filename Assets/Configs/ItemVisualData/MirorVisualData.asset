@@ -15,10 +15,9 @@ MonoBehaviour:
   _nameRu: "\u0417\u0435\u0440\u043A\u0430\u043B\u044C\u0446\u0435"
   _nameEn: Mirror
   _nameTr: Ayna
-  _descriptionRu: "\u0421\u0442\u0440\u0435\u043B\u044F\u0435\u0442 \u0432 \u0431\u043B\u0438\u0436\u0430\u0439\u0448\u0435\u0433\u043E
-    \u0432\u0440\u0430\u0433\u0430"
-  _descriptionEn: Shoots the nearest enemy
-  _descriptionTr: "En yak\u0131n d\xFC\u015Fmana ate\u015F eder"
+  _descriptionRu: "Стреляет в ближайшего врага и восстанавливает здоровье при каждой атаке. Лечение усиливается с уровнем."
+  _descriptionEn: Shoots the nearest enemy and restores health with each attack. Healing increases with level.
+  _descriptionTr: "En yakın düşmana ateş eder ve her saldırıda can yeniler. İyileştirme seviyeyle artar."
   <Sprite>k__BackingField: {fileID: 21300000, guid: 86d517591e001c044b4f40f82d23e0ea, type: 3}
   <Stats>k__BackingField:
   - _nameRu: "\u0423\u0440\u043E\u043D"

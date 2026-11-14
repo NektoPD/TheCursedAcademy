@@ -69,3 +69,5 @@ MonoBehaviour:
     m_Bits: 256
   _enableTargeting: 1
   _baseDetectionRadius: 10
+  _healPerUse: 1
+  _healIncreasePerLevel: 0.5

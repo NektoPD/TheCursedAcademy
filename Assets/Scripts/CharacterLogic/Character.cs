@@ -659,6 +659,18 @@ namespace CharacterLogic
                 .Append(_transform.DOScale(_originalScale, _hitSquashDuration * 0.65f).SetEase(Ease.OutBack));
         }
 
+        public void RestoreHealth(float amount)
+        {
+            if (_health == null || _isDied || amount <= 0f ||
+                _health.CurrentHealth <= 0f || _health.CurrentHealth >= _health.MaxHealth)
+                return;
+
+            _health.TakeHeal(amount);
+            _characterSoundController.EnableSoundByType(SoundType.Heal);
+            Healed?.Invoke(_health.CurrentHealth, _hp);
+            HealthChanged?.Invoke(_health.CurrentHealth, _hp);
+        }
+
         private void TakeHeal(int value)
         {
             if (_isInvincible) return;
