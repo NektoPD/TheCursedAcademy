@@ -8,6 +8,7 @@ using Items.ItemHolder;
 using TheraBytes.BetterUi;
 using TMPro;
 using UI.Applicators;
+using UI.Applicators.ClickHandlers;
 using UI.FortuneWheel;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -25,6 +26,7 @@ namespace UI
 
         [Header("Offered item")]
         [SerializeField] private WheelRewardView _offeredItemView;
+        [SerializeField] private ItemClickHandler _offeredItemClickHandler;
         [SerializeField] private TMP_Text _selectionHint;
         [SerializeField] private GameObject _selectedItemDetails;
 
@@ -60,6 +62,7 @@ namespace UI
 
         private void OnEnable()
         {
+            _offeredItemClickHandler.Clicked += PreviewOfferedItem;
             _modalBackdrop.transform.SetAsLastSibling();
             transform.SetAsLastSibling();
             _modalBackdrop.SetActive(true);
@@ -67,6 +70,7 @@ namespace UI
 
         private void OnDisable()
         {
+            _offeredItemClickHandler.Clicked -= PreviewOfferedItem;
             _modalBackdrop.SetActive(false);
             _decisionPending = false;
             SetDecisionButtonsInteractable(false);
@@ -111,8 +115,22 @@ namespace UI
             if (_isClosing && gameObject.activeSelf)
                 return;
 
+            _offeredItemClickHandler.SetData(offeredItem);
             _offeredItemView.Initialize(offeredItem.Name, offeredItem.Description, offeredItem.Sprite);
             OpenUnscaledTime();
+        }
+
+        private void PreviewOfferedItem(ItemVisualData offeredItem)
+        {
+            if (!_decisionPending || _isClosing || offeredItem == null)
+                return;
+
+            Item item = _itemsHolder.GetItemByType(offeredItem.Variation);
+            if (item == null)
+                return;
+
+            _selectedItemDetails.SetActive(true);
+            _applicator.PreviewItem(item);
         }
 
         public override void OpenWindow() => OpenUnscaledTime();
@@ -167,6 +185,7 @@ namespace UI
 
         private void SetDecisionButtonsInteractable(bool interactable)
         {
+            _offeredItemClickHandler.enabled = interactable;
             _swapButton.interactable = interactable && _hasSelectableItems;
             _declineButton.interactable = interactable;
             _closeButton.interactable = interactable;

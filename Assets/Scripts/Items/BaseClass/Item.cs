@@ -73,6 +73,28 @@ namespace Items.BaseClass
         
         public IReadOnlyList<Stat> GetUiStats() => VisualData.Stats;
 
+        public IReadOnlyList<Stat> CreateStatsPreview()
+        {
+            ItemStats previousStats = ItemStats;
+            float previousDamage = RuntimeDamage;
+            float previousCooldown = RuntimeCooldown;
+
+            try
+            {
+                ItemStats = new ItemStats(VisualData.Stats);
+                RuntimeDamage = Data.Damage;
+                RuntimeCooldown = Data.Cooldown;
+                UpdateStatsValues();
+                return ItemStats.Stats;
+            }
+            finally
+            {
+                ItemStats = previousStats;
+                RuntimeDamage = previousDamage;
+                RuntimeCooldown = previousCooldown;
+            }
+        }
+
         public virtual float? GetCurrentStatValue(StatVariations variation)
         {
             return variation switch

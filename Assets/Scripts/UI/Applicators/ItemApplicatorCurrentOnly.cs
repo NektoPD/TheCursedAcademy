@@ -45,11 +45,18 @@ namespace UI.Applicators
             _itemsByVisual = itemsInInventory.ToDictionary(i => i.VisualData, i => i);
         }
 
+        public void PreviewItem(Item item)
+        {
+            if (item == null)
+                return;
+
+            // Keep CurrentItem as the old item selected for replacement.
+            ApplyStats(item.CreateStatsPreview());
+        }
+
         protected override void Applicate(ItemVisualData data)
         {
             if (data == null) return;
-
-            RemoveAllStat();
 
             Item item = null;
             bool owned = _itemsByVisual != null && _itemsByVisual.TryGetValue(data, out item);
@@ -57,6 +64,13 @@ namespace UI.Applicators
             var stats = owned
                 ? item.UiStats
                 : data.Stats;
+
+            ApplyStats(stats);
+        }
+
+        private void ApplyStats(IReadOnlyList<Stat> stats)
+        {
+            RemoveAllStat();
 
             foreach (var stat in stats)
             {
