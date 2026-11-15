@@ -60,7 +60,7 @@ namespace UI
 
         private void OnRevardedShow(int obj)
         {
-            if (_isShowing == false)
+            if (obj != 0 || _isShowing == false)
                 return;
 
             _wallet.AddMoney(_coins);

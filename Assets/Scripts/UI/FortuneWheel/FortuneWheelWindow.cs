@@ -16,7 +16,7 @@ using Zenject;
 
 namespace UI.FortuneWheel
 {
-    public class FortuneWheelWindow : UI.Window, IPointerClickHandler
+    public partial class FortuneWheelWindow : UI.Window, IPointerClickHandler
     {
         private const int SlotsCount = 8;
 
@@ -123,9 +123,11 @@ namespace UI.FortuneWheel
 
             if (_stopButton != null)
             {
-                _stopButton.onClick.AddListener(StopSpin);
+                _stopButton.onClick.AddListener(HandleStopButton);
                 _stopButtonInitialScale = _stopButton.transform.localScale;
             }
+
+            BindRerollControls();
 
             if (_tutorialCloseButton != null)
             {
@@ -141,12 +143,14 @@ namespace UI.FortuneWheel
 
         public override void OpenWindow()
         {
+            ResetRerollSession();
             base.OpenWindow();
             Play();
         }
 
         public override void OpenUnscaledTime()
         {
+            ResetRerollSession();
             base.OpenUnscaledTime();
             Play();
         }
@@ -164,6 +168,8 @@ namespace UI.FortuneWheel
         private void Play(bool waitForManualStop)
         {
             CancelSpin();
+            _isDemo = false;
+            ResetRewardChoice();
 
             if (_stopButton != null)
                 _stopButton.interactable = false;
@@ -187,6 +193,7 @@ namespace UI.FortuneWheel
             _demoPlayed = true;
             CancelSpin();
             _isDemo = true;
+            ResetRewardChoice();
             if (_stopButton != null)
                 _stopButton.interactable = false;
 
@@ -202,6 +209,7 @@ namespace UI.FortuneWheel
 
         private void OnDisable()
         {
+            UnbindRerollControls();
             CancelSpin(true);
             StopLevelUpTitleEffect();
             if (_routine != null)
@@ -209,7 +217,7 @@ namespace UI.FortuneWheel
 
             _routine = null;
             if (_stopButton != null)
-                _stopButton.onClick.RemoveListener(StopSpin);
+                _stopButton.onClick.RemoveListener(HandleStopButton);
 
             if (_tutorialCloseButton != null)
                 _tutorialCloseButton.onClick.RemoveListener(CloseDemo);
@@ -329,6 +337,7 @@ namespace UI.FortuneWheel
 
         public void StopDemo()
         {
+            ResetRewardChoice();
             CancelSpin(true);
             if (_routine != null)
             {
@@ -352,25 +361,41 @@ namespace UI.FortuneWheel
 
         private IEnumerator PlayRoutine(bool waitForManualStop)
         {
-            PrepareWheel();
+            while (true)
+            {
+                PrepareWheel();
 
-            yield return new WaitForSecondsRealtime(_openDelay);
+                yield return new WaitForSecondsRealtime(_openDelay);
 
-            yield return SpinRandom(waitForManualStop);
+                yield return SpinRandom(waitForManualStop);
 
-            int winningIndex = DetectWinningSlotIndex();
-            
-            if (winningIndex >= 0 && winningIndex < _slots.Count)
-                _slots[winningIndex].PlayPulse();
+                int winningIndex = DetectWinningSlotIndex();
 
-            yield return new WaitForSecondsRealtime(_holdDelayBeforeClose);
+                if (winningIndex >= 0 && winningIndex < _slots.Count)
+                    _slots[winningIndex].PlayPulse();
 
-            if (winningIndex >= 0 && winningIndex < _rewards.Count)
-                ApplyReward(_rewards[winningIndex]);
-            
-            _routine = null;
-            Finished?.Invoke();
-            Debug.Log("Finished");
+                yield return new WaitForSecondsRealtime(_holdDelayBeforeClose);
+
+                if (HasRewardChoiceControls)
+                {
+                    ShowRewardChoice();
+                    while (_waitingForRewardChoice || _rerollAdPending)
+                        yield return null;
+
+                    bool reroll = _rerollRequested;
+                    ResetRewardChoice();
+                    if (reroll)
+                        continue;
+                }
+
+                if (winningIndex >= 0 && winningIndex < _rewards.Count)
+                    ApplyReward(_rewards[winningIndex]);
+
+                _routine = null;
+                Finished?.Invoke();
+                Debug.Log("Finished");
+                yield break;
+            }
         }
 
         public void FastSpinFinish()
@@ -386,6 +411,9 @@ namespace UI.FortuneWheel
             _spinTween = null;
             _isStopping = false;
             _isSpinning = false;
+            StopSpinSound();
+            StopButtonPulse();
+            PlayStopSound();
         }
 
         private void StopSpin()
@@ -518,7 +546,8 @@ namespace UI.FortuneWheel
             StopSpinSound();
             if (_spinClip == null)
                 return;
-            
+
+            _spinAudioSource = _audioSource;
             _audioSource.clip = _spinClip;
             _audioSource.loop = true;
             _audioSource.Play();

@@ -112,6 +112,8 @@ namespace YG.Insides
         public static void ErrorRewardedAdv()
         {
             rewardCallback = null;
+            YG2.nowRewardAdv = false;
+            YG2.PauseGame(false);
             YG2.onErrorRewardedAdv?.Invoke();
             YG2.onErrorAnyAdv?.Invoke();
         }
