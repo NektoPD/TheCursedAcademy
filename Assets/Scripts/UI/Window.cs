@@ -18,7 +18,14 @@ namespace UI
                 if (_windowAnimation == null)
                     _windowAnimation = GetComponent<WindowAnimation>();
 
-                return _windowAnimation;
+                if (_windowAnimation != null)
+                {
+                    return _windowAnimation;
+                }
+                else
+                {
+                    return null;
+                }
             }
         }
 

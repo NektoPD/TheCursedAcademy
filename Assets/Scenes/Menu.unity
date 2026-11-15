@@ -7808,7 +7808,6 @@ MonoBehaviour:
   _name: {fileID: 870012891}
   _description: {fileID: 214416297}
   _image: {fileID: 529557294}
-  _item: {fileID: 0}
   _cost: {fileID: 254179699}
   _buy: {fileID: 407568147}
   _error: {fileID: 1927609717}
@@ -9206,8 +9205,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -22.729477, y: 0.00024414062}
-  m_SizeDelta: {x: -1004.94214, y: -40}
+  m_AnchoredPosition: {x: -22.729492, y: 0.00024414062}
+  m_SizeDelta: {x: -798.1073, y: -40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &966411558
 MonoBehaviour:

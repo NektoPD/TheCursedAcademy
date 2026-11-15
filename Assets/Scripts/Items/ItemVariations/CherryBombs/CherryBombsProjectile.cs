@@ -104,7 +104,7 @@ namespace Items.ItemVariations.CherryBombs
         {
             KillTweens();
 
-            if (_animator != null)
+            if (_animator != null && gameObject.activeSelf)
             {
                 _animator.ResetTrigger(ExplosionTrigger);
                 _animator.ResetTrigger(ExplosionEffectTrigger);

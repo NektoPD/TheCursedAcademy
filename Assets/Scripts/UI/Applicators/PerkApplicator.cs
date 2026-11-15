@@ -18,7 +18,6 @@ namespace UI.Applicators
         [SerializeField] private TextMeshProUGUI _name;
         [SerializeField] private TextMeshProUGUI _description;
         [SerializeField] private Image _image;
-        [SerializeField] private Image _item;
         [SerializeField] private TextMeshProUGUI _cost;
         [SerializeField] private Button _buy;
         [SerializeField] private WindowAnimation _error;
@@ -54,6 +53,8 @@ namespace UI.Applicators
         {
             base.OnEnable();
             _buy.onClick.AddListener(OnBuyClick);
+            _image.transform.localScale = _imageScale;
+            _buy.transform.localScale = _buyScale;
         }
 
         protected override void OnDisable()
@@ -64,8 +65,6 @@ namespace UI.Applicators
             _purchaseTween?.Kill();
             _descriptionTween?.Kill();
             _description.alpha = 1f;
-            _image.transform.localScale = _imageScale;
-            _buy.transform.localScale = _buyScale;
         }
 
         protected override void OnItemSelected(PerkVisualData data)

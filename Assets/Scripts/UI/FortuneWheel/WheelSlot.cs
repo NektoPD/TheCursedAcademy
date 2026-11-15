@@ -21,12 +21,9 @@ namespace UI.FortuneWheel
         {
             if (reward == null)
             {
-                Debug.Log($"Reward {reward} is null");
                 return;
             }
             
-            Debug.Log($"{reward.Sprite} sprite for reward {reward.Type} {reward.Label} {reward.Item}");
-
             if (_icon != null)
             {
                 Sprite sprite = reward.Type == WheelRewardType.Gold ? _goldIcon : reward.Sprite;
