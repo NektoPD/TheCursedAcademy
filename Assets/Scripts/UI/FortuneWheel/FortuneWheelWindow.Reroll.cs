@@ -207,7 +207,7 @@ namespace UI.FortuneWheel
             if (_rerollButton == null)
                 return;
 
-            _rerollButton.gameObject.SetActive(choosingReward);
+            _rerollButton.gameObject.SetActive(choosingReward && !_rerollUsed);
             _rerollButton.interactable = choosingReward && !_rerollUsed && !_rerollAdPending
                 && CanShowRerollAd();
 
