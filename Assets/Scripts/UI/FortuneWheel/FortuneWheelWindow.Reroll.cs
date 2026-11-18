@@ -215,10 +215,10 @@ namespace UI.FortuneWheel
                 return;
 
             _rerollButtonText.text = _rerollUsed
-                ? Translator.Translate("Реролл использован", "Reroll used", "Yenileme kullanıldı")
+                ? Translator.Translate("Реролл\nиспользован", "Reroll\nused", "Yenileme\nkullanıldı")
                 : _rerollAdPending
-                    ? Translator.Translate("Загрузка рекламы…", "Loading ad…", "Reklam yükleniyor…")
-                    : Translator.Translate("Реролл за рекламу", "Ad reroll", "Reklamla yeniden çevir");
+                    ? Translator.Translate("Загрузка\nрекламы", "Loading\nad", "Reklam\nyükleniyor")
+                    : Translator.Translate("Реролл\\n<sprite=\"ad_icon\" index=0>", "Reroll\\n<sprite=\"ad_icon\" index=0>", "Yeniden çevir\\n<sprite=\"ad_icon\" index=0>");
         }
     }
 }

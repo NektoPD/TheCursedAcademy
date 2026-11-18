@@ -1,5 +1,6 @@
 using Items.ItemData;
 using System;
+using UnityEngine;
 
 namespace StatistiscSystem
 {
@@ -10,6 +11,7 @@ namespace StatistiscSystem
             Item = item;
             TotalDamage = totalDamage;
             Level = level;
+            Debug.Log(Level);
             DPS = dps;
             TimeInInventory = timeInInventory;
         }

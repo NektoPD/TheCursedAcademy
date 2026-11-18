@@ -16,6 +16,8 @@ MonoBehaviour:
   <KillsToCharge>k__BackingField: 15
   <Damage>k__BackingField: 2
   <Duration>k__BackingField: 7
+  <ActivationAreaRadiusMultiplier>k__BackingField: 0.9
+  <ActivationAreaOffset>k__BackingField: {x: 0, y: 0}
   <SpeedMultiplier>k__BackingField: 1.2
   <ArmorMultiplier>k__BackingField: 2
   <ProjectileSpeed>k__BackingField: 8
