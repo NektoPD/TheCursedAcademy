@@ -17,7 +17,6 @@ namespace Debuffs
         {
             StopAppearance();
 
-            // Resolve lazily: the overlay can prepare an inactive card before Awake.
             if (_appearanceCanvasGroup == null)
             {
                 _appearanceCanvasGroup = GetComponent<CanvasGroup>();
@@ -48,7 +47,6 @@ namespace Debuffs
                 return;
             }
 
-            // The tween's independent update also applies to its start delay.
             _appearanceTween = _appearanceCanvasGroup
                 .DOFade(_originalAppearanceAlpha, Mathf.Max(0.01f, duration))
                 .SetDelay(Mathf.Max(0f, delay))
@@ -61,7 +59,6 @@ namespace Debuffs
         {
             _appearancePrepared = false;
 
-            // Kill without completion so cancellation cannot run completion callbacks.
             if (_appearanceTween != null)
             {
                 _appearanceTween.Kill(false);

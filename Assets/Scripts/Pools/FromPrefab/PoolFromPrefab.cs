@@ -6,11 +6,9 @@ namespace Pools.FromPrefab
 {
     public abstract class PoolFromPrefab<T> where T : IPoolEntity
     {
-        // FREE
         private readonly List<T> _entityPool = new();
         private readonly HashSet<T> _inPool = new();
 
-        // ALL
         private readonly List<T> _allEntities = new();
 
         protected readonly DiContainer Container;
@@ -24,10 +22,10 @@ namespace Pools.FromPrefab
             _prefab = prefab;
         }
 
-        /// <summary>Свободные (в пуле)</summary>
+        /// <summary>пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ (пїЅ пїЅпїЅпїЅпїЅ)</summary>
         public IReadOnlyCollection<T> Entites => _entityPool;
 
-        /// <summary>Заспавненные (не в пуле)</summary>
+        /// <summary>пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ)</summary>
         public IEnumerable<T> SpawnedEntities
         {
             get
@@ -47,7 +45,6 @@ namespace Pools.FromPrefab
 
             if (_entityPool.Count > 0)
             {
-                // Берём с конца (O(1)) вместо First()/Remove()
                 int lastIndex = _entityPool.Count - 1;
                 entity = _entityPool[lastIndex];
                 _entityPool.RemoveAt(lastIndex);
@@ -67,7 +64,6 @@ namespace Pools.FromPrefab
         {
             EntityReturned?.Invoke();
 
-            // Защита от double-return
             if (!_inPool.Add(entity))
                 return;
 

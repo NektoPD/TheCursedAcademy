@@ -9,7 +9,6 @@ namespace Items.ItemVariations.Book
     public class BookProjectile : ItemProjectile
     {
         [SerializeField] private float _rotationSpeed = 360f;
-        // [SerializeField] private ParticleSystem _hitEffect;
 
         private Rigidbody2D _rb;
         private bool _isInitialized = false;

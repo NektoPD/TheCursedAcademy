@@ -114,7 +114,6 @@ namespace UI.FortuneWheel
                 return;
 
 #if RewardedAdv_yg
-            // The legacy YandexGame bridge parses reward IDs as integers.
             _pendingRerollRewardId = (++_nextRerollRewardId).ToString(CultureInfo.InvariantCulture);
             _rerollAdPending = true;
             RefreshRewardChoiceControls();

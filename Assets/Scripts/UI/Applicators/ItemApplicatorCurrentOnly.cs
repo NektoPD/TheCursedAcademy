@@ -50,7 +50,6 @@ namespace UI.Applicators
             if (item == null)
                 return;
 
-            // Keep CurrentItem as the old item selected for replacement.
             ApplyStats(item.CreateStatsPreview());
         }
 
