@@ -368,7 +368,7 @@ namespace UI.FortuneWheel
 
                 yield return new WaitForSecondsRealtime(_openDelay);
 
-                yield return SpinRandom(waitForManualStop && !isReroll);
+                yield return SpinRandom(waitForManualStop);
 
                 int winningIndex = DetectWinningSlotIndex();
 
