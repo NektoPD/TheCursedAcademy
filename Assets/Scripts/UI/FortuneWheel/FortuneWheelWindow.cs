@@ -361,31 +361,35 @@ namespace UI.FortuneWheel
 
         private IEnumerator PlayRoutine(bool waitForManualStop)
         {
+            bool isReroll = false;
             while (true)
             {
                 PrepareWheel();
 
                 yield return new WaitForSecondsRealtime(_openDelay);
 
-                yield return SpinRandom(waitForManualStop);
+                yield return SpinRandom(waitForManualStop && !isReroll);
 
                 int winningIndex = DetectWinningSlotIndex();
 
                 if (winningIndex >= 0 && winningIndex < _slots.Count)
                     _slots[winningIndex].PlayPulse();
 
-                yield return new WaitForSecondsRealtime(_holdDelayBeforeClose);
-
-                if (HasRewardChoiceControls)
+                if (!isReroll)
                 {
-                    ShowRewardChoice();
-                    while (_waitingForRewardChoice || _rerollAdPending)
-                        yield return null;
+                    yield return new WaitForSecondsRealtime(_holdDelayBeforeClose);
 
-                    bool reroll = _rerollRequested;
-                    ResetRewardChoice();
-                    if (reroll)
-                        continue;
+                    if (HasRewardChoiceControls)
+                    {
+                        ShowRewardChoice();
+                        while (_waitingForRewardChoice || _rerollAdPending)
+                            yield return null;
+
+                        isReroll = _rerollRequested;
+                        ResetRewardChoice();
+                        if (isReroll)
+                            continue;
+                    }
                 }
 
                 if (winningIndex >= 0 && winningIndex < _rewards.Count)
@@ -498,10 +502,10 @@ namespace UI.FortuneWheel
                 _stopButton.interactable = waitForManualStop;
 
             StartSpinSound();
-            StartButtonPulse();
 
             if (waitForManualStop)
             {
+                StartButtonPulse();
                 _spinTween = _wheel
                     .DORotate(new Vector3(0f, 0f, -360f), _spinDuration, RotateMode.FastBeyond360)
                     .SetEase(Ease.Linear)
