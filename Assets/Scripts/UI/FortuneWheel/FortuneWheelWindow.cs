@@ -56,6 +56,7 @@ namespace UI.FortuneWheel
         [SerializeField] private float _stopDuration = 1.5f;
         [SerializeField] private Ease _spinEase = Ease.InOutCubic;
         [SerializeField] private float _holdDelayBeforeClose = 1.5f;
+        [SerializeField, Min(0f)] private float _rerollResultHoldDuration = 0.6f;
         [SerializeField] private AudioClip _openClip;
         [SerializeField] private AudioClip _stopClip;
         [SerializeField] private AudioSource _audioSource;
@@ -375,10 +376,11 @@ namespace UI.FortuneWheel
                 if (winningIndex >= 0 && winningIndex < _slots.Count)
                     _slots[winningIndex].PlayPulse();
 
+                float resultHoldDuration = isReroll ? _rerollResultHoldDuration : _holdDelayBeforeClose;
+                yield return new WaitForSecondsRealtime(resultHoldDuration);
+
                 if (!isReroll)
                 {
-                    yield return new WaitForSecondsRealtime(_holdDelayBeforeClose);
-
                     if (HasRewardChoiceControls)
                     {
                         ShowRewardChoice();
