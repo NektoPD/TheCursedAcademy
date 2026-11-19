@@ -24,6 +24,7 @@ namespace Items.ItemVariations.CherryBombs
         private static readonly int ExplosionEffectTrigger = Animator.StringToHash("ExplosionEffect");
 
         private Vector3 _targetScale;
+        private Sprite _idleSprite;
         private Transform _target;
         private Vector3 _targetPosition;
         private bool _hasExploded;
@@ -42,20 +43,21 @@ namespace Items.ItemVariations.CherryBombs
         {
             base.Awake();
             _targetScale = Transform.localScale;
+            _idleSprite = SpriteRenderer.sprite;
             if (_animator == null)
                 _animator = GetComponent<Animator>();
         }
 
         public void Launch(Vector2 startPos, Vector2 direction, float speed, Transform target = null)
         {
+            KillTweens();
             _hasExploded = false;
+            ResetAnimation();
             Transform.position = startPos;
             Transform.localScale = Vector3.zero;
 
             _target = target;
             _targetPosition = startPos + direction * (speed * _flightDuration);
-
-            KillTweens();
 
             _scaleTween = Transform.DOScale(_targetScale, _flightDuration).SetEase(Ease.OutBack);
 
@@ -86,7 +88,7 @@ namespace Items.ItemVariations.CherryBombs
                 _pulseVibrato
             );
 
-            _explosionTween = DOVirtual.DelayedCall(_explosionDelay, Explode);
+            _explosionTween = DOVirtual.DelayedCall(_explosionDelay, Explode, ignoreTimeScale: false);
         }
 
         private void OnEnable()
@@ -104,20 +106,26 @@ namespace Items.ItemVariations.CherryBombs
         {
             KillTweens();
 
-            if (_animator != null && gameObject.activeSelf)
-            {
-                _animator.ResetTrigger(ExplosionTrigger);
-                _animator.ResetTrigger(ExplosionEffectTrigger);
-                _animator.Rebind();
-                _animator.Update(0f);
-            }
-
             Transform.localScale = _targetScale;
             Transform.rotation = Quaternion.identity;
             _target = null;
             _hasExploded = false;
             Damage = 0f;
             Owner = null;
+        }
+
+        private void ResetAnimation()
+        {
+            SpriteRenderer.sprite = _idleSprite;
+            Transform.localScale = _targetScale;
+
+            if (_animator == null || !_animator.isActiveAndEnabled)
+                return;
+
+            _animator.Rebind();
+            _animator.ResetTrigger(ExplosionTrigger);
+            _animator.ResetTrigger(ExplosionEffectTrigger);
+            _animator.Update(0f);
         }
 
         private void KillTweens()
@@ -143,11 +151,15 @@ namespace Items.ItemVariations.CherryBombs
             if (_animator != null)
                 _animator.SetTrigger(ExplosionEffectTrigger);
 
-            _delayedFinish = DOVirtual.DelayedCall(_explosionEffectDuration, () => Finished?.Invoke(this));
+            _delayedFinish = DOVirtual.DelayedCall(
+                _explosionEffectDuration, () => Finished?.Invoke(this), ignoreTimeScale: false);
         }
 
         public void DealExplosionDamage()
         {
+            if (!_hasExploded)
+                return;
+
             Collider2D[] hits = Physics2D.OverlapCircleAll(Transform.position, _explosionRadius, _enemyLayer);
             var damaged = new HashSet<IDamageable>();
 

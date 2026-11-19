@@ -15,7 +15,7 @@ namespace Items.Pools
 
             for (int i = 0; i < initialSize; i++)
             {
-                CreateNewPoolObject();
+                _objectPool.Enqueue(CreateNewPoolObject());
             }
         }
 
@@ -23,7 +23,6 @@ namespace Items.Pools
         {
             ItemProjectile newObject = Instantiate(_prefab, transform, true);
             newObject.gameObject.SetActive(false);
-            _objectPool.Enqueue(newObject);
             return newObject;
         }
 
