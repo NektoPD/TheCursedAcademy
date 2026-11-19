@@ -19,12 +19,12 @@ namespace Items.ItemVariations.CherryBombs
         [SerializeField] private float _explosionEffectDuration = 0.5f;
         [SerializeField] private float _pulseStrength = 0.15f;
         [SerializeField] private int _pulseVibrato = 6;
+        [SerializeField] private Sprite _idleSprite;
 
         private static readonly int ExplosionTrigger = Animator.StringToHash("Explosion");
         private static readonly int ExplosionEffectTrigger = Animator.StringToHash("ExplosionEffect");
 
         private Vector3 _targetScale;
-        private Sprite _idleSprite;
         private Transform _target;
         private Vector3 _targetPosition;
         private bool _hasExploded;
@@ -43,7 +43,6 @@ namespace Items.ItemVariations.CherryBombs
         {
             base.Awake();
             _targetScale = Transform.localScale;
-            _idleSprite = SpriteRenderer.sprite;
             if (_animator == null)
                 _animator = GetComponent<Animator>();
         }
@@ -116,9 +115,12 @@ namespace Items.ItemVariations.CherryBombs
 
         private void ResetAnimation()
         {
+            Debug.Log(_idleSprite);
             SpriteRenderer.sprite = _idleSprite;
             Transform.localScale = _targetScale;
 
+            Debug.Log(SpriteRenderer.sprite);
+            
             if (_animator == null || !_animator.isActiveAndEnabled)
                 return;
 

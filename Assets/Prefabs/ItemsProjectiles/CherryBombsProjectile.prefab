@@ -111,6 +111,7 @@ MonoBehaviour:
   _explosionEffectDuration: 0.5
   _pulseStrength: 0.15
   _pulseVibrato: 6
+  _idleSprite: {fileID: 2022924278, guid: c6d7b7ef44b768544a5882dff541c59a, type: 3}
 --- !u!58 &8100000000000000005
 CircleCollider2D:
   m_ObjectHideFlags: 0
