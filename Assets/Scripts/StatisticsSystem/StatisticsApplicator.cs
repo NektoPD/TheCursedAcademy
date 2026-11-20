@@ -38,6 +38,9 @@ namespace StatistiscSystem
             
             foreach (var item in _displayedItems)
             {
+                if (!item.IsInInventory)
+                    continue;
+
                 var itemView = Instantiate(_itemPrefab, _itemsContainer);
                 itemView.SetSprite(item.Item.ItemIcon);
             }

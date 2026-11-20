@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Items;
 using Items.BaseClass;
 using Items.Enums;
+using Items.ItemData;
 using StatistiscSystem;
 using UnityEngine;
 
@@ -13,9 +13,8 @@ namespace InventorySystem
     {
         private readonly List<Item> _collectedItems = new();
 
-        private readonly Dictionary<ItemVariations, float> _itemAddTimesSec = new();
-
-        private readonly Dictionary<ItemVariations, float> _totalDamageByVariation = new();
+        private readonly Dictionary<ItemVariations, ItemHistory> _itemHistory = new();
+        private readonly HashSet<Item> _trackedItems = new();
 
         public int InventoryLimit { get; private set; }
 
@@ -46,13 +45,18 @@ namespace InventorySystem
 
             var variation = item.Data.ItemVariation;
 
-            if (!_itemAddTimesSec.ContainsKey(variation))
-                _itemAddTimesSec[variation] = Time.timeSinceLevelLoad;
+            if (!_itemHistory.TryGetValue(variation, out var history))
+            {
+                history = new ItemHistory(item.Data);
+                _itemHistory.Add(variation, history);
+            }
 
-            if (!_totalDamageByVariation.ContainsKey(variation))
-                _totalDamageByVariation[variation] = 0f;
+            history.EquippedSince ??= Time.timeSinceLevelLoad;
+            history.HighestLevel = Mathf.Max(history.HighestLevel, item.CurrentLevel);
 
-            item.DamageDealt += OnItemDamageDealt;
+            if (_trackedItems.Add(item))
+                item.DamageDealt += OnItemDamageDealt;
+
             item.MaxLevelReached += OnItemMaxLevelReached;
 
             ItemAdded?.Invoke(item);
@@ -81,10 +85,16 @@ namespace InventorySystem
 
             var variation = itemToRemove.Data.ItemVariation;
 
-            if (_collectedItems.All(i => i.Data.ItemVariation != variation))
-                _itemAddTimesSec.Remove(variation);
+            var history = _itemHistory[variation];
+            history.HighestLevel = Mathf.Max(history.HighestLevel, itemToRemove.CurrentLevel);
 
-            itemToRemove.DamageDealt -= OnItemDamageDealt;
+            if (_collectedItems.All(i => i.Data.ItemVariation != variation))
+            {
+                history.SecondsInInventory = history.GetSecondsInInventory(Time.timeSinceLevelLoad);
+                history.EquippedSince = null;
+            }
+
+            itemToRemove.MaxLevelReached -= OnItemMaxLevelReached;
 
             ItemRemoved?.Invoke(itemToRemove);
         }
@@ -96,57 +106,65 @@ namespace InventorySystem
 
         public List<ItemStatistics> GetItemStatisticsList()
         {
-            if (_collectedItems.Count <= 0)
+            foreach (var item in _collectedItems)
             {
-                return new List<ItemStatistics>();
+                var history = _itemHistory[item.Data.ItemVariation];
+                history.HighestLevel = Mathf.Max(history.HighestLevel, item.CurrentLevel);
             }
 
-            var currentTime = Time.timeSinceLevelLoad;
-
-            var byVariation = _collectedItems
-                .GroupBy(i => i.Data.ItemVariation)
-                .ToList();
-
-            List<ItemStatistics> itemStatisticsList = new();
-
-            foreach (var group in byVariation)
+            float currentTime = Time.timeSinceLevelLoad;
+            List<ItemStatistics> itemStatisticsList = new(_itemHistory.Count);
+            foreach (var history in _itemHistory.Values)
             {
-                var item = group.First();
-                var variation = group.Key;
-
-                float addSec = _itemAddTimesSec.TryGetValue(variation, out var t) ? t : currentTime;
-                float timeInInvSec = Mathf.Max(0f, currentTime - addSec);
-
-                var timeInInventory = TimeSpan.FromSeconds(timeInInvSec);
-
-                float totalDamage = _totalDamageByVariation.TryGetValue(variation, out var dmg) ? dmg : 0f;
-
-                float dps = 0f;
-                if (item.Data.Cooldown > 0f)
-                    dps = item.Data.Damage / item.Data.Cooldown;
-
-                var statisticsData = new ItemStatistics(
-                    item.Data,
-                    totalDamage,
-                    item.CurrentLevel,
+                float dps = history.Data.Cooldown > 0f ? history.Data.Damage / history.Data.Cooldown : 0f;
+                itemStatisticsList.Add(new ItemStatistics(
+                    history.Data,
+                    history.TotalDamage,
+                    history.HighestLevel,
                     dps,
-                    timeInInventory
-                );
-
-                itemStatisticsList.Add(statisticsData);
+                    TimeSpan.FromSeconds(history.GetSecondsInInventory(currentTime)),
+                    history.EquippedSince.HasValue));
             }
 
             return itemStatisticsList;
         }
 
+        public void StopTrackingItems()
+        {
+            foreach (var item in _trackedItems)
+                item.DamageDealt -= OnItemDamageDealt;
+
+            _trackedItems.Clear();
+
+            foreach (var item in _collectedItems)
+                item.MaxLevelReached -= OnItemMaxLevelReached;
+        }
+
         private void OnItemDamageDealt(ItemVariations variation, float damage)
         {
-            if (damage <= 0f) return;
+            if (damage > 0f && _itemHistory.TryGetValue(variation, out var history))
+                history.TotalDamage += damage;
+        }
 
-            if (_totalDamageByVariation.ContainsKey(variation))
-                _totalDamageByVariation[variation] += damage;
-            else
-                _totalDamageByVariation[variation] = damage;
+        private sealed class ItemHistory
+        {
+            public ItemHistory(ItemDataConfig data)
+            {
+                Data = data;
+            }
+
+            public ItemDataConfig Data { get; }
+            public float TotalDamage { get; set; }
+            public int HighestLevel { get; set; }
+            public float SecondsInInventory { get; set; }
+            public float? EquippedSince { get; set; }
+
+            public float GetSecondsInInventory(float currentTime)
+            {
+                return EquippedSince is float startTime
+                    ? SecondsInInventory + Mathf.Max(0f, currentTime - startTime)
+                    : SecondsInInventory;
+            }
         }
     }
 }

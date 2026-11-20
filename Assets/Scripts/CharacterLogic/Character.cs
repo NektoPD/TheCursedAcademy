@@ -187,6 +187,11 @@ namespace CharacterLogic
             _originalScale = _transform.localScale;
         }
 
+        private void OnDestroy()
+        {
+            _inventory?.StopTrackingItems();
+        }
+
         private void OnDisable()
         {
             _hitSquashTween?.Kill();
@@ -734,6 +739,7 @@ namespace CharacterLogic
         private void InitializeCharacterComponents()
         {
             _health = new Health(_hp);
+            _inventory?.StopTrackingItems();
             _inventory = new CharacterInventory(_characterData.InventoryLimit);
             _attacker.Initialize(_inventory, _attackCooldown);
             _inventoryUI.DisableAllSlots();

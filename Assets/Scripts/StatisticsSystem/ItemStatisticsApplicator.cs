@@ -10,14 +10,7 @@ namespace StatistiscSystem
 
         public void Applicate(Statistics statistics)
         {
-            if (statistics?.Items == null)
-                return;
-
-            foreach (var item in statistics.Items)
-            {
-                var itemView = Instantiate(_prefab, _itemStatisticsContainer);
-                itemView.View(item.Item.ItemIcon, item.TotalDamage.ToString(), item.Level.ToString(), item.DPS.ToString(), FormatTime(item.TimeInInventory));
-            }
+            Applicate(statistics?.Items);
         }
         
         public void Applicate(IReadOnlyList<ItemStatistics> itemStatisticsList)
@@ -33,7 +26,8 @@ namespace StatistiscSystem
             foreach (var item in itemStatisticsList)
             {
                 var itemView = Instantiate(_prefab, _itemStatisticsContainer);
-                itemView.View(item.Item.ItemIcon, item.TotalDamage.ToString(), item.Level.ToString(), item.DPS.ToString(), FormatTime(item.TimeInInventory));
+                itemView.View(item.Item.ItemIcon, item.TotalDamage.ToString("0.##"), item.Level.ToString(),
+                    item.DPS.ToString("0.##"), FormatTime(item.TimeInInventory));
             }
         }
 

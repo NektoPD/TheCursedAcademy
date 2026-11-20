@@ -1,19 +1,19 @@
 using Items.ItemData;
 using System;
-using UnityEngine;
 
 namespace StatistiscSystem
 {
     public class ItemStatistics
     {
-        public ItemStatistics(ItemDataConfig item, float totalDamage, int level, float dps, TimeSpan timeInInventory)
+        public ItemStatistics(ItemDataConfig item, float totalDamage, int level, float dps, TimeSpan timeInInventory,
+            bool isInInventory)
         {
             Item = item;
             TotalDamage = totalDamage;
             Level = level;
-            Debug.Log(Level);
             DPS = dps;
             TimeInInventory = timeInInventory;
+            IsInInventory = isInInventory;
         }
 
         public ItemDataConfig Item { get; private set; }
@@ -25,5 +25,7 @@ namespace StatistiscSystem
         public float DPS { get; private set; }
 
         public TimeSpan TimeInInventory { get; private set; }
+
+        public bool IsInInventory { get; }
     }
 }
