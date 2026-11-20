@@ -64,6 +64,7 @@ namespace EnemyLogic
             _isDied = false;
             _inImmune = false;
             _enemyAnimator.SetDeadBool(false);
+            _enemyAnimator.SetPopBool(false);
             _enemy = enemy;
             _wasKilledByBerserk = false;
             _enemyAnimator.ResetDeathState();
@@ -119,8 +120,9 @@ namespace EnemyLogic
 
             _ejector.Eject();
             _enemyAnimator.ResetSpeed();
+
             if (_wasKilledByBerserk && _enemy.IsBoss == false)
-                _enemyAnimator.PlayPopDeathAnimation();
+                _enemyAnimator.SetPopBool(true);
             else
                 _enemyAnimator.SetDeadBool(true);
         }

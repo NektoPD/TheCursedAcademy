@@ -121,6 +121,9 @@ namespace Items.ItemVariations.Cats
 
         private void OnDestroyCatObject(CatsProjectile cat)
         {
+            if(cat == null)
+                return;
+
             Destroy(cat.gameObject);
         }
 

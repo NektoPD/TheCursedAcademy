@@ -37,41 +37,31 @@ namespace EnemyLogic
 
         public void SetHurtTigger() => SetTriggerByName(Hurt);
 
-        public void SetDeadBool(bool state)
-        {
-            if (_animator.GetBool(Dead) == state)
-                return;
-
-            _animator.SetBool(Dead, state);
-
-            IsDeadAnimationStarted = true;
-
-            DeadAnimationStarted?.Invoke();
-        }
+        public void SetDeadBool(bool state) => SetBoolAsDead(state, Dead);
 
         public void ResetDeathState()
         {
             _animator.SetBool(Dead, false);
+            _animator.SetBool(Pop, false);
             IsDeadAnimationStarted = false;
         }
 
-        public void PlayPopDeathAnimation()
-        {
-            int popStateHash = Animator.StringToHash(Pop);
-
-            if (!_animator.HasState(0, popStateHash))
-            {
-                SetDeadBool(true);
-                return;
-            }
-
-            _animator.SetTrigger(popStateHash);
-            IsDeadAnimationStarted = true;
-            DeadAnimationStarted?.Invoke();
-        }
+        public void SetPopBool(bool state) => SetBoolAsDead(state, Pop);
 
         public void SetAnimatorSpeed(float speed) => _animator.speed = speed;
 
         public void ResetSpeed() => _animator.speed = _speed;
+
+        private void SetBoolAsDead(bool state, string name)
+        {
+            if (_animator.GetBool(name) == state)
+                return;
+
+            _animator.SetBool(name, state);
+
+            IsDeadAnimationStarted = true;
+
+            DeadAnimationStarted?.Invoke();
+        }
     }
 }
