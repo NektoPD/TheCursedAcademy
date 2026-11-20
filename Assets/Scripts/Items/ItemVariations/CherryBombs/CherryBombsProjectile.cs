@@ -115,12 +115,9 @@ namespace Items.ItemVariations.CherryBombs
 
         private void ResetAnimation()
         {
-            Debug.Log(_idleSprite);
             SpriteRenderer.sprite = _idleSprite;
             Transform.localScale = _targetScale;
 
-            Debug.Log(SpriteRenderer.sprite);
-            
             if (_animator == null || !_animator.isActiveAndEnabled)
                 return;
 
