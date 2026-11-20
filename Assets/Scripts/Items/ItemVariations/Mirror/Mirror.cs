@@ -12,6 +12,8 @@ namespace Items.ItemVariations
     [RequireComponent(typeof(ItemProjectilePool))]
     public class Mirror : Item
     {
+        private const int ShotsPerHeal = 3;
+
         [SerializeField] private MirrorProjectile _mirrorProjectilePrefab;
         [SerializeField] private float _projectileLifetime = 3f;
         [SerializeField] private float _projectileSpeed = 5f;
@@ -25,6 +27,7 @@ namespace Items.ItemVariations
         [SerializeField, Min(0f)] private float _healIncreasePerLevel = 0.5f;
 
         private float _currentDetectionRadius;
+        private int _shotsSinceHeal;
         
         private ItemProjectilePool _projectilePool;
         private int _projectileCount = 1;
@@ -77,13 +80,20 @@ namespace Items.ItemVariations
                 firedProjectile = true;
             }
 
-            if (firedProjectile && MovementHandler != null &&
-                MovementHandler.TryGetComponent(out Character character))
-            {
-                float healing = Mathf.Max(0f, _healPerUse) +
-                    Mathf.Max(0, Level - 1) * Mathf.Max(0f, _healIncreasePerLevel);
-                character.RestoreHealth(healing);
-            }
+            if (!firedProjectile)
+                return;
+
+            _shotsSinceHeal++;
+            if (_shotsSinceHeal < ShotsPerHeal)
+                return;
+
+            _shotsSinceHeal = 0;
+            if (MovementHandler == null || !MovementHandler.TryGetComponent(out Character character))
+                return;
+
+            float healing = Mathf.Max(0f, _healPerUse) +
+                Mathf.Max(0, Level - 1) * Mathf.Max(0f, _healIncreasePerLevel);
+            character.RestoreHealth(healing);
         }
 
         public override void LevelUp()
