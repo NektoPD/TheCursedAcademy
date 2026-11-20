@@ -217,7 +217,7 @@ namespace UI.FortuneWheel
                 ? Translator.Translate("Реролл\nиспользован", "Reroll\nused", "Yenileme\nkullanıldı")
                 : _rerollAdPending
                     ? Translator.Translate("Загрузка\nрекламы", "Loading\nad", "Reklam\nyükleniyor")
-                    : Translator.Translate("Реролл\\n<sprite=\"ad_icon\" index=0>", "Reroll\\n<sprite=\"ad_icon\" index=0>", "Yeniden çevir\\n<sprite=\"ad_icon\" index=0>");
+                    : Translator.Translate("Реролл", "Reroll", "Yeniden çevir") + "\n<sprite=\"ad_icon\" index=0>";
         }
     }
 }
