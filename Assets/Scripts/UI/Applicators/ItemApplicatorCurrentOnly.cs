@@ -50,15 +50,18 @@ namespace UI.Applicators
             if (item == null)
                 return;
 
+            _ok.interactable = false;
             ApplyStats(item.CreateStatsPreview());
         }
 
         protected override void Applicate(ItemVisualData data)
         {
-            if (data == null) return;
-
             Item item = null;
-            bool owned = _itemsByVisual != null && _itemsByVisual.TryGetValue(data, out item);
+            bool owned = data != null && _itemsByVisual != null && _itemsByVisual.TryGetValue(data, out item);
+            _ok.interactable = owned;
+
+            if (data == null)
+                return;
 
             var stats = owned
                 ? item.UiStats
@@ -102,6 +105,12 @@ namespace UI.Applicators
             _currentStats.Clear();
         }
 
-        private void AddItem() => ItemSelected?.Invoke(CurrentItem.Variation);
+        private void AddItem()
+        {
+            if (!isActiveAndEnabled || !_ok.interactable || CurrentItem == null)
+                return;
+
+            ItemSelected?.Invoke(CurrentItem.Variation);
+        }
     }
 }
