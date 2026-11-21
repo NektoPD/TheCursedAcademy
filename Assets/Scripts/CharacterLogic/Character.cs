@@ -102,6 +102,7 @@ namespace CharacterLogic
         private float _rageDamageMultiplier = 1f;
         private float _rageArmorMultiplier = 1f;
         private float _rageSpeedMultiplier = 1f;
+        private int _totalXpPerRound;
         private bool _isRageModeActive;
         public event Action<float, float> HealthChanged;
         public event Action<float, float> Damaged;
@@ -133,6 +134,7 @@ namespace CharacterLogic
             ItemsHolder itemsHolder, ItemApplicator levelUpItemApplicator, KilledEnemyCounter killedEnemyCounter,
             CharacterSoundController characterSoundController, ItemApplicatorCurrentOnly fullInventoryItemApplicator = null)
         {
+            _totalXpPerRound = 0;
             _characterData = characterData;
             _itemsHolder = itemsHolder;
             _characterSoundController = characterSoundController;
@@ -277,6 +279,7 @@ namespace CharacterLogic
 
         private void OnExperienceGained(int value)
         {
+            _totalXpPerRound += value;
             UpdateExperienceView(_characterLevelController.CurrentExp);
         }
 
@@ -334,7 +337,7 @@ namespace CharacterLogic
 
             TimeSpan gameSession = TimeSpan.FromSeconds(liveSeconds);
 
-            Statistics statistics = new Statistics(_characterLevelController.CurrentExp,
+            Statistics statistics = new Statistics(_totalXpPerRound,
                 _characterLevelController.CurrentLevel, _killedEnemyCounter.KilledCounter,
                 _characterSessionWallet.CollectedMoney, gameSession, _inventory.GetItemStatisticsList());
             StatisticCollected?.Invoke(statistics);

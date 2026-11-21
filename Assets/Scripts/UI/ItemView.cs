@@ -28,7 +28,7 @@ namespace UI
             _textDescription.text = visualData.Description;
             _image.sprite = visualData.Sprite;
 
-            _textLevel.text = isMaxLevelReached ? $"{level}" : $"{level + 1}";
+            _textLevel.text = $"{level}";
 
             _new.gameObject.SetActive(isNew);
 
