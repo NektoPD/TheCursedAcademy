@@ -16,16 +16,16 @@ namespace UI.FortuneWheel
         public ItemVisualData Item { get; }
         public int GoldAmount { get; }
         public WheelBuffData Buff { get; }
-        public string ItemDescription { get; }
+        public string ItemStats { get; }
 
         private WheelReward(WheelRewardType type, ItemVisualData item, int goldAmount, WheelBuffData buff,
-            string itemDescription = null, string itemStat = null)
+            string itemStats = null)
         {
             Type = type;
             Item = item;
             GoldAmount = goldAmount;
             Buff = buff;
-            ItemDescription = itemDescription;
+            ItemStats = itemStats;
         }
 
         public static WheelReward CreateItem(ItemVisualData item) =>
@@ -40,11 +40,6 @@ namespace UI.FortuneWheel
         public static WheelReward CreateNewItem(Item item)
         {
             var builder = new StringBuilder();
-            if (!string.IsNullOrEmpty(item.VisualData.Description))
-            {
-                builder.AppendLine(item.VisualData.Description);
-                builder.AppendLine();
-            }
 
             foreach (Stat stat in item.UiStats)
             {
@@ -61,7 +56,7 @@ namespace UI.FortuneWheel
                 builder.AppendLine(GetItemStatSuffix(stat.Variation));
             }
 
-            return new WheelReward(WheelRewardType.Item, item.VisualData, 0, null, builder.ToString());
+            return new WheelReward(WheelRewardType.Item, item.VisualData, 0, null, builder.ToString().TrimEnd());
         }
 
         private static string GetItemStatName(Stat stat)
@@ -90,8 +85,6 @@ namespace UI.FortuneWheel
             IReadOnlyList<Stat> previousStats)
         {
             var builder = new StringBuilder();
-            if (!string.IsNullOrEmpty(item.VisualData.Description))
-                builder.AppendLine(item.VisualData.Description);
 
             builder.Append(Translator.Translate("Уровень", "Level", "Seviye"));
             builder.AppendLine(": " + previousLevel + " -> " + item.CurrentLevel);
@@ -118,7 +111,7 @@ namespace UI.FortuneWheel
                 builder.AppendLine(stat.CurrentValue.ToString("0.##", CultureInfo.InvariantCulture));
             }
 
-            return new WheelReward(WheelRewardType.Item, item.VisualData, 0, null, builder.ToString());
+            return new WheelReward(WheelRewardType.Item, item.VisualData, 0, null, builder.ToString().TrimEnd());
         }
 
         public Sprite Sprite => Type switch

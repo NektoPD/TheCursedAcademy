@@ -10,6 +10,7 @@ namespace UI.FortuneWheel
         [SerializeField] private Image _icon;
         [SerializeField] private TMP_Text _title;
         [SerializeField] private TMP_Text _description;
+        [SerializeField] private TMP_Text _stats;
         [SerializeField, Range(0.1f, 1f)] private float _appearStartScale = 0.8f;
 
         private CanvasGroup _canvasGroup;
@@ -20,10 +21,16 @@ namespace UI.FortuneWheel
         private bool _initialBlocksRaycasts;
         private bool _appearanceCached;
 
-        public void Initialize(string title, string description, Sprite icon)
+        public void Initialize(string title, string description, Sprite icon, string stats = null)
         {
             _title.text = title;
             _description.text = description;
+            if (_stats != null)
+            {
+                _stats.text = stats ?? string.Empty;
+                _stats.gameObject.SetActive(!string.IsNullOrWhiteSpace(stats));
+            }
+
             _icon.sprite = icon;
             _icon.enabled = icon != null;
         }

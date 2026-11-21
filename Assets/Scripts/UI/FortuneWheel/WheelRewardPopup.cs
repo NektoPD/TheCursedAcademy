@@ -236,10 +236,10 @@ namespace UI.FortuneWheel
                 {
                     WheelRewardType.Gold => "+" + reward.GoldAmount,
                     WheelRewardType.Buff => GetBuffDescription(reward.Buff),
-                    _ => reward.ItemDescription ?? reward.Item.Description
+                    _ => reward.Item.Description
                 };
                 Sprite sprite = reward.Type == WheelRewardType.Gold ? _goldIcon : reward.Sprite;
-                card.Initialize(title, description, sprite);
+                card.Initialize(title, description, sprite, reward.ItemStats);
                 card.PrepareAppearance();
                 if (reward.Type == WheelRewardType.Buff && _statsView != null)
                     _statsView.AddBuff(reward.Buff);
