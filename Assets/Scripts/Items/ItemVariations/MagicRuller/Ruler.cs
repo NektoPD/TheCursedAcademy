@@ -68,10 +68,10 @@ namespace Items.ItemVariations.MagicRuller
                 if (projectile != null)
                 {
                     projectile.Transform.SetParent(null);
-                    projectile.SetDirection(direction);
-                    projectile.SetSpeed(_projectileSpeed);
                     projectile.Initialize(RuntimeDamage, this);
-                    projectile.Hit += OnProjectileHit;
+                    projectile.Expired -= OnProjectileExpired;
+                    projectile.Expired += OnProjectileExpired;
+                    projectile.Launch(direction, _projectileSpeed);
                 }
             }
         }
@@ -88,9 +88,9 @@ namespace Items.ItemVariations.MagicRuller
             );
         }
 
-        private void OnProjectileHit(RulerProjectile projectile)
+        private void OnProjectileExpired(RulerProjectile projectile)
         {
-            projectile.Hit -= OnProjectileHit;
+            projectile.Expired -= OnProjectileExpired;
             projectile.Transform.SetParent(_projectilePool.transform);
             _projectilePool.ReturnToPool(projectile);
         }

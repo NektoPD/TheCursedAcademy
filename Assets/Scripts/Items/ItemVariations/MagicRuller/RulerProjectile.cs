@@ -1,48 +1,41 @@
 using System;
-using HealthSystem;
 using UnityEngine;
 
 namespace Items.ItemVariations.MagicRuller
 {
     public class RulerProjectile : ItemProjectile
     {
+        [SerializeField, Min(0.05f)] private float _lifetime = 3f;
+
         private Vector2 _direction;
         private float _speed;
-        private Transform _transform;
-        private float _diactivationTimer = 30f;
-        private float _currentTimer;
+        private float _remainingLifetime;
 
-        public event Action<RulerProjectile> Hit;
+        public event Action<RulerProjectile> Expired;
 
-        protected override void Awake()
-        {
-            base.Awake();
-            _transform = transform;
-        }
-
-        private void OnEnable()
-        {
-            _currentTimer = 0;
-        }
-
-        public void SetDirection(Vector2 direction)
+        public void Launch(Vector2 direction, float speed)
         {
             _direction = direction.normalized;
+            _speed = speed;
+            _remainingLifetime = Mathf.Max(0.05f, _lifetime);
         }
 
-        public void SetSpeed(float speed)
+        private void OnDisable()
         {
-            _speed = speed;
+            _remainingLifetime = 0f;
         }
 
         private void Update()
         {
-            _transform.Translate(_direction * _speed * Time.deltaTime, Space.World);
+            if (_remainingLifetime <= 0f)
+                return;
 
-            _currentTimer += Time.deltaTime;
+            float step = Mathf.Min(Time.deltaTime, _remainingLifetime);
+            Transform.Translate(_direction * _speed * step, Space.World);
+            _remainingLifetime -= step;
 
-            if (_currentTimer >= _diactivationTimer)
-                Hit?.Invoke(this);
+            if (_remainingLifetime <= 0f)
+                Expired?.Invoke(this);
         }
     }
 }
