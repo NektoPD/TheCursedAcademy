@@ -1,5 +1,6 @@
 using Items.BaseClass;
 using Items.Enums;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,8 +10,10 @@ namespace InventorySystem
     {
         [SerializeField] private Image _slotImageHolder;
         [SerializeField] private Image _reloadProgressImage;
+        [SerializeField] private TMP_Text _levelText;
 
         private Item _item;
+        private int _displayedLevel = -1;
         
         public ItemVariations ItemVariation { get; private set; }
         public bool IsActive { get; private set; }
@@ -21,6 +24,7 @@ namespace InventorySystem
                 _reloadProgressImage = CreateReloadProgressImage();
 
             HideReloadProgress();
+            RefreshLevel();
         }
 
         private void Update()
@@ -30,6 +34,8 @@ namespace InventorySystem
 
             if (isReloading)
                 _reloadProgressImage.fillAmount = _item.ReloadProgress;
+
+            RefreshLevel();
         }
 
         public void Enable()
@@ -43,6 +49,7 @@ namespace InventorySystem
             IsActive = false;
             _item = null;
             HideReloadProgress();
+            RefreshLevel();
             gameObject.SetActive(IsActive);
         }
 
@@ -53,6 +60,7 @@ namespace InventorySystem
             _slotImageHolder.sprite = item.Data.ItemIcon;
             _reloadProgressImage.sprite = item.Data.ItemIcon;
             ItemVariation = item.VisualData.Variation;
+            RefreshLevel();
         }
 
         public void ResetSlot()
@@ -60,6 +68,18 @@ namespace InventorySystem
             _item = null;
             _slotImageHolder.enabled = false;
             HideReloadProgress();
+            RefreshLevel();
+        }
+
+        private void RefreshLevel()
+        {
+            int level = _item != null ? _item.CurrentLevel : 0;
+            if (_levelText == null || _displayedLevel == level)
+                return;
+
+            _displayedLevel = level;
+            _levelText.enabled = level > 0;
+            _levelText.text = level > 0 ? level.ToString() : string.Empty;
         }
 
         private Image CreateReloadProgressImage()
