@@ -11,7 +11,7 @@ namespace PickableItems
         private readonly float _maxChance = 1f;
 
         [SerializeField][Range(0, 1)] private float _magnetSpawnChance = 0.05f;
-        [SerializeField][Range(0, 1)] private float _healSpawnChance = 0.2f;
+        [SerializeField][Range(0, 1)] private float _healSpawnChance = 0.12f;
         [SerializeField] private int _maxHealValue = 10;
 
         private EnemyPool _enemyPool;
