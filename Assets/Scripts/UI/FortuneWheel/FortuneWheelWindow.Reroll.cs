@@ -17,7 +17,7 @@ namespace UI.FortuneWheel
         [Header("Rewarded Reroll")]
         [SerializeField] private Button _rerollButton;
         [SerializeField] private TMP_Text _rerollButtonText;
-        [SerializeField] private TMP_Text _stopButtonText;
+        [SerializeField] private Button _claimButton;
 
         private bool _rerollUsed;
         private bool _waitingForRewardChoice;
@@ -26,12 +26,12 @@ namespace UI.FortuneWheel
         private string _pendingRerollRewardId;
         private Coroutine _rerollAdLoadRoutine;
 
-        private bool HasRewardChoiceControls => _rerollButton != null && _stopButton != null;
+        private bool HasRewardChoiceControls => _claimButton != null;
 
         private void BindRerollControls()
         {
-            if (_stopButtonText == null && _stopButton != null)
-                _stopButtonText = _stopButton.GetComponentInChildren<TMP_Text>(true);
+            if (_claimButton != null)
+                _claimButton.onClick.AddListener(HandleClaimButton);
 
             if (_rerollButton != null)
                 _rerollButton.onClick.AddListener(RequestRewardedReroll);
@@ -49,6 +49,9 @@ namespace UI.FortuneWheel
 
         private void UnbindRerollControls()
         {
+            if (_claimButton != null)
+                _claimButton.onClick.RemoveListener(HandleClaimButton);
+
             if (_rerollButton != null)
                 _rerollButton.onClick.RemoveListener(RequestRewardedReroll);
 
@@ -76,8 +79,7 @@ namespace UI.FortuneWheel
             _rerollRequested = false;
             _rerollAdPending = false;
             _pendingRerollRewardId = null;
-            if (_stopButton != null)
-                _stopButton.interactable = false;
+            SetStopButtonAvailable(false);
 
             RefreshRewardChoiceControls();
         }
@@ -88,23 +90,14 @@ namespace UI.FortuneWheel
             RefreshRewardChoiceControls();
         }
 
-        private void HandleStopButton()
+        private void HandleClaimButton()
         {
-            if (_rerollAdPending)
+            if (!_waitingForRewardChoice || _rerollAdPending)
                 return;
 
-            if (_waitingForRewardChoice)
-            {
-                _waitingForRewardChoice = false;
-                _pendingRerollRewardId = null;
-                if (_stopButton != null)
-                    _stopButton.interactable = false;
-
-                RefreshRewardChoiceControls();
-                return;
-            }
-
-            StopSpin();
+            _waitingForRewardChoice = false;
+            _pendingRerollRewardId = null;
+            RefreshRewardChoiceControls();
         }
 
         private void RequestRewardedReroll()
@@ -193,15 +186,11 @@ namespace UI.FortuneWheel
         private void RefreshRewardChoiceControls()
         {
             bool choosingReward = _waitingForRewardChoice && !_isDemo;
-            if (_stopButtonText != null)
+            if (_claimButton != null)
             {
-                _stopButtonText.text = choosingReward
-                    ? Translator.Translate("Забрать", "Claim", "Al")
-                    : Translator.Translate("Стоп", "Stop", "Durdur");
+                _claimButton.interactable = choosingReward && !_rerollAdPending;
+                _claimButton.gameObject.SetActive(choosingReward);
             }
-
-            if (_stopButton != null && choosingReward)
-                _stopButton.interactable = !_rerollAdPending;
 
             if (_rerollButton == null)
                 return;
