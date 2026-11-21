@@ -48,8 +48,9 @@ namespace CharacterLogic
         [SerializeField] private SimpleSpriteAnimator _ragemodeActivationEffect;
         [SerializeField] private SimpleSpriteAnimator _poisonThrowActivationEffect;
 
-        [Header("Item Damage")]
+        [Header("Level Scaling")]
         [SerializeField, Min(0f)] private float _itemDamagePerLevelPercent = 2f;
+        [SerializeField, Min(0f)] private float _maxHpPerLevelPercent = 1f;
 
         [Header("Hit Feedback")]
         [SerializeField] private float _hitShakeMinIntensity = 1.2f;
@@ -82,7 +83,7 @@ namespace CharacterLogic
         private CharacterSoundController _characterSoundController;
         private float _attackPower;
         private float _armor;
-        private float _hp;
+        private float _baseHp;
         private float _hpRegenerationSpeed;
         private float _healthRegenerationElapsed;
         private float _attackCooldown;
@@ -274,7 +275,7 @@ namespace CharacterLogic
 
             _health.TakeHeal(_hpRegenerationSpeed * _healthRegenerationElapsed);
             _healthRegenerationElapsed = 0f;
-            HealthChanged?.Invoke(_health.CurrentHealth, _hp);
+            HealthChanged?.Invoke(_health.CurrentHealth, _health.MaxHealth);
         }
 
         private void OnExperienceGained(int value)
@@ -470,7 +471,7 @@ namespace CharacterLogic
 
         private void RefreshStats()
         {
-            _health.SetMaxHealthPreservingCurrent(_hp);
+            _health.SetMaxHealthPreservingCurrent(GetScaledMaxHp());
             UpdateHealthView(_health.CurrentHealth);
             _attacker.SetAttackRegenerationSpeed(_attackCooldown);
             _movementHandler.SetSpeed(_moveSpeed);
@@ -513,15 +514,27 @@ namespace CharacterLogic
 
         private float GetAttackDamageMultiplier()
         {
-            int levelsGained = Mathf.Max(0, (_characterLevelController?.CurrentLevel ?? 1) - 1);
-            float damageBonusPerLevel = Mathf.Max(0f, _itemDamagePerLevelPercent) / 100f;
-            float levelMultiplier = 1f + levelsGained * damageBonusPerLevel;
-
+            float levelMultiplier = GetLevelMultiplier(_itemDamagePerLevelPercent);
             return Mathf.Max(0f, _attackPower / NeutralAttackPower) * levelMultiplier;
+        }
+
+        private float GetScaledMaxHp() => _baseHp * GetLevelMultiplier(_maxHpPerLevelPercent);
+
+        private float GetLevelMultiplier(float percentPerLevel)
+        {
+            int levelsGained = Mathf.Max(0, (_characterLevelController?.CurrentLevel ?? 1) - 1);
+            return 1f + levelsGained * (Mathf.Max(0f, percentPerLevel) / 100f);
         }
 
         private void OnLeveledUp()
         {
+            float maxHp = GetScaledMaxHp();
+            if (maxHp != _health.MaxHealth)
+            {
+                _health.SetMaxHealthPreservingCurrent(maxHp);
+                HealthChanged?.Invoke(_health.CurrentHealth, maxHp);
+            }
+
             UpdateExperienceView(_characterLevelController.CurrentExp);
             _view.PlayLevelUpPulse();
             _spriteHolder.PlayLevelUpFlash();
@@ -560,10 +573,7 @@ namespace CharacterLogic
                     ApplyStatModifier(modifier.Type, modifier.Multiplier);
             }
 
-            _health.SetMaxHealthPreservingCurrent(_hp);
-            UpdateHealthView(_health.CurrentHealth);
-            _attacker.SetAttackRegenerationSpeed(_attackCooldown);
-            _movementHandler.SetSpeed(_moveSpeed);
+            RefreshStats();
         }
 
         public void SetCoinMultiplier(float multiplier)
@@ -577,7 +587,7 @@ namespace CharacterLogic
             {
                 [PerkType.Power] = _attackPower,
                 [PerkType.Armor] = _armor,
-                [PerkType.MaxHp] = _hp,
+                [PerkType.MaxHp] = _health.MaxHealth,
                 [PerkType.HpRegeneration] = _hpRegenerationSpeed,
                 [PerkType.AttackCooldown] = _attackCooldown,
                 [PerkType.Speed] = _moveSpeed,
@@ -600,7 +610,7 @@ namespace CharacterLogic
                     _armor *= multiplier;
                     break;
                 case PerkType.MaxHp:
-                    _hp *= multiplier;
+                    _baseHp *= multiplier;
                     break;
                 case PerkType.HpRegeneration:
                     _hpRegenerationSpeed *= multiplier;
@@ -632,7 +642,8 @@ namespace CharacterLogic
             if (appliedDamage <= 0f)
                 return 0f;
 
-            float severity = _hp > 0f ? Mathf.Clamp01(appliedDamage / (_hp * 0.25f)) : 1f;
+            float maxHp = _health.MaxHealth;
+            float severity = maxHp > 0f ? Mathf.Clamp01(appliedDamage / (maxHp * 0.25f)) : 1f;
             float shakeIntensity = Mathf.Lerp(_hitShakeMinIntensity, _hitShakeMaxIntensity, severity);
             float shakeDuration = Mathf.Lerp(_hitShakeMinDuration, _hitShakeMaxDuration, severity);
 
@@ -643,8 +654,8 @@ namespace CharacterLogic
             }
 
             _characterSoundController.EnableSoundByType(SoundType.Hit);
-            Damaged?.Invoke(_health.CurrentHealth, _hp);
-            HealthChanged?.Invoke(_health.CurrentHealth, _hp);
+            Damaged?.Invoke(_health.CurrentHealth, maxHp);
+            HealthChanged?.Invoke(_health.CurrentHealth, maxHp);
 
             return appliedDamage;
         }
@@ -675,8 +686,8 @@ namespace CharacterLogic
 
             _health.TakeHeal(amount);
             _characterSoundController.EnableSoundByType(SoundType.Heal);
-            Healed?.Invoke(_health.CurrentHealth, _hp);
-            HealthChanged?.Invoke(_health.CurrentHealth, _hp);
+            Healed?.Invoke(_health.CurrentHealth, _health.MaxHealth);
+            HealthChanged?.Invoke(_health.CurrentHealth, _health.MaxHealth);
         }
 
         private void TakeHeal(int value)
@@ -684,8 +695,8 @@ namespace CharacterLogic
             if (_isInvincible) return;
             _health.TakeHeal(value);
             _characterSoundController.EnableSoundByType(SoundType.Heal);
-            Healed?.Invoke(_health.CurrentHealth, _hp);
-            HealthChanged?.Invoke(_health.CurrentHealth, _hp);
+            Healed?.Invoke(_health.CurrentHealth, _health.MaxHealth);
+            HealthChanged?.Invoke(_health.CurrentHealth, _health.MaxHealth);
         }
 
         private void AddMaxLevelReward()
@@ -705,11 +716,11 @@ namespace CharacterLogic
             }
 
             _isDied = false;
-            _health.TakeHeal(_hp);
-            UpdateHealthView(_hp);
+            _health.TakeHeal(_health.MaxHealth);
+            UpdateHealthView(_health.CurrentHealth);
             _characterSoundController.EnableSoundByType(SoundType.Heal);
-            Healed?.Invoke(_health.CurrentHealth, _hp);
-            HealthChanged?.Invoke(_health.CurrentHealth, _hp);
+            Healed?.Invoke(_health.CurrentHealth, _health.MaxHealth);
+            HealthChanged?.Invoke(_health.CurrentHealth, _health.MaxHealth);
             ActivateCharacter();
             _spriteHolder.ResetVisual();
             Revived?.Invoke();
@@ -741,7 +752,7 @@ namespace CharacterLogic
 
         private void InitializeCharacterComponents()
         {
-            _health = new Health(_hp);
+            _health = new Health(_baseHp);
             _inventory?.StopTrackingItems();
             _inventory = new CharacterInventory(_characterData.InventoryLimit);
             _attacker.Initialize(_inventory, _attackCooldown);
@@ -766,7 +777,7 @@ namespace CharacterLogic
             _collisionHandler.ApplyPickupRadius();
             _attackPower = characterData.AttackPower * GetPerkBonus(perkBonuses, PerkType.Power);
             _armor = characterData.Armor * GetPerkBonus(perkBonuses, PerkType.Armor);
-            _hp = characterData.Hp * GetPerkBonus(perkBonuses, PerkType.MaxHp);
+            _baseHp = characterData.Hp * GetPerkBonus(perkBonuses, PerkType.MaxHp);
             _hpRegenerationSpeed =
                 characterData.HpRegenerationSpeed * GetPerkBonus(perkBonuses, PerkType.HpRegeneration);
             _attackCooldown = characterData.AttackRegenerationSpeed *
@@ -774,9 +785,9 @@ namespace CharacterLogic
             _moveSpeed = characterData.MoveSpeed * GetPerkBonus(perkBonuses, PerkType.Speed);
             SetupNewItem(characterData.StartItem.Data.ItemVariation);
             _inventory.SetStartVariation(characterData.StartItem.Data.ItemVariation);
-            _health.SetMaxHealth(_hp);
+            _health.SetMaxHealth(GetScaledMaxHp());
             _view.SetHeroImage(characterData.HeroSprite);
-            UpdateHealthView(_hp);
+            UpdateHealthView(_health.CurrentHealth);
         }
 
         private void HandleMovementAnimations()
@@ -790,7 +801,7 @@ namespace CharacterLogic
 
         private void UpdateHealthView(float currentHealth)
         {
-            _view.UpdateHpBar(currentHealth, _hp);
+            _view.UpdateHpBar(currentHealth, _health.MaxHealth);
         }
 
         private void UpdateAbilityLevelView(float currentValue, float maxValue)
