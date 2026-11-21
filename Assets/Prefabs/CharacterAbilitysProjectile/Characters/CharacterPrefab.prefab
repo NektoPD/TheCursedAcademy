@@ -482,6 +482,7 @@ MonoBehaviour:
   _ragemodeActivationEffect: {fileID: 2135827365572909173}
   _poisonThrowActivationEffect: {fileID: 1060067469454579101}
   _itemDamagePerLevelPercent: 2
+  _maxHpPerLevelPercent: 1
   _hitShakeMinIntensity: 1.2
   _hitShakeMaxIntensity: 3.5
   _hitShakeMinDuration: 0.18
