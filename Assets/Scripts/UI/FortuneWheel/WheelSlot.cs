@@ -19,11 +19,15 @@ namespace UI.FortuneWheel
 
         public void Set(WheelReward reward, bool isNew = false)
         {
-            if (reward == null)
+            if (_new != null)
             {
-                return;
+                bool showBadge = isNew && reward != null && reward.Type == WheelRewardType.Item && reward.Item != null;
+                _new.gameObject.SetActive(showBadge);
             }
-            
+
+            if (reward == null)
+                return;
+
             if (_icon != null)
             {
                 Sprite sprite = reward.Type == WheelRewardType.Gold ? _goldIcon : reward.Sprite;
@@ -33,9 +37,6 @@ namespace UI.FortuneWheel
 
             if (_label != null)
                 _label.text = reward.Label;
-
-            if (_new != null)
-                _new.gameObject.SetActive(isNew);
         }
 
         public void PlayPulse()

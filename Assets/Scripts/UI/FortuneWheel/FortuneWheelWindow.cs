@@ -3,8 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Data;
-using Debuffs;
 using DG.Tweening;
+using Items.Enums;
 using Items.ItemHolder;
 using InventorySystem;
 using TMPro;
@@ -19,6 +19,7 @@ namespace UI.FortuneWheel
     public partial class FortuneWheelWindow : UI.Window, IPointerClickHandler
     {
         private const int SlotsCount = 8;
+        private const int ItemSlotsCount = SlotsCount - 2;
 
         [Header("Wheel")] [SerializeField] private RectTransform _wheel;
         [SerializeField] private RectTransform _pointer;
@@ -35,16 +36,6 @@ namespace UI.FortuneWheel
         [SerializeField, Min(0.01f)] private float _levelUpTitleIntroDuration = 0.28f;
         [SerializeField, Min(0.01f)] private float _levelUpTitlePulseDuration = 0.65f;
         [SerializeField, Range(1f, 1.25f)] private float _levelUpTitlePulseScale = 1.08f;
-
-        [Header("Reward Distribution")]
-        [Tooltip("Rows apply from their start minute. Weights are relative and do not need to add up to 100.")]
-        [SerializeField] private List<RewardWeightStage> _rewardWeightTable = new()
-        {
-            new(0f, 75f, 15f, 10f),
-            new(5f, 50f, 25f, 25f),
-            new(10f, 30f, 35f, 35f),
-            new(15f, 20f, 40f, 40f)
-        };
 
         [Header("Reward Pool")]
         [SerializeField] private List<int> _goldAmounts = new() { 25, 50, 75, 100 };
@@ -69,7 +60,6 @@ namespace UI.FortuneWheel
         private readonly List<WheelReward> _rewards = new();
         private ItemsHolder _itemsHolder;
         private CharacterInventory _inventory;
-        private GameStartController _gameStartController;
         private Coroutine _routine;
         private bool _demoPlayed;
         private Tween _spinTween;
@@ -99,12 +89,6 @@ namespace UI.FortuneWheel
         }
 
         public void Initialize(CharacterInventory inventory) => _inventory = inventory;
-
-        public void Initialize(CharacterInventory inventory, GameStartController gameStartController)
-        {
-            Initialize(inventory);
-            _gameStartController = gameStartController;
-        }
 
         private void OnEnable()
         {
@@ -362,11 +346,10 @@ namespace UI.FortuneWheel
 
         private IEnumerator PlayRoutine(bool waitForManualStop)
         {
+            PrepareWheel();
             bool isReroll = false;
             while (true)
             {
-                PrepareWheel();
-
                 yield return new WaitForSecondsRealtime(_openDelay);
 
                 yield return SpinRandom(waitForManualStop);
@@ -390,7 +373,10 @@ namespace UI.FortuneWheel
                         isReroll = _rerollRequested;
                         ResetRewardChoice();
                         if (isReroll)
+                        {
+                            StopSlotPulses();
                             continue;
+                        }
                     }
                 }
 
@@ -595,7 +581,8 @@ namespace UI.FortuneWheel
             if (_inventory == null)
                 return true;
 
-            return _inventory.Items.All(item => item.VisualData.Variation != reward.Item.Variation);
+            return _inventory.Items.All(item => item == null || item.VisualData == null
+                || item.VisualData.Variation != reward.Item.Variation);
         }
 
         private int DetectWinningSlotIndex()
@@ -632,68 +619,63 @@ namespace UI.FortuneWheel
         private void BuildRewards()
         {
             _rewards.Clear();
+            _rewards.Add(WheelReward.CreateGold(PickGold()));
 
-            Vector3 weights = GetRewardWeights();
-            List<ItemVisualData> itemDatas = _itemsHolder != null
-                ? _itemsHolder.GetAvailableVisualDatas()
-                : new List<ItemVisualData>();
             List<WheelBuffData> buffs = _buffLibrary != null
                 ? _buffLibrary.Where(buff => buff != null).ToList()
                 : new List<WheelBuffData>();
+            _rewards.Add(buffs.Count > 0
+                ? WheelReward.CreateBuff(buffs[UnityEngine.Random.Range(0, buffs.Count)])
+                : WheelReward.CreateGold(PickGold()));
 
-            Shuffle(itemDatas);
-
-            for (int i = 0; i < SlotsCount; i++)
+            List<ItemVisualData> candidates = GetItemRewardCandidates();
+            for (int i = 0; i < ItemSlotsCount; i++)
             {
-                float itemWeight = itemDatas.Count > 0 ? weights.x : 0f;
-                float goldWeight = weights.y;
-                float buffWeight = buffs.Count > 0 ? weights.z : 0f;
-                float totalWeight = itemWeight + buffWeight + goldWeight;
-                float roll = totalWeight > 0f ? UnityEngine.Random.Range(0f, totalWeight) : 0f;
-
-                if (itemWeight > 0f && roll <= itemWeight)
-                {
-                    int index = itemDatas.Count - 1;
-                    _rewards.Add(WheelReward.CreateItem(itemDatas[index]));
-                    itemDatas.RemoveAt(index);
-                }
-                else if (buffWeight > 0f && roll <= itemWeight + buffWeight)
-                {
-                    _rewards.Add(WheelReward.CreateBuff(buffs[UnityEngine.Random.Range(0, buffs.Count)]));
-                }
-                else
-                {
-                    _rewards.Add(WheelReward.CreateGold(PickGold()));
-                }
+                _rewards.Add(candidates.Count > 0
+                    ? WheelReward.CreateItem(candidates[i % candidates.Count])
+                    : WheelReward.CreateGold(PickGold()));
             }
 
             Shuffle(_rewards);
         }
 
-        private Vector3 GetRewardWeights()
+        private List<ItemVisualData> GetItemRewardCandidates()
         {
-            if (_rewardWeightTable == null)
-                return Vector3.zero;
+            var ownedVariations = new HashSet<ItemVariations>();
+            var upgrades = new List<ItemVisualData>();
+            ItemVisualData starterUpgrade = null;
 
-            float elapsedMinutes = _gameStartController != null
-                ? _gameStartController.ElapsedGameTime / 60f
-                : 0f;
-            RewardWeightStage selected = default;
-            float selectedMinute = float.NegativeInfinity;
-
-            foreach (RewardWeightStage stage in _rewardWeightTable)
+            if (_inventory != null)
             {
-                if (stage.FromMinute <= elapsedMinutes && stage.FromMinute >= selectedMinute)
+                foreach (var item in _inventory.Items)
                 {
-                    selected = stage;
-                    selectedMinute = stage.FromMinute;
+                    if (item == null || item.VisualData == null)
+                        continue;
+
+                    ItemVisualData data = item.VisualData;
+                    if (!ownedVariations.Add(data.Variation) || item.IsMaxLevelReached())
+                        continue;
+
+                    if (data.Variation == _inventory.StartVariation)
+                        starterUpgrade = data;
+                    else
+                        upgrades.Add(data);
                 }
             }
 
-            return new Vector3(
-                Mathf.Max(0f, selected.ItemWeight),
-                Mathf.Max(0f, selected.GoldWeight),
-                Mathf.Max(0f, selected.BuffWeight));
+            List<ItemVisualData> newItems = _itemsHolder != null
+                ? _itemsHolder.GetAvailableVisualDatas()
+                    .Where(data => !ownedVariations.Contains(data.Variation))
+                    .ToList()
+                : new List<ItemVisualData>();
+
+            Shuffle(upgrades);
+            Shuffle(newItems);
+            if (starterUpgrade != null)
+                upgrades.Insert(0, starterUpgrade);
+
+            upgrades.AddRange(newItems);
+            return upgrades;
         }
 
         private int PickGold()
@@ -726,23 +708,6 @@ namespace UI.FortuneWheel
             {
                 int j = UnityEngine.Random.Range(0, i + 1);
                 (list[i], list[j]) = (list[j], list[i]);
-            }
-        }
-
-        [Serializable]
-        private struct RewardWeightStage
-        {
-            [Min(0f)] public float FromMinute;
-            [Min(0f)] public float ItemWeight;
-            [Min(0f)] public float GoldWeight;
-            [Min(0f)] public float BuffWeight;
-
-            public RewardWeightStage(float fromMinute, float itemWeight, float goldWeight, float buffWeight)
-            {
-                FromMinute = fromMinute;
-                ItemWeight = itemWeight;
-                GoldWeight = goldWeight;
-                BuffWeight = buffWeight;
             }
         }
     }

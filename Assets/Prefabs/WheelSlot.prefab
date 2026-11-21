@@ -240,6 +240,7 @@ RectTransform:
   m_Children:
   - {fileID: 8888721620669537824}
   - {fileID: 4508215167315902035}
+  - {fileID: 3875846984277601903}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.32769662, y: 0.67727834}
@@ -261,8 +262,116 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _icon: {fileID: 9107549314234561706}
   _label: {fileID: 2630205494158404051}
-  _new: {fileID: 0}
+  _new: {fileID: 7013954028566221922}
   _pulseTarget: {fileID: 0}
   _pulseScale: 1.2
   _pulseDuration: 0.5
   _goldIcon: {fileID: -1622704632, guid: 904b6eae9f016224692d920d27299021, type: 3}
+--- !u!1 &5495815739410358624
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3875846984277601903}
+  - component: {fileID: 5167924113170473169}
+  - component: {fileID: 7013954028566221922}
+  - component: {fileID: 8793361254017273147}
+  - component: {fileID: 2765139823780446910}
+  m_Layer: 5
+  m_Name: NewBadge
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &3875846984277601903
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5495815739410358624}
+  m_LocalRotation: {x: 0, y: 0, z: -0.11320323, w: 0.9935719}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2431733718474105942}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -13}
+  m_AnchorMin: {x: 0.42, y: 0.72}
+  m_AnchorMax: {x: 1, y: 0.97}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &5167924113170473169
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5495815739410358624}
+  m_CullTransparentMesh: 1
+--- !u!114 &7013954028566221922
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5495815739410358624}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 8455a238d17aa434eb8f830bc2b0a4fe, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 1
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!114 &8793361254017273147
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5495815739410358624}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2620bc65461ca244ea3ee0a5fafb4c41, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:
+  _ruText: {fileID: 21300000, guid: 8455a238d17aa434eb8f830bc2b0a4fe, type: 3}
+  _engText: {fileID: 21300000, guid: 6dcabe42b86abc84999b1ffdb66b8bb7, type: 3}
+  _trText: {fileID: 21300000, guid: 01908982db0675f4087ed834d011bf5d, type: 3}
+--- !u!114 &2765139823780446910
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5495815739410358624}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7425b50c1c1eca947a999fa6fb090216, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:
+  _endScale: {x: 0.8, y: 0.8, z: 0.8}
+  _rotation: {x: 0, y: 0, z: 13}
+  _duration: 1
+  _useLocalRotation: 1

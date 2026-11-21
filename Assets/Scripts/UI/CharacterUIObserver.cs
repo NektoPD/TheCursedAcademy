@@ -253,7 +253,7 @@ namespace UI
 
             if (_fortuneWheelWindow != null)
             {
-                _fortuneWheelWindow.Initialize(character.Inventory, _gameStartController);
+                _fortuneWheelWindow.Initialize(character.Inventory);
                 _fortuneWheelWindow.ItemRewarded -= OnWheelItemRewarded;
                 _fortuneWheelWindow.GoldRewarded -= OnWheelGoldRewarded;
                 _fortuneWheelWindow.BuffRewarded -= OnWheelBuffRewarded;
