@@ -63,4 +63,4 @@ MonoBehaviour:
   _effectDuration: 3
   _initialPoolSize: 5
   _durationIncreasePerLevel: 0.25
-  _cooldownReductionPerLevel: 0.9
+  _cooldownReductionPerLevel: 2
