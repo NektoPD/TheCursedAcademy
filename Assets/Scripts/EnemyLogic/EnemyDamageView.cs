@@ -48,7 +48,8 @@ namespace EnemyLogic
         [SerializeField] private float _damageNumberPopDuration = 0.1f;
         [SerializeField] private int _damageNumberSortingOrder = 10;
 
-        private float _damageNumberFontSize = 5f;
+        private EnemyDamageNumberPool _damageNumbers;
+        private Enemy _enemy;
         private SpriteRenderer _spriteRenderer;
         private Color _originalColor;
         private Coroutine _coroutine;
@@ -66,10 +67,16 @@ namespace EnemyLogic
         
         public int EnemyId { get; private set; }
 
+        private bool IsBoss => _enemy != null && _enemy.IsBoss;
+
         private void Awake()
         {
+            _enemy = GetComponent<Enemy>();
             _spriteRenderer = GetComponent<SpriteRenderer>();
             _originalScale = transform.localScale;
+
+            if (_damageFont != null)
+                _damageNumbers = EnemyDamageNumberPool.GetOrCreate(_damageFont);
         }
 
         private void OnEnable()
@@ -131,7 +138,7 @@ namespace EnemyLogic
 
         public void ApplyKnockback(Vector2 sourcePosition, float distance, float duration)
         {
-            if (!isActiveAndEnabled || distance <= 0f || duration <= 0f)
+            if (IsBoss || !isActiveAndEnabled || distance <= 0f || duration <= 0f)
                 return;
 
             _nextImpulseTime = Mathf.Max(_nextImpulseTime, Time.time + duration);
@@ -192,56 +199,14 @@ namespace EnemyLogic
 
         public void ShowDamageNumber(float damage)
         {
-            if (_damageFont == null || damage <= 0f)
+            if (_damageNumbers == null || damage <= 0f)
                 return;
 
-            GameObject damageObject = new GameObject("EnemyDamageNumber");
-            TextMeshPro damageText = damageObject.AddComponent<TextMeshPro>();
-            damageText.font = _damageFont;
-            damageText.fontSize = _damageNumberFontSize;
-            damageText.alignment = TextAlignmentOptions.Center;
-            damageText.enableWordWrapping = false;
-            damageText.overflowMode = TextOverflowModes.Overflow;
-            damageText.text = FormatDamage(damage);
-            damageText.color = _damageNumberColor;
-
-            MeshRenderer renderer = damageObject.GetComponent<MeshRenderer>();
-            if (renderer != null)
-            {
-                renderer.sortingLayerID = _spriteRenderer.sortingLayerID;
-                renderer.sortingOrder = _spriteRenderer.sortingOrder + _damageNumberSortingOrder;
-            }
-
-            Vector3 start = transform.position + new Vector3(
-                Random.Range(-0.08f, 0.08f),
-                _damageNumberStartHeight,
-                -0.1f);
-            Vector3 end = start + new Vector3(
-                Random.Range(-_damageNumberHorizontalSpread, _damageNumberHorizontalSpread),
-                -_damageNumberEndDrop,
-                0f);
-
-            damageObject.transform.position = start;
-            damageObject.transform.localScale = Vector3.one * 0.45f;
-
-            float duration = Mathf.Max(0.05f, _damageNumberDuration);
-            Sequence sequence = DOTween.Sequence().SetUpdate(true);
-            sequence.Append(damageObject.transform
-                .DOScale(Vector3.one, _damageNumberPopDuration)
-                .SetEase(Ease.OutBack));
-
-            Tween arcTween = DOVirtual.Float(0f, 1f, duration, progress =>
-            {
-                float arc = 4f * _damageNumberArcHeight * progress * (1f - progress);
-                damageObject.transform.position = Vector3.Lerp(start, end, progress)
-                    + Vector3.up * arc;
-            }).SetEase(Ease.Linear).SetUpdate(true);
-
-            sequence.Append(arcTween);
-            sequence.Join(damageObject.transform
-                .DOScale(Vector3.zero, duration)
-                .SetEase(Ease.InQuad));
-            sequence.OnComplete(() => Destroy(damageObject));
+            _damageNumbers.Show(damage, _damageFont, _damageNumberColor,
+                _spriteRenderer.sortingLayerID, _spriteRenderer.sortingOrder + _damageNumberSortingOrder,
+                transform.position + new Vector3(0f, _damageNumberStartHeight, -0.1f),
+                _damageNumberHorizontalSpread, _damageNumberEndDrop, _damageNumberArcHeight,
+                _damageNumberPopDuration, _damageNumberDuration);
         }
 
         private void RestartFlash(float duration)
@@ -270,16 +235,9 @@ namespace EnemyLogic
                 .Append(transform.DOScale(_originalScale, _squashDuration * 0.65f).SetEase(Ease.OutBack));
         }
 
-        private static string FormatDamage(float damage)
-        {
-            return Mathf.Approximately(damage, Mathf.Round(damage))
-                ? Mathf.RoundToInt(damage).ToString()
-                : damage.ToString("0.##");
-        }
-
         private void ApplyHitImpulse(Vector2 hitFromWorldPos)
         {
-            if (Time.time < _nextImpulseTime)
+            if (IsBoss || Time.time < _nextImpulseTime)
                 return;
 
             _nextImpulseTime = Time.time + _impulseCooldown;
