@@ -156,8 +156,8 @@ RectTransform:
   - {fileID: 695755599}
   m_Father: {fileID: 993238767}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: -0.000001240837, y: 0.0021178126}
-  m_AnchorMax: {x: 1.0000019, y: 0.06279576}
+  m_AnchorMin: {x: -0.0000012327754, y: 0.0021179318}
+  m_AnchorMax: {x: 1.0000019, y: 0.04689008}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -2071,8 +2071,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 13.476}
-  m_SizeDelta: {x: -931.9972, y: -26.952}
+  m_AnchoredPosition: {x: 0, y: 13.476013}
+  m_SizeDelta: {x: -837.7602, y: -26.952}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &139168331
 MonoBehaviour:
@@ -2496,8 +2496,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 25.282}
-  m_SizeDelta: {x: -931.9972, y: -50.565}
+  m_AnchoredPosition: {x: 0, y: -0.000289917}
+  m_SizeDelta: {x: -588.107, y: -0.00054932}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &171682720
 MonoBehaviour:
@@ -6111,8 +6111,8 @@ RectTransform:
   - {fileID: 1861262157}
   m_Father: {fileID: 707090691}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.000004192017, y: -0.000006914139}
-  m_AnchorMax: {x: 0.9999965, y: 0.05154103}
+  m_AnchorMin: {x: 0.000007898276, y: -0.071481705}
+  m_AnchorMax: {x: 1, y: 0.003923118}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -6159,7 +6159,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 756340742}
   m_HandleRect: {fileID: 756340741}
   m_Direction: 0
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -7214,8 +7214,8 @@ MonoBehaviour:
   m_VerticalScrollbar: {fileID: 0}
   m_HorizontalScrollbarVisibility: 0
   m_VerticalScrollbarVisibility: 0
-  m_HorizontalScrollbarSpacing: -1.0453124
-  m_VerticalScrollbarSpacing: -1.0453124
+  m_HorizontalScrollbarSpacing: -1.1437501
+  m_VerticalScrollbarSpacing: -1.1437501
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -10540,7 +10540,7 @@ GameObject:
   - component: {fileID: 707090693}
   - component: {fileID: 707090692}
   m_Layer: 5
-  m_Name: RewardScrollWithout
+  m_Name: RewardScrollWithoutBuffs
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10562,8 +10562,8 @@ RectTransform:
   - {fileID: 496015400}
   m_Father: {fileID: 1341162077}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.049944684, y: 0.18664813}
-  m_AnchorMax: {x: 0.94970006, y: 0.80834836}
+  m_AnchorMin: {x: 0.04994469, y: 0.10981482}
+  m_AnchorMax: {x: 0.87047493, y: 0.8083478}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -10630,8 +10630,8 @@ MonoBehaviour:
   m_VerticalScrollbar: {fileID: 0}
   m_HorizontalScrollbarVisibility: 2
   m_VerticalScrollbarVisibility: 0
-  m_HorizontalScrollbarSpacing: -1.0453124
-  m_VerticalScrollbarSpacing: -1.0453124
+  m_HorizontalScrollbarSpacing: -1.1437501
+  m_VerticalScrollbarSpacing: -1.1437501
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -13997,7 +13997,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &993238767
 RectTransform:
   m_ObjectHideFlags: 0
@@ -14014,8 +14014,8 @@ RectTransform:
   - {fileID: 1659662}
   m_Father: {fileID: 1341162077}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.049944665, y: 0.3204623}
-  m_AnchorMax: {x: 0.94970006, y: 0.80834836}
+  m_AnchorMin: {x: 0.049945135, y: 0.062353313}
+  m_AnchorMax: {x: 0.8587236, y: 0.8083514}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -14082,8 +14082,8 @@ MonoBehaviour:
   m_VerticalScrollbar: {fileID: 0}
   m_HorizontalScrollbarVisibility: 2
   m_VerticalScrollbarVisibility: 0
-  m_HorizontalScrollbarSpacing: -1.0453124
-  m_VerticalScrollbarSpacing: -1.0453124
+  m_HorizontalScrollbarSpacing: -1.1437501
+  m_VerticalScrollbarSpacing: -1.1437501
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -16434,6 +16434,7 @@ MonoBehaviour:
   _endScale: {x: 0.8, y: 0.8, z: 0.8}
   _rotation: {x: 0, y: 0, z: 13}
   _duration: 1
+  _useLocalRotation: 0
 --- !u!114 &1100456102
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16522,7 +16523,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: -19.707449}
+  m_SizeDelta: {x: 0, y: -22.965382}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1111351416
 MonoBehaviour:
@@ -29312,7 +29313,7 @@ MonoBehaviour:
   m_HorizontalScrollbarVisibility: 2
   m_VerticalScrollbarVisibility: 2
   m_HorizontalScrollbarSpacing: 0
-  m_VerticalScrollbarSpacing: -1.5630841
+  m_VerticalScrollbarSpacing: -1.7102805
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -30773,8 +30774,8 @@ MonoBehaviour:
   m_VerticalScrollbar: {fileID: 0}
   m_HorizontalScrollbarVisibility: 2
   m_VerticalScrollbarVisibility: 2
-  m_HorizontalScrollbarSpacing: -5.030075
-  m_VerticalScrollbarSpacing: -5.030075
+  m_HorizontalScrollbarSpacing: -5.50376
+  m_VerticalScrollbarSpacing: -5.50376
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -35676,23 +35677,6 @@ MonoBehaviour:
   _levelUpTitleIntroDuration: 0.28
   _levelUpTitlePulseDuration: 1.2
   _levelUpTitlePulseScale: 1.03
-  _rewardWeightTable:
-  - FromMinute: 0
-    ItemWeight: 90
-    GoldWeight: 5
-    BuffWeight: 5
-  - FromMinute: 5
-    ItemWeight: 60
-    GoldWeight: 20
-    BuffWeight: 20
-  - FromMinute: 10
-    ItemWeight: 30
-    GoldWeight: 35
-    BuffWeight: 35
-  - FromMinute: 15
-    ItemWeight: 20
-    GoldWeight: 40
-    BuffWeight: 40
   _goldAmounts: 19000000320000004b00000064000000
   _buffLibrary:
   - {fileID: 11400000, guid: 81d53237264f4594bbd81c97863dd8fc, type: 2}
@@ -39266,7 +39250,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: -21.4172}
+  m_SizeDelta: {x: 0, y: -36.580566}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2018643571
 MonoBehaviour:
@@ -41390,7 +41374,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u0420\u0435\u0440\u043E\u043B\u043B\\n<sprite=\"ad_icon\" index=0>"
+  m_text: "\u0420\u0435\u0440\u043E\u043B\u043B\n<sprite=\"ad_icon\" index=0>"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 6c14c2ba6ed92a14d8263c05a70b1641, type: 2}
   m_sharedMaterial: {fileID: -8656508294330169804, guid: 6c14c2ba6ed92a14d8263c05a70b1641, type: 2}
