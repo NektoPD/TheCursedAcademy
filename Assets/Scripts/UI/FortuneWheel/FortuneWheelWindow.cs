@@ -408,7 +408,6 @@ namespace UI.FortuneWheel
                 return;
 
             _stopButton.interactable = available;
-            _stopButton.gameObject.SetActive(available);
         }
 
         private void StopSpin()
