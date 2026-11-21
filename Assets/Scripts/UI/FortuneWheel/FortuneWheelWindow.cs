@@ -108,7 +108,7 @@ namespace UI.FortuneWheel
 
             if (_stopButton != null)
             {
-                _stopButton.onClick.AddListener(HandleStopButton);
+                _stopButton.onClick.AddListener(StopSpin);
                 _stopButtonInitialScale = _stopButton.transform.localScale;
             }
 
@@ -156,9 +156,6 @@ namespace UI.FortuneWheel
             _isDemo = false;
             ResetRewardChoice();
 
-            if (_stopButton != null)
-                _stopButton.interactable = false;
-
             PlayOpenSound();
             PlayLevelUpTitleEffect();
 
@@ -179,8 +176,6 @@ namespace UI.FortuneWheel
             CancelSpin();
             _isDemo = true;
             ResetRewardChoice();
-            if (_stopButton != null)
-                _stopButton.interactable = false;
 
             gameObject.SetActive(true);
             PlayOpenSound();
@@ -202,7 +197,7 @@ namespace UI.FortuneWheel
 
             _routine = null;
             if (_stopButton != null)
-                _stopButton.onClick.RemoveListener(HandleStopButton);
+                _stopButton.onClick.RemoveListener(StopSpin);
 
             if (_tutorialCloseButton != null)
                 _tutorialCloseButton.onClick.RemoveListener(CloseDemo);
@@ -407,14 +402,22 @@ namespace UI.FortuneWheel
             PlayStopSound();
         }
 
+        private void SetStopButtonAvailable(bool available)
+        {
+            if (_stopButton == null)
+                return;
+
+            _stopButton.interactable = available;
+            _stopButton.gameObject.SetActive(available);
+        }
+
         private void StopSpin()
         {
             if (!_isSpinning || _isStopping || _spinTween == null)
                 return;
 
             _isStopping = true;
-            if (_stopButton != null)
-                _stopButton.interactable = false;
+            SetStopButtonAvailable(false);
 
             _spinTween.Kill(false);
             StopButtonPulse();
@@ -485,8 +488,7 @@ namespace UI.FortuneWheel
             float finalAngle = _fullSpins * 360f + randomOffset;
 
             _isSpinning = true;
-            if (_stopButton != null)
-                _stopButton.interactable = waitForManualStop;
+            SetStopButtonAvailable(waitForManualStop);
 
             StartSpinSound();
 
