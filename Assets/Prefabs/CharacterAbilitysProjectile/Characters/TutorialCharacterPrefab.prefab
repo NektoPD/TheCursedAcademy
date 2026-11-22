@@ -973,7 +973,7 @@ MonoBehaviour:
   _heroImage: {fileID: 5769217790099696383}
   _abilityLevel: {fileID: 6128283510170975610}
   _abilityButton: {fileID: 714699333689452297}
-  _abilityDesktopPrompt: {fileID: 1517289363051479260}
+  _abilityDesktopElement: {fileID: 8247137626717496183}
   _forceMobileMode: 1
 --- !u!114 &2185473648218716617
 MonoBehaviour:

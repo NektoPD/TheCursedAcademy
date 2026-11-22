@@ -7637,8 +7637,8 @@ MonoBehaviour:
   m_VerticalScrollbar: {fileID: 0}
   m_HorizontalScrollbarVisibility: 0
   m_VerticalScrollbarVisibility: 0
-  m_HorizontalScrollbarSpacing: -0.54218745
-  m_VerticalScrollbarSpacing: -0.54218745
+  m_HorizontalScrollbarSpacing: -0.70000005
+  m_VerticalScrollbarSpacing: -0.70000005
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -11052,8 +11052,8 @@ MonoBehaviour:
   m_VerticalScrollbar: {fileID: 0}
   m_HorizontalScrollbarVisibility: 2
   m_VerticalScrollbarVisibility: 0
-  m_HorizontalScrollbarSpacing: -0.54218745
-  m_VerticalScrollbarSpacing: -0.54218745
+  m_HorizontalScrollbarSpacing: -0.70000005
+  m_VerticalScrollbarSpacing: -0.70000005
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -11550,6 +11550,7 @@ GameObject:
   m_Component:
   - component: {fileID: 735857419}
   - component: {fileID: 735857420}
+  - component: {fileID: 735857421}
   m_Layer: 5
   m_Name: CutsceneEffects
   m_TagString: Untagged
@@ -11623,6 +11624,29 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+--- !u!223 &735857421
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 735857418}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 1
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_VertexColorAlwaysGammaSpace: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_UpdateRectTransformForStandalone: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: -1
+  m_TargetDisplay: 0
 --- !u!1 &740149769
 GameObject:
   m_ObjectHideFlags: 0
@@ -14504,8 +14528,8 @@ MonoBehaviour:
   m_VerticalScrollbar: {fileID: 0}
   m_HorizontalScrollbarVisibility: 2
   m_VerticalScrollbarVisibility: 0
-  m_HorizontalScrollbarSpacing: -0.54218745
-  m_VerticalScrollbarSpacing: -0.54218745
+  m_HorizontalScrollbarSpacing: -0.70000005
+  m_VerticalScrollbarSpacing: -0.70000005
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -30037,7 +30061,7 @@ MonoBehaviour:
   m_HorizontalScrollbarVisibility: 2
   m_VerticalScrollbarVisibility: 2
   m_HorizontalScrollbarSpacing: 0
-  m_VerticalScrollbarSpacing: -0.8107476
+  m_VerticalScrollbarSpacing: -1.0467291
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -31498,8 +31522,8 @@ MonoBehaviour:
   m_VerticalScrollbar: {fileID: 0}
   m_HorizontalScrollbarVisibility: 2
   m_VerticalScrollbarVisibility: 2
-  m_HorizontalScrollbarSpacing: -2.6090224
-  m_VerticalScrollbarSpacing: -2.6090224
+  m_HorizontalScrollbarSpacing: -3.3684213
+  m_VerticalScrollbarSpacing: -3.3684213
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -36751,7 +36775,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 0
   m_TargetDisplay: 0
 --- !u!224 &1766020578
 RectTransform:

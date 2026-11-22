@@ -2,6 +2,7 @@ using System;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
+using Utils;
 using YG;
 
 namespace CharacterLogic
@@ -13,7 +14,7 @@ namespace CharacterLogic
         [SerializeField] private Image _heroImage;
         [SerializeField] private Image _abilityLevel;
         [SerializeField] private Button _abilityButton;
-        [SerializeField] private Image _abilityDesktopElement;
+        [SerializeField] private Graphic _abilityDesktopElement;
         [SerializeField] private bool _forceMobileMode;
 
         private Canvas _hudCanvas;
@@ -25,7 +26,7 @@ namespace CharacterLogic
         private Vector3 _abilityButtonInitialScale;
         private Vector3 _abilityDesktopImageInitialScale;
         private Vector3 _levelBarInitialScale;
-        private bool _isMobile;
+        private bool _abilityReady;
 
         public event Action AbilityButtonPressed;
 
@@ -46,7 +47,6 @@ namespace CharacterLogic
                 _abilityDesktopImageInitialScale = _abilityDesktopElement.transform.localScale;
             }
 
-            SetupMobileMode();
             HideAbilityUI();
         }
 
@@ -78,7 +78,7 @@ namespace CharacterLogic
                                        child.gameObject == _abilityButton.gameObject;
 
                 bool isAbilityText = _abilityDesktopElement != null &&
-                                     child.gameObject == _abilityDesktopElement;
+                                     child.gameObject == _abilityDesktopElement.gameObject;
 
                 bool isJoystick = child.GetComponent<VirtualJoystick>() != null;
 
@@ -87,12 +87,19 @@ namespace CharacterLogic
             }
         }
 
-        private void SetupMobileMode()
+        private void OnEnable()
         {
-#if UNITY_EDITOR
-            _isMobile = _forceMobileMode;
-#else
-            _isMobile = !YandexGame.EnvironmentData.isDesktop;
+#if !UNITY_EDITOR
+            YG2.onGetSDKData += RefreshAbilityUI;
+#endif
+            if (_abilityReady)
+                RefreshAbilityUI();
+        }
+
+        private void OnDisable()
+        {
+#if !UNITY_EDITOR
+            YG2.onGetSDKData -= RefreshAbilityUI;
 #endif
         }
 
@@ -138,31 +145,37 @@ namespace CharacterLogic
 
         public void ShowAbilityReady()
         {
-            _abilityButton.gameObject.SetActive(_isMobile);
-            _abilityDesktopElement.gameObject.SetActive(!_isMobile);
-
-            if (_isMobile)
-                PlayPulseAnimation(_abilityPulseTween, _abilityButton.transform, _abilityButtonInitialScale);
-            else
-                PlayPulseAnimation(_abilityDesktopTween, _abilityDesktopElement.transform,
-                    _abilityDesktopImageInitialScale);
+            _abilityReady = true;
+            RefreshAbilityUI();
         }
 
         public void HideAbilityUI()
         {
-            if (_isMobile)
-            {
-                _abilityButton.gameObject.SetActive(false);
-                StopPlayingAnimation(_abilityPulseTween, _abilityButton.transform, _abilityButtonInitialScale);
-                return;
-            }
+            _abilityReady = false;
+            RefreshAbilityUI();
+        }
 
-            _abilityDesktopElement.gameObject.SetActive(false);
-            StopPlayingAnimation(_abilityDesktopTween, _abilityDesktopElement.transform,
+        private void RefreshAbilityUI()
+        {
+            bool showButton = _abilityReady && TouchControls.IsEnabled(_forceMobileMode);
+            UpdateAbilityElement(_abilityButton, showButton, ref _abilityPulseTween, _abilityButtonInitialScale);
+            UpdateAbilityElement(_abilityDesktopElement, _abilityReady && !showButton, ref _abilityDesktopTween,
                 _abilityDesktopImageInitialScale);
         }
 
-        private void PlayPulseAnimation(Tween tween, Transform transform, Vector3 initalScale)
+        private void UpdateAbilityElement(Component element, bool visible, ref Tween tween, Vector3 initialScale)
+        {
+            if (element == null)
+                return;
+
+            element.gameObject.SetActive(visible);
+            if (visible)
+                PlayPulseAnimation(ref tween, element.transform, initialScale);
+            else
+                StopPlayingAnimation(tween, element.transform, initialScale);
+        }
+
+        private void PlayPulseAnimation(ref Tween tween, Transform transform, Vector3 initalScale)
         {
             tween ??= transform
                 .DOScale(initalScale * 1.1f, 0.5f)
@@ -185,6 +198,7 @@ namespace CharacterLogic
         private void OnDestroy()
         {
             _abilityPulseTween?.Kill();
+            _abilityDesktopTween?.Kill();
             _levelPulseTween?.Kill();
         }
     }

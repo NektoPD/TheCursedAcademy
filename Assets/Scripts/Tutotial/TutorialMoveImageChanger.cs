@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Utils;
 using YG;
 
 namespace Tutorial
@@ -15,26 +16,27 @@ namespace Tutorial
 
         [SerializeField] private bool _forceMobileMode;
 
-        private void Start()
+        private void OnEnable()
         {
-            bool  isDesktop = true;
-#if UNITY_EDITOR
-             isDesktop = !_forceMobileMode;
-#else
-isDesktop = YandexGame.EnvironmentData.isDesktop;
+#if !UNITY_EDITOR
+            YG2.onGetSDKData += RefreshHint;
 #endif
-            if (isDesktop)
-            {
-                _image.sprite = _wasd;
-                _joystickText.gameObject.SetActive(false);
-                _keyboardText.gameObject.SetActive(true);
-            }
-            else
-            {
-                _image.sprite = _joystick;
-                _joystickText.gameObject.SetActive(true);
-                _keyboardText.gameObject.SetActive(false);
-            }
+            RefreshHint();
+        }
+
+        private void OnDisable()
+        {
+#if !UNITY_EDITOR
+            YG2.onGetSDKData -= RefreshHint;
+#endif
+        }
+
+        private void RefreshHint()
+        {
+            bool useTouch = TouchControls.IsEnabled(_forceMobileMode);
+            _image.sprite = useTouch ? _joystick : _wasd;
+            _joystickText.gameObject.SetActive(useTouch);
+            _keyboardText.gameObject.SetActive(!useTouch);
         }
     }
 }

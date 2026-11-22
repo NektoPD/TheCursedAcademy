@@ -1,6 +1,7 @@
 using System;
 using UI.Animation;
 using UnityEngine;
+using Utils;
 using YG;
 
 namespace CharacterLogic.InputHandler
@@ -36,11 +37,7 @@ namespace CharacterLogic.InputHandler
 
         private void RefreshJoystickMode()
         {
-#if UNITY_EDITOR
-            _useJoystick = _forceUseJoystickInEditor;
-#else
-            _useJoystick = !YandexGame.EnvironmentData.isDesktop;
-#endif
+            _useJoystick = TouchControls.IsEnabled(_forceUseJoystickInEditor);
 
             RefreshJoystickVisibility();
         }
