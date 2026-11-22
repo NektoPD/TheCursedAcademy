@@ -501,9 +501,7 @@ MonoBehaviour:
   _maxEnemy: 100
   _dataList:
   - _playTimeInSeconds: 5
-    _enemyIds: e9030000
-  - _playTimeInSeconds: 40
-    _enemyIds: ea030000
+    _enemyIds: 65000000660000006700000068000000690000006a0000006b0000006c0000006d0000006e0000006f0000007000000071000000
 --- !u!1 &1605957186
 GameObject:
   m_ObjectHideFlags: 0
