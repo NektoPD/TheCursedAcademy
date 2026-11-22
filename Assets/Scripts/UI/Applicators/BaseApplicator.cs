@@ -37,6 +37,16 @@ namespace UI.Applicators
 
         public void SetDefaultItem(T item) => _defaultItem = item;
 
+        public void SelectFirstItem()
+        {
+            if (_items.Length == 0)
+                return;
+
+            var firstItem = _items[0];
+            if (firstItem != null && firstItem.Data is { } data)
+                OnClick(data);
+        }
+
         private void OnClick(T data)
         {
             CurrentItem = data;

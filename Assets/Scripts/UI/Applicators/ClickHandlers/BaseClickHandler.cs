@@ -9,7 +9,7 @@ namespace UI.Applicators.ClickHandlers
     {
         [SerializeField] private T _data;
 
-        protected T Data => _data;
+        protected internal T Data => _data;
 
         public event Action<T> Clicked;
 
