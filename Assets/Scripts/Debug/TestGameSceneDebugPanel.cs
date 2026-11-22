@@ -11,11 +11,6 @@ using UnityEngine.UI;
 
 namespace Debugging
 {
-    /// <summary>
-    /// Debug overlay for TestGameScene: one button per item from ItemsHolder,
-    /// player level-up and invincibility buttons and a hide/show toggle for the whole panel.
-    /// First press gives the item to the player, next presses raise its level.
-    /// </summary>
     public class TestGameSceneDebugPanel : MonoBehaviour
     {
         private const float PanelWidth = 200f;
@@ -50,7 +45,6 @@ namespace Debugging
 
             if (itemsHolder == null)
             {
-                Debug.LogError($"{nameof(TestGameSceneDebugPanel)}: no ItemsHolder in scene, panel not built");
                 return;
             }
 
