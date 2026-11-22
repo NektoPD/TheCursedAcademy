@@ -29,7 +29,10 @@ namespace CharacterLogic.InputHandler
         {
             _playerInput = new PlayerInput();
             _transform = transform;
+        }
 
+        private void RefreshJoystickMode()
+        {
 #if UNITY_EDITOR
             _useJoystick = _forceUseJoystickInEditor;
 #else
@@ -42,11 +45,18 @@ namespace CharacterLogic.InputHandler
 
         private void OnEnable()
         {
+#if !UNITY_EDITOR
+            YG2.onGetSDKData += RefreshJoystickMode;
+#endif
+            RefreshJoystickMode();
             EnableMovement();
         }
 
         private void OnDisable()
         {
+#if !UNITY_EDITOR
+            YG2.onGetSDKData -= RefreshJoystickMode;
+#endif
             DisableMovement();
         }
 

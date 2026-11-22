@@ -80,10 +80,9 @@ namespace CharacterLogic
                 bool isAbilityText = _abilityDesktopElement != null &&
                                      child.gameObject == _abilityDesktopElement;
 
-                bool containsAbilityBar = _abilityLevel != null &&
-                                          _abilityLevel.transform.IsChildOf(child);
+                bool isJoystick = child.GetComponent<VirtualJoystick>() != null;
 
-                if (!isAbilityButton && !isAbilityText)
+                if (!isAbilityButton && !isAbilityText && !isJoystick)
                     child.gameObject.SetActive(false);
             }
         }
