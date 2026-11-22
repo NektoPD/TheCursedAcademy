@@ -68,5 +68,5 @@ MonoBehaviour:
     m_Bits: 256
   _bellEffectRadius: 3
   _effectDurationIncreasePerLevel: 0.2
-  _radiusIncreasePerLevel: 0.5
+  _radiusIncreasePerLevel: 0.25
   _cooldownReductionPerLevel: 0.9
