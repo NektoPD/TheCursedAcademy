@@ -40,7 +40,6 @@ namespace UI.FortuneWheel
         private Coroutine _presentationRoutine;
         private Tween _scrollTween;
         private bool _isPopupOpen;
-        private bool _hasBuffRewards;
 
         public event Action Confirmed;
 
@@ -84,23 +83,26 @@ namespace UI.FortuneWheel
 
             var displayRewards = new List<WheelReward>(rewards.Count);
             bool hasBuffs = false;
+            bool hasGold = false;
             foreach (var reward in rewards)
             {
                 if (IsDisplayable(reward))
                 {
                     displayRewards.Add(reward);
                     hasBuffs |= reward.Type == WheelRewardType.Buff;
+                    hasGold |= reward.Type == WheelRewardType.Gold;
                 }
             }
 
             if (displayRewards.Count == 0)
                 return;
 
-            RectTransform content = hasBuffs ? _rewardsContent : _rewardsContentWithoutBuffs;
+            bool useRewardScroll = hasBuffs || hasGold;
+            RectTransform content = useRewardScroll ? _rewardsContent : _rewardsContentWithoutBuffs;
             if (_claimButton == null || content == null || _rewardCardPrefab == null)
                 return;
 
-            BeginShow(true, baseStats, hasBuffs);
+            BeginShow(true, baseStats, hasBuffs, useRewardScroll);
             _presentationRoutine = StartCoroutine(RevealRewards(displayRewards));
         }
 
@@ -126,19 +128,20 @@ namespace UI.FortuneWheel
                 "x" + buff.Multiplier.ToString("0.##") + " " + buff.DurationSeconds.ToString("0.##") + " sn");
         }
 
-        private void BeginShow(bool batch, IReadOnlyDictionary<PerkType, float> baseStats = null,
-            bool hasBuffs = false)
+        private void BeginShow(bool batch, IReadOnlyDictionary<PerkType, float> baseStats,
+            bool hasBuffs, bool useRewardScroll)
         {
             StopPresentation();
-            _hasBuffRewards = batch && hasBuffs;
+            bool showRewardScroll = batch && useRewardScroll;
+            bool showItemOnlyScroll = batch && !useRewardScroll;
             if (batch)
             {
-                _activeRewardsContent = _hasBuffRewards ? _rewardsContent : _rewardsContentWithoutBuffs;
-                _activeRewardsScroll = _hasBuffRewards ? _rewardsScroll : _rewardsScrollWithoutBuffs;
+                _activeRewardsContent = showRewardScroll ? _rewardsContent : _rewardsContentWithoutBuffs;
+                _activeRewardsScroll = showRewardScroll ? _rewardsScroll : _rewardsScrollWithoutBuffs;
             }
 
             if (_statsView != null)
-                _statsView.BeginPreview(_hasBuffRewards ? baseStats : null);
+                _statsView.BeginPreview(batch && hasBuffs ? baseStats : null);
 
             _isPopupOpen = false;
             foreach (var card in _spawnedRewards)
@@ -154,17 +157,17 @@ namespace UI.FortuneWheel
             if (_rewardsScroll != null)
             {
                 _rewardsScroll.StopMovement();
-                _rewardsScroll.gameObject.SetActive(_hasBuffRewards);
+                _rewardsScroll.gameObject.SetActive(showRewardScroll);
             }
             if (_rewardsScrollWithoutBuffs != null)
             {
                 _rewardsScrollWithoutBuffs.StopMovement();
-                _rewardsScrollWithoutBuffs.gameObject.SetActive(batch && !_hasBuffRewards);
+                _rewardsScrollWithoutBuffs.gameObject.SetActive(showItemOnlyScroll);
             }
             if (_rewardsContent != null)
-                _rewardsContent.gameObject.SetActive(_hasBuffRewards);
+                _rewardsContent.gameObject.SetActive(showRewardScroll);
             if (_rewardsContentWithoutBuffs != null)
-                _rewardsContentWithoutBuffs.gameObject.SetActive(batch && !_hasBuffRewards);
+                _rewardsContentWithoutBuffs.gameObject.SetActive(showItemOnlyScroll);
 
             if (_icon != null)
                 _icon.gameObject.SetActive(!batch);
@@ -312,7 +315,6 @@ namespace UI.FortuneWheel
             _scrollTween = null;
             _activeRewardsContent = null;
             _activeRewardsScroll = null;
-            _hasBuffRewards = false;
             _isPopupOpen = false;
             _confirmationPending = false;
             if (_claimButton != null)
