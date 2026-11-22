@@ -530,7 +530,8 @@ namespace UI.FortuneWheel
 
         private void PlayOpenSound()
         {
-            _audioSource.PlayOneShot(_openClip);
+            if (_openClip != null)
+                GetAudioSource().PlayOneShot(_openClip);
         }
 
         private void StartSpinSound()
@@ -539,10 +540,10 @@ namespace UI.FortuneWheel
             if (_spinClip == null)
                 return;
 
-            _spinAudioSource = _audioSource;
-            _audioSource.clip = _spinClip;
-            _audioSource.loop = true;
-            _audioSource.Play();
+            _spinAudioSource = GetAudioSource();
+            _spinAudioSource.clip = _spinClip;
+            _spinAudioSource.loop = true;
+            _spinAudioSource.Play();
         }
 
         private void StopSpinSound()
@@ -557,7 +558,18 @@ namespace UI.FortuneWheel
         private void PlayStopSound()
         {
             if (_stopClip != null)
-                _audioSource.PlayOneShot(_stopClip);
+                GetAudioSource().PlayOneShot(_stopClip);
+        }
+
+        private AudioSource GetAudioSource()
+        {
+            if (_audioSource == null && !TryGetComponent(out _audioSource))
+            {
+                _audioSource = gameObject.AddComponent<AudioSource>();
+                _audioSource.playOnAwake = false;
+            }
+
+            return _audioSource;
         }
 
         private void CancelSpin(bool playStopSound = false)

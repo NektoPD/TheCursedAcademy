@@ -58,8 +58,19 @@ public class VirtualJoystick : MonoBehaviour, IPointerDownHandler, IDragHandler,
 
     public void OnPointerUp(PointerEventData eventData)
     {
+        ResetInput();
+    }
+
+    private void OnDisable()
+    {
+        ResetInput();
+    }
+
+    private void ResetInput()
+    {
         _input = Vector2.zero;
         Direction = Vector2.zero;
-        _handle.anchoredPosition = Vector2.zero;
+        if (_handle != null)
+            _handle.anchoredPosition = Vector2.zero;
     }
 }

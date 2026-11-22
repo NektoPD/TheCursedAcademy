@@ -1,4 +1,5 @@
 using System;
+using UI.Animation;
 using UnityEngine;
 using YG;
 
@@ -18,6 +19,8 @@ namespace CharacterLogic.InputHandler
         [SerializeField] private bool _forceUseJoystickInEditor;
 
         private bool _useJoystick;
+        private bool CanShowJoystick => _useJoystick && _playerInput.Player.enabled &&
+                                        Time.timeScale > 0f && !WindowAnimation.HasActiveWindows;
 
         public event Action MovingLeft;
         public event Action MovingRight;
@@ -39,8 +42,17 @@ namespace CharacterLogic.InputHandler
             _useJoystick = !YandexGame.EnvironmentData.isDesktop;
 #endif
 
-            if (_joystickRoot != null)
-                _joystickRoot.SetActive(_useJoystick);
+            RefreshJoystickVisibility();
+        }
+
+        private void RefreshJoystickVisibility()
+        {
+            if (_joystickRoot == null)
+                return;
+
+            bool visible = CanShowJoystick;
+            if (_joystickRoot.activeSelf != visible)
+                _joystickRoot.SetActive(visible);
         }
 
         private void OnEnable()
@@ -48,8 +60,8 @@ namespace CharacterLogic.InputHandler
 #if !UNITY_EDITOR
             YG2.onGetSDKData += RefreshJoystickMode;
 #endif
-            RefreshJoystickMode();
             EnableMovement();
+            RefreshJoystickMode();
         }
 
         private void OnDisable()
@@ -60,11 +72,15 @@ namespace CharacterLogic.InputHandler
             DisableMovement();
         }
 
+        private void LateUpdate() => RefreshJoystickVisibility();
+
         private void Update()
         {
             if (_useJoystick && _joystick != null)
             {
-                _moveDirection = _joystick.Direction;
+                _moveDirection = CanShowJoystick && _joystick.isActiveAndEnabled
+                    ? _joystick.Direction
+                    : Vector2.zero;
             }
             else
             {
@@ -88,6 +104,7 @@ namespace CharacterLogic.InputHandler
         public void DisableMovement()
         {
             _playerInput.Disable();
+            RefreshJoystickVisibility();
         }
 
         private void Move()

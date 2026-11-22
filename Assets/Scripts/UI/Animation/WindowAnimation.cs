@@ -2,12 +2,17 @@ using UnityEngine;
 using DG.Tweening;
 using UnityEngine.UI;
 using System;
+using System.Collections.Generic;
 
 namespace UI.Animation
 {
     [RequireComponent(typeof(RectTransform))]
     public class WindowAnimation : MonoBehaviour
     {
+        private static readonly HashSet<WindowAnimation> ActiveWindows = new();
+
+        public static bool HasActiveWindows => ActiveWindows.Count > 0;
+
         [SerializeField] private Vector3 _targetPosition;
         [SerializeField] private float _duration;
         [SerializeField] private Image _background;
@@ -25,6 +30,10 @@ namespace UI.Animation
             _rectTransform = GetComponent<RectTransform>();
             _startY = _rectTransform.anchoredPosition.y;
         }
+
+        private void OnEnable() => ActiveWindows.Add(this);
+
+        private void OnDisable() => ActiveWindows.Remove(this);
 
         public void Open()
         {

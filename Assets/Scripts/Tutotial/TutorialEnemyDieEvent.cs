@@ -53,9 +53,7 @@ namespace Tutorial
             }
 
             if (_fortuneWheelDemo != null)
-                _fortuneWheelDemo.DemoClosed += OnFortuneWheelDemoClosed;
-            
-            _fortuneWheelDemo.PrepareWheel();
+                _fortuneWheelDemo.PrepareWheel();
         }
 
         private void OnDestroy()
@@ -75,9 +73,6 @@ namespace Tutorial
                 _levelUpMain.Closed -= HideFortuneWheelDemo;
             }
 
-            if (_fortuneWheelDemo != null)
-                _fortuneWheelDemo.DemoClosed -= OnFortuneWheelDemoClosed;
-
             if (_character != null)
                 _character.AbilityUsed -= OnAbilityUsed;
             
@@ -92,8 +87,6 @@ namespace Tutorial
 
         private void OnCharacterCreated(Character character)
         {
-            Debug.Log(character);
-
             _character = character;
             _collisionHandler = character.GetComponent<CharacterCollisionHandler>();
             _character.AbilityUsed += OnAbilityUsed;
@@ -202,14 +195,6 @@ namespace Tutorial
         }
 
         private void HideFortuneWheelDemo()
-        {
-            if (_fortuneWheelDemo != null)
-                _fortuneWheelDemo.StopDemo();
-            
-            _taskController.ShowNextTask();
-        }
-
-        private void OnFortuneWheelDemoClosed()
         {
             if (_fortuneWheelDemo != null)
                 _fortuneWheelDemo.StopDemo();
