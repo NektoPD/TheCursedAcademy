@@ -4371,7 +4371,7 @@ MonoBehaviour:
   _defaultItem: {fileID: 0}
   _statPrefab: {fileID: 3710618050461301228, guid: 27ddeb5a78bebb34ba013bad27135548, type: 3}
   _statContainer: {fileID: 1336363972}
-  _ok: {fileID: 485718140}
+  _ok: {fileID: 1658098255}
 --- !u!1 &331983620
 GameObject:
   m_ObjectHideFlags: 0
@@ -7637,8 +7637,8 @@ MonoBehaviour:
   m_VerticalScrollbar: {fileID: 0}
   m_HorizontalScrollbarVisibility: 0
   m_VerticalScrollbarVisibility: 0
-  m_HorizontalScrollbarSpacing: -0.70000005
-  m_VerticalScrollbarSpacing: -0.70000005
+  m_HorizontalScrollbarSpacing: -0.60156244
+  m_VerticalScrollbarSpacing: -0.60156244
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -11052,8 +11052,8 @@ MonoBehaviour:
   m_VerticalScrollbar: {fileID: 0}
   m_HorizontalScrollbarVisibility: 2
   m_VerticalScrollbarVisibility: 0
-  m_HorizontalScrollbarSpacing: -0.70000005
-  m_VerticalScrollbarSpacing: -0.70000005
+  m_HorizontalScrollbarSpacing: -0.60156244
+  m_VerticalScrollbarSpacing: -0.60156244
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -14528,8 +14528,8 @@ MonoBehaviour:
   m_VerticalScrollbar: {fileID: 0}
   m_HorizontalScrollbarVisibility: 2
   m_VerticalScrollbarVisibility: 0
-  m_HorizontalScrollbarSpacing: -0.70000005
-  m_VerticalScrollbarSpacing: -0.70000005
+  m_HorizontalScrollbarSpacing: -0.60156244
+  m_VerticalScrollbarSpacing: -0.60156244
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -30061,7 +30061,7 @@ MonoBehaviour:
   m_HorizontalScrollbarVisibility: 2
   m_VerticalScrollbarVisibility: 2
   m_HorizontalScrollbarSpacing: 0
-  m_VerticalScrollbarSpacing: -1.0467291
+  m_VerticalScrollbarSpacing: -0.8995327
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -31522,8 +31522,8 @@ MonoBehaviour:
   m_VerticalScrollbar: {fileID: 0}
   m_HorizontalScrollbarVisibility: 2
   m_VerticalScrollbarVisibility: 2
-  m_HorizontalScrollbarSpacing: -3.3684213
-  m_VerticalScrollbarSpacing: -3.3684213
+  m_HorizontalScrollbarSpacing: -2.8947365
+  m_VerticalScrollbarSpacing: -2.8947365
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -34425,19 +34425,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1658098256}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 326313262}
-        m_TargetAssemblyTypeName: UI.InventoryFullWindow, Assembly-CSharp
-        m_MethodName: CloseUnscaledTime
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1658098256
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43106,7 +43094,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &9101000002
 Transform:
   m_ObjectHideFlags: 0
