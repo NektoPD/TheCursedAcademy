@@ -18,7 +18,7 @@ namespace Items.ItemVariations.MagicRuller
         private Transform _transform;
         private ItemProjectilePool _projectilePool;
         private int _projectileCount = 1;
-        private float _projectileSpread = 0f;
+        private const float ProjectileSpread = 18f;
 
         private float _damageMultiplierPerLevel = 1.25f;
         private float _projectileSpeedIncreasePerLevel = 1.2f;
@@ -43,9 +43,9 @@ namespace Items.ItemVariations.MagicRuller
             Vector2 baseDirection = new Vector2(x, 0);
 
             float[] spreadAngles = new float[_projectileCount];
-            if (_projectileCount > 1 && _projectileSpread > 0)
+            if (_projectileCount > 1 && ProjectileSpread > 0)
             {
-                float totalSpread = _projectileSpread;
+                float totalSpread = ProjectileSpread;
                 float angleStep = totalSpread / (_projectileCount - 1);
                 float startAngle = -totalSpread / 2;
 

@@ -130,21 +130,16 @@ namespace Items.ItemVariations.BeautiZone
             }
         }
 
-        protected override void OnTriggerEnter2D(Collider2D collision)
-        {
-            if (_isActive)
-                base.OnTriggerEnter2D(collision);
-        }
+        protected override void OnTriggerEnter2D(Collider2D collision) => TryDamageTarget(collision);
 
-        protected void OnTriggerStay2D(Collider2D collision)
-        {
-            if (!_isActive) return;
+        private void OnTriggerStay2D(Collider2D collision) => TryDamageTarget(collision);
 
-            if (collision.TryGetComponent(out IDamageable damageable) &&
-                !collision.TryGetComponent(out CharacterLogic.Character character) &&
-                !HitEnemies.Contains(damageable))
+        private void TryDamageTarget(Collider2D collision)
+        {
+            if (_isActive && collision.TryGetComponent(out IDamageable damageable) &&
+                !collision.TryGetComponent(out CharacterLogic.Character _) &&
+                HitEnemies.Add(damageable))
             {
-                HitEnemies.Add(damageable);
                 DealDamage(damageable);
             }
         }
